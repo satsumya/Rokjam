@@ -1,0 +1,351 @@
+{
+  "customfield_10042": {
+    "type": "doc",
+    "version": 1,
+    "content": [
+      {
+        "type": "decisionList",
+        "attrs": { "localId": "6a742577-2bd7-4b46-81f4-0fd9f59b3bb2" },
+        "content": [
+          {
+            "type": "decisionItem",
+            "attrs": { "localId": "d1-prototype-format", "state": "DECIDED" },
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Prototype format", "marks": [{ "type": "strong" }] }]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Chose local Expo clickable app (not Figma-only) so scenarios can be tested in code and linked from Jira."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "decisionItem",
+            "attrs": { "localId": "d2-email-verify", "state": "DECIDED" },
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Email verification", "marks": [{ "type": "strong" }] }]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Mock verify screen with Continue (no real email provider) for Stage 1 journey validation."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "decisionItem",
+            "attrs": { "localId": "d3-signup-route", "state": "DECIDED" },
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Post sign-up routing", "marks": [{ "type": "strong" }] }]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Sign up -> verify email -> welcome -> member profile (ROKJ-15), per acceptance criteria."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "decisionItem",
+            "attrs": { "localId": "d4-login-route", "state": "DECIDED" },
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Post login routing", "marks": [{ "type": "strong" }] }]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Login -> dashboard placeholder directly for returning users, per acceptance criteria."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "decisionItem",
+            "attrs": { "localId": "d5-errors", "state": "DECIDED" },
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Error handling", "marks": [{ "type": "strong" }] }]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Inline validation on empty submit; scenario links pre-show errors (?demo=error-empty)."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "customfield_10045": {
+    "type": "doc",
+    "version": 1,
+    "content": [
+      {
+        "type": "heading",
+        "attrs": { "level": 3, "localId": "h-delivered" },
+        "content": [{ "type": "text", "text": "What was delivered" }]
+      },
+      {
+        "type": "bulletList",
+        "content": [
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Clickable sign up / login wireframes in local Expo app" }]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Mock email verification screen" }]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Post-signup welcome screen before profile setup" }]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Returning-user login to dashboard placeholder" }]
+              }
+            ]
+          },
+          {
+            "type": "listItem",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [{ "type": "text", "text": "Scenario tester page at /scenarios" }]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": { "level": 3, "localId": "h-scenarios" },
+        "content": [{ "type": "text", "text": "Test scenarios" }]
+      },
+      {
+        "type": "table",
+        "attrs": { "isNumberColumnEnabled": false, "layout": "default", "localId": "tbl-scenarios-3" },
+        "content": [
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableHeader",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Scenario" }] }]
+              },
+              {
+                "type": "tableHeader",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Local web link" }] }]
+              },
+              {
+                "type": "tableHeader",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Expected result" }] }]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Scenario tester" }] }]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "http://localhost:8081/scenarios" }]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "All ROKJ-3 paths with Run scenario buttons" }]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Sign up happy path" }] }]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "http://localhost:8081/auth/signup?demo=prefill" }]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "Prefilled -> verify -> welcome -> profile" }]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Sign up error path" }] }]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "http://localhost:8081/auth/signup?demo=error-empty" }]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "Inline email/password errors shown" }]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Login happy path" }] }]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "http://localhost:8081/auth/login?demo=prefill" }]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "Prefilled -> dashboard" }]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Login error path" }] }]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "http://localhost:8081/auth/login?demo=error-empty" }]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": { "colspan": 1, "rowspan": 1 },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "content": [{ "type": "text", "text": "Inline email/password errors shown" }]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
