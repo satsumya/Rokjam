@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -45,16 +45,20 @@ export default function DashboardScreen() {
     .sort((a, b) => b.date.localeCompare(a.date));
   const recentSessions = showAllSessions ? completedSessions : completedSessions.slice(0, 3);
   const activeSession = sessions.find((s) => s.status === 'active');
+  const demoApplied = useRef<string | null>(null);
 
   useEffect(() => {
+    if (!demo || demoApplied.current === demo) return;
+
     if (demo === 'session-ready') {
       seedDemoSessions();
+      demoApplied.current = demo;
     } else if (demo === 'new-user') {
       seedDemoProfileOnly();
-    } else if (demo === 'seed') {
-      if (!needsProfile && completedSessions.length === 0) {
-        seedDemoSessions();
-      }
+      demoApplied.current = demo;
+    } else if (demo === 'seed' && !needsProfile && completedSessions.length === 0) {
+      seedDemoSessions();
+      demoApplied.current = demo;
     }
   }, [demo, needsProfile, completedSessions.length, seedDemoSessions, seedDemoProfileOnly]);
 

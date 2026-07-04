@@ -1,4 +1,5 @@
-import { Pressable, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, Text, TextInput, View } from 'react-native';
 
 import {
   WireframeBox,
@@ -7,68 +8,183 @@ import {
   WireframeSection,
 } from './Wireframe';
 import type { Location } from '../context/PrototypeContext';
-import type { AttemptProgress, SessionClimb } from '../types/climbingSession';
-import { ATTEMPT_PROGRESS_OPTIONS, CLIMB_TAG_SUGGESTIONS } from '../types/climbingSession';
-import { climbSummary, formatSessionDate } from '../utils/sessionUtils';
+import type { SessionClimb } from '../types/climbingSession';
+import {
+  attemptProgressOptionsForIndex,
+  ATTEMPT_PROGRESS_OPTIONS,
+  bestAttemptProgress,
+  CLIMB_TAG_SUGGESTIONS,
+  formatAttemptProgress,
+  nextAttemptProgress,
+} from '../types/climbingSession';
+import { formatSessionDate } from '../utils/sessionUtils';
+
+type DifficultyLevel = Location['levels'][number];
+
+function DifficultyQuickPick({
+  levels,
+  selectedLevelId,
+  onSelect,
+}: {
+  levels: DifficultyLevel[];
+  selectedLevelId?: string;
+  onSelect: (level: DifficultyLevel) => void;
+}) {
+  return (
+    <View style={{ gap: 4 }}>
+      <Text style={{ fontWeight: '600', fontSize: 13 }}>
+        {selectedLevelId ? 'Difficulty' : 'Add difficulty'}
+      </Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+        {levels.map((level) => (
+          <Pressable
+            key={level.id}
+            onPress={() => onSelect(level)}
+            style={{
+              borderWidth: 1,
+              borderColor: selectedLevelId === level.id ? '#111' : '#CCC',
+              borderRadius: 12,
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 4,
+            }}
+          >
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 2,
+                backgroundColor: level.color,
+              }}
+            />
+            <Text>{level.name}</Text>
+          </Pressable>
+        ))}
+      </View>
+    </View>
+  );
+}
 
 type ClimbEditorProps = {
   climb: SessionClimb;
   location?: Location;
   onChange: (patch: Partial<SessionClimb>) => void;
-  onSave: () => void;
-  onCancel: () => void;
   onShare?: () => void;
 };
 
 export function ClimbAtGlance({
   climb,
+  location,
   onPress,
   onShare,
+  onRemove,
+  onDifficultyChange,
 }: {
   climb: SessionClimb;
+  location?: Location;
   onPress?: () => void;
   onShare?: () => void;
+  onRemove?: () => void;
+  onDifficultyChange?: (level: DifficultyLevel) => void;
 }) {
-  const content = (
+  const labels: string[] = [];
+  if (climb.isWarmUp) labels.push('Warm-up');
+  if (climb.isProject) labels.push('Project');
+  if (!climb.isRepeat) labels.push('New');
+
+  const attemptSummary = climb.attempts.length
+    ? `Attempts (${climb.attempts.length}): ${bestAttemptProgress(climb.attempts)}`
+    : 'No attempts yet';
+
+  const showDifficultyPicker = Boolean(location?.levels.length && onDifficultyChange);
+
+  const body = (
     <>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-        {climb.levelColor ? (
-          <View
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: 2,
-              backgroundColor: climb.levelColor,
-            }}
-          />
+      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+        {onPress ? (
+          <Pressable style={{ flex: 1 }} onPress={onPress}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              {climb.levelColor ? (
+                <View
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: 2,
+                    backgroundColor: climb.levelColor,
+                  }}
+                />
+              ) : null}
+              <Text style={{ fontWeight: '700', flex: 1 }}>{climb.name || 'Unnamed climb'}</Text>
+              <View style={{ flexDirection: 'row', gap: 4 }}>
+                {climb.hasImage ? <Text accessibilityLabel="Photo">📷</Text> : null}
+                {climb.hasVideo ? <Text accessibilityLabel="Video">🎥</Text> : null}
+              </View>
+            </View>
+          </Pressable>
+        ) : (
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            {climb.levelColor ? (
+              <View
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 2,
+                  backgroundColor: climb.levelColor,
+                }}
+              />
+            ) : null}
+            <Text style={{ fontWeight: '700', flex: 1 }}>{climb.name || 'Unnamed climb'}</Text>
+            <View style={{ flexDirection: 'row', gap: 4 }}>
+              {climb.hasImage ? <Text accessibilityLabel="Photo">📷</Text> : null}
+              {climb.hasVideo ? <Text accessibilityLabel="Video">🎥</Text> : null}
+            </View>
+          </View>
+        )}
+        {onRemove ? (
+          <Pressable onPress={onRemove} hitSlop={8}>
+            <Text style={{ color: '#C0392B', fontWeight: '600', fontSize: 14 }}>Remove</Text>
+          </Pressable>
         ) : null}
-        <Text style={{ fontWeight: '700', flex: 1 }}>{climb.name || 'Unnamed climb'}</Text>
-        {climb.isWarmUp ? <Text>🔥</Text> : null}
-        {!climb.isRepeat ? <Text>✨</Text> : null}
       </View>
-      <Text>{climbSummary(climb)}</Text>
-      {climb.tags.length ? <Text>Tags: {climb.tags.join(', ')}</Text> : null}
-      <View style={{ flexDirection: 'row', gap: 8 }}>
-        {climb.hasImage ? <Text>📷</Text> : null}
-        {climb.hasVideo ? <Text>🎥</Text> : null}
-      </View>
+
+      {showDifficultyPicker ? (
+        <DifficultyQuickPick
+          levels={location!.levels}
+          selectedLevelId={climb.levelId}
+          onSelect={onDifficultyChange!}
+        />
+      ) : climb.levelName ? (
+        <Text>{climb.levelName}</Text>
+      ) : null}
+
+      {onPress ? (
+        <Pressable onPress={onPress}>
+          <Text>{attemptSummary}</Text>
+          {climb.tags.length ? <Text>Tags: {climb.tags.join(', ')}</Text> : null}
+          {labels.length ? <Text>{labels.join(' · ')}</Text> : null}
+        </Pressable>
+      ) : (
+        <>
+          <Text>{attemptSummary}</Text>
+          {climb.tags.length ? <Text>Tags: {climb.tags.join(', ')}</Text> : null}
+          {labels.length ? <Text>{labels.join(' · ')}</Text> : null}
+        </>
+      )}
+
       {onShare ? (
         <WireframeButton label="Share climb" variant="ghost" onPress={onShare} />
       ) : null}
     </>
   );
 
-  if (onPress) {
-    return (
-      <Pressable onPress={onPress}>
-        <WireframeBox>{content}</WireframeBox>
-      </Pressable>
-    );
-  }
-  return <WireframeBox>{content}</WireframeBox>;
+  return <WireframeBox>{body}</WireframeBox>;
 }
 
-export function ClimbEditor({ climb, location, onChange, onSave, onCancel, onShare }: ClimbEditorProps) {
+export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorProps) {
+  const [customTag, setCustomTag] = useState('');
+
   const toggleTag = (tag: string) => {
     const next = climb.tags.includes(tag)
       ? climb.tags.filter((t) => t !== tag)
@@ -76,25 +192,31 @@ export function ClimbEditor({ climb, location, onChange, onSave, onCancel, onSha
     onChange({ tags: next });
   };
 
-  const toggleProgress = (attemptId: string, value: AttemptProgress) => {
+  const addCustomTag = () => {
+    const trimmed = customTag.trim().toLowerCase();
+    if (!trimmed || climb.tags.includes(trimmed)) return;
+    onChange({ tags: [...climb.tags, trimmed] });
+    setCustomTag('');
+  };
+
+  const toggleProgress = (attemptId: string, value: (typeof ATTEMPT_PROGRESS_OPTIONS)[number]['value']) => {
     onChange({
       attempts: climb.attempts.map((attempt) => {
         if (attempt.id !== attemptId) return attempt;
-        const progress = attempt.progress.includes(value)
-          ? attempt.progress.filter((p) => p !== value)
-          : [...attempt.progress, value];
-        return { ...attempt, progress };
+        return { ...attempt, progress: nextAttemptProgress(attempt.progress, value) };
       }),
     });
   };
 
   const addAttempt = () => {
     onChange({
-      attempts: [
-        ...climb.attempts,
-        { id: `${Date.now()}`, progress: ['working'] as AttemptProgress[] },
-      ],
+      attempts: [...climb.attempts, { id: `${Date.now()}`, progress: [] }],
     });
+  };
+
+  const removeAttempt = (attemptId: string) => {
+    if (climb.attempts.length <= 1) return;
+    onChange({ attempts: climb.attempts.filter((a) => a.id !== attemptId) });
   };
 
   return (
@@ -147,12 +269,15 @@ export function ClimbEditor({ climb, location, onChange, onSave, onCancel, onSha
         ) : (
           <Text style={{ color: '#666' }}>Add a location with levels to pick difficulty.</Text>
         )}
-        <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           <Pressable onPress={() => onChange({ isWarmUp: !climb.isWarmUp })}>
             <Text>{climb.isWarmUp ? '☑' : '☐'} Warm-up</Text>
           </Pressable>
           <Pressable onPress={() => onChange({ isRepeat: !climb.isRepeat })}>
             <Text>{climb.isRepeat ? '☑' : '☐'} Repeat</Text>
+          </Pressable>
+          <Pressable onPress={() => onChange({ isProject: !climb.isProject })}>
+            <Text>{climb.isProject ? '☑' : '☐'} Project</Text>
           </Pressable>
         </View>
         <WireframeField
@@ -193,42 +318,73 @@ export function ClimbEditor({ climb, location, onChange, onSave, onCancel, onSha
             </Pressable>
           ))}
         </View>
+        <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+          <TextInput
+            value={customTag}
+            onChangeText={setCustomTag}
+            placeholder="Custom tag"
+            style={{
+              flex: 1,
+              borderWidth: 1,
+              borderColor: '#CCC',
+              borderRadius: 8,
+              paddingHorizontal: 12,
+              paddingVertical: 10,
+              fontSize: 16,
+            }}
+          />
+          <WireframeButton label="Add tag" variant="secondary" onPress={addCustomTag} />
+        </View>
+        {climb.tags.length ? (
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+            {climb.tags.map((tag) => (
+              <Pressable key={tag} onPress={() => toggleTag(tag)}>
+                <Text style={{ textDecorationLine: 'underline' }}>{tag} ×</Text>
+              </Pressable>
+            ))}
+          </View>
+        ) : null}
       </WireframeSection>
 
       <WireframeSection title="Attempts">
         {climb.attempts.map((attempt, index) => (
           <View key={attempt.id} style={{ gap: 4, marginBottom: 8 }}>
-            <Text style={{ fontWeight: '600' }}>Attempt {index + 1}</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-              {ATTEMPT_PROGRESS_OPTIONS.map((opt) => (
-                <Pressable key={opt.value} onPress={() => toggleProgress(attempt.id, opt.value)}>
-                  <Text
-                    style={{
-                      borderWidth: 1,
-                      borderColor: attempt.progress.includes(opt.value) ? '#111' : '#CCC',
-                      borderRadius: 12,
-                      paddingHorizontal: 8,
-                      paddingVertical: 4,
-                      fontSize: 13,
-                    }}
-                  >
-                    {opt.label}
-                  </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Text style={{ fontWeight: '600', flex: 1 }}>Attempt {index + 1}</Text>
+              {climb.attempts.length > 1 ? (
+                <Pressable onPress={() => removeAttempt(attempt.id)}>
+                  <Text style={{ color: '#666', textDecorationLine: 'underline' }}>Remove</Text>
                 </Pressable>
-              ))}
+              ) : null}
+            </View>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              {attemptProgressOptionsForIndex(index).map(
+                (opt) => (
+                  <Pressable key={opt.value} onPress={() => toggleProgress(attempt.id, opt.value)}>
+                    <Text
+                      style={{
+                        borderWidth: 1,
+                        borderColor: attempt.progress.includes(opt.value) ? '#111' : '#CCC',
+                        borderRadius: 12,
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
+                        fontSize: 13,
+                      }}
+                    >
+                      {opt.label}
+                    </Text>
+                  </Pressable>
+                ),
+              )}
             </View>
           </View>
         ))}
         <WireframeButton label="Add attempt" variant="secondary" onPress={addAttempt} />
       </WireframeSection>
 
-      <View style={{ gap: 8 }}>
-        <WireframeButton label="Save climb" onPress={onSave} />
-        <WireframeButton label="Cancel" variant="ghost" onPress={onCancel} />
-        {onShare ? (
-          <WireframeButton label="Share climb" variant="ghost" onPress={onShare} />
-        ) : null}
-      </View>
+      {onShare ? (
+        <WireframeButton label="Share climb" variant="ghost" onPress={onShare} />
+      ) : null}
     </WireframeBox>
   );
 }

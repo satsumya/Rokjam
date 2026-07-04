@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Pressable, Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -20,11 +20,13 @@ import {
 export default function SessionsListScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
   const { sessions, locations, seedDemoSessions } = usePrototype();
+  const demoApplied = useRef(false);
 
   useEffect(() => {
-    if (demo === 'seed' && sessions.filter((s) => s.status === 'completed').length === 0) {
-      seedDemoSessions();
-    }
+    if (demo !== 'seed' || demoApplied.current) return;
+    if (sessions.some((s) => s.status === 'completed')) return;
+    seedDemoSessions();
+    demoApplied.current = true;
   }, [demo, seedDemoSessions, sessions]);
 
   const completed = sessions

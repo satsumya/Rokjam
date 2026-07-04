@@ -1,4 +1,4 @@
-# ROKJ-17: View and edit climbing log
+# ClimbingSessionViewEdit
 
 Applies [Standards](../Standards.md) unless noted below.
 
@@ -9,7 +9,6 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Session duration
 - [x] Quick view of number of climbs and difficulty range
 - [x] A way to open each session to view all details and edit/update
-
-**Review updates**
-- [x] User must be able to fully edit climbs — To the same degree as rokj-16 e..g able to add climbs etc
-- [x] username should not be visible when viewing/editing climbs if already added — The username is for the profile not per climbing session, once added there’s no need for a user to need to edit the username except from the member profile
+- [x] Full climb edit — Add, edit, and remove climbs (same as ClimbingSessionCreate)
+- [x] No username field when editing a session
+- [x] Delete confirmation — Bottom sheet before deleting a session

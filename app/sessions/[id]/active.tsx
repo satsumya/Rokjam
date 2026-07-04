@@ -18,11 +18,13 @@ import { TAKEN_USERNAMES } from '../../../src/constants/mockData';
 import { usePrototype } from '../../../src/context/PrototypeContext';
 import type { SessionClimb } from '../../../src/types/climbingSession';
 import {
+  climbHasDetails,
   computeDurationMinutes,
   DURATION_PRESETS,
   END_TIME_PRESETS,
   formatSessionDate,
   nowTimeLabel,
+  parseSessionDateDisplay,
   todayIso,
 } from '../../../src/utils/sessionUtils';
 import { getUsernameError } from '../../../src/utils/validation';
@@ -34,6 +36,7 @@ const emptyClimb = (): SessionClimb => ({
   hasVideo: false,
   isWarmUp: false,
   isRepeat: false,
+  isProject: false,
   attempts: [{ id: 'draft-a', progress: [] }],
 });
 
@@ -50,6 +53,7 @@ export default function ActiveSessionScreen() {
     completeSession,
     addClimb,
     updateClimb,
+    removeClimb,
   } = usePrototype();
 
   const session = sessions.find((s) => s.id === id);
@@ -65,6 +69,7 @@ export default function ActiveSessionScreen() {
   const [usernameInput, setUsernameInput] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [climbPrompt, setClimbPrompt] = useState('');
+  const [removeTarget, setRemoveTarget] = useState<SessionClimb | null>(null);
 
   const usernameError = useMemo(() => {
     if (!isPublic || username.trim()) return undefined;
@@ -127,6 +132,28 @@ export default function ActiveSessionScreen() {
     router.replace(`/sessions/${session.id}`);
   };
 
+  const handleRemoveClimb = (climb: SessionClimb) => {
+    if (climbHasDetails(climb)) {
+      setRemoveTarget(climb);
+      return;
+    }
+    removeClimb(session.id, climb.id);
+  };
+
+  const confirmRemoveClimb = () => {
+    if (removeTarget) {
+      removeClimb(session.id, removeTarget.id);
+    }
+    setRemoveTarget(null);
+  };
+
+  const cancelClimbEdit = () => {
+    setEditingClimbId(null);
+    setDraftClimb(null);
+  };
+
+  const isEditingClimb = Boolean(draftClimb && editingClimbId);
+
   return (
     <WireframeScreen
       title="Climbing session"
@@ -137,7 +164,14 @@ export default function ActiveSessionScreen() {
       }
       footer={
         <>
-          <WireframeButton label="Add climb" onPress={startAdd} />
+          {isEditingClimb ? (
+            <>
+              <WireframeButton label="Save climb" onPress={saveClimb} />
+              <WireframeButton label="Cancel" variant="secondary" onPress={cancelClimbEdit} />
+            </>
+          ) : (
+            <WireframeButton label="Add climb" onPress={startAdd} />
+          )}
           <WireframeButton
             label="Save / end session"
             variant="secondary"
@@ -149,6 +183,7 @@ export default function ActiveSessionScreen() {
         </>
       }
       overlay={
+        <>
         <WireframeBottomSheet
           visible={showEndSheet}
           title="Save / end session"
@@ -221,6 +256,21 @@ export default function ActiveSessionScreen() {
           <WireframeButton label="Confirm and save session" onPress={endSession} />
           <WireframeButton label="Cancel" variant="ghost" onPress={() => setShowEndSheet(false)} />
         </WireframeBottomSheet>
+
+        <WireframeBottomSheet
+          visible={Boolean(removeTarget)}
+          title="Remove climb?"
+          onClose={() => setRemoveTarget(null)}
+        >
+          <Text>
+            {removeTarget?.name?.trim()
+              ? `"${removeTarget.name}" has details that will be lost.`
+              : 'This climb has details that will be lost.'}
+          </Text>
+          <WireframeButton label="Remove climb" onPress={confirmRemoveClimb} />
+          <WireframeButton label="Cancel" variant="ghost" onPress={() => setRemoveTarget(null)} />
+        </WireframeBottomSheet>
+        </>
       }
     >
       {needsProfile ? (
@@ -240,12 +290,14 @@ export default function ActiveSessionScreen() {
       ) : null}
 
       <WireframeSection title="Session details">
-        <Text style={{ fontWeight: '600' }}>{formatSessionDate(session.date)}</Text>
         <WireframeField
           label="Date"
-          value={session.date}
-          onChangeText={(date) => updateSession(session.id, { date })}
-          hint="Stored as YYYY-MM-DD; shown as Day DD Mmm YYYY"
+          value={formatSessionDate(session.date)}
+          onChangeText={(display) => {
+            const iso = parseSessionDateDisplay(display);
+            if (iso) updateSession(session.id, { date: iso });
+          }}
+          placeholder="Friday 03 Jul 2026"
         />
         <SessionLocationPanel
           sessionLocationId={session.locationId}
@@ -265,14 +317,21 @@ export default function ActiveSessionScreen() {
           climb={draftClimb}
           location={location}
           onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
-          onSave={saveClimb}
-          onCancel={() => {
-            setEditingClimbId(null);
-            setDraftClimb(null);
-          }}
         />
       ) : (
-        <SessionClimbsList climbs={session.climbs} location={location} onEditClimb={startEdit} />
+        <SessionClimbsList
+          climbs={session.climbs}
+          location={location}
+          onEditClimb={startEdit}
+          onRemoveClimb={handleRemoveClimb}
+          onDifficultyChange={(climb, level) =>
+            updateClimb(session.id, climb.id, {
+              levelId: level.id,
+              levelName: level.name,
+              levelColor: level.color,
+            })
+          }
+        />
       )}
 
     </WireframeScreen>

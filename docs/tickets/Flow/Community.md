@@ -1,4 +1,4 @@
-# ROKJ-22: Community
+# Community
 
 Applies [Standards](../Standards.md) unless noted below.
 

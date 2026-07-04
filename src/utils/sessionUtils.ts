@@ -1,10 +1,11 @@
+import type { DifficultyLevel } from '../context/PrototypeContext';
 import type {
   ClimbingSession,
   SessionClimb,
   SessionSort,
   TrendTimeframe,
 } from '../types/climbingSession';
-import type { DifficultyLevel } from '../context/PrototypeContext';
+import { bestAttemptProgress } from '../types/climbingSession';
 
 export function todayIso() {
   return new Date().toISOString().slice(0, 10);
@@ -18,6 +19,21 @@ export function formatSessionDate(iso: string) {
   if (Number.isNaN(d.getTime())) return iso;
   const dd = String(d.getDate()).padStart(2, '0');
   return `${DAY_NAMES[d.getDay()]} ${dd} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+/** Parse display format (Day DD Mmm YYYY) back to ISO date. Returns null if invalid. */
+export function parseSessionDateDisplay(display: string) {
+  const trimmed = display.trim();
+  const parts = trimmed.split(/\s+/);
+  if (parts.length < 4) return null;
+  const dd = parts[parts.length - 3];
+  const mon = parts[parts.length - 2];
+  const yyyy = parts[parts.length - 1];
+  const month = MONTH_NAMES.indexOf(mon);
+  if (month < 0 || !/^\d{2}$/.test(dd) || !/^\d{4}$/.test(yyyy)) return null;
+  const d = new Date(`${yyyy}-${String(month + 1).padStart(2, '0')}-${dd}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toISOString().slice(0, 10);
 }
 
 export const END_TIME_PRESETS = ['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00'];
@@ -65,23 +81,51 @@ export function levelIndex(levels: DifficultyLevel[], levelId?: string) {
   return levels.findIndex((l) => l.id === levelId);
 }
 
+function hasDifficulty(climb: SessionClimb) {
+  return Boolean(climb.levelId);
+}
+
+function hasName(climb: SessionClimb) {
+  return Boolean(climb.name?.trim());
+}
+
 export function sortClimbs(climbs: SessionClimb[], sort: SessionSort, levels: DifficultyLevel[]) {
   const copy = [...climbs];
-  if (sort === 'order') return copy;
-  if (sort === 'name') {
-    return copy.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+
+  if (sort === 'order') {
+    return copy.reverse();
   }
+  if (sort === 'order-oldest') {
+    return copy;
+  }
+  if (sort === 'name' || sort === 'name-desc') {
+    const dir = sort === 'name' ? 1 : -1;
+    return copy.sort((a, b) => {
+      const aNamed = hasName(a);
+      const bNamed = hasName(b);
+      if (!aNamed && bNamed) return -1;
+      if (aNamed && !bNamed) return 1;
+      if (!aNamed && !bNamed) return 0;
+      return dir * (a.name ?? '').localeCompare(b.name ?? '');
+    });
+  }
+
+  const dir = sort === 'difficulty' ? 1 : -1;
   return copy.sort((a, b) => {
+    const aLabelled = hasDifficulty(a);
+    const bLabelled = hasDifficulty(b);
+    if (!aLabelled && bLabelled) return -1;
+    if (aLabelled && !bLabelled) return 1;
+    if (!aLabelled && !bLabelled) return 0;
     const ai = levelIndex(levels, a.levelId);
     const bi = levelIndex(levels, b.levelId);
-    return ai - bi;
+    return dir * (ai - bi);
   });
 }
 
 export function filterClimbs(
   climbs: SessionClimb[],
   opts: {
-    search?: string;
     difficultyId?: string;
     tag?: string;
     hideWarmUp?: boolean;
@@ -93,14 +137,6 @@ export function filterClimbs(
     if (opts.hideRepeat && climb.isRepeat) return false;
     if (opts.difficultyId && climb.levelId !== opts.difficultyId) return false;
     if (opts.tag && !climb.tags.includes(opts.tag)) return false;
-    if (opts.search) {
-      const q = opts.search.toLowerCase();
-      const hay = [climb.name, climb.notes, climb.levelName, ...climb.tags]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
     return true;
   });
 }
@@ -120,13 +156,23 @@ export function sessionDifficultyRange(climbs: SessionClimb[], levels: Difficult
 export function climbSummary(climb: SessionClimb) {
   const parts: string[] = [];
   if (climb.levelName) parts.push(climb.levelName);
-  if (climb.name) parts.push(climb.name);
-  parts.push(`${climb.attempts.length} attempt${climb.attempts.length === 1 ? '' : 's'}`);
-  const last = climb.attempts[climb.attempts.length - 1];
-  if (last?.progress.length) parts.push(last.progress.join(', '));
-  if (climb.isWarmUp) parts.push('warm-up');
-  if (climb.isRepeat) parts.push('repeat');
-  return parts.join(' · ');
+  const best = bestAttemptProgress(climb.attempts);
+  if (best !== '—') parts.push(best);
+  if (climb.attempts.length) {
+    parts.push(`${climb.attempts.length} attempt${climb.attempts.length === 1 ? '' : 's'}`);
+  }
+  return parts.length ? parts.join(' · ') : 'No attempts yet';
+}
+
+export function climbHasDetails(climb: SessionClimb) {
+  if (climb.name?.trim()) return true;
+  if (climb.levelId) return true;
+  if (climb.tags.length) return true;
+  if (climb.notes?.trim()) return true;
+  if (climb.hasImage || climb.hasVideo) return true;
+  if (climb.isWarmUp || climb.isRepeat || climb.isProject) return true;
+  if (climb.attempts.some((attempt) => attempt.progress.length > 0)) return true;
+  return false;
 }
 
 export function sessionsInTimeframe(sessions: ClimbingSession[], timeframe: TrendTimeframe) {
@@ -157,7 +203,8 @@ export function computeStandoutTrends(
     if (sent) trends.push({ label: 'First Orange send', detail: orange.name ?? 'Unnamed climb' });
   }
 
-  const byAttempts = [...climbs].sort((a, b) => b.attempts.length - a.attempts.length)[0];
+  const projects = climbs.filter((c) => c.isProject || c.attempts.length >= 3);
+  const byAttempts = [...projects].sort((a, b) => b.attempts.length - a.attempts.length)[0];
   if (byAttempts && byAttempts.attempts.length >= 3) {
     trends.push({
       label: 'Most attempted project',

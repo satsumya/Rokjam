@@ -1,4 +1,4 @@
-# ROKJ-18: Dashboard trends
+# Dashboard
 
 Applies [Standards](../Standards.md) unless noted below.
 

@@ -11,6 +11,7 @@ import {
   WireframeLink,
   WireframeScreen,
   WireframeSection,
+  WireframeBox,
 } from '../../src/components/Wireframe';
 import {
   IMPROVEMENT_TAG_SUGGESTIONS,
@@ -46,6 +47,7 @@ export default function ProfileSetupScreen() {
     removeImprovementTag,
     setProfileComplete,
     setProfileSkipped,
+    profileComplete,
   } = usePrototype();
 
   const [openLocationId, setOpenLocationId] = useState<string | null>(null);
@@ -55,6 +57,7 @@ export default function ProfileSetupScreen() {
   const [dragSourceId, setDragSourceId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
   const [editNickname, setEditNickname] = useState('');
+  const [levelsNudgeLocationId, setLevelsNudgeLocationId] = useState<string | null>(null);
 
   useEffect(() => {
     if (demo === 'error-no-location') {
@@ -69,12 +72,14 @@ export default function ProfileSetupScreen() {
   }, [locations, openLocationId]);
 
   const usernameError = usernameTouched ? getUsernameError(username, TAKEN_USERNAMES) : undefined;
+  const isEditingCompleteProfile = profileComplete;
 
   const handleAddLocation = (address: string) => {
     setLocationError('');
     const id = addLocation(address);
     setOpenLocationId(id);
     setEditingLocationId(null);
+    setLevelsNudgeLocationId(id);
   };
 
   const handleComplete = () => {
@@ -89,6 +94,10 @@ export default function ProfileSetupScreen() {
   };
 
   const handleExit = () => {
+    if (isEditingCompleteProfile) {
+      router.replace('/dashboard');
+      return;
+    }
     setProfileSkipped(true);
     router.replace('/dashboard');
   };
@@ -117,8 +126,13 @@ export default function ProfileSetupScreen() {
       }
       footer={
         <>
-          <WireframeButton label="Complete profile" onPress={handleComplete} />
-          <WireframeLink label="Skip for now" onPress={handleExit} />
+          <WireframeButton
+            label={isEditingCompleteProfile ? 'Save changes' : 'Complete profile'}
+            onPress={handleComplete}
+          />
+          {!isEditingCompleteProfile ? (
+            <WireframeLink label="Skip for now" onPress={handleExit} />
+          ) : null}
         </>
       }
     >
@@ -239,6 +253,16 @@ export default function ProfileSetupScreen() {
                     />
                   </View>
 
+                  {levelsNudgeLocationId === location.id ? (
+                    <WireframeBox>
+                      <Text style={{ fontWeight: '600' }}>Add difficulty levels for this location</Text>
+                      <Text>
+                        Levels help when logging climbs. Adjust the default level or add more to match your
+                        gym&apos;s grading.
+                      </Text>
+                    </WireframeBox>
+                  ) : null}
+
                   {location.levels.map((level, index) => (
                     <LevelRow
                       key={level.id}
@@ -263,7 +287,10 @@ export default function ProfileSetupScreen() {
                   <WireframeButton
                     label="Add level"
                     variant="secondary"
-                    onPress={() => addLevel(location.id)}
+                    onPress={() => {
+                      addLevel(location.id);
+                      setLevelsNudgeLocationId(null);
+                    }}
                   />
                 </View>
               ) : null}

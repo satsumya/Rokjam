@@ -2,62 +2,81 @@ import { useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { ClimbAtGlance } from './SessionClimb';
-import { WireframeBox, WireframeField, WireframeSection } from './Wireframe';
+import { WireframeBox, WireframeSection } from './Wireframe';
 import type { Location } from '../context/PrototypeContext';
 import type { SessionClimb, SessionSort } from '../types/climbingSession';
-import { CLIMB_TAG_SUGGESTIONS } from '../types/climbingSession';
 import { filterClimbs, sortClimbs } from '../utils/sessionUtils';
+
+const SORT_OPTIONS: { value: SessionSort; label: string }[] = [
+  { value: 'order', label: 'Newest first' },
+  { value: 'order-oldest', label: 'Oldest first' },
+  { value: 'difficulty', label: 'Difficulty ↑' },
+  { value: 'difficulty-desc', label: 'Difficulty ↓' },
+  { value: 'name', label: 'Name A–Z' },
+  { value: 'name-desc', label: 'Name Z–A' },
+];
 
 export function SessionClimbsList({
   climbs,
   location,
   onEditClimb,
   onShareClimb,
+  onRemoveClimb,
+  onDifficultyChange,
 }: {
   climbs: SessionClimb[];
   location?: Location;
   onEditClimb: (climb: SessionClimb) => void;
   onShareClimb?: (climb: SessionClimb) => void;
+  onRemoveClimb?: (climb: SessionClimb) => void;
+  onDifficultyChange?: (climb: SessionClimb, level: Location['levels'][number]) => void;
 }) {
   const [sort, setSort] = useState<SessionSort>('order');
-  const [search, setSearch] = useState('');
   const [filterDifficulty, setFilterDifficulty] = useState('');
   const [filterTag, setFilterTag] = useState('');
   const [hideWarmUp, setHideWarmUp] = useState(false);
   const [hideRepeat, setHideRepeat] = useState(false);
 
-  const showSearchFilter = climbs.length > 1;
+  const showSortFilter = climbs.length > 1;
+
+  const climbsWithDifficulty = useMemo(
+    () => climbs.filter((c) => Boolean(c.levelId)),
+    [climbs],
+  );
+  const showDifficultyFilter = Boolean(location?.levels.length && climbsWithDifficulty.length > 0);
+  const usedLevelIds = useMemo(
+    () => new Set(climbsWithDifficulty.map((c) => c.levelId)),
+    [climbsWithDifficulty],
+  );
+  const filterableLevels = useMemo(
+    () => (location?.levels ?? []).filter((level) => usedLevelIds.has(level.id)),
+    [location, usedLevelIds],
+  );
+
+  const usedTags = useMemo(() => {
+    const tags = new Set<string>();
+    climbs.forEach((climb) => climb.tags.forEach((tag) => tags.add(tag)));
+    return [...tags].sort();
+  }, [climbs]);
+  const showTagFilter = usedTags.length > 0;
 
   const filteredClimbs = useMemo(() => {
     const sorted = sortClimbs(climbs, sort, location?.levels ?? []);
     return filterClimbs(sorted, {
-      search: showSearchFilter ? search : undefined,
       difficultyId: filterDifficulty || undefined,
       tag: filterTag || undefined,
       hideWarmUp,
       hideRepeat,
     });
-  }, [climbs, sort, location, search, filterDifficulty, filterTag, hideWarmUp, hideRepeat, showSearchFilter]);
+  }, [climbs, sort, location, filterDifficulty, filterTag, hideWarmUp, hideRepeat]);
 
   return (
     <WireframeSection title="Climbs">
-      {showSearchFilter ? (
-        <>
-          <WireframeField
-            label="Search climbs"
-            value={search}
-            onChangeText={setSearch}
-            placeholder="Name, tag, notes…"
-          />
+      {showSortFilter ? (
+        <View style={{ gap: 8 }}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             <Text style={{ fontWeight: '600' }}>Sort:</Text>
-            {(
-              [
-                ['order', 'Order added'],
-                ['difficulty', 'Difficulty'],
-                ['name', 'Name'],
-              ] as const
-            ).map(([value, label]) => (
+            {SORT_OPTIONS.map(({ value, label }) => (
               <Pressable key={value} onPress={() => setSort(value)}>
                 <Text style={{ fontWeight: sort === value ? '700' : '400' }}>{label}</Text>
               </Pressable>
@@ -65,12 +84,12 @@ export function SessionClimbsList({
           </View>
           <View style={{ gap: 4 }}>
             <Text style={{ fontWeight: '600' }}>Filter</Text>
-            {location?.levels.length ? (
+            {showDifficultyFilter ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
                 <Pressable onPress={() => setFilterDifficulty('')}>
-                  <Text>All difficulties</Text>
+                  <Text style={{ fontWeight: !filterDifficulty ? '700' : '400' }}>All difficulties</Text>
                 </Pressable>
-                {location.levels.map((level) => (
+                {filterableLevels.map((level) => (
                   <Pressable key={level.id} onPress={() => setFilterDifficulty(level.id)}>
                     <Text style={{ fontWeight: filterDifficulty === level.id ? '700' : '400' }}>
                       {level.name}
@@ -85,18 +104,20 @@ export function SessionClimbsList({
             <Pressable onPress={() => setHideRepeat((v) => !v)}>
               <Text>{hideRepeat ? '☑' : '☐'} Hide repeat climbs</Text>
             </Pressable>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-              <Pressable onPress={() => setFilterTag('')}>
-                <Text>All tags</Text>
-              </Pressable>
-              {CLIMB_TAG_SUGGESTIONS.map((tag) => (
-                <Pressable key={tag} onPress={() => setFilterTag(tag)}>
-                  <Text style={{ fontWeight: filterTag === tag ? '700' : '400' }}>{tag}</Text>
+            {showTagFilter ? (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+                <Pressable onPress={() => setFilterTag('')}>
+                  <Text style={{ fontWeight: !filterTag ? '700' : '400' }}>All tags</Text>
                 </Pressable>
-              ))}
-            </View>
+                {usedTags.map((tag) => (
+                  <Pressable key={tag} onPress={() => setFilterTag(tag)}>
+                    <Text style={{ fontWeight: filterTag === tag ? '700' : '400' }}>{tag}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
           </View>
-        </>
+        </View>
       ) : null}
 
       {filteredClimbs.length === 0 ? (
@@ -108,8 +129,15 @@ export function SessionClimbsList({
           <ClimbAtGlance
             key={climb.id}
             climb={climb}
+            location={location}
             onPress={() => onEditClimb(climb)}
             onShare={onShareClimb ? () => onShareClimb(climb) : undefined}
+            onRemove={onRemoveClimb ? () => onRemoveClimb(climb) : undefined}
+            onDifficultyChange={
+              onDifficultyChange
+                ? (level) => onDifficultyChange(climb, level)
+                : undefined
+            }
           />
         ))
       )}

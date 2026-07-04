@@ -6,6 +6,7 @@ import { ClimbEditor } from '../../../src/components/SessionClimb';
 import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
 import {
   WireframeBox,
+  WireframeBottomSheet,
   WireframeButton,
   WireframeField,
   WireframeLink,
@@ -14,7 +15,7 @@ import {
 } from '../../../src/components/Wireframe';
 import { usePrototype } from '../../../src/context/PrototypeContext';
 import type { SessionClimb } from '../../../src/types/climbingSession';
-import { formatSessionDate } from '../../../src/utils/sessionUtils';
+import { climbHasDetails, formatSessionDate } from '../../../src/utils/sessionUtils';
 
 const emptyClimb = (): SessionClimb => ({
   id: 'draft',
@@ -23,6 +24,7 @@ const emptyClimb = (): SessionClimb => ({
   hasVideo: false,
   isWarmUp: false,
   isRepeat: false,
+  isProject: false,
   attempts: [{ id: 'draft-a', progress: [] }],
 });
 
@@ -38,6 +40,7 @@ export default function EditSessionScreen() {
   const [draftClimb, setDraftClimb] = useState<SessionClimb | null>(null);
   const [isPublic, setIsPublic] = useState(session?.isPublic ?? false);
   const [publicError, setPublicError] = useState('');
+  const [removeTarget, setRemoveTarget] = useState<SessionClimb | null>(null);
 
   if (!session || session.status !== 'completed') {
     return (
@@ -77,6 +80,21 @@ export default function EditSessionScreen() {
     setDraftClimb(null);
   };
 
+  const handleRemoveClimb = (climb: SessionClimb) => {
+    if (climbHasDetails(climb)) {
+      setRemoveTarget(climb);
+      return;
+    }
+    removeClimb(session.id, climb.id);
+  };
+
+  const confirmRemoveClimb = () => {
+    if (removeTarget) {
+      removeClimb(session.id, removeTarget.id);
+    }
+    setRemoveTarget(null);
+  };
+
   return (
     <WireframeScreen
       title="Edit session"
@@ -85,6 +103,21 @@ export default function EditSessionScreen() {
           <WireframeButton label="Save changes" onPress={saveSession} />
           <WireframeLink label="Cancel" onPress={() => router.back()} />
         </>
+      }
+      overlay={
+        <WireframeBottomSheet
+          visible={Boolean(removeTarget)}
+          title="Remove climb?"
+          onClose={() => setRemoveTarget(null)}
+        >
+          <Text>
+            {removeTarget?.name?.trim()
+              ? `"${removeTarget.name}" has details that will be lost.`
+              : 'This climb has details that will be lost.'}
+          </Text>
+          <WireframeButton label="Remove climb" onPress={confirmRemoveClimb} />
+          <WireframeButton label="Cancel" variant="ghost" onPress={() => setRemoveTarget(null)} />
+        </WireframeBottomSheet>
       }
     >
       <WireframeSection title="Session">
@@ -125,41 +158,43 @@ export default function EditSessionScreen() {
               setDraftClimb(emptyClimb());
             }}
           />
-        ) : null}
-
-        {draftClimb && editingClimbId ? (
-          <ClimbEditor
-            climb={draftClimb}
-            location={location}
-            onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
-            onSave={saveClimb}
-            onCancel={() => {
-              setEditingClimbId(null);
-              setDraftClimb(null);
-            }}
-          />
         ) : (
           <>
-            <SessionClimbsList
-              climbs={session.climbs}
+            <ClimbEditor
+              climb={draftClimb}
               location={location}
-              onEditClimb={(climb) => {
-                setEditingClimbId(climb.id);
-                setDraftClimb({ ...climb });
+              onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
+            />
+            <WireframeButton label="Save climb" onPress={saveClimb} />
+            <WireframeButton
+              label="Cancel"
+              variant="ghost"
+              onPress={() => {
+                setEditingClimbId(null);
+                setDraftClimb(null);
               }}
             />
-            {!editingClimbId
-              ? session.climbs.map((climb) => (
-                  <WireframeButton
-                    key={`remove-${climb.id}`}
-                    label={`Remove ${climb.name || 'climb'}`}
-                    variant="ghost"
-                    onPress={() => removeClimb(session.id, climb.id)}
-                  />
-                ))
-              : null}
           </>
         )}
+
+        {!draftClimb ? (
+          <SessionClimbsList
+            climbs={session.climbs}
+            location={location}
+            onEditClimb={(climb) => {
+              setEditingClimbId(climb.id);
+              setDraftClimb({ ...climb });
+            }}
+            onRemoveClimb={handleRemoveClimb}
+            onDifficultyChange={(climb, level) =>
+              updateClimb(session.id, climb.id, {
+                levelId: level.id,
+                levelName: level.name,
+                levelColor: level.color,
+              })
+            }
+          />
+        ) : null}
       </WireframeSection>
     </WireframeScreen>
   );

@@ -7,7 +7,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 ## Forms & validation
 
 - [x] Required and optional fields — Use `*` on required fields only; do not label fields as “optional”
-- [ ] New-user forms start blank — Fields that should be empty for a new user must not be prefilled (e.g. sign-up email/password)
+- [x] New-user forms start blank — Fields that should be empty for a new user must not be prefilled (e.g. sign-up email/password)
 - [x] Real-time input errors — Validate as the user types or on blur; do not wait until submit/continue
 - [x] Email validation — Invalid email (e.g. missing `@`) shows an inline error
 - [x] Password requirements — Enforce minimum standards (length, symbol, etc.) with inline feedback
@@ -23,9 +23,9 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] Date display format — Show dates as **Day DD Mmm YYYY** (e.g. Friday 03 Jul 2026)
 - [x] Preset + custom dropdowns — Time and duration fields offer common presets and allow typing a custom value (e.g. end time, session duration)
 
-## Lists & search
+## Lists & filters
 
-- [x] Hide search and filter when unnecessary — When a list has no items or only one item, hide search and filter controls
+- [x] Hide sort and filter when unnecessary — When a list has no items or only one item, hide sort and filter controls
 
 ## Locations
 

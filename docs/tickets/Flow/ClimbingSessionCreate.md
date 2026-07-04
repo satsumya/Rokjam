@@ -1,24 +1,24 @@
-# ROKJ-16: Create climbing log
+# ClimbingSessionCreate
 
 Applies [Standards](../Standards.md) unless noted below.
 
 **Start climbing log/climbing session from dashboard:**
-- [x] Date auto adds current date
+- [x] Date auto adds current date in the standardised format ONLY
 - [x] can be updated
 - [x] Location auto fills to home/primary location from member profile
 - [x] If no location added users will need an option to be able to add now
+- [x] Users must be able to swap the location or add a new location but adding a new location is not a prominent option
 - [x] Start time auto adds current time
-- [x] Option to set the end time or choose length of the climbing session
+- [x] Option to set the end time using a dropdown or choose length of the climbing session using a dropdown
 - [x] Add climbs
+- [x] While adding or editing a climb, footer primary action is Save climb (replaces Add climb until saved or cancelled)
 - [x] Edit climbs
-- [x] Sort climbs
-- [x] by difficulty (if no difficulty added default to showing at the top)
-- [x] by order added (default)
-- [x] by name (if no name added default to showing at the top)
-- [x] Search climbs
-- [x] Filter climbs
-- [x] by difficulty (if location has been added-otherwise there won't be any difficulties to choose from)
-- [x] by tags (if tags have been added)
+- [x] Remove climbs
+- [x] Sort climbs by difficulty: either easy to hard or hard to easy; unlabelled climbs at top
+- [x] Sort climbs by order added (most recently added is default): newest first or oldest first
+- [x] Sort climbs by name: A–Z or Z–A; unnamed climbs at top
+- [x] Filter by difficulty (if location has been added to the session and if difficulty has been added to at least one climb)
+- [x] Filter by tags (if tags have been added and only show tags that have been added already - include any custom tags as these are still tags)
 - [x] show/hide warm up climbs
 - [x] show/hide repeat climbs
 - [x] Save/end session
@@ -26,45 +26,46 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] If it's public and they don't have a user name they will have to add one
 - [x] Default is private
 - [x] Option to confirm end time (if added) or default to time user first ends the session
-- [ ] Share session
+- [x] Share session (after session is saved/ended — see Standards)
+- [x] Incomplete profile — Can start session; prompt when profile/location missing
+- [x] Return to dashboard mid-session without saving/ending
+- [x] One location per climbing session
+
 **For each climb:**
 - [x] Option to add difficulty (if location has been added)
-- [x] Option to add attempts
+- [x] Option to add and remove attempts
 - [x] Option to add tags to characterise
-- [x] e.g. dyno, slab, overhang, crimpy etc
+- [x] Tags include suggestions (dyno, slab, overhang, crimpy, etc.) and custom tags
 - [x] Option to add a name or wall name
 - [x] Option to add notes
-- [x] Option to add one image of the climb
-- [x] Trying to add another will override the previous
-- [x] Option to add one video of the climb
-- [x] Trying to add another will override the previous
+- [x] Option to add one image of the climb (replace overrides previous)
+- [x] Option to add one video of the climb (replace overrides previous)
 - [x] Mark as a warm up climb
 - [x] Mark as a repeat climb
+- [x] Mark as a project
 - [x] At a glance it should be easy to view
 - [x] Difficulty if added
-- [x] able to quick add if not added already
+- [x] able to quick add difficulty if not added already
 - [x] Attempt progress summary
-- [ ] able to quick view all attempts and edit
+- [x] Attempt summary in order of priority: Flash, Send, then Partial (start/middle/end)
+- [x] able to quick view all attempts and edit
 - [x] Name
-- [x] If media has been added
-- [x] If it's a new climb (e.g. not a repeat climb)
+- [x] If media has been added (icons: 📷 photo, 🎥 video)
+- [x] If it's a new climb (e.g. not a repeat climb) — text label: New (repeat climbs are unlabelled)
 - [x] at least one tag (if tags are added)
 - [x] able to quick view all tags
-- [ ] Share climb
+- [x] Share climb (after session is saved/ended — see Standards)
+
 **For each attempt**
 - [x] Option to add progress
-- [x] Progress could be
-- [x] only did the start of the climb, middle or end
-- [x] or a combination of those
+- [x] Progress can be start, middle, end, or a combination (shown as Partial)
 - [x] or flash
-- [x] or redpoint
-- [x] etc
+- [x] or send
+- [x] Send or flash cannot combine with start/middle/end
+- [x] Flash only available on the first attempt
+- [x] Send only available from the second attempt (first-attempt send is a flash)
 
-**Review updates**
-- [x] ‘Happy path’ scenario — Expected happy path to be a user with profile already fully set up
-- [x] Need a scenario where it’s a new user — To show what it would look like when no added climbing sessions yet
-- [x] When profile isn’t fully set up — user must still be able to start a climbing session and just prompt when something crucial is missing
-- [x] Adding a location in the climbing log doesn’t work — After typing something in location name and clicking ‘add location now' nothing happens. Should be similar journey to the member profile for searching, adding a nickname and adding difficulty levels
-- [x] Location is not required for a climbing log
-- [x] Return to dashboard — Allow users to go back to the dashboard if they’re in the middle of adding a climbing session without having to save/end the session (it should just save where it is especially since it’s not published yet
-- [ ] One location per climbing session — Remove ability to add more than one location
+**Scenarios**
+- [x] Happy path — User with full profile and existing sessions
+- [x] New user — No sessions logged yet
+- [x] Inline location add — Address search when no location on profile

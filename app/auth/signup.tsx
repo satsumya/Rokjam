@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -17,15 +17,18 @@ export default function SignUpScreen() {
   const { email, setEmail } = usePrototype();
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ email: false, password: false });
+  const clearedOnMount = useRef(false);
 
   useEffect(() => {
     if (demo === 'error-empty') {
       setTouched({ email: true, password: true });
       return;
     }
+    if (clearedOnMount.current) return;
     setEmail('');
     setPassword('');
     setTouched({ email: false, password: false });
+    clearedOnMount.current = true;
   }, [demo, setEmail]);
 
   const emailError = touched.email ? getEmailError(email) : undefined;

@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { AddressSearch } from './AddressSearch';
-import { LevelRow } from './LevelRow';
-import { WireframeBox, WireframeButton, WireframeField, WireframeSection } from './Wireframe';
-import type { Location } from '../context/PrototypeContext';
+import { WireframeBox, WireframeLink } from './Wireframe';
 import { usePrototype } from '../context/PrototypeContext';
 
 export function SessionLocationPanel({
@@ -14,46 +12,55 @@ export function SessionLocationPanel({
   sessionLocationId: string;
   onLocationLinked: (locationId: string, locationName: string) => void;
 }) {
-  const {
-    locations,
-    addLocation,
-    updateLocation,
-    setHomeLocation,
-    addLevel,
-    removeLevel,
-    moveLevel,
-    swapLevels,
-    toggleLevelSort,
-    updateLevel,
-  } = usePrototype();
+  const { locations, addLocation } = usePrototype();
+  const [changingLocation, setChangingLocation] = useState(locations.length === 0);
+  const [addingLocation, setAddingLocation] = useState(false);
 
-  const [addingLocation, setAddingLocation] = useState(locations.length === 0);
-  const [openLocationId, setOpenLocationId] = useState<string | null>(
-    sessionLocationId || locations[0]?.id || null,
-  );
-  const [editNickname, setEditNickname] = useState('');
-  const [dragSourceId, setDragSourceId] = useState<string | null>(null);
+  const sessionLoc = locations.find((l) => l.id === sessionLocationId) ?? locations[0];
 
   const handleAddLocation = (address: string) => {
     const id = addLocation(address);
     onLocationLinked(id, address);
-    setOpenLocationId(id);
     setAddingLocation(false);
+    setChangingLocation(false);
   };
 
-  const openLoc = locations.find((l) => l.id === openLocationId);
+  if (locations.length === 0 || addingLocation) {
+    return (
+      <View style={{ gap: 8 }}>
+        <Text style={{ fontWeight: '600' }}>Location</Text>
+        <WireframeBox>
+          <AddressSearch required={false} onSelect={handleAddLocation} />
+        </WireframeBox>
+        {addingLocation && locations.length > 0 ? (
+          <WireframeLink label="Cancel" onPress={() => setAddingLocation(false)} />
+        ) : null}
+      </View>
+    );
+  }
 
   return (
     <View style={{ gap: 8 }}>
-      {locations.length > 0 ? (
+      <Text style={{ fontWeight: '600' }}>Location</Text>
+      {sessionLoc && !changingLocation ? (
+        <WireframeBox>
+          <Text>
+            {sessionLoc.isHome ? '🏠 ' : ''}
+            {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
+            {sessionLoc.name}
+          </Text>
+          {locations.length > 1 ? (
+            <WireframeLink label="Change location" onPress={() => setChangingLocation(true)} />
+          ) : null}
+        </WireframeBox>
+      ) : (
         <View style={{ gap: 6 }}>
-          <Text style={{ fontWeight: '600' }}>Location</Text>
           {locations.map((loc) => (
             <Pressable
               key={loc.id}
               onPress={() => {
-                setOpenLocationId(loc.id);
                 onLocationLinked(loc.id, loc.name);
+                setChangingLocation(false);
               }}
             >
               <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
@@ -63,62 +70,15 @@ export function SessionLocationPanel({
               </Text>
             </Pressable>
           ))}
-          {!addingLocation ? (
-            <WireframeButton label="Add another location" variant="ghost" onPress={() => setAddingLocation(true)} />
-          ) : null}
+          <WireframeLink label="Cancel" onPress={() => setChangingLocation(false)} />
         </View>
-      ) : null}
-
-      {addingLocation || locations.length === 0 ? (
-        <WireframeBox>
-          <AddressSearch required={false} onSelect={handleAddLocation} />
-        </WireframeBox>
-      ) : null}
-
-      {openLoc ? (
-        <WireframeSection title="Location details">
-          <WireframeField
-            label="Nickname"
-            value={editNickname || openLoc.nickname || ''}
-            onChangeText={(value) => {
-              setEditNickname(value);
-              updateLocation(openLoc.id, { nickname: value.trim() || undefined });
-            }}
-            placeholder="e.g. Home gym"
-          />
-          <Pressable onPress={() => setHomeLocation(openLoc.id)}>
-            <Text>{openLoc.isHome ? '●' : '○'} Set as home location</Text>
-          </Pressable>
-          <Text style={{ fontWeight: '600' }}>Difficulty levels</Text>
-          {openLoc.levels.map((level, index) => (
-            <LevelRow
-              key={level.id}
-              level={level}
-              index={index}
-              total={openLoc.levels.length}
-              dragSourceId={dragSourceId}
-              onUpdate={(patch) => updateLevel(openLoc.id, level.id, patch)}
-              onMoveUp={() => moveLevel(openLoc.id, level.id, 'up')}
-              onMoveDown={() => moveLevel(openLoc.id, level.id, 'down')}
-              onRemove={() => removeLevel(openLoc.id, level.id)}
-              onDragStart={(levelId) => setDragSourceId(levelId)}
-              onDragTarget={(levelId) => {
-                if (dragSourceId && dragSourceId !== levelId) {
-                  swapLevels(openLoc.id, dragSourceId, levelId);
-                  setDragSourceId(null);
-                }
-              }}
-            />
-          ))}
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-            <WireframeButton label="Add level" variant="secondary" onPress={() => addLevel(openLoc.id)} />
-            <WireframeButton
-              label={`Sort: ${openLoc.levelSort === 'easy-hard' ? 'Easy → Hard' : 'Hard → Easy'}`}
-              variant="ghost"
-              onPress={() => toggleLevelSort(openLoc.id)}
-            />
-          </View>
-        </WireframeSection>
+      )}
+      {!addingLocation ? (
+        <Pressable onPress={() => setAddingLocation(true)}>
+          <Text style={{ color: '#666', fontSize: 14, textDecorationLine: 'underline' }}>
+            Add new location
+          </Text>
+        </Pressable>
       ) : null}
     </View>
   );

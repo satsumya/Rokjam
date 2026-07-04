@@ -16,12 +16,12 @@ Scenario coverage requirements and how to use the scenario tester: **[Testing.md
 
 | Ticket | Flow |
 | --- | --- |
-| [ROKJ-3](./Flow/SignUpLogin.md) | Sign up / login |
-| [ROKJ-15](./Flow/MemberProfile.md) | Member profile setup |
-| [ROKJ-16](./Flow/ClimbingSessionCreate.md) | Create climbing session |
-| [ROKJ-17](./Flow/ClimbingSessionViewEdit.md) | View and edit session |
-| [ROKJ-18](./Flow/Dashboard.md) | Dashboard trends |
-| [ROKJ-22](./Flow/Community.md) | Community feed |
+| [SignUpLogin](./Flow/SignUpLogin.md) | Sign up / login |
+| [MemberProfile](./Flow/MemberProfile.md) | Member profile setup |
+| [ClimbingSessionCreate](./Flow/ClimbingSessionCreate.md) | Create climbing session |
+| [ClimbingSessionViewEdit](./Flow/ClimbingSessionViewEdit.md) | View and edit session |
+| [Dashboard](./Flow/Dashboard.md) | Dashboard trends |
+| [Community](./Flow/Community.md) | Community feed |
 
 ## How to run
 
