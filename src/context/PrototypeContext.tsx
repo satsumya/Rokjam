@@ -1,8 +1,9 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
-import { MOCK_COMMUNITY_POSTS, type CommunityPost } from '../constants/mockCommunity';
+import { createDemoSessions, MOCK_PUBLIC_SESSIONS } from '../constants/mockSessions';
 import { DEFAULT_LEVEL_COLORS, PET_ROCK_AVATARS } from '../constants/difficultyLevels';
-import type { ClimbingLog } from '../types/climbingLog';
+import type { ClimbingSession, SessionClimb } from '../types/climbingSession';
+import { nowTimeLabel, todayIso } from '../utils/sessionUtils';
 
 export type DifficultyLevel = {
   id: string;
@@ -31,8 +32,9 @@ type PrototypeContextValue = {
   improvementTags: string[];
   profileComplete: boolean;
   profileSkipped: boolean;
-  climbingLogs: ClimbingLog[];
-  communityPosts: CommunityPost[];
+  sessions: ClimbingSession[];
+  publicSessions: ClimbingSession[];
+  followedUsers: string[];
   setProfileComplete: (value: boolean) => void;
   setProfileSkipped: (value: boolean) => void;
   addStrengthTag: (tag: string) => void;
@@ -48,12 +50,16 @@ type PrototypeContextValue = {
   swapLevels: (locationId: string, fromId: string, toId: string) => void;
   toggleLevelSort: (locationId: string) => void;
   updateLevel: (locationId: string, levelId: string, patch: Partial<DifficultyLevel>) => void;
-  addClimbingLog: (log: Omit<ClimbingLog, 'id'>) => string;
-  updateClimbingLog: (id: string, patch: Partial<ClimbingLog>) => void;
-  deleteClimbingLog: (id: string) => void;
-  getClimbingLog: (id: string) => ClimbingLog | undefined;
-  seedDemoLogs: () => void;
-  toggleFollowPost: (postId: string) => void;
+  startSession: () => string;
+  updateSession: (id: string, patch: Partial<ClimbingSession>) => void;
+  completeSession: (id: string, patch?: Partial<ClimbingSession>) => void;
+  deleteSession: (id: string) => void;
+  getSession: (id: string) => ClimbingSession | undefined;
+  addClimb: (sessionId: string, climb: Omit<SessionClimb, 'id'>) => string;
+  updateClimb: (sessionId: string, climbId: string, patch: Partial<SessionClimb>) => void;
+  removeClimb: (sessionId: string, climbId: string) => void;
+  seedDemoSessions: () => void;
+  toggleFollowUser: (username: string) => void;
   resetSession: () => void;
 };
 
@@ -67,13 +73,13 @@ function createDefaultLevel(index: number): DifficultyLevel {
   return { id: `${Date.now()}-${index}`, name: 'Custom', color: '#AAAAAA' };
 }
 
-function createDemoLocation() {
+function createDemoLocation(): Location {
   return {
     id: 'demo-location',
     name: 'Urban Climb West End, Montague Rd Brisbane',
     nickname: 'Home gym',
     isHome: true,
-    levelSort: 'easy-hard' as const,
+    levelSort: 'easy-hard',
     levels: DEFAULT_LEVEL_COLORS.slice(0, 5).map((preset, index) => ({
       id: `demo-level-${index}`,
       name: preset.name,
@@ -91,8 +97,9 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
   const [improvementTags, setImprovementTags] = useState<string[]>([]);
   const [profileComplete, setProfileComplete] = useState(false);
   const [profileSkipped, setProfileSkipped] = useState(false);
-  const [climbingLogs, setClimbingLogs] = useState<ClimbingLog[]>([]);
-  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(MOCK_COMMUNITY_POSTS);
+  const [sessions, setSessions] = useState<ClimbingSession[]>([]);
+  const [publicSessions] = useState<ClimbingSession[]>(MOCK_PUBLIC_SESSIONS);
+  const [followedUsers, setFollowedUsers] = useState<string[]>(['alex_climber', 'crimp_queen']);
 
   const value = useMemo<PrototypeContextValue>(
     () => ({
@@ -107,8 +114,9 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
       improvementTags,
       profileComplete,
       profileSkipped,
-      climbingLogs,
-      communityPosts,
+      sessions,
+      publicSessions,
+      followedUsers,
       setProfileComplete,
       setProfileSkipped,
       addStrengthTag: (tag) => {
@@ -143,9 +151,7 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
         setLocations((current) => current.map((loc) => (loc.id === id ? { ...loc, ...patch } : loc)));
       },
       setHomeLocation: (id) => {
-        setLocations((current) =>
-          current.map((loc) => ({ ...loc, isHome: loc.id === id })),
-        );
+        setLocations((current) => current.map((loc) => ({ ...loc, isHome: loc.id === id })));
       },
       addLevel: (locationId) => {
         setLocations((current) =>
@@ -221,73 +227,84 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
           }),
         );
       },
-      addClimbingLog: (log) => {
+      startSession: () => {
+        const home = locations.find((l) => l.isHome) ?? locations[0];
         const id = `${Date.now()}`;
-        setClimbingLogs((current) => [{ ...log, id }, ...current]);
+        const session: ClimbingSession = {
+          id,
+          status: 'active',
+          date: todayIso(),
+          startTime: nowTimeLabel(),
+          locationId: home?.id ?? '',
+          locationName: home?.name ?? '',
+          climbs: [],
+          isPublic: false,
+          ownerUsername: username,
+          ownerAvatar: avatar,
+        };
+        setSessions((current) => [session, ...current]);
         return id;
       },
-      updateClimbingLog: (id, patch) => {
-        setClimbingLogs((current) =>
-          current.map((log) => (log.id === id ? { ...log, ...patch } : log)),
+      updateSession: (id, patch) => {
+        setSessions((current) =>
+          current.map((session) => (session.id === id ? { ...session, ...patch } : session)),
         );
       },
-      deleteClimbingLog: (id) => {
-        setClimbingLogs((current) => current.filter((log) => log.id !== id));
+      completeSession: (id, patch) => {
+        setSessions((current) =>
+          current.map((session) =>
+            session.id === id ? { ...session, ...patch, status: 'completed' as const } : session,
+          ),
+        );
       },
-      getClimbingLog: (id) => climbingLogs.find((log) => log.id === id),
-      seedDemoLogs: () => {
+      deleteSession: (id) => {
+        setSessions((current) => current.filter((session) => session.id !== id));
+      },
+      getSession: (id) => sessions.find((session) => session.id === id),
+      addClimb: (sessionId, climb) => {
+        const climbId = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+        setSessions((current) =>
+          current.map((session) =>
+            session.id === sessionId
+              ? { ...session, climbs: [...session.climbs, { ...climb, id: climbId }] }
+              : session,
+          ),
+        );
+        return climbId;
+      },
+      updateClimb: (sessionId, climbId, patch) => {
+        setSessions((current) =>
+          current.map((session) => {
+            if (session.id !== sessionId) return session;
+            return {
+              ...session,
+              climbs: session.climbs.map((climb) =>
+                climb.id === climbId ? { ...climb, ...patch } : climb,
+              ),
+            };
+          }),
+        );
+      },
+      removeClimb: (sessionId, climbId) => {
+        setSessions((current) =>
+          current.map((session) => {
+            if (session.id !== sessionId) return session;
+            return { ...session, climbs: session.climbs.filter((c) => c.id !== climbId) };
+          }),
+        );
+      },
+      seedDemoSessions: () => {
         const demoLocation = locations[0] ?? createDemoLocation();
         if (locations.length === 0) {
           setLocations([demoLocation]);
           setProfileComplete(true);
         }
-        const level = demoLocation.levels[2] ?? demoLocation.levels[0];
-        setClimbingLogs([
-          {
-            id: 'demo-log-1',
-            locationId: demoLocation.id,
-            locationName: demoLocation.name,
-            levelId: level.id,
-            levelName: level.name,
-            levelColor: level.color,
-            date: '2026-06-18',
-            style: 'boulder',
-            routeName: 'Slab warmup',
-            outcome: 'send',
-            notes: 'Felt solid on footwork.',
-          },
-          {
-            id: 'demo-log-2',
-            locationId: demoLocation.id,
-            locationName: demoLocation.name,
-            levelId: demoLocation.levels[1]?.id ?? level.id,
-            levelName: demoLocation.levels[1]?.name ?? level.name,
-            levelColor: demoLocation.levels[1]?.color ?? level.color,
-            date: '2026-06-15',
-            style: 'top-rope',
-            routeName: 'Overhang project',
-            outcome: 'working',
-            attempts: 4,
-            notes: 'Need better hip tension.',
-          },
-          {
-            id: 'demo-log-3',
-            locationId: demoLocation.id,
-            locationName: demoLocation.name,
-            levelId: demoLocation.levels[3]?.id ?? level.id,
-            levelName: demoLocation.levels[3]?.name ?? level.name,
-            levelColor: demoLocation.levels[3]?.color ?? level.color,
-            date: '2026-06-10',
-            style: 'lead',
-            outcome: 'flash',
-          },
-        ]);
+        if (!username) setUsername('member');
+        setSessions(createDemoSessions(demoLocation.id, demoLocation.name));
       },
-      toggleFollowPost: (postId) => {
-        setCommunityPosts((current) =>
-          current.map((post) =>
-            post.id === postId ? { ...post, isFollowing: !post.isFollowing } : post,
-          ),
+      toggleFollowUser: (user) => {
+        setFollowedUsers((current) =>
+          current.includes(user) ? current.filter((u) => u !== user) : [...current, user],
         );
       },
       resetSession: () => {
@@ -299,19 +316,20 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
         setImprovementTags([]);
         setProfileComplete(false);
         setProfileSkipped(false);
-        setClimbingLogs([]);
-        setCommunityPosts(MOCK_COMMUNITY_POSTS);
+        setSessions([]);
+        setFollowedUsers(['alex_climber', 'crimp_queen']);
       },
     }),
     [
       avatar,
-      climbingLogs,
-      communityPosts,
       email,
+      followedUsers,
       improvementTags,
       locations,
       profileComplete,
       profileSkipped,
+      publicSessions,
+      sessions,
       strengthTags,
       username,
     ],

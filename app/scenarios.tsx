@@ -7,11 +7,27 @@ import {
   WireframeScreen,
   WireframeSection,
 } from '../src/components/Wireframe';
-import { LOCAL_WEB_BASE, SCENARIOS, scenarioWebLink } from '../src/constants/scenarios';
+import { LOCAL_WEB_BASE, SCENARIOS, scenarioWebLink, type Scenario } from '../src/constants/scenarios';
+
+function ScenarioList({ ticket, title }: { ticket: Scenario['ticket']; title: string }) {
+  const items = SCENARIOS.filter((s) => s.ticket === ticket);
+  return (
+    <WireframeSection title={title}>
+      {items.map((scenario) => (
+        <WireframeBox key={scenario.id}>
+          <Text style={{ fontWeight: '700' }}>
+            [{scenario.type}] {scenario.title}
+          </Text>
+          <Text>{scenario.steps}</Text>
+          <Text style={{ color: '#666' }}>{scenarioWebLink(scenario.path)}</Text>
+          <WireframeButton label="Run scenario" onPress={() => router.push(scenario.path as never)} />
+        </WireframeBox>
+      ))}
+    </WireframeSection>
+  );
+}
 
 export default function ScenariosScreen() {
-  const rok3 = SCENARIOS.filter((s) => s.ticket === 'ROKJ-3');
-  const rok15 = SCENARIOS.filter((s) => s.ticket === 'ROKJ-15');
 
   return (
     <WireframeScreen
@@ -32,31 +48,12 @@ export default function ScenariosScreen() {
         </WireframeBox>
       </WireframeSection>
 
-      <WireframeSection title="ROKJ-3 — Sign up / login">
-        {rok3.map((scenario) => (
-          <WireframeBox key={scenario.id}>
-            <Text style={{ fontWeight: '700' }}>
-              [{scenario.type}] {scenario.title}
-            </Text>
-            <Text>{scenario.steps}</Text>
-            <Text style={{ color: '#666' }}>{scenarioWebLink(scenario.path)}</Text>
-            <WireframeButton label="Run scenario" onPress={() => router.push(scenario.path as never)} />
-          </WireframeBox>
-        ))}
-      </WireframeSection>
-
-      <WireframeSection title="ROKJ-15 — Member profile">
-        {rok15.map((scenario) => (
-          <WireframeBox key={scenario.id}>
-            <Text style={{ fontWeight: '700' }}>
-              [{scenario.type}] {scenario.title}
-            </Text>
-            <Text>{scenario.steps}</Text>
-            <Text style={{ color: '#666' }}>{scenarioWebLink(scenario.path)}</Text>
-            <WireframeButton label="Run scenario" onPress={() => router.push(scenario.path as never)} />
-          </WireframeBox>
-        ))}
-      </WireframeSection>
+      <ScenarioList ticket="ROKJ-3" title="ROKJ-3 — Sign up / login" />
+      <ScenarioList ticket="ROKJ-15" title="ROKJ-15 — Member profile" />
+      <ScenarioList ticket="ROKJ-16" title="ROKJ-16 — Create climbing session" />
+      <ScenarioList ticket="ROKJ-17" title="ROKJ-17 — View and edit sessions" />
+      <ScenarioList ticket="ROKJ-18" title="ROKJ-18 — Dashboard trends" />
+      <ScenarioList ticket="ROKJ-22" title="ROKJ-22 — Community" />
 
       <WireframeSection title="Expo Go (device)">
         <WireframeBox>

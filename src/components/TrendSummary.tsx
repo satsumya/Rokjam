@@ -1,128 +1,159 @@
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { WireframeBox, WireframeSection } from './Wireframe';
-import type { ClimbingLog } from '../types/climbingLog';
+import type { ClimbingSession, TrendTimeframe } from '../types/climbingSession';
+import {
+  computeStandoutTrends,
+  durationTrend,
+  sessionsInTimeframe,
+  warmUpTrend,
+} from '../utils/sessionUtils';
 
-export function TrendSummary({ logs }: { logs: ClimbingLog[] }) {
-  const total = logs.length;
-  const sends = logs.filter((log) => log.outcome === 'send' || log.outcome === 'flash').length;
-  const working = logs.filter((log) => log.outcome === 'working' || log.outcome === 'project').length;
-
-  const byLocation = logs.reduce<Record<string, number>>((acc, log) => {
-    acc[log.locationName] = (acc[log.locationName] ?? 0) + 1;
-    return acc;
-  }, {});
-
-  const byLevel = logs.reduce<Record<string, { count: number; color: string }>>((acc, log) => {
-    const current = acc[log.levelName] ?? { count: 0, color: log.levelColor };
-    acc[log.levelName] = { count: current.count + 1, color: log.levelColor };
-    return acc;
-  }, {});
-
-  const topLocation = Object.entries(byLocation).sort((a, b) => b[1] - a[1])[0];
-
-  if (total === 0) {
-    return (
-      <WireframeBox>
-        <Text style={{ fontWeight: '700' }}>No climbs logged yet</Text>
-        <Text>Log a climb to see trends here.</Text>
-      </WireframeBox>
-    );
+function MiniBars({ data, unit }: { data: { label: string; value: number }[]; unit?: string }) {
+  const max = Math.max(...data.map((d) => d.value), 1);
+  if (!data.length) {
+    return <Text style={{ color: '#666' }}>No data in this timeframe.</Text>;
   }
+  return (
+    <View style={{ gap: 6 }}>
+      {data.map((item) => (
+        <View key={item.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Text style={{ width: 36, fontSize: 12, color: '#666' }}>{item.label}</Text>
+          <View
+            style={{
+              flex: 1,
+              height: 14,
+              backgroundColor: '#EEE',
+              borderRadius: 4,
+              overflow: 'hidden',
+            }}
+          >
+            <View
+              style={{
+                width: `${(item.value / max) * 100}%`,
+                height: '100%',
+                backgroundColor: '#111',
+              }}
+            />
+          </View>
+          <Text style={{ width: 40, fontSize: 12, textAlign: 'right' }}>
+            {item.value}
+            {unit ?? ''}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+export function DashboardTrends({
+  sessions,
+  timeframe,
+  onTimeframeChange,
+}: {
+  sessions: ClimbingSession[];
+  timeframe: TrendTimeframe;
+  onTimeframeChange: (t: TrendTimeframe) => void;
+}) {
+  const scoped = sessionsInTimeframe(sessions, timeframe);
+  const durationData = durationTrend(sessions, timeframe);
+  const warmUpData = warmUpTrend(sessions, timeframe);
+  const standouts = computeStandoutTrends(sessions, timeframe);
+
+  const difficultyCounts = scoped.reduce<Record<string, number>>((acc, session) => {
+    session.climbs.forEach((climb) => {
+      const key = climb.levelName ?? 'Unknown';
+      acc[key] = (acc[key] ?? 0) + 1;
+    });
+    return acc;
+  }, {});
+  const difficultyData = Object.entries(difficultyCounts).map(([label, value]) => ({ label, value }));
+
+  const timeframeLabel =
+    timeframe === 'week' ? 'Week' : timeframe === 'month' ? 'Month' : '3 months';
 
   return (
-    <>
-      <WireframeSection title="Summary">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-          <StatChip label="Total climbs" value={String(total)} />
-          <StatChip label="Sends / flashes" value={String(sends)} />
-          <StatChip label="Projects" value={String(working)} />
-          {topLocation ? (
-            <StatChip label="Top location" value={`${topLocation[0]} (${topLocation[1]})`} />
-          ) : null}
-        </View>
-      </WireframeSection>
-
-      <WireframeSection title="By difficulty level">
-        <View style={{ gap: 8 }}>
-          {Object.entries(byLevel).map(([name, data]) => (
-            <View key={name} style={{ gap: 4 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <View
-                    style={{
-                      width: 12,
-                      height: 12,
-                      borderRadius: 3,
-                      backgroundColor: data.color,
-                    }}
-                  />
-                  <Text>{name}</Text>
-                </View>
-                <Text>{data.count}</Text>
-              </View>
-              <View
+    <WireframeSection title="Trends">
+      <WireframeBox>
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          {(['week', 'month', '3months'] as TrendTimeframe[]).map((t) => (
+            <Pressable key={t} onPress={() => onTimeframeChange(t)}>
+              <Text
                 style={{
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: '#EEE',
-                  overflow: 'hidden',
+                  fontWeight: timeframe === t ? '700' : '400',
+                  textDecorationLine: timeframe === t ? 'underline' : 'none',
                 }}
               >
-                <View
-                  style={{
-                    width: `${Math.min(100, (data.count / total) * 100)}%`,
-                    height: '100%',
-                    backgroundColor: data.color,
-                  }}
-                />
-              </View>
-            </View>
+                {t === 'week' ? 'Week' : t === 'month' ? 'Month' : '3 mo'}
+              </Text>
+            </Pressable>
           ))}
         </View>
-      </WireframeSection>
-    </>
+        <Text style={{ color: '#666', fontSize: 13 }}>Showing {timeframeLabel.toLowerCase()} view</Text>
+      </WireframeBox>
+
+      <WireframeBox>
+        <Text style={{ fontWeight: '700' }}>Session duration</Text>
+        <MiniBars data={durationData} unit="m" />
+      </WireframeBox>
+
+      <WireframeBox>
+        <Text style={{ fontWeight: '700' }}>Difficulty trend</Text>
+        <MiniBars data={difficultyData} />
+      </WireframeBox>
+
+      <WireframeBox>
+        <Text style={{ fontWeight: '700' }}>Warm-up climb count</Text>
+        <MiniBars data={warmUpData} />
+      </WireframeBox>
+
+      {standouts.length ? (
+        <WireframeBox>
+          <Text style={{ fontWeight: '700' }}>Standout climbs</Text>
+          {standouts.map((t) => (
+            <Text key={t.label}>
+              🎉 {t.label}: {t.detail}
+            </Text>
+          ))}
+        </WireframeBox>
+      ) : null}
+    </WireframeSection>
   );
 }
 
-function StatChip({ label, value }: { label: string; value: string }) {
-  return (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: '#CCC',
-        borderRadius: 8,
-        padding: 10,
-        minWidth: 120,
-        gap: 4,
-      }}
-    >
-      <Text style={{ color: '#666', fontSize: 13 }}>{label}</Text>
-      <Text style={{ fontWeight: '700' }}>{value}</Text>
-    </View>
-  );
-}
+export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
+  const tagCounts = sessions.reduce<Record<string, number>>((acc, session) => {
+    session.climbs.forEach((climb) => {
+      climb.tags.forEach((tag) => {
+        acc[tag] = (acc[tag] ?? 0) + 1;
+      });
+    });
+    return acc;
+  }, {});
+  const topTags = Object.entries(tagCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([label, value]) => ({ label, value }));
 
-export function LogSummaryRow({ log }: { log: ClimbingLog }) {
+  const flashCount = sessions.reduce(
+    (n, s) =>
+      n +
+      s.climbs.filter((c) => c.attempts.some((a) => a.progress.includes('flash'))).length,
+    0,
+  );
+
   return (
-    <View style={{ gap: 4 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-        <View
-          style={{
-            width: 12,
-            height: 12,
-            borderRadius: 3,
-            backgroundColor: log.levelColor,
-          }}
-        />
-        <Text style={{ fontWeight: '700', flex: 1 }}>
-          {log.routeName || log.levelName}
-        </Text>
-        <Text style={{ textTransform: 'capitalize' }}>{log.outcome}</Text>
-      </View>
-      <Text style={{ color: '#666' }}>
-        {log.date} · {log.locationName}
-      </Text>
-    </View>
+    <WireframeSection title="Community trends">
+      <WireframeBox>
+        <Text>Public sessions this week: {sessions.length}</Text>
+        <Text>Total flashes logged: {flashCount}</Text>
+        {topTags.length ? (
+          <>
+            <Text style={{ fontWeight: '700', marginTop: 4 }}>Popular tags</Text>
+            <MiniBars data={topTags} />
+          </>
+        ) : null}
+      </WireframeBox>
+    </WireframeSection>
   );
 }
