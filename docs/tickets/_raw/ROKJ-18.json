@@ -1,0 +1,624 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10030",
+  "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10030",
+  "key": "ROKJ-18",
+  "fields": {
+    "statuscategorychangedate": "2026-07-04T15:24:10.454+1000",
+    "issuetype": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10003",
+      "id": "10003",
+      "description": "Tasks track small, distinct pieces of work.",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+      "name": "General task",
+      "subtask": false,
+      "avatarId": 10318,
+      "entityId": "4b1871ed-0f2b-4b3a-8d10-0702e4b2ebb6",
+      "hierarchyLevel": 0
+    },
+    "parent": {
+      "id": "10000",
+      "key": "ROKJ-1",
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10000",
+      "fields": {
+        "summary": "MVP mobile app prototype",
+        "status": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10001",
+          "description": "This work item is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+          "name": "In Progress",
+          "id": "10001",
+          "statusCategory": {
+            "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+          "name": "Medium",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10001",
+          "id": "10001",
+          "description": "A collection of related bugs, stories, and tasks.",
+          "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+          "name": "Epic",
+          "subtask": false,
+          "avatarId": 10307,
+          "entityId": "33c3cc72-88ac-4f47-baa7-f25e2eab1f7a",
+          "hierarchyLevel": 1
+        }
+      }
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/project/10000",
+      "id": "10000",
+      "key": "ROKJ",
+      "name": "Rokjam",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413",
+        "24x24": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=small",
+        "16x16": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=xsmall",
+        "32x32": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=medium"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "statusCategory": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+      "id": 4,
+      "key": "indeterminate",
+      "colorName": "yellow",
+      "name": "In Progress"
+    },
+    "resolution": null,
+    "customfield_10036": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-18/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "lastViewed": "2026-07-04T15:06:37.328+1000",
+    "created": "2026-05-10T14:04:39.423+1000",
+    "customfield_10063": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "All required fields are complete"
+                }
+              ],
+              "attrs": {
+                "localId": "9eecfa3c-d0b0-494c-8d57-6d3dafd9f8e1",
+                "state": "TODO"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Task is linked to other work"
+                }
+              ],
+              "attrs": {
+                "localId": "6edaadda-6639-4c51-b107-2ddd9d807996",
+                "state": "TODO"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Follow on requests created (optional)"
+                }
+              ],
+              "attrs": {
+                "localId": "73f667b3-776f-4ca7-8a12-674546fbc111",
+                "state": "TODO"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "05cbc44a-5c2b-4a7e-a8a2-f7ea40836d3f"
+          }
+        },
+        {
+          "type": "paragraph"
+        }
+      ]
+    },
+    "customfield_10020": [
+      {
+        "id": 1,
+        "name": "Stage 1",
+        "state": "future",
+        "boardId": 1,
+        "goal": ""
+      }
+    ],
+    "customfield_10021": null,
+    "priority": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+      "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "labels": [],
+    "customfield_10016": null,
+    "customfield_10019": "0|i0000t:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [
+      {
+        "id": "10004",
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLink/10004",
+        "type": {
+          "id": "10000",
+          "name": "Blocks",
+          "inward": "is blocked by",
+          "outward": "blocks",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLinkType/10000"
+        },
+        "outwardIssue": {
+          "id": "10034",
+          "key": "ROKJ-20",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10034",
+          "fields": {
+            "summary": "Refactor and link prototype flows",
+            "status": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10000",
+              "description": "",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+              "name": "To Do",
+              "id": "10000",
+              "statusCategory": {
+                "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "To Do"
+              }
+            },
+            "priority": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+              "name": "Medium",
+              "id": "3"
+            },
+            "issuetype": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10009",
+              "id": "10009",
+              "description": "",
+              "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10569?size=medium",
+              "name": "Dev task",
+              "subtask": false,
+              "avatarId": 10569,
+              "entityId": "f5066bf8-b3bb-4383-9524-a6a34d5c1859",
+              "hierarchyLevel": 0
+            }
+          }
+        }
+      }
+    ],
+    "assignee": null,
+    "updated": "2026-07-04T15:26:57.338+1000",
+    "status": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10005",
+      "description": "",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/",
+      "name": "Review",
+      "id": "10005",
+      "statusCategory": {
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "## Prototype\n\nDashboard trends section with configurable timeframe.\n\n**Route:** `/dashboard` (Trends section below recent sessions)\n\n**Local web:** http://localhost:8081/dashboard\n\n**Default:** Month view; switchable to week or 3 months\n\n**Scenarios:** http://localhost:8081/scenarios (ROKJ-18 section)",
+    "customfield_10055": null,
+    "customfield_10057": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Default to month time frame"
+                }
+              ],
+              "attrs": {
+                "localId": "c5a26f58-ba33-4773-bd6e-5c6fb98f2acd",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "user can change the time frame"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "ffa20974-1d39-416a-8163-f8800a5c91fa",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "37f1e8c4-f7f8-46f2-9e92-f870359968af"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Session duration trend"
+                }
+              ],
+              "attrs": {
+                "localId": "bc00be6f-d493-4614-94ea-dce01d2cc3c9",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Difficulty trend"
+                }
+              ],
+              "attrs": {
+                "localId": "bb1bf998-753f-4cfe-8220-03f1d2df074a",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Celebrate standout climbs"
+                }
+              ],
+              "attrs": {
+                "localId": "d0c25196-985e-4c63-9555-d0de3e55ba67",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Warm up climb count trend"
+                }
+              ],
+              "attrs": {
+                "localId": "85915137-7285-4241-ac52-703400d62dec",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Auto pull any other stand out trends"
+                }
+              ],
+              "attrs": {
+                "localId": "4553ff20-a440-44d9-b931-dceb1748da5b",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "e.g. first dyno sent, first Orange difficulty climb sent"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "0e62290d-43c4-414d-b1b2-aba2a1afb0f4",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Most attempted climb (your latest project)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "5a18bc3c-06c7-4531-91c3-c3d631e00527",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Most difficult flashed climb"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "3aa5f040-12f6-4fcd-a0ca-0279b14cda53",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "9f46d22c-6724-4f25-b9e5-4762e7a43975"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "49b6c20a-129a-43e9-a6f7-61daa70c3db7"
+          }
+        },
+        {
+          "type": "paragraph",
+          "attrs": {
+            "localId": "390ec8fae6b7"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "consider complex error handling and variety of user scenarios"
+                }
+              ],
+              "attrs": {
+                "localId": "12a1f076-2cb5-4630-8e3f-ec4d78520959",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "140cdebb-2af5-4b36-9ee6-b9a9e6bf56d1"
+          }
+        }
+      ]
+    },
+    "timetracking": {},
+    "customfield_10015": null,
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "summary": "Flow | Prototype wireframe | Dashboard trends",
+    "creator": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "customfield_10042": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "decisionList",
+          "content": [
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Timeframe:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " Week / Month (default) / 3 months"
+                }
+              ],
+              "attrs": {
+                "localId": "dt18-time",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "No sessions in range → charts show empty state"
+                }
+              ],
+              "attrs": {
+                "localId": "dt18-empty",
+                "state": "DECIDED"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "ef203a6c-af9a-4aaa-9fcf-8b31d417f56a"
+          }
+        }
+      ]
+    },
+    "reporter": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10045": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "What was delivered"
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Trends section on dashboard: duration, difficulty, warm-up count bar charts"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Standout climbs: first dyno, first orange send, most attempted project, hardest flash"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Default month timeframe; user can switch week or 3 months"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Test: http://localhost:8081/dashboard (demo sessions auto-seed)"
+            }
+          ]
+        }
+      ]
+    },
+    "customfield_10001": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-18/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [],
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10030/comment",
+      "maxResults": 0,
+      "total": 0,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}

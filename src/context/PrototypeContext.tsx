@@ -59,6 +59,7 @@ type PrototypeContextValue = {
   updateClimb: (sessionId: string, climbId: string, patch: Partial<SessionClimb>) => void;
   removeClimb: (sessionId: string, climbId: string) => void;
   seedDemoSessions: () => void;
+  seedDemoProfileOnly: () => void;
   toggleFollowUser: (username: string) => void;
   resetSession: () => void;
 };
@@ -301,6 +302,14 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
         }
         if (!username) setUsername('member');
         setSessions(createDemoSessions(demoLocation.id, demoLocation.name));
+      },
+      seedDemoProfileOnly: () => {
+        const demoLocation = createDemoLocation();
+        setLocations([demoLocation]);
+        setProfileComplete(true);
+        setProfileSkipped(false);
+        if (!username) setUsername('member');
+        setSessions([]);
       },
       toggleFollowUser: (user) => {
         setFollowedUsers((current) =>

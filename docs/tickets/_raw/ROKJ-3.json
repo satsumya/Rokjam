@@ -1,0 +1,1007 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10004",
+  "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10004",
+  "key": "ROKJ-3",
+  "fields": {
+    "statuscategorychangedate": "2026-06-20T14:01:35.934+1000",
+    "issuetype": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10003",
+      "id": "10003",
+      "description": "Tasks track small, distinct pieces of work.",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+      "name": "General task",
+      "subtask": false,
+      "avatarId": 10318,
+      "entityId": "4b1871ed-0f2b-4b3a-8d10-0702e4b2ebb6",
+      "hierarchyLevel": 0
+    },
+    "parent": {
+      "id": "10000",
+      "key": "ROKJ-1",
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10000",
+      "fields": {
+        "summary": "MVP mobile app prototype",
+        "status": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10001",
+          "description": "This work item is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+          "name": "In Progress",
+          "id": "10001",
+          "statusCategory": {
+            "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+          "name": "Medium",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10001",
+          "id": "10001",
+          "description": "A collection of related bugs, stories, and tasks.",
+          "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+          "name": "Epic",
+          "subtask": false,
+          "avatarId": 10307,
+          "entityId": "33c3cc72-88ac-4f47-baa7-f25e2eab1f7a",
+          "hierarchyLevel": 1
+        }
+      }
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/project/10000",
+      "id": "10000",
+      "key": "ROKJ",
+      "name": "Rokjam",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413",
+        "24x24": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=small",
+        "16x16": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=xsmall",
+        "32x32": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=medium"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "statusCategory": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+      "id": 4,
+      "key": "indeterminate",
+      "colorName": "yellow",
+      "name": "In Progress"
+    },
+    "resolution": null,
+    "customfield_10036": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-3/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "lastViewed": "2026-07-04T15:51:51.581+1000",
+    "created": "2026-05-09T19:07:35.538+1000",
+    "customfield_10063": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "All required fields are complete"
+                }
+              ],
+              "attrs": {
+                "localId": "84e25cd6-43da-4572-88f4-e76ed9f40a8f",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Task is linked to other work"
+                }
+              ],
+              "attrs": {
+                "localId": "5b200a41-45a9-4f25-8662-12fbc6d017c7",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Follow on requests created (optional)"
+                }
+              ],
+              "attrs": {
+                "localId": "06de21da-c848-41c6-8565-57e9e9350d5d",
+                "state": "TODO"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "c96410aa-5927-4c00-b681-539d49ee6386"
+          }
+        }
+      ]
+    },
+    "customfield_10020": [
+      {
+        "id": 1,
+        "name": "Stage 1",
+        "state": "future",
+        "boardId": 1,
+        "goal": ""
+      }
+    ],
+    "customfield_10021": null,
+    "priority": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+      "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "labels": [],
+    "customfield_10016": null,
+    "customfield_10019": "0|i0000f:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [
+      {
+        "id": "10000",
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLink/10000",
+        "type": {
+          "id": "10000",
+          "name": "Blocks",
+          "inward": "is blocked by",
+          "outward": "blocks",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLinkType/10000"
+        },
+        "outwardIssue": {
+          "id": "10034",
+          "key": "ROKJ-20",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10034",
+          "fields": {
+            "summary": "Refactor and link prototype flows",
+            "status": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10000",
+              "description": "",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+              "name": "To Do",
+              "id": "10000",
+              "statusCategory": {
+                "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "To Do"
+              }
+            },
+            "priority": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+              "name": "Medium",
+              "id": "3"
+            },
+            "issuetype": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10009",
+              "id": "10009",
+              "description": "",
+              "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10569?size=medium",
+              "name": "Dev task",
+              "subtask": false,
+              "avatarId": 10569,
+              "entityId": "f5066bf8-b3bb-4383-9524-a6a34d5c1859",
+              "hierarchyLevel": 0
+            }
+          }
+        }
+      }
+    ],
+    "assignee": null,
+    "updated": "2026-07-04T15:14:56.611+1000",
+    "status": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10005",
+      "description": "",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/",
+      "name": "Review",
+      "id": "10005",
+      "statusCategory": {
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "Clickable white-label wireframe for the sign up/login user journey.\n\n**Parent epic:** ROKJ-1 | **Stage:** Stage 1 | **Stack:** Expo + React Native\n\n## Prototype links (run locally first)\n\n1. In the Rokjam repo: `npm install && npm run web`\n2. Open the **scenario tester** (all review paths in one place):\n\n    * http://localhost:8081/scenarios\n    \n3. Or use direct scenario links:\n\n| Scenario | Link |\n| --- | --- |\n| Scenario tester (recommended) | http://localhost:8081/scenarios |\n| App welcome | http://localhost:8081/ |\n| Sign up | http://localhost:8081/auth/signup |\n| Verify email (code) | http://localhost:8081/auth/verify-email |\n| Log in | http://localhost:8081/auth/login |\n| Forgot password | http://localhost:8081/auth/forgot-password |\n\n**Mock credentials:** `returning.user@example.com` or `alex_climber` / `Password1!`\n\n**Expo Go:** run `npm start` and scan the QR code, then open **Scenario tester** from the welcome screen.\n\n**Out of scope:** Real auth, branding/design system (ROKJ-5)",
+    "customfield_10055": null,
+    "customfield_10057": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Sign up/login with:"
+                }
+              ],
+              "attrs": {
+                "localId": "c488901f-678c-4f40-8063-7f8d10c8cd0b",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Input field for email"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "59fa705e-0891-4b90-aadc-428fd0ce8dcd",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Input field for password"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "fe771ca2-cf8c-4b56-b75f-fdc4d702e940",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "b381fd06-f170-4ec7-8ef6-eb5edbec9767"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Need to verify email"
+                }
+              ],
+              "attrs": {
+                "localId": "44f2b835-ac73-4bca-98ab-8d9b4bef381a",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Ability to switch between sign up/login"
+                }
+              ],
+              "attrs": {
+                "localId": "051ab870-2110-4372-903d-3c305fba0959",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "06ed083a-c8dd-4489-841e-4bc933c89a80"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Sign up flow"
+            }
+          ],
+          "attrs": {
+            "localId": "5ad6e5b1337d"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Error handling"
+                }
+              ],
+              "attrs": {
+                "localId": "fa2b3579-efce-4d94-aad2-336bf3db56c1",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Sign up and then show a welcome page before continuing to create a member profile"
+                }
+              ],
+              "attrs": {
+                "localId": "05f828ea-9217-4227-9ff0-b350f8f52ad0",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "88e0aea9-675f-4018-ae81-d9ec28d7d004"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Login flow"
+            }
+          ],
+          "attrs": {
+            "localId": "1699454de853"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Returning user"
+                }
+              ],
+              "attrs": {
+                "localId": "2be5523d-a642-4f44-b804-e168e4830bc7",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Error handling"
+                }
+              ],
+              "attrs": {
+                "localId": "76d9d634-a5a3-41c2-aa1a-8d9e1e14b4ca",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Login enter details and land on dashboard"
+                }
+              ],
+              "attrs": {
+                "localId": "99b211f1-6a03-47eb-a182-d409f2c7eb7f",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "ab0ae22d-6163-48e2-baa9-f6755fbd9f24"
+          }
+        }
+      ]
+    },
+    "timetracking": {},
+    "customfield_10015": null,
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "summary": "Flow | Prototype wireframe | Sign up/login",
+    "creator": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "customfield_10042": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "decisionList",
+          "content": [
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Prototype format: local Expo app"
+                }
+              ],
+              "attrs": {
+                "localId": "d1b08e43-9dc9-4b3f-a984-dff795752291",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Email verification:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " 6-digit code input (000000 = error)"
+                }
+              ],
+              "attrs": {
+                "localId": "024f62b2-5994-45e8-b0b9-c255e68fb84f",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Post sign-up routing:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " verify → welcome (skippable) → profile setup or dashboard"
+                }
+              ],
+              "attrs": {
+                "localId": "3a0ee251-9799-4424-be22-65d7afd05077",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Post login routing:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " dashboard for returning users"
+                }
+              ],
+              "attrs": {
+                "localId": "8f5b3cb8-c9cf-467d-91c9-e84e602ec53d",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Error handling:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " real-time inline validation"
+                }
+              ],
+              "attrs": {
+                "localId": "85ce9379-2a78-45e7-9039-a559a18fdcff",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Password recovery:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " forgot password → reset password flow"
+                }
+              ],
+              "attrs": {
+                "localId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Existing user sign up:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " redirect to login for known email"
+                }
+              ],
+              "attrs": {
+                "localId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+                "state": "DECIDED"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "94e7f880-0013-4eab-b541-5ed64920df01"
+          }
+        }
+      ]
+    },
+    "reporter": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10045": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "What was delivered"
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Sign up with real-time email/password validation and password standards"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "6-digit verification code screen with resend + change email"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Login with email or username; forgot/reset password flow"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Welcome screen with skip/close to dashboard; dashboard profile prompt"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Scenario tester at /scenarios"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Review feedback addressed"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "All 11 review items from comment 10011 have been implemented in the prototype."
+            }
+          ]
+        },
+        {
+          "type": "orderedList",
+          "attrs": {
+            "order": 1
+          },
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Sign up fields default blank (no prefill)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Real-time validation on email/password"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Password standards enforced (8+ chars, number, symbol) with live checklist"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Verification code input — 000000 fails, any other 6-digit code succeeds"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Resend code + change email links on verify screen"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Existing user sign up redirects to login"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Removed prototype eyebrow/subtitle text from user-facing screens"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Welcome screen has close/skip to dashboard; dashboard prompts profile completion"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Login accepts email or username"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Email format validation (must include @)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Forgot password to reset password flow added"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Test: npm start or npm run web, then http://localhost:8081/scenarios"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Mock credentials: returning.user@example.com or alex_climber / Password1!"
+            }
+          ]
+        }
+      ]
+    },
+    "customfield_10001": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-3/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [
+        {
+          "id": "10000",
+          "body": "**Starting Stage 1 development** (clickable Expo prototype, white-label wireframes).\n\nRead acceptance criteria from this ticket + epic [ROKJ-1](https://satsumya.atlassian.net/browse/ROKJ-1). Assumptions for prototype:\n\n* Email verification = mock screen (tap Continue)\n* Error handling = inline messages when fields empty\n* Sign up path: auth → verify email → welcome → [ROKJ-15](https://satsumya.atlassian.net/browse/ROKJ-15) profile → dashboard placeholder\n* Login path: auth → dashboard placeholder\n* No real auth/backend\n\nRepo: local `Rokjam` workspace. Will update this ticket as criteria are completed.",
+          "created": "2026-06-20T14:01:30.964+1000",
+          "updated": "2026-06-20T14:01:30.964+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10003",
+          "body": "**Implementation complete — ready for review**\n\nAll acceptance criteria marked complete. Local Expo prototype covers sign up/login journeys per ticket.\n\n**Test paths:**\n\n1. Welcome → Sign up → (empty submit shows errors) → fill fields → Verify email → Welcome → Profile\n2. Welcome → Log in → (empty submit shows errors) → fill fields → Dashboard\n3. Toggle between sign up/login links on auth screens\n\n**Run locally:** `npm install && npm start`",
+          "created": "2026-06-20T14:05:28.009+1000",
+          "updated": "2026-06-20T14:05:28.009+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10005",
+          "body": "Added prototype test links to the ticket description, populated the **Decision tree**, and reformatted **Outcome summary** as bullets + scenario table.\n\nAlso added `/scenarios` in the app — a scenario tester with one-click paths for happy / alternate / error flows.\n\nStart locally with `npm run web`, then open http://localhost:8081/scenarios",
+          "created": "2026-06-20T14:15:16.196+1000",
+          "updated": "2026-06-20T14:15:16.196+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10011",
+          "body": "Review: <custom data-type=\"status\" data-id=\"id-0\">not approved</custom> \n\nPlease address the following:\n\n|  | **Summary** | **Description** |\n| --- | --- | --- |\n| 1 | New user sign up default to blank input fields | New users would not have added any details please leave everything that would be expected to be blank as blank |\n| 2 | Input errors | Error validation should happen in real time instead of waiting until the user tries to continue |\n| 3 | Password standards | Add standards for passwords e.g. use at least one symbol etc |\n| 4 | Verification code | Let’s have users enter a code instead of clicking a link in an email. For testing purposes please make code: 000000 an error and every other number combination successfully verify |\n| 5 | Verification resend | If a user hasn’t received the code we’ll need a way for them to re-send the email or go back to try a different email |\n| 6 | Scenario for existing user attempts to sign up instead of login | If an email is recognised for an existing user and they try and sign up we could just log them in or redirect them to login |\n| 7 | Remove excess prototype text | Some text on this ticket was added for context but not needed on the prototype e.g. “Returning user enters details and lands on the dashboard.” Please remove any text that a user wouldn’t expect to see |\n| 8 | Sign up welcome screen | Needs an option to close. If they don’t want to jump straight into the member profile take them to the dashboard. Dashboard should then show prompts to create member profile or directly add some details from the dashboard |\n| 9 | Login with username or email | Ensure existing users can use their username or email in the input field |\n| 10 | Email validation | If a user enters an email that isn’t valid e.g. doesn’t have an '@' symbol they should see an error |\n| 11 | Password recovery for existing users | There needs to be an option to reset your password or recover your password |\n\nGeneral feedback: please use the existing ticket fields where possible e.g. decision tree and outcome summary. I’ve moved these from comments to the ticket fields",
+          "created": "2026-06-20T15:13:39.027+1000",
+          "updated": "2026-06-20T15:26:22.371+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10015",
+          "body": "**Status check:** Wireframe is ready for review from last session.\n\n* Status: Review\n* Acceptance criteria: all marked DONE\n* Decision tree + Outcome summary fields updated (review feedback from comments 10011 / 10013)\n* Test: http://localhost:8081/scenarios\n\nJira MCP re-authenticated this session — no code changes needed on this ticket.",
+          "created": "2026-07-04T15:14:56.611+1000",
+          "updated": "2026-07-04T15:14:56.611+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        }
+      ],
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10004/comment",
+      "maxResults": 5,
+      "total": 5,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}

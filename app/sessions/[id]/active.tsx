@@ -2,28 +2,30 @@ import { useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import {
-  ClimbAtGlance,
-  ClimbEditor,
-  ShareMockBanner,
-} from '../../../src/components/SessionClimb';
+import { ClimbEditor } from '../../../src/components/SessionClimb';
+import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
+import { SessionLocationPanel } from '../../../src/components/SessionLocationPanel';
 import {
   WireframeBox,
+  WireframeBottomSheet,
   WireframeButton,
   WireframeField,
   WireframeLink,
   WireframeScreen,
   WireframeSection,
 } from '../../../src/components/Wireframe';
+import { TAKEN_USERNAMES } from '../../../src/constants/mockData';
 import { usePrototype } from '../../../src/context/PrototypeContext';
-import type { SessionClimb, SessionSort } from '../../../src/types/climbingSession';
-import { CLIMB_TAG_SUGGESTIONS } from '../../../src/types/climbingSession';
+import type { SessionClimb } from '../../../src/types/climbingSession';
 import {
   computeDurationMinutes,
-  filterClimbs,
+  DURATION_PRESETS,
+  END_TIME_PRESETS,
+  formatSessionDate,
   nowTimeLabel,
-  sortClimbs,
+  todayIso,
 } from '../../../src/utils/sessionUtils';
+import { getUsernameError } from '../../../src/utils/validation';
 
 const emptyClimb = (): SessionClimb => ({
   id: 'draft',
@@ -36,51 +38,40 @@ const emptyClimb = (): SessionClimb => ({
 });
 
 export default function ActiveSessionScreen() {
-  const { id, demo } = useLocalSearchParams<{ id: string; demo?: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const {
     sessions,
     locations,
     username,
     setUsername,
+    profileComplete,
+    profileSkipped,
     updateSession,
     completeSession,
     addClimb,
     updateClimb,
-    removeClimb,
-    addLocation,
   } = usePrototype();
 
   const session = sessions.find((s) => s.id === id);
   const location = locations.find((l) => l.id === session?.locationId) ?? locations[0];
+  const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
 
-  const [sort, setSort] = useState<SessionSort>('order');
-  const [search, setSearch] = useState('');
-  const [filterDifficulty, setFilterDifficulty] = useState('');
-  const [filterTag, setFilterTag] = useState('');
-  const [hideWarmUp, setHideWarmUp] = useState(false);
-  const [hideRepeat, setHideRepeat] = useState(false);
   const [editingClimbId, setEditingClimbId] = useState<string | null>(null);
   const [draftClimb, setDraftClimb] = useState<SessionClimb | null>(null);
-  const [showEndPanel, setShowEndPanel] = useState(false);
+  const [showEndSheet, setShowEndSheet] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const [endTime, setEndTime] = useState('');
-  const [durationInput, setDurationInput] = useState('');
-  const [usernameInput, setUsernameInput] = useState(username);
-  const [usernameError, setUsernameError] = useState('');
-  const [shareVisible, setShareVisible] = useState(false);
-  const [newLocationName, setNewLocationName] = useState('');
+  const [durationMinutes, setDurationMinutes] = useState<number | undefined>();
+  const [usernameInput, setUsernameInput] = useState('');
+  const [usernameTouched, setUsernameTouched] = useState(false);
+  const [climbPrompt, setClimbPrompt] = useState('');
 
-  const filteredClimbs = useMemo(() => {
-    if (!session) return [];
-    const sorted = sortClimbs(session.climbs, sort, location?.levels ?? []);
-    return filterClimbs(sorted, {
-      search,
-      difficultyId: filterDifficulty || undefined,
-      tag: filterTag || undefined,
-      hideWarmUp,
-      hideRepeat,
-    });
-  }, [session, sort, location, search, filterDifficulty, filterTag, hideWarmUp, hideRepeat]);
+  const usernameError = useMemo(() => {
+    if (!isPublic || username.trim()) return undefined;
+    if (!usernameTouched && !usernameInput.trim()) return undefined;
+    if (!usernameInput.trim()) return 'Username is required for public sessions';
+    return getUsernameError(usernameInput, TAKEN_USERNAMES);
+  }, [isPublic, username, usernameInput, usernameTouched]);
 
   if (!session) {
     return (
@@ -101,6 +92,7 @@ export default function ActiveSessionScreen() {
   };
 
   const startAdd = () => {
+    setClimbPrompt('');
     setEditingClimbId('new');
     setDraftClimb(emptyClimb());
   };
@@ -118,111 +110,153 @@ export default function ActiveSessionScreen() {
   };
 
   const endSession = () => {
-    if (isPublic && !usernameInput.trim()) {
-      setUsernameError('Username required for public sessions');
-      return;
-    }
-    if (isPublic && usernameInput.trim()) {
+    if (isPublic && !username.trim()) {
+      setUsernameTouched(true);
+      if (!usernameInput.trim() || usernameError) return;
       setUsername(usernameInput.trim());
     }
     const resolvedEnd = endTime || nowTimeLabel();
-    const duration = durationInput
-      ? Number(durationInput)
-      : computeDurationMinutes(session.startTime, resolvedEnd);
+    const duration =
+      durationMinutes ?? computeDurationMinutes(session.startTime, resolvedEnd);
     completeSession(session.id, {
       endTime: resolvedEnd,
       durationMinutes: duration,
       isPublic,
-      ownerUsername: usernameInput.trim() || username,
+      ownerUsername: username.trim() || usernameInput.trim() || 'member',
     });
     router.replace(`/sessions/${session.id}`);
-  };
-
-  const addLocationNow = () => {
-    if (!newLocationName.trim()) return;
-    const locId = addLocation(newLocationName.trim());
-    updateSession(session.id, {
-      locationId: locId,
-      locationName: newLocationName.trim(),
-    });
-    setNewLocationName('');
   };
 
   return (
     <WireframeScreen
       title="Climbing session"
+      headerRight={
+        <Pressable onPress={() => router.replace('/dashboard')}>
+          <Text style={{ fontSize: 15, textDecorationLine: 'underline' }}>Dashboard</Text>
+        </Pressable>
+      }
       footer={
         <>
           <WireframeButton label="Add climb" onPress={startAdd} />
           <WireframeButton
             label="Save / end session"
             variant="secondary"
-            onPress={() => setShowEndPanel(true)}
-          />
-          <WireframeButton
-            label="Share session"
-            variant="ghost"
-            onPress={() => setShareVisible(true)}
+            onPress={() => {
+              setEndTime(endTime || nowTimeLabel());
+              setShowEndSheet(true);
+            }}
           />
         </>
       }
-    >
-      <ShareMockBanner visible={shareVisible} />
+      overlay={
+        <WireframeBottomSheet
+          visible={showEndSheet}
+          title="Save / end session"
+          onClose={() => setShowEndSheet(false)}
+        >
+          <View style={{ gap: 4 }}>
+            <Pressable onPress={() => setIsPublic(false)}>
+              <Text>{!isPublic ? '●' : '○'} Private</Text>
+            </Pressable>
+            <Pressable onPress={() => setIsPublic(true)}>
+              <Text>{isPublic ? '●' : '○'} Public</Text>
+            </Pressable>
+          </View>
 
-      <WireframeSection title="Session details">
-        <WireframeField
-          label="Date"
-          value={session.date}
-          onChangeText={(date) => updateSession(session.id, { date })}
-        />
-        {locations.length === 0 || demo === 'no-location' ? (
-          <WireframeBox>
-            <Text style={{ fontWeight: '700' }}>No location on profile</Text>
-            <Text>Add a location now to log climbs with difficulty levels.</Text>
+          {isPublic && !username.trim() ? (
             <WireframeField
-              label="Location name"
-              value={newLocationName}
-              onChangeText={setNewLocationName}
-              placeholder="Search or enter gym name"
+              label="Username"
               required
+              value={usernameInput}
+              onChangeText={(v) => {
+                setUsernameInput(v);
+                setUsernameTouched(true);
+              }}
+              error={usernameError}
+              placeholder="Required for public sessions"
             />
-            <WireframeButton label="Add location now" onPress={addLocationNow} />
-          </WireframeBox>
-        ) : (
-          <View style={{ gap: 6 }}>
-            <Text style={{ fontWeight: '600' }}>Location</Text>
-            {locations.map((loc) => (
-              <Pressable
-                key={loc.id}
-                onPress={() =>
-                  updateSession(session.id, { locationId: loc.id, locationName: loc.name })
-                }
-              >
-                <Text style={{ fontWeight: session.locationId === loc.id ? '700' : '400' }}>
-                  {loc.isHome ? '🏠 ' : ''}
-                  {loc.name}
+          ) : isPublic && username.trim() ? (
+            <Text>Sharing as {username}</Text>
+          ) : null}
+
+          <Text style={{ fontWeight: '600' }}>End time</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+            {END_TIME_PRESETS.map((preset) => (
+              <Pressable key={preset} onPress={() => setEndTime(preset)}>
+                <Text
+                  style={{
+                    borderWidth: 1,
+                    borderColor: endTime === preset ? '#111' : '#CCC',
+                    borderRadius: 12,
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                  }}
+                >
+                  {preset}
                 </Text>
               </Pressable>
             ))}
           </View>
-        )}
+          <WireframeField label="End time" value={endTime} onChangeText={setEndTime} placeholder="HH:MM" />
+
+          <Text style={{ fontWeight: '600' }}>Duration</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+            {DURATION_PRESETS.map((preset) => (
+              <Pressable key={preset.minutes} onPress={() => setDurationMinutes(preset.minutes)}>
+                <Text
+                  style={{
+                    borderWidth: 1,
+                    borderColor: durationMinutes === preset.minutes ? '#111' : '#CCC',
+                    borderRadius: 12,
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                  }}
+                >
+                  {preset.label}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+
+          <WireframeButton label="Confirm and save session" onPress={endSession} />
+          <WireframeButton label="Cancel" variant="ghost" onPress={() => setShowEndSheet(false)} />
+        </WireframeBottomSheet>
+      }
+    >
+      {needsProfile ? (
+        <WireframeBox>
+          <Text style={{ fontWeight: '700' }}>Profile not complete</Text>
+          <Text>
+            You can keep logging this session. Add a location below when you want difficulty levels on
+            climbs.
+          </Text>
+        </WireframeBox>
+      ) : null}
+
+      {climbPrompt ? (
+        <WireframeBox>
+          <Text style={{ color: '#C0392B' }}>{climbPrompt}</Text>
+        </WireframeBox>
+      ) : null}
+
+      <WireframeSection title="Session details">
+        <Text style={{ fontWeight: '600' }}>{formatSessionDate(session.date)}</Text>
+        <WireframeField
+          label="Date"
+          value={session.date}
+          onChangeText={(date) => updateSession(session.id, { date })}
+          hint="Stored as YYYY-MM-DD; shown as Day DD Mmm YYYY"
+        />
+        <SessionLocationPanel
+          sessionLocationId={session.locationId}
+          onLocationLinked={(locationId, locationName) =>
+            updateSession(session.id, { locationId, locationName })
+          }
+        />
         <WireframeField
           label="Start time"
           value={session.startTime}
           onChangeText={(startTime) => updateSession(session.id, { startTime })}
-        />
-        <WireframeField
-          label="End time (optional)"
-          value={endTime}
-          onChangeText={setEndTime}
-          placeholder="HH:MM — or set duration below"
-        />
-        <WireframeField
-          label="Session duration (minutes, optional)"
-          value={durationInput}
-          onChangeText={setDurationInput}
-          keyboardType="number-pad"
-          placeholder="e.g. 90"
         />
       </WireframeSection>
 
@@ -236,112 +270,11 @@ export default function ActiveSessionScreen() {
             setEditingClimbId(null);
             setDraftClimb(null);
           }}
-          onShare={() => setShareVisible(true)}
         />
       ) : (
-        <>
-          <WireframeSection title="Climbs">
-            <WireframeField
-              label="Search climbs"
-              value={search}
-              onChangeText={setSearch}
-              placeholder="Name, tag, notes…"
-            />
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-              <Text style={{ fontWeight: '600' }}>Sort:</Text>
-              {(
-                [
-                  ['order', 'Order added'],
-                  ['difficulty', 'Difficulty'],
-                  ['name', 'Name'],
-                ] as const
-              ).map(([value, label]) => (
-                <Pressable key={value} onPress={() => setSort(value)}>
-                  <Text style={{ fontWeight: sort === value ? '700' : '400' }}>{label}</Text>
-                </Pressable>
-              ))}
-            </View>
-            <View style={{ gap: 4 }}>
-              <Text style={{ fontWeight: '600' }}>Filter</Text>
-              {location?.levels.length ? (
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-                  <Pressable onPress={() => setFilterDifficulty('')}>
-                    <Text>All difficulties</Text>
-                  </Pressable>
-                  {location.levels.map((level) => (
-                    <Pressable key={level.id} onPress={() => setFilterDifficulty(level.id)}>
-                      <Text style={{ fontWeight: filterDifficulty === level.id ? '700' : '400' }}>
-                        {level.name}
-                      </Text>
-                    </Pressable>
-                  ))}
-                </View>
-              ) : null}
-              <Pressable onPress={() => setHideWarmUp((v) => !v)}>
-                <Text>{hideWarmUp ? '☑' : '☐'} Hide warm-up climbs</Text>
-              </Pressable>
-              <Pressable onPress={() => setHideRepeat((v) => !v)}>
-                <Text>{hideRepeat ? '☑' : '☐'} Hide repeat climbs</Text>
-              </Pressable>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-                <Pressable onPress={() => setFilterTag('')}>
-                  <Text>All tags</Text>
-                </Pressable>
-                {CLIMB_TAG_SUGGESTIONS.map((tag) => (
-                  <Pressable key={tag} onPress={() => setFilterTag(tag)}>
-                    <Text style={{ fontWeight: filterTag === tag ? '700' : '400' }}>{tag}</Text>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-
-            {filteredClimbs.length === 0 ? (
-              <WireframeBox>
-                <Text>No climbs yet. Tap Add climb to log your first climb.</Text>
-              </WireframeBox>
-            ) : (
-              filteredClimbs.map((climb) => (
-                <ClimbAtGlance
-                  key={climb.id}
-                  climb={climb}
-                  onPress={() => startEdit(climb)}
-                  onShare={() => setShareVisible(true)}
-                />
-              ))
-            )}
-          </WireframeSection>
-        </>
+        <SessionClimbsList climbs={session.climbs} location={location} onEditClimb={startEdit} />
       )}
 
-      {showEndPanel ? (
-        <WireframeBox>
-          <Text style={{ fontWeight: '700' }}>End session</Text>
-          <Pressable onPress={() => setIsPublic(false)}>
-            <Text>{!isPublic ? '●' : '○'} Private (default)</Text>
-          </Pressable>
-          <Pressable onPress={() => setIsPublic(true)}>
-            <Text>{isPublic ? '●' : '○'} Public</Text>
-          </Pressable>
-          {isPublic ? (
-            <WireframeField
-              label="Username"
-              value={usernameInput}
-              onChangeText={(v) => {
-                setUsernameInput(v);
-                setUsernameError('');
-              }}
-              error={usernameError}
-              required
-              placeholder="Required for public sessions"
-            />
-          ) : null}
-          <Text style={{ color: '#666', fontSize: 13 }}>
-            End time will be {endTime || nowTimeLabel()} unless you set one above.
-          </Text>
-          <WireframeButton label="Confirm and save session" onPress={endSession} />
-          <WireframeButton label="Cancel" variant="ghost" onPress={() => setShowEndPanel(false)} />
-        </WireframeBox>
-      ) : null}
     </WireframeScreen>
   );
 }

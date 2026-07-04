@@ -1,0 +1,530 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10037",
+  "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10037",
+  "key": "ROKJ-22",
+  "fields": {
+    "statuscategorychangedate": "2026-07-04T15:24:10.935+1000",
+    "issuetype": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10003",
+      "id": "10003",
+      "description": "Tasks track small, distinct pieces of work.",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+      "name": "General task",
+      "subtask": false,
+      "avatarId": 10318,
+      "entityId": "4b1871ed-0f2b-4b3a-8d10-0702e4b2ebb6",
+      "hierarchyLevel": 0
+    },
+    "parent": {
+      "id": "10000",
+      "key": "ROKJ-1",
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10000",
+      "fields": {
+        "summary": "MVP mobile app prototype",
+        "status": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10001",
+          "description": "This work item is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+          "name": "In Progress",
+          "id": "10001",
+          "statusCategory": {
+            "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+          "name": "Medium",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10001",
+          "id": "10001",
+          "description": "A collection of related bugs, stories, and tasks.",
+          "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+          "name": "Epic",
+          "subtask": false,
+          "avatarId": 10307,
+          "entityId": "33c3cc72-88ac-4f47-baa7-f25e2eab1f7a",
+          "hierarchyLevel": 1
+        }
+      }
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/project/10000",
+      "id": "10000",
+      "key": "ROKJ",
+      "name": "Rokjam",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413",
+        "24x24": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=small",
+        "16x16": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=xsmall",
+        "32x32": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=medium"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "statusCategory": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+      "id": 4,
+      "key": "indeterminate",
+      "colorName": "yellow",
+      "name": "In Progress"
+    },
+    "resolution": null,
+    "customfield_10036": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-22/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "lastViewed": "2026-07-04T15:06:56.604+1000",
+    "created": "2026-05-31T23:26:28.414+1000",
+    "customfield_10063": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "All required fields are complete"
+                }
+              ],
+              "attrs": {
+                "localId": "9eecfa3c-d0b0-494c-8d57-6d3dafd9f8e1",
+                "state": "TODO"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Task is linked to other work"
+                }
+              ],
+              "attrs": {
+                "localId": "6edaadda-6639-4c51-b107-2ddd9d807996",
+                "state": "TODO"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Follow on requests created (optional)"
+                }
+              ],
+              "attrs": {
+                "localId": "73f667b3-776f-4ca7-8a12-674546fbc111",
+                "state": "TODO"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "05cbc44a-5c2b-4a7e-a8a2-f7ea40836d3f"
+          }
+        },
+        {
+          "type": "paragraph"
+        }
+      ]
+    },
+    "customfield_10020": [
+      {
+        "id": 1,
+        "name": "Stage 1",
+        "state": "future",
+        "boardId": 1,
+        "goal": ""
+      }
+    ],
+    "customfield_10021": null,
+    "priority": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+      "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "labels": [],
+    "customfield_10016": null,
+    "customfield_10019": "0|i0000u:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [
+      {
+        "id": "10007",
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLink/10007",
+        "type": {
+          "id": "10000",
+          "name": "Blocks",
+          "inward": "is blocked by",
+          "outward": "blocks",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLinkType/10000"
+        },
+        "outwardIssue": {
+          "id": "10034",
+          "key": "ROKJ-20",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10034",
+          "fields": {
+            "summary": "Refactor and link prototype flows",
+            "status": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10000",
+              "description": "",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+              "name": "To Do",
+              "id": "10000",
+              "statusCategory": {
+                "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "To Do"
+              }
+            },
+            "priority": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+              "name": "Medium",
+              "id": "3"
+            },
+            "issuetype": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10009",
+              "id": "10009",
+              "description": "",
+              "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10569?size=medium",
+              "name": "Dev task",
+              "subtask": false,
+              "avatarId": 10569,
+              "entityId": "f5066bf8-b3bb-4383-9524-a6a34d5c1859",
+              "hierarchyLevel": 0
+            }
+          }
+        }
+      }
+    ],
+    "assignee": null,
+    "updated": "2026-07-04T15:26:57.805+1000",
+    "status": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10005",
+      "description": "",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/",
+      "name": "Review",
+      "id": "10005",
+      "statusCategory": {
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "## Prototype\n\nCommunity feed of public climbing sessions.\n\n**Route:** `/community` (also linked from dashboard footer)\n\n**Local web:** http://localhost:8081/community\n\n**Tabs:** All · Near home gym · Following\n\n**Scenarios:** http://localhost:8081/scenarios (ROKJ-22 section)",
+    "customfield_10055": null,
+    "customfield_10057": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "View public climbing sessions from any user"
+                }
+              ],
+              "attrs": {
+                "localId": "c5a26f58-ba33-4773-bd6e-5c6fb98f2acd",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Prioritise showing climbing sessions near the user’s home gym/location"
+                }
+              ],
+              "attrs": {
+                "localId": "10198d35-0524-4cea-bcc3-aae6fa33f446",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Prioritise showing recent climbing sessions"
+                }
+              ],
+              "attrs": {
+                "localId": "b18d0c04-ca40-4b56-a8c0-5ff5bdd36513",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Community trends"
+                }
+              ],
+              "attrs": {
+                "localId": "6d7d9f48-8354-40e6-8312-ef0318b49a9e",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "49b6c20a-129a-43e9-a6f7-61daa70c3db7"
+          }
+        },
+        {
+          "type": "paragraph",
+          "attrs": {
+            "localId": "390ec8fae6b7"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "consider complex error handling and variety of user scenarios"
+                }
+              ],
+              "attrs": {
+                "localId": "a63da50c-7b2c-4684-8099-d74484f6de5a",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "22a311e9-1dea-421d-861d-870bd4cfae32"
+          }
+        }
+      ]
+    },
+    "timetracking": {},
+    "customfield_10015": null,
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "summary": "Flow | Prototype wireframe | Community",
+    "creator": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "customfield_10042": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "decisionList",
+          "content": [
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Feed tab:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " All / Near home gym / Following"
+                }
+              ],
+              "attrs": {
+                "localId": "dt22-tab",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Near home gym prioritises matching location, then sorts by date"
+                }
+              ],
+              "attrs": {
+                "localId": "dt22-sort",
+                "state": "DECIDED"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "ef203a6c-af9a-4aaa-9fcf-8b31d417f56a"
+          }
+        }
+      ]
+    },
+    "reporter": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10045": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "What was delivered"
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Public sessions feed from mock users plus own public sessions"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Tabs: All, Near home gym, Following with follow/unfollow"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Community trends: popular tags, flash count"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Test: http://localhost:8081/community"
+            }
+          ]
+        }
+      ]
+    },
+    "customfield_10001": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-22/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [],
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10037/comment",
+      "maxResults": 0,
+      "total": 0,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}

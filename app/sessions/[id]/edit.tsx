@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { ClimbAtGlance, ClimbEditor } from '../../../src/components/SessionClimb';
+import { ClimbEditor } from '../../../src/components/SessionClimb';
+import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
 import {
   WireframeBox,
   WireframeButton,
@@ -13,10 +14,21 @@ import {
 } from '../../../src/components/Wireframe';
 import { usePrototype } from '../../../src/context/PrototypeContext';
 import type { SessionClimb } from '../../../src/types/climbingSession';
+import { formatSessionDate } from '../../../src/utils/sessionUtils';
+
+const emptyClimb = (): SessionClimb => ({
+  id: 'draft',
+  tags: [],
+  hasImage: false,
+  hasVideo: false,
+  isWarmUp: false,
+  isRepeat: false,
+  attempts: [{ id: 'draft-a', progress: [] }],
+});
 
 export default function EditSessionScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { sessions, locations, username, setUsername, updateSession, updateClimb, removeClimb } =
+  const { sessions, locations, username, updateSession, updateClimb, removeClimb, addClimb } =
     usePrototype();
 
   const session = sessions.find((s) => s.id === id);
@@ -25,8 +37,7 @@ export default function EditSessionScreen() {
   const [editingClimbId, setEditingClimbId] = useState<string | null>(null);
   const [draftClimb, setDraftClimb] = useState<SessionClimb | null>(null);
   const [isPublic, setIsPublic] = useState(session?.isPublic ?? false);
-  const [usernameInput, setUsernameInput] = useState(session?.ownerUsername || username);
-  const [usernameError, setUsernameError] = useState('');
+  const [publicError, setPublicError] = useState('');
 
   if (!session || session.status !== 'completed') {
     return (
@@ -42,21 +53,26 @@ export default function EditSessionScreen() {
   }
 
   const saveSession = () => {
-    if (isPublic && !usernameInput.trim()) {
-      setUsernameError('Username required for public sessions');
+    if (isPublic && !username.trim()) {
+      setPublicError('Set your username in member profile to share sessions publicly.');
       return;
     }
-    if (isPublic) setUsername(usernameInput.trim());
+    setPublicError('');
     updateSession(session.id, {
       isPublic,
-      ownerUsername: usernameInput.trim() || username,
+      ownerUsername: username.trim() || session.ownerUsername,
     });
     router.replace(`/sessions/${session.id}`);
   };
 
   const saveClimb = () => {
     if (!draftClimb || !editingClimbId) return;
-    updateClimb(session.id, editingClimbId, draftClimb);
+    if (editingClimbId === 'new') {
+      const { id: _id, ...rest } = draftClimb;
+      addClimb(session.id, rest);
+    } else {
+      updateClimb(session.id, editingClimbId, draftClimb);
+    }
     setEditingClimbId(null);
     setDraftClimb(null);
   };
@@ -72,6 +88,7 @@ export default function EditSessionScreen() {
       }
     >
       <WireframeSection title="Session">
+        <Text style={{ fontWeight: '600' }}>{formatSessionDate(session.date)}</Text>
         <WireframeField
           label="Date"
           value={session.date}
@@ -95,21 +112,21 @@ export default function EditSessionScreen() {
             <Text>{isPublic ? '●' : '○'} Public</Text>
           </Pressable>
         </View>
-        {isPublic ? (
-          <WireframeField
-            label="Username"
-            value={usernameInput}
-            onChangeText={(v) => {
-              setUsernameInput(v);
-              setUsernameError('');
-            }}
-            error={usernameError}
-            required
-          />
-        ) : null}
+        {publicError ? <Text style={{ color: '#C0392B' }}>{publicError}</Text> : null}
       </WireframeSection>
 
       <WireframeSection title="Climbs">
+        {!draftClimb ? (
+          <WireframeButton
+            label="Add climb"
+            variant="secondary"
+            onPress={() => {
+              setEditingClimbId('new');
+              setDraftClimb(emptyClimb());
+            }}
+          />
+        ) : null}
+
         {draftClimb && editingClimbId ? (
           <ClimbEditor
             climb={draftClimb}
@@ -122,19 +139,26 @@ export default function EditSessionScreen() {
             }}
           />
         ) : (
-          session.climbs.map((climb) => (
-            <View key={climb.id} style={{ gap: 8 }}>
-              <ClimbAtGlance climb={climb} onPress={() => {
+          <>
+            <SessionClimbsList
+              climbs={session.climbs}
+              location={location}
+              onEditClimb={(climb) => {
                 setEditingClimbId(climb.id);
                 setDraftClimb({ ...climb });
-              }} />
-              <WireframeButton
-                label="Remove climb"
-                variant="ghost"
-                onPress={() => removeClimb(session.id, climb.id)}
-              />
-            </View>
-          ))
+              }}
+            />
+            {!editingClimbId
+              ? session.climbs.map((climb) => (
+                  <WireframeButton
+                    key={`remove-${climb.id}`}
+                    label={`Remove ${climb.name || 'climb'}`}
+                    variant="ghost"
+                    onPress={() => removeClimb(session.id, climb.id)}
+                  />
+                ))
+              : null}
+          </>
         )}
       </WireframeSection>
     </WireframeScreen>

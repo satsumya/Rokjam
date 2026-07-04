@@ -1,0 +1,1583 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10026",
+  "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10026",
+  "key": "ROKJ-16",
+  "fields": {
+    "statuscategorychangedate": "2026-07-04T15:24:11.378+1000",
+    "issuetype": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10003",
+      "id": "10003",
+      "description": "Tasks track small, distinct pieces of work.",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+      "name": "General task",
+      "subtask": false,
+      "avatarId": 10318,
+      "entityId": "4b1871ed-0f2b-4b3a-8d10-0702e4b2ebb6",
+      "hierarchyLevel": 0
+    },
+    "parent": {
+      "id": "10000",
+      "key": "ROKJ-1",
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10000",
+      "fields": {
+        "summary": "MVP mobile app prototype",
+        "status": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10001",
+          "description": "This work item is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+          "name": "In Progress",
+          "id": "10001",
+          "statusCategory": {
+            "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+          "name": "Medium",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10001",
+          "id": "10001",
+          "description": "A collection of related bugs, stories, and tasks.",
+          "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+          "name": "Epic",
+          "subtask": false,
+          "avatarId": 10307,
+          "entityId": "33c3cc72-88ac-4f47-baa7-f25e2eab1f7a",
+          "hierarchyLevel": 1
+        }
+      }
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/project/10000",
+      "id": "10000",
+      "key": "ROKJ",
+      "name": "Rokjam",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413",
+        "24x24": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=small",
+        "16x16": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=xsmall",
+        "32x32": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=medium"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "statusCategory": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+      "id": 4,
+      "key": "indeterminate",
+      "colorName": "yellow",
+      "name": "In Progress"
+    },
+    "resolution": null,
+    "customfield_10036": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-16/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "lastViewed": "2026-07-04T16:46:21.724+1000",
+    "created": "2026-05-10T14:03:07.059+1000",
+    "customfield_10063": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "All required fields are complete"
+                }
+              ],
+              "attrs": {
+                "localId": "9eecfa3c-d0b0-494c-8d57-6d3dafd9f8e1",
+                "state": "TODO"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Task is linked to other work"
+                }
+              ],
+              "attrs": {
+                "localId": "6edaadda-6639-4c51-b107-2ddd9d807996",
+                "state": "TODO"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Follow on requests created (optional)"
+                }
+              ],
+              "attrs": {
+                "localId": "73f667b3-776f-4ca7-8a12-674546fbc111",
+                "state": "TODO"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "05cbc44a-5c2b-4a7e-a8a2-f7ea40836d3f"
+          }
+        },
+        {
+          "type": "paragraph"
+        }
+      ]
+    },
+    "customfield_10020": [
+      {
+        "id": 1,
+        "name": "Stage 1",
+        "state": "future",
+        "boardId": 1,
+        "goal": ""
+      }
+    ],
+    "customfield_10021": null,
+    "priority": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+      "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "labels": [],
+    "customfield_10016": null,
+    "customfield_10019": "0|i0000p:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [
+      {
+        "id": "10002",
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLink/10002",
+        "type": {
+          "id": "10000",
+          "name": "Blocks",
+          "inward": "is blocked by",
+          "outward": "blocks",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLinkType/10000"
+        },
+        "outwardIssue": {
+          "id": "10034",
+          "key": "ROKJ-20",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10034",
+          "fields": {
+            "summary": "Refactor and link prototype flows",
+            "status": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10000",
+              "description": "",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+              "name": "To Do",
+              "id": "10000",
+              "statusCategory": {
+                "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "To Do"
+              }
+            },
+            "priority": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+              "name": "Medium",
+              "id": "3"
+            },
+            "issuetype": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10009",
+              "id": "10009",
+              "description": "",
+              "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10569?size=medium",
+              "name": "Dev task",
+              "subtask": false,
+              "avatarId": 10569,
+              "entityId": "f5066bf8-b3bb-4383-9524-a6a34d5c1859",
+              "hierarchyLevel": 0
+            }
+          }
+        }
+      }
+    ],
+    "assignee": null,
+    "updated": "2026-07-04T16:55:51.737+1000",
+    "status": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10005",
+      "description": "",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/",
+      "name": "Review",
+      "id": "10005",
+      "statusCategory": {
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "## Prototype\n\nClickable climbing **session** create flow (sessions contain climbs and attempts).\n\n**Entry:** Dashboard → **Start climbing session**\n\n**Routes:**\n\n* `/sessions/create` → `/sessions/[id]/active` — active session builder\n* `/sessions/[id]` — completed session view\n\n**Local web:** http://localhost:8081/dashboard\n\n**Scenarios:** http://localhost:8081/scenarios (ROKJ-16 section)\n\n**Mock behaviour:**\n\n* Date/start time auto-filled (editable)\n* Location from home gym; inline add if none\n* Sort/filter/search climbs; add/edit climbs with attempts, tags, media placeholders\n* End session: private default; public requires username\n* Share session/climb shows mock copy banner\n\n",
+    "customfield_10055": null,
+    "customfield_10057": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Start climbing log/climbing session from dashboard:"
+            }
+          ],
+          "attrs": {
+            "localId": "8215f5d83799"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Date auto adds current date"
+                }
+              ],
+              "attrs": {
+                "localId": "3fb22aad-dcf0-4ed1-ae38-a44b7baf4536",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "can be updated"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "fcdf641a-617c-4511-b6c2-6d93976a90db",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "5a1cc05b-81d7-42a8-a58c-55f7ccff93fe"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Location auto fills to home/primary location from member profile"
+                }
+              ],
+              "attrs": {
+                "localId": "ec6daa1d-ac48-4de0-ba84-92b7e96c6faa",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "If no location added users will need an option to be able to add now"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "55b70a38-e1f5-46cc-a43d-947192981c9d",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "c5da15ee-2411-46f8-b4f0-48a784acf563"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Start time auto adds current time"
+                }
+              ],
+              "attrs": {
+                "localId": "f4a58bfe-4a7e-4119-be79-003bdee87ed0",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to set the end time or choose length of the climbing session"
+                }
+              ],
+              "attrs": {
+                "localId": "f99bf82f-2827-4739-b41c-12abdae38db5",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Add climbs"
+                }
+              ],
+              "attrs": {
+                "localId": "00c87d47-ed88-41ef-9746-2fa28b7da4c9",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Edit climbs"
+                }
+              ],
+              "attrs": {
+                "localId": "4d48ba01-2bfe-453b-8c9f-2d23dce128a2",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Sort climbs "
+                }
+              ],
+              "attrs": {
+                "localId": "0cab4a49-d37e-4195-85f2-796850c01a0e",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "by difficulty (if no difficulty added default to showing at the top)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "166a8120-f371-4302-90eb-1eb597a41dde",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "by order added (default)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "276df641-5226-4036-82d5-93513672fc77",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "by name (if no name added default to showing at the top)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "3cb4b2eb-270f-4930-9ee2-443007de8b35",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "7dd3258b-fa65-44ae-9743-0767620d412d"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Search climbs"
+                }
+              ],
+              "attrs": {
+                "localId": "e4c87087-f3a3-4da6-a392-c52e7c1297ea",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Filter climbs"
+                }
+              ],
+              "attrs": {
+                "localId": "ce44243d-96a2-4b73-81bb-98a2a4ee74bf",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "by difficulty (if location has been added-otherwise there won't be any difficulties to choose from)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "8f9a95de-3675-48c5-ae32-3c49074a1d60",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "by tags (if tags have been added)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "14045b07-1a44-46d6-a909-2890962d54bd",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "show/hide warm up climbs"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "cd0fd368-1629-4470-ade9-4a389d30f718",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "show/hide repeat climbs"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "e0099468-349f-4974-aea0-ab3a50b2dc19",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "f8b70631-c802-4a12-bbd6-f8941379c9ca"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Save/end session"
+                }
+              ],
+              "attrs": {
+                "localId": "200942db-59b1-461f-879e-f1049b4e096e",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Can choose to allow it to be public"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "ef605cdc-ef07-49fa-9f60-972374bf22ab",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskList",
+                  "content": [
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "If it's public and they don't have a user name they will have to add one"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "f1e4f5f7-830d-48eb-ae68-dce68af28d92",
+                        "state": "DONE"
+                      }
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "32e11cf9-78f6-4bbc-bc4b-5f75344c4670"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Default is private"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "21f959ae-4144-4cd5-b478-6df09eba7da3",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Option to confirm end time (if added) or default to time user first ends the session"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "7b672c41-901c-416c-8db1-8bc74ff7a8ed",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "88d7829c-a5b7-402f-9bc6-4ddf4e431a06"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Share session"
+                }
+              ],
+              "attrs": {
+                "localId": "1280edaf-3e23-48c1-9b34-6f7ea40e88d5",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "49b6c20a-129a-43e9-a6f7-61daa70c3db7"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "For each climb:"
+            }
+          ],
+          "attrs": {
+            "localId": "e1ac4623dc2c"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add difficulty (if location has been added)"
+                }
+              ],
+              "attrs": {
+                "localId": "d62a1800-2807-418c-80fa-85e82478f429",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add attempts"
+                }
+              ],
+              "attrs": {
+                "localId": "f7d1b45a-6282-4396-a127-4709f28c2e68",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add tags to characterise "
+                }
+              ],
+              "attrs": {
+                "localId": "1d68a58c-ef01-4d36-b967-1dc2410a55ff",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "e.g. dyno, slab, overhang, crimpy etc"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "5a9b883f-ccc9-492c-bf37-020abc0138b6",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "77da9790-d05d-4508-97f3-92f4c891be56"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add a name or wall name"
+                }
+              ],
+              "attrs": {
+                "localId": "0a14b23f-9f1f-4bff-974a-064e914cdf53",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add notes"
+                }
+              ],
+              "attrs": {
+                "localId": "b7151db8-601a-4424-be77-c1839813f62e",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add one image of the climb"
+                }
+              ],
+              "attrs": {
+                "localId": "ef1abdec-3590-468e-9466-fb6b4545d059",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Trying to add another will override the previous"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "212f8810-fb3f-415b-b2dc-c6afe507a649",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "f30fdf51-040a-4135-a149-d04310771661"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add one video of the climb"
+                }
+              ],
+              "attrs": {
+                "localId": "b076782c-3971-44e4-aab6-7834816584d2",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Trying to add another will override the previous"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "41317d52-dd21-4742-bda0-e7c88bc162ac",
+                    "state": "DONE"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "686160c4-9298-4ced-ae05-1f05942f7c8d"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Mark as a warm up climb"
+                }
+              ],
+              "attrs": {
+                "localId": "4503ef0e-7c51-4a32-8d28-0d4deed34ffd",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Mark as a repeat climb"
+                }
+              ],
+              "attrs": {
+                "localId": "66ad9565-4ffc-4ba7-8a52-5c146d7de888",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "At a glance it should be easy to view"
+                }
+              ],
+              "attrs": {
+                "localId": "8b55b98d-66ee-4c29-be2e-b989408cbd66",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Difficulty if added"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "d081d37b-0680-4c3f-b116-c3cf1ad1df8b",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskList",
+                  "content": [
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "able to quick add if not added already"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "2985fcff-6e44-4ed0-8aed-3ba835bc88aa",
+                        "state": "DONE"
+                      }
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "455d8fb1-9eb0-4603-a52e-c1cf46d2ad65"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Attempt progress summary"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "d23ebaa5-a168-4825-8fd5-2dbaec9b75c1",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskList",
+                  "content": [
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "able to quick view all attempts and edit"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "d326515a-7576-4a7f-996a-19fcc58fb458",
+                        "state": "DONE"
+                      }
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "2b75da7d-a9c4-4ab2-8ba3-91785a817867"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Name"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "47ba0082-d8f4-4aa6-a36c-c0e0f7e33b2d",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "If media has been added"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "5fcf7151-82be-464b-af09-f4885dcc07d4",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "If it's a new climb (e.g. not a repeat climb)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "730d7208-bc3a-4678-888f-c9b62f115c37",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "at least one tag (if tags are added)"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "bcb6fadb-f914-46c1-8056-51e2006f2806",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskList",
+                  "content": [
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "able to quick view all tags"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "215e15ae-84e6-48a6-a0da-af38d9619db5",
+                        "state": "DONE"
+                      }
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "ae9aa0ca-6d81-4f0b-912b-caf95c87e0fc"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "a018e5c7-952c-408e-9559-d0e0a65d85b7"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Share climb"
+                }
+              ],
+              "attrs": {
+                "localId": "a302e372-76e3-465f-97fc-3160758193c6",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "49b6c20a-129a-43e9-a6f7-61daa70c3db7"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "For each attempt"
+            }
+          ],
+          "attrs": {
+            "localId": "80b17c3c5df0"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add progress"
+                }
+              ],
+              "attrs": {
+                "localId": "1482c2c9-8b40-4c5d-971b-f9306f8cecad",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskList",
+              "content": [
+                {
+                  "type": "taskItem",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Progress could be"
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "f4a7c2c9-58e1-4427-8c9c-b46c26c48803",
+                    "state": "DONE"
+                  }
+                },
+                {
+                  "type": "taskList",
+                  "content": [
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "only did the start of the climb, middle or end "
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "7a69fd96-4194-4718-8ca8-24debc5309ec",
+                        "state": "DONE"
+                      }
+                    },
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "or a combination of those"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "9e257518-5c19-48bc-a4d9-a038a76bfbee",
+                        "state": "DONE"
+                      }
+                    },
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "or flash"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "71c8af00-a1d7-403c-b065-661f66548187",
+                        "state": "DONE"
+                      }
+                    },
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "or redpoint"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "f8828673-75f0-401d-b1d5-da2f24207c15",
+                        "state": "DONE"
+                      }
+                    },
+                    {
+                      "type": "taskItem",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "etc"
+                        }
+                      ],
+                      "attrs": {
+                        "localId": "3dae969e-e886-49ea-901f-6bc5c0e0ff55",
+                        "state": "DONE"
+                      }
+                    }
+                  ],
+                  "attrs": {
+                    "localId": "d9a78761-5f51-40fe-bbb1-18a5b75e5cc3"
+                  }
+                }
+              ],
+              "attrs": {
+                "localId": "399b2e58-d81e-4b48-9622-b36442d804da"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "49b6c20a-129a-43e9-a6f7-61daa70c3db7"
+          }
+        },
+        {
+          "type": "paragraph",
+          "attrs": {
+            "localId": "d4501378526a"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "consider complex error handling and variety of user scenarios"
+                }
+              ],
+              "attrs": {
+                "localId": "70ffafdf-948e-424d-8c63-8c38aeb61c0d",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "19a27e9b-45ed-4bf5-8c11-3e41ea163585"
+          }
+        }
+      ]
+    },
+    "timetracking": {},
+    "customfield_10015": null,
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "summary": "Flow | Prototype wireframe | Create climbing log",
+    "creator": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "customfield_10042": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "decisionList",
+          "content": [
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Profile location:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " auto-fill home gym or inline add"
+                }
+              ],
+              "attrs": {
+                "localId": "dt16-loc",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "End session:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " private default; public requires username"
+                }
+              ],
+              "attrs": {
+                "localId": "dt16-public",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Add/edit climbs with sort, filter, search within active session"
+                }
+              ],
+              "attrs": {
+                "localId": "dt16-climb",
+                "state": "DECIDED"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "ef203a6c-af9a-4aaa-9fcf-8b31d417f56a"
+          }
+        }
+      ]
+    },
+    "reporter": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10045": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "What was delivered"
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Active session with auto date/time; location optional with inline AddressSearch, nickname, and difficulty levels"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "End session bottom sheet: private/public, end time presets + custom, duration presets, username validation"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Climb editor with sort/filter/search hidden when 0–1 climbs; share only on completed sessions"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Dashboard link to leave active session without ending (draft saved in memory)"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Review feedback addressed (comment 10016)"
+            }
+          ]
+        },
+        {
+          "type": "orderedList",
+          "attrs": {
+            "order": 1
+          },
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Happy path scenario uses logged-in user with full profile (demo=session-ready)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "New user scenario (demo=new-user) shows dashboard with no sessions yet"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Incomplete profile can still start session; prompt banner only"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Inline location add uses profile-style search, nickname, and levels"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Location not required for session"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Required fields use *; no “optional” labels"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "End time and duration pickers in save/end bottom sheet"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Search/filter hidden when ≤1 climb"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Private label without “(default)”; date shown as Day DD Mmm YYYY"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Public username validates “thegoat” as taken (profile validation)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Dashboard header link returns without ending session; share removed from active session"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Test: http://localhost:8081/scenarios (ROKJ-16) or /dashboard?demo=session-ready"
+            }
+          ]
+        }
+      ]
+    },
+    "customfield_10001": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-16/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [
+        {
+          "id": "10016",
+          "body": "Review: <custom data-type=\"status\" data-id=\"id-0\">not approved</custom>  \nPlease address:  \n\n|  | **Summary** | **Description** |\n| --- | --- | --- |\n| 1 | ‘Happy path’ scenario | Expected happy path to be a user with profile already fully set up |\n| 2 | Need a scenario where it’s a new user  | To show what it would look like when no added climbing sessions yet |\n| 3 | When profile isn’t fully set up  | user must still be able to start a climbing session and just prompt when something crucial is missing |\n| 5 | Adding a location in the climbing log doesn’t work | After typing something in location name and clicking ‘add location now' nothing happens. Should be similar journey to the member profile for searching, adding a nickname and adding difficulty levels |\n| 6 | Location is not required for a climbing log |  |\n| 7 | **Please assume standards set on other Jira tickets are the default unless difference is requested specifically** | e.g. on <custom data-type=\"smartlink\" data-id=\"id-1\">https://satsumya.atlassian.net/browse/ROKJ-15</custom> “Required and optional field communication: Use an \\* for required fields and don’t mention optional as that is already implied“ |\n| 8 | End time usability | Make it a dropdown that you can choose to type in or select from options |\n| 9 | Avoid telling people to go elsewhere to edit a field if they could update it when it’s relevent | e.g. Instead of saying “End time will be 16:02 unless you set one above.“ put the end time/duration fields near the confirm and save session |\n| 10 | Duration | Make it a dropdown that you can choose from common options e.g. 30mins, 45mins, 1hr,1.5hr,2hr etc |\n| 11 | Hide the search and filter | When there’s no climbs or only one hide the search and filter |\n| 12 | Save/end session | Open a bottom sheet with the private/public option and end time/duration |\n| 13 | Do not specify (default) if it’s already implied | e.g. “Private (default” should just be “Private” |\n| 14 | Date format | Update to “Day DD Mmm YYYY” e.g. Friday 03 Jul 2026 |\n| 15 | Adding username for public session | Previously we’d made the username “thegoat” the way to test a username being attempted to being added that’s already taken but the error handling allowed the username “thegoat”. There needs to be username validation like in the profile setup |\n| 16 | Return to dashboard | Allow users to go back to the dashboard if they’re in the middle of adding a climbing session without having to save/end the session (it should just save where it is especially since it’s not published yet |\n| 17 | When to show share session  | Only show the option to share when a session is saved or ended |\n",
+          "created": "2026-07-04T16:00:34.037+1000",
+          "updated": "2026-07-04T16:52:32.852+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10018",
+          "body": "Review: <custom data-type=\"status\" data-id=\"id-0\">not approved</custom>  \nPlease address:\n\n|  | **Summary** | **Description** |\n| --- | --- | --- |\n| 1 | One location per climbing session | Remove ability to add more than one location |\n| 2 |  |  |\n| 3 |  |  |\n",
+          "created": "2026-07-04T16:55:51.737+1000",
+          "updated": "2026-07-04T16:55:51.737+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        }
+      ],
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10026/comment",
+      "maxResults": 2,
+      "total": 2,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}

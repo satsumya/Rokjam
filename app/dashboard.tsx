@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { SessionRow } from '../src/components/SessionClimb';
 import { DashboardTrends } from '../src/components/TrendSummary';
@@ -20,6 +20,7 @@ import {
 } from '../src/utils/sessionUtils';
 
 export default function DashboardScreen() {
+  const { demo } = useLocalSearchParams<{ demo?: string }>();
   const {
     email,
     username,
@@ -31,6 +32,7 @@ export default function DashboardScreen() {
     profileSkipped,
     sessions,
     seedDemoSessions,
+    seedDemoProfileOnly,
     resetSession,
   } = usePrototype();
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
@@ -45,10 +47,16 @@ export default function DashboardScreen() {
   const activeSession = sessions.find((s) => s.status === 'active');
 
   useEffect(() => {
-    if (!needsProfile && completedSessions.length === 0) {
+    if (demo === 'session-ready') {
       seedDemoSessions();
+    } else if (demo === 'new-user') {
+      seedDemoProfileOnly();
+    } else if (demo === 'seed') {
+      if (!needsProfile && completedSessions.length === 0) {
+        seedDemoSessions();
+      }
     }
-  }, [needsProfile, completedSessions.length, seedDemoSessions]);
+  }, [demo, needsProfile, completedSessions.length, seedDemoSessions, seedDemoProfileOnly]);
 
   return (
     <WireframeScreen

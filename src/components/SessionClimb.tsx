@@ -9,7 +9,7 @@ import {
 import type { Location } from '../context/PrototypeContext';
 import type { AttemptProgress, SessionClimb } from '../types/climbingSession';
 import { ATTEMPT_PROGRESS_OPTIONS, CLIMB_TAG_SUGGESTIONS } from '../types/climbingSession';
-import { climbSummary } from '../utils/sessionUtils';
+import { climbSummary, formatSessionDate } from '../utils/sessionUtils';
 
 type ClimbEditorProps = {
   climb: SessionClimb;
@@ -256,7 +256,7 @@ export function SessionRow({
   return (
     <Pressable onPress={onPress}>
       <WireframeBox>
-        <Text style={{ fontWeight: '700' }}>{date}</Text>
+        <Text style={{ fontWeight: '700' }}>{formatSessionDate(date)}</Text>
         <Text>{location}</Text>
         <Text>
           {duration} · {climbCount} climb{climbCount === 1 ? '' : 's'} · {difficultyRange}

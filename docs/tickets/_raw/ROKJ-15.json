@@ -1,0 +1,1201 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10024",
+  "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10024",
+  "key": "ROKJ-15",
+  "fields": {
+    "statuscategorychangedate": "2026-06-20T14:01:36.857+1000",
+    "issuetype": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10003",
+      "id": "10003",
+      "description": "Tasks track small, distinct pieces of work.",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10318?size=medium",
+      "name": "General task",
+      "subtask": false,
+      "avatarId": 10318,
+      "entityId": "4b1871ed-0f2b-4b3a-8d10-0702e4b2ebb6",
+      "hierarchyLevel": 0
+    },
+    "parent": {
+      "id": "10000",
+      "key": "ROKJ-1",
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10000",
+      "fields": {
+        "summary": "MVP mobile app prototype",
+        "status": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10001",
+          "description": "This work item is being actively worked on at the moment by the assignee.",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+          "name": "In Progress",
+          "id": "10001",
+          "statusCategory": {
+            "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        },
+        "priority": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+          "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+          "name": "Medium",
+          "id": "3"
+        },
+        "issuetype": {
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10001",
+          "id": "10001",
+          "description": "A collection of related bugs, stories, and tasks.",
+          "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+          "name": "Epic",
+          "subtask": false,
+          "avatarId": 10307,
+          "entityId": "33c3cc72-88ac-4f47-baa7-f25e2eab1f7a",
+          "hierarchyLevel": 1
+        }
+      }
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/project/10000",
+      "id": "10000",
+      "key": "ROKJ",
+      "name": "Rokjam",
+      "projectTypeKey": "software",
+      "simplified": true,
+      "avatarUrls": {
+        "48x48": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413",
+        "24x24": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=small",
+        "16x16": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=xsmall",
+        "32x32": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/universal_avatar/view/type/project/avatar/10413?size=medium"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "statusCategory": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+      "id": 4,
+      "key": "indeterminate",
+      "colorName": "yellow",
+      "name": "In Progress"
+    },
+    "resolution": null,
+    "customfield_10036": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": true
+    },
+    "watches": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-15/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "lastViewed": "2026-07-04T15:51:39.157+1000",
+    "created": "2026-05-10T14:01:34.134+1000",
+    "customfield_10063": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "All required fields are complete"
+                }
+              ],
+              "attrs": {
+                "localId": "9eecfa3c-d0b0-494c-8d57-6d3dafd9f8e1",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Task is linked to other work"
+                }
+              ],
+              "attrs": {
+                "localId": "6edaadda-6639-4c51-b107-2ddd9d807996",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Follow on requests created (optional)"
+                }
+              ],
+              "attrs": {
+                "localId": "73f667b3-776f-4ca7-8a12-674546fbc111",
+                "state": "TODO"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "05cbc44a-5c2b-4a7e-a8a2-f7ea40836d3f"
+          }
+        }
+      ]
+    },
+    "customfield_10020": [
+      {
+        "id": 1,
+        "name": "Stage 1",
+        "state": "future",
+        "boardId": 1,
+        "goal": ""
+      }
+    ],
+    "customfield_10021": null,
+    "priority": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+      "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "labels": [],
+    "customfield_10016": null,
+    "customfield_10019": "0|i0000j:",
+    "timeestimate": null,
+    "aggregatetimeoriginalestimate": null,
+    "versions": [],
+    "issuelinks": [
+      {
+        "id": "10001",
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLink/10001",
+        "type": {
+          "id": "10000",
+          "name": "Blocks",
+          "inward": "is blocked by",
+          "outward": "blocks",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issueLinkType/10000"
+        },
+        "outwardIssue": {
+          "id": "10034",
+          "key": "ROKJ-20",
+          "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10034",
+          "fields": {
+            "summary": "Refactor and link prototype flows",
+            "status": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10000",
+              "description": "",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/statuses/generic.png",
+              "name": "To Do",
+              "id": "10000",
+              "statusCategory": {
+                "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/2",
+                "id": 2,
+                "key": "new",
+                "colorName": "blue-gray",
+                "name": "To Do"
+              }
+            },
+            "priority": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/priority/3",
+              "iconUrl": "https://satsumya.atlassian.net/images/icons/priorities/medium_new.svg",
+              "name": "Medium",
+              "id": "3"
+            },
+            "issuetype": {
+              "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issuetype/10009",
+              "id": "10009",
+              "description": "",
+              "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/2/universal_avatar/view/type/issuetype/avatar/10569?size=medium",
+              "name": "Dev task",
+              "subtask": false,
+              "avatarId": 10569,
+              "entityId": "f5066bf8-b3bb-4383-9524-a6a34d5c1859",
+              "hierarchyLevel": 0
+            }
+          }
+        }
+      }
+    ],
+    "assignee": null,
+    "updated": "2026-06-20T16:34:30.209+1000",
+    "status": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/status/10005",
+      "description": "",
+      "iconUrl": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/",
+      "name": "Review",
+      "id": "10005",
+      "statusCategory": {
+        "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "Clickable white-label wireframe for member profile setup after sign up.\n\n**Parent epic:** ROKJ-1 | **Stage:** Stage 1 | **Linked from:** ROKJ-3\n\n## Prototype links (run locally first)\n\n1. In the Rokjam repo: `npm install && npm run web`\n2. Open the **scenario tester**:\n\n    * http://localhost:8081/scenarios\n    \n3. Or use direct scenario links:\n\n| Scenario | Link |\n| --- | --- |\n| Scenario tester (recommended) | http://localhost:8081/scenarios |\n| Profile setup | http://localhost:8081/profile/setup |\n| Full new-user journey | Sign up → verify code → welcome → profile |\n\n**Mock test data:** username `thegoat` is taken; search \"Kangaroo\" for address suggestions.\n\n**Expo Go:** run `npm start`, scan QR code, open **Scenario tester** from welcome.\n\n**Out of scope:** Real persistence, branding/design system (ROKJ-5)",
+    "customfield_10055": null,
+    "customfield_10057": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Optional: Add a user name"
+                }
+              ],
+              "attrs": {
+                "localId": "8bc459ca-f7d0-4622-9050-2c8340f4a26b",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Required: Add a gym or climbing location/address name (could be an indoor gym or an outdoor spot)"
+                }
+              ],
+              "attrs": {
+                "localId": "8128f347-5494-48d1-a999-a105c958a229",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "First location added defaults to home/base location"
+                }
+              ],
+              "attrs": {
+                "localId": "e9865707-091c-4909-a963-ff0ce7678dd6",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Optional: add more locations (not strongly prompted)"
+                }
+              ],
+              "attrs": {
+                "localId": "69805fdb-a51a-4083-8f4d-6b485d7b693d",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Optional: location nickname"
+                }
+              ],
+              "attrs": {
+                "localId": "b2e3c022-5ea2-494e-8285-6acb941eea03",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Add difficulty levels for each location"
+                }
+              ],
+              "attrs": {
+                "localId": "23ee1cdd-1f7e-4bd0-8189-89f62a70fe8c",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "One difficultly level added by default"
+                }
+              ],
+              "attrs": {
+                "localId": "7796e4d4-83ee-4af4-afbd-d3217fbb6fe8",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Optional: for user to add more difficulty levels (strongly encouraged)"
+                }
+              ],
+              "attrs": {
+                "localId": "16613d25-b067-496a-9af9-2d8a6e3378cc",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "When adding levels, each level added has a default name and colour assigned"
+                }
+              ],
+              "attrs": {
+                "localId": "2e747ae5-b471-4463-b531-a927d3eba65f",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Default levels from easy to hard: Yellow > Blue > Purple > Green > Orange > Red > Black > White > Pink > [blank: user has to choose a colour and name]"
+                }
+              ],
+              "attrs": {
+                "localId": "05905d14-59d9-4a5e-8193-41448e0c96e7",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "A user can update the colour or name before confirming adding the level"
+                }
+              ],
+              "attrs": {
+                "localId": "489a29c1-491d-446d-a7ef-37fc9854fe07",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Can edit levels after they’ve been added"
+                }
+              ],
+              "attrs": {
+                "localId": "1ee6a879-74e5-4a2b-be32-73ad3090dd84",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Can reorder the added levels"
+                }
+              ],
+              "attrs": {
+                "localId": "296e800c-e15f-451c-942f-a5917227c17d",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add strengths "
+                }
+              ],
+              "attrs": {
+                "localId": "920121b2-d1f5-4512-8d27-29f34326b3eb",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Option to add areas to improve"
+                }
+              ],
+              "attrs": {
+                "localId": "9858e959-c56f-450d-a74f-46f1669fa639",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Profile pic"
+                }
+              ],
+              "attrs": {
+                "localId": "6d6ca4bd-1655-46d9-a497-2b44c2b05b57",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "After completing user goes to the dashboard"
+                }
+              ],
+              "attrs": {
+                "localId": "417dc802-b7ac-4f4b-acbe-3988fa8578df",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "c2f74333-f227-4f1e-9ced-2af29007d088"
+          }
+        },
+        {
+          "type": "taskList",
+          "content": [
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Happy path"
+                }
+              ],
+              "attrs": {
+                "localId": "00c87d47-ed88-41ef-9746-2fa28b7da4c9",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Alternate paths"
+                }
+              ],
+              "attrs": {
+                "localId": "1e1aa0e0-db72-438f-be11-6a3a36501ee8",
+                "state": "DONE"
+              }
+            },
+            {
+              "type": "taskItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Error paths"
+                }
+              ],
+              "attrs": {
+                "localId": "c337124e-2528-4ee1-81a5-44ce7fbcd1f0",
+                "state": "DONE"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "a0aa54b7-236c-4d67-8fa0-a30a9b44a0b1"
+          }
+        }
+      ]
+    },
+    "timetracking": {},
+    "customfield_10015": null,
+    "security": null,
+    "attachment": [],
+    "aggregatetimeestimate": null,
+    "summary": "Flow | Prototype wireframe | Member profile",
+    "creator": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "customfield_10042": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "decisionList",
+          "content": [
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Profile layout:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " single scrollable setup screen with accordion locations"
+                }
+              ],
+              "attrs": {
+                "localId": "63ee0416-8982-4e9e-a19a-bc18b1575c35",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Required location:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " address search; block completion until location added"
+                }
+              ],
+              "attrs": {
+                "localId": "599bbefe-522f-41d0-9143-bcb02d204460",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Difficulty defaults:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " Yellow to Pink with edit, reorder, sort toggle, colour picker"
+                }
+              ],
+              "attrs": {
+                "localId": "71e45e34-93eb-4b1e-948f-929eb5c0616a",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Profile pic:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " emoji pet-rock placeholders"
+                }
+              ],
+              "attrs": {
+                "localId": "19ca4d49-07c1-46e3-af34-f4d72cdc4bae",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Exit flow:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " skip/exit to dashboard with completion prompt"
+                }
+              ],
+              "attrs": {
+                "localId": "c3d4e5f6-a7b8-9012-cdef-123456789abc",
+                "state": "DECIDED"
+              }
+            },
+            {
+              "type": "decisionItem",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Persistence:",
+                  "marks": [
+                    {
+                      "type": "strong"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " in-memory only for Stage 1"
+                }
+              ],
+              "attrs": {
+                "localId": "bdc1ee60-e530-4875-8184-1a8ae655d1b6",
+                "state": "DECIDED"
+              }
+            }
+          ],
+          "attrs": {
+            "localId": "ef203a6c-af9a-4aaa-9fcf-8b31d417f56a"
+          }
+        }
+      ]
+    },
+    "reporter": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/user?accountId=712020%3A29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+      "emailAddress": "iamsarahbarnes@gmail.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4/ebfa759d-9306-46cb-b555-3fae5d21ea3a/32"
+      },
+      "displayName": "Sarah Barnes",
+      "active": true,
+      "timeZone": "Australia/Brisbane",
+      "accountType": "atlassian"
+    },
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10045": {
+      "type": "doc",
+      "version": 1,
+      "content": [
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "What was delivered"
+            }
+          ]
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Member profile with address search, accordion locations, compact level rows"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Drag reorder + arrows, colour picker, remove level, home location symbol"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Username validation with taken check (thegoat)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Strengths/improvements as removable tags with suggestions"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Exit without completing - dashboard prompts profile setup"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "attrs": {
+            "level": 3
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "Review feedback addressed"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "All 20 review items from comment 10012 have been implemented in the prototype."
+            }
+          ]
+        },
+        {
+          "type": "orderedList",
+          "attrs": {
+            "order": 1
+          },
+          "content": [
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Required fields marked with *; no optional labels"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Real-time validation (username, location)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Removed prototype eyebrow/subtitle text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Exit / skip profile without completing"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Username validation; thegoat shows taken error"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Address search with suggestions + add anyway"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Accordion auto-opens after adding location for level setup"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Edit location after added"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Easy to Hard sort toggle (reverses to Hard to Easy)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Level label field name"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Colour picker dropdown (presets + custom hex)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Remove level (disabled when only one remains)"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Compact level rows with colour swatch"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Drag reorder handle tap-to-swap plus arrow buttons"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Accordion locations - one open at a time"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Home location shown with home symbol"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Set as home action on non-home locations"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Removed Current levels summary text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Level colour cannot be blank"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Strengths/improvements as removable tags with suggested taps"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "Test: http://localhost:8081/profile/setup or via /scenarios"
+            }
+          ]
+        }
+      ]
+    },
+    "customfield_10001": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/ROKJ-15/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [
+        {
+          "id": "10001",
+          "body": "**Starting Stage 1 development** alongside [ROKJ-3](https://satsumya.atlassian.net/browse/ROKJ-3).\n\nBuilding member profile setup flow from acceptance criteria: location, difficulty levels (default colour sequence), optional fields, pet rock avatar placeholders, then dashboard.\n\nWill mark criteria complete on this ticket as each item is implemented in the clickable prototype.",
+          "created": "2026-06-20T14:01:32.346+1000",
+          "updated": "2026-06-20T14:01:32.346+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10004",
+          "body": "**Implementation complete — ready for review**\n\nAll acceptance criteria marked complete in member profile setup screen (`/profile/setup`).\n\n**Test paths:**\n\n1. Happy path: complete all fields including optional username/strengths\n2. Alternate path: skip optional fields, still complete with required location\n3. Error path: tap Complete profile without adding a location\n\nLinked from sign up welcome flow ([ROKJ-3](https://satsumya.atlassian.net/browse/ROKJ-3)).",
+          "created": "2026-06-20T14:06:11.575+1000",
+          "updated": "2026-06-20T14:06:11.575+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10006",
+          "body": "Added prototype test links to the ticket description, populated the **Decision tree**, and reformatted **Outcome summary** as bullets + scenario table.\n\nProfile scenarios are also available from http://localhost:8081/scenarios (run `npm run web` first).",
+          "created": "2026-06-20T14:15:16.903+1000",
+          "updated": "2026-06-20T14:15:16.903+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10010",
+          "body": "Moved to the ticket fields",
+          "created": "2026-06-20T14:52:11.094+1000",
+          "updated": "2026-06-20T14:52:11.094+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        },
+        {
+          "id": "10012",
+          "body": "Review: <custom data-type=\"status\" data-id=\"id-0\">not approved</custom> \n\nPlease address the following:\n\n|  | **Summary** | **Description** |\n| --- | --- | --- |\n| 1 | Required and optional field communication | Use an \\* for required fields and don’t mention optional as that is already implied |\n| 2 | Input errors | Error validation should happen in real time instead of waiting until the user tries to continue |\n| 3 | Remove excess prototype text | Some text on this ticket was added for context but not needed on the prototype e.g. “Default option: cartoon pet rocks” Please remove any text that a user wouldn’t expect to see |\n| 4 | Need to be able to exit member profile | Some fields are required for users to use other features but users can still exit the member profile set up if they want to |\n| 5 | Username needs validation | We’ll need to check if a username is available. For testing please make ‘thegoat’ a username that’s already taken so we can view that scenario |\n| 6 | 'Location name' / location | This field should be an address search with suggested addresses showing as the user types. If the user enters a location and the address can’t be found, there should be an option to add anyway  |\n| 7 | Location added - encourage user to add levels | When a location is added it needs to feel more seamless to move users onto adding difficulty levels |\n| 8 | Location edit | After a location is added a user needs to be able to edit the location easily if they made a mistake or need to update the location |\n| 9 | Difficulty levels sort | Make it clear they are adding level from easy to hard and allow users to swap the sorting from hard to easy |\n| 10 | Remove level numbers | e.g. Level 1 name should just be “Level label” |\n| 11 | Changing level colours | Allow users to click on the colour to open a menu or dropdown of the default colour types or click a plus button to choose from a colour wheel with hex code available |\n| 12 | Difficulty levels - removing | If a user adds too many difficulty levels they need to be able to remove a level if they want. But a user should not be able to delete the level if there’s no other levels added to the location |\n| 13 | Be concise when displaying levels | Try showing levels as a row so it’s less overwhelming and easier for users to see more levels |\n| 14 | Difficulty level rearranging | Users should also be able to drag the levels to a different position as well as moving with arrows |\n| 15 | Locations added | Only show one location with levels at a time. e.g. an accordion for each location, only allow one location accordion open at any time |\n| 16 | Home location communication | Use a symbol to show which location is the home/base instead of saying ‘home/base’ |\n| 17 | Change home location | Users need to be able to change which location is considered the ‘home’ |\n| 18 | Remove excess level summary text | “Current levels: Yellow (#F5D547), Blue (#4A90D9), Purple (#9B59B6), Green (#2ECC71), Orange (#E67E22), Red (#E74C3C), Black (#2C3E50), White (#ECF0F1), Pink (#FF69B4), Custom (#AAAAAA), Custom (#AAAAAA), Custom (#AAAAAA)“  \nit only seems to provide a summary of the first location added not all locations added and doesn’t add any extra value |\n| 19 | Level colour cannot be blank | don’t allow users to remove a colour without adding a colour |\n| 20 | Strength and areas to improve | These should add tags so it’s clear when it’s been added. These tags should be able to be removed as well. Offer some recommended tags that a user can tap to add, typing should be secondary |\n\nGeneral feedback: please use the existing ticket fields where possible e.g. decision tree and outcome summary. I’ve moved these from comments to the ticket fields",
+          "created": "2026-06-20T15:18:29.493+1000",
+          "updated": "2026-06-20T16:03:42.657+1000",
+          "author": {
+            "accountId": "712020:29c42df6-88fc-4646-aedc-3fdfa92e83a4",
+            "displayName": "Sarah Barnes"
+          }
+        }
+      ],
+      "self": "https://api.atlassian.com/ex/jira/d4d21ceb-5f01-4770-8c36-31e265d0e61e/rest/api/3/issue/10024/comment",
+      "maxResults": 5,
+      "total": 5,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}

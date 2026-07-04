@@ -17,11 +17,13 @@ export function WireframeScreen({
   children,
   footer,
   headerRight,
+  overlay,
 }: {
   title: string;
   children: ReactNode;
   footer?: ReactNode;
   headerRight?: ReactNode;
+  overlay?: ReactNode;
 }) {
   return (
     <SafeAreaView style={styles.screen}>
@@ -38,6 +40,7 @@ export function WireframeScreen({
         </ScrollView>
         {footer ? <View style={styles.footer}>{footer}</View> : null}
       </KeyboardAvoidingView>
+      {overlay}
     </SafeAreaView>
   );
 }
@@ -146,6 +149,52 @@ export function WireframeSection({ title, children }: { title: string; children:
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>{title}</Text>
       {children}
+    </View>
+  );
+}
+
+export function WireframeBottomSheet({
+  visible,
+  title,
+  children,
+  onClose,
+}: {
+  visible: boolean;
+  title: string;
+  children: ReactNode;
+  onClose: () => void;
+}) {
+  if (!visible) return null;
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        justifyContent: 'flex-end',
+        zIndex: 100,
+      }}
+    >
+      <Pressable
+        onPress={onClose}
+        style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.35)' }}
+      />
+      <View
+        style={{
+          borderTopWidth: 1,
+          borderTopColor: '#CCC',
+          backgroundColor: '#FFF',
+          padding: 20,
+          gap: 12,
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+        }}
+      >
+        <Text style={{ fontSize: 18, fontWeight: '700' }}>{title}</Text>
+        {children}
+      </View>
     </View>
   );
 }

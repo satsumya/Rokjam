@@ -7,9 +7,11 @@ import { WireframeButton, WireframeField } from './Wireframe';
 export function AddressSearch({
   onSelect,
   error,
+  required = true,
 }: {
   onSelect: (address: string) => void;
   error?: string;
+  required?: boolean;
 }) {
   const [query, setQuery] = useState('');
   const [showAddAnyway, setShowAddAnyway] = useState(false);
@@ -40,7 +42,7 @@ export function AddressSearch({
     <View style={{ gap: 8 }}>
       <WireframeField
         label="Location"
-        required
+        required={required}
         value={query}
         onChangeText={handleChange}
         placeholder="Search address or gym name"

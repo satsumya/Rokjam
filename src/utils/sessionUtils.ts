@@ -10,6 +10,28 @@ export function todayIso() {
   return new Date().toISOString().slice(0, 10);
 }
 
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+export function formatSessionDate(iso: string) {
+  const d = new Date(`${iso}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return iso;
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${DAY_NAMES[d.getDay()]} ${dd} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+export const END_TIME_PRESETS = ['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00'];
+
+export const DURATION_PRESETS: { label: string; minutes: number }[] = [
+  { label: '30 mins', minutes: 30 },
+  { label: '45 mins', minutes: 45 },
+  { label: '1 hr', minutes: 60 },
+  { label: '1.5 hr', minutes: 90 },
+  { label: '2 hr', minutes: 120 },
+  { label: '2.5 hr', minutes: 150 },
+  { label: '3 hr', minutes: 180 },
+];
+
 export function nowTimeLabel() {
   const d = new Date();
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
