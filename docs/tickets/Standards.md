@@ -45,7 +45,3 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] Edit in context — Put editable fields near the action that needs them; do not tell users to go elsewhere (e.g. end time/duration in the save/end sheet)
 - [x] Confirmations use bottom sheet — Destructive or final actions (delete session, save/end session) use a bottom sheet with clear confirm/cancel
 - [x] Share when saved or ended — Share session/climb only after the session is saved or ended, not during active editing
-
-## Scenarios & testing
-
-- [x] Scenario coverage — Each flow documents happy, alternate, and error paths in the [scenario tester](./README.md#how-to-run) where applicable

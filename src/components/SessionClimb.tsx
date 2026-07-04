@@ -76,12 +76,16 @@ export function ClimbEditor({ climb, location, onChange, onSave, onCancel, onSha
     onChange({ tags: next });
   };
 
-  const toggleProgress = (value: AttemptProgress) => {
-    const attempt = climb.attempts[0] ?? { id: `${Date.now()}`, progress: [] as AttemptProgress[] };
-    const progress = attempt.progress.includes(value)
-      ? attempt.progress.filter((p) => p !== value)
-      : [...attempt.progress, value];
-    onChange({ attempts: [{ ...attempt, progress }] });
+  const toggleProgress = (attemptId: string, value: AttemptProgress) => {
+    onChange({
+      attempts: climb.attempts.map((attempt) => {
+        if (attempt.id !== attemptId) return attempt;
+        const progress = attempt.progress.includes(value)
+          ? attempt.progress.filter((p) => p !== value)
+          : [...attempt.progress, value];
+        return { ...attempt, progress };
+      }),
+    });
   };
 
   const addAttempt = () => {
@@ -197,7 +201,7 @@ export function ClimbEditor({ climb, location, onChange, onSave, onCancel, onSha
             <Text style={{ fontWeight: '600' }}>Attempt {index + 1}</Text>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
               {ATTEMPT_PROGRESS_OPTIONS.map((opt) => (
-                <Pressable key={opt.value} onPress={() => toggleProgress(opt.value)}>
+                <Pressable key={opt.value} onPress={() => toggleProgress(attempt.id, opt.value)}>
                   <Text
                     style={{
                       borderWidth: 1,

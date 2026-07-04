@@ -14,7 +14,7 @@ import { getLoginIdentifierError } from '../../src/utils/validation';
 
 export default function LoginScreen() {
   const { demo, existing } = useLocalSearchParams<{ demo?: string; existing?: string }>();
-  const { setEmail } = usePrototype();
+  const { seedReturningUser } = usePrototype();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ identifier: false, password: false });
@@ -61,7 +61,9 @@ export default function LoginScreen() {
     if (knownUserMatch && password !== MOCK_EXISTING_USER.password) return;
 
     if (knownUserMatch) {
-      setEmail(MOCK_EXISTING_USER.email);
+      seedReturningUser();
+      router.replace('/dashboard');
+      return;
     }
 
     router.replace('/dashboard');

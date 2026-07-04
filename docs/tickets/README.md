@@ -8,6 +8,10 @@ Edit checkboxes in the ticket files as you implement or verify.
 
 Cross-cutting rules (date format, required fields, validation, etc.) live in **[Standards.md](./Standards.md)**. Flow specs reference these by default.
 
+## Testing
+
+Scenario coverage requirements and how to use the scenario tester: **[Testing.md](./Testing.md)**.
+
 ## Flows
 
 | Ticket | Flow |
@@ -26,7 +30,10 @@ npm install
 npm run web
 ```
 
-Open **http://localhost:8081/scenarios** — scenario tester with one-click links for every path below.
+1. Wait for Metro to finish bundling (watch the terminal for a URL like `http://localhost:8081`).
+2. Open the **[scenario tester](http://localhost:8081/scenarios)** in your browser, or tap **Scenario tester** on the app welcome screen.
+
+If port 8081 is in use, Expo picks another port — use the URL shown in your terminal.
 
 For Expo Go: `npm start` and scan the QR code, then open **Scenario tester** from the welcome screen.
 

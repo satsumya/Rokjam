@@ -2,6 +2,11 @@ import { createContext, useContext, useMemo, useState } from 'react';
 
 import { createDemoSessions, MOCK_PUBLIC_SESSIONS } from '../constants/mockSessions';
 import { DEFAULT_LEVEL_COLORS, PET_ROCK_AVATARS } from '../constants/difficultyLevels';
+import {
+  IMPROVEMENT_TAG_SUGGESTIONS,
+  MOCK_EXISTING_USER,
+  STRENGTH_TAG_SUGGESTIONS,
+} from '../constants/mockData';
 import type { ClimbingSession, SessionClimb } from '../types/climbingSession';
 import { nowTimeLabel, todayIso } from '../utils/sessionUtils';
 
@@ -60,6 +65,7 @@ type PrototypeContextValue = {
   removeClimb: (sessionId: string, climbId: string) => void;
   seedDemoSessions: () => void;
   seedDemoProfileOnly: () => void;
+  seedReturningUser: () => void;
   toggleFollowUser: (username: string) => void;
   resetSession: () => void;
 };
@@ -308,8 +314,19 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
         setLocations([demoLocation]);
         setProfileComplete(true);
         setProfileSkipped(false);
-        if (!username) setUsername('member');
         setSessions([]);
+      },
+      seedReturningUser: () => {
+        const demoLocation = createDemoLocation();
+        setEmail(MOCK_EXISTING_USER.email);
+        setUsername(MOCK_EXISTING_USER.username);
+        setAvatar(PET_ROCK_AVATARS[0]);
+        setLocations([demoLocation]);
+        setStrengthTags(STRENGTH_TAG_SUGGESTIONS.slice(0, 2));
+        setImprovementTags(IMPROVEMENT_TAG_SUGGESTIONS.slice(0, 1));
+        setProfileComplete(true);
+        setProfileSkipped(false);
+        setSessions(createDemoSessions(demoLocation.id, demoLocation.name));
       },
       toggleFollowUser: (user) => {
         setFollowedUsers((current) =>

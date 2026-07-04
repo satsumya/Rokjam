@@ -21,8 +21,12 @@ export default function SignUpScreen() {
   useEffect(() => {
     if (demo === 'error-empty') {
       setTouched({ email: true, password: true });
+      return;
     }
-  }, [demo]);
+    setEmail('');
+    setPassword('');
+    setTouched({ email: false, password: false });
+  }, [demo, setEmail]);
 
   const emailError = touched.email ? getEmailError(email) : undefined;
   const passwordError =
