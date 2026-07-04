@@ -64,6 +64,7 @@ type PrototypeContextValue = {
   updateClimb: (sessionId: string, climbId: string, patch: Partial<SessionClimb>) => void;
   removeClimb: (sessionId: string, climbId: string) => void;
   seedDemoSessions: () => void;
+  seedDemoActiveSession: () => void;
   seedDemoProfileOnly: () => void;
   seedReturningUser: () => void;
   toggleFollowUser: (username: string) => void;
@@ -308,6 +309,44 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
         }
         if (!username) setUsername('member');
         setSessions(createDemoSessions(demoLocation.id, demoLocation.name));
+      },
+      seedDemoActiveSession: () => {
+        const demoLocation = createDemoLocation();
+        const levels = DEFAULT_LEVEL_COLORS.slice(0, 5);
+        setLocations([demoLocation]);
+        setUsername('alex_climber');
+        setProfileComplete(true);
+        setProfileSkipped(false);
+        setSessions([
+          {
+            id: 'demo-active-session',
+            status: 'active',
+            date: todayIso(),
+            startTime: nowTimeLabel(),
+            locationId: demoLocation.id,
+            locationName: demoLocation.name,
+            isPublic: false,
+            ownerUsername: 'alex_climber',
+            ownerAvatar: PET_ROCK_AVATARS[0],
+            climbs: [
+              {
+                id: 'ac1',
+                levelId: 'demo-level-1',
+                levelName: levels[1].name,
+                levelColor: levels[1].color,
+                name: 'Project wall',
+                tags: ['crimpy'],
+                notes: '',
+                hasImage: false,
+                hasVideo: false,
+                isWarmUp: false,
+                isRepeat: false,
+                isProject: true,
+                attempts: [{ id: 'aa1', progress: ['start'] }],
+              },
+            ],
+          },
+        ]);
       },
       seedDemoProfileOnly: () => {
         const demoLocation = createDemoLocation();

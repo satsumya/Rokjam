@@ -20,6 +20,7 @@ Scenario coverage for the Stage 1 prototype.
 | Filter by flow | SignUpLogin, MemberProfile, ClimbingSessionCreate, etc. (matches `Flow/*.md` specs) |
 | Filter by user type | New user, existing user, or all — also drives setup for “any user” scenarios |
 | Filter by path type | Happy, alternate, error |
+| **Flow map** | Visual journey diagram with screen previews — tap any screen to jump in |
 | Mock values | Shown on scenario page (credentials, `thegoat`, verify code, address search) |
 
 Each **Run scenario** button resets app state, applies the scenario setup, then navigates to the route.

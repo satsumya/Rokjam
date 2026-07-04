@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -29,9 +29,17 @@ const emptyClimb = (): SessionClimb => ({
 });
 
 export default function EditSessionScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const { sessions, locations, username, updateSession, updateClimb, removeClimb, addClimb } =
+  const { id, demo } = useLocalSearchParams<{ id: string; demo?: string }>();
+  const { sessions, locations, username, updateSession, updateClimb, removeClimb, addClimb, seedDemoSessions } =
     usePrototype();
+  const demoApplied = useRef(false);
+
+  useEffect(() => {
+    if (demo !== 'seed' || demoApplied.current) return;
+    if (sessions.some((s) => s.id === id)) return;
+    seedDemoSessions();
+    demoApplied.current = true;
+  }, [demo, id, seedDemoSessions, sessions]);
 
   const session = sessions.find((s) => s.id === id);
   const location = locations.find((l) => l.id === session?.locationId);

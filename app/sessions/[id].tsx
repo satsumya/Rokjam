@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
@@ -15,10 +15,18 @@ import { usePrototype } from '../../src/context/PrototypeContext';
 import { computeDurationMinutes, formatDuration, formatSessionDate } from '../../src/utils/sessionUtils';
 
 export default function SessionDetailScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const { sessions, deleteSession } = usePrototype();
+  const { id, demo } = useLocalSearchParams<{ id: string; demo?: string }>();
+  const { sessions, deleteSession, seedDemoSessions } = usePrototype();
   const [shareVisible, setShareVisible] = useState(false);
   const [showDeleteSheet, setShowDeleteSheet] = useState(false);
+  const demoApplied = useRef(false);
+
+  useEffect(() => {
+    if (demo !== 'seed' || demoApplied.current) return;
+    if (sessions.some((s) => s.id === id)) return;
+    seedDemoSessions();
+    demoApplied.current = true;
+  }, [demo, id, seedDemoSessions, sessions]);
 
   const session = sessions.find((s) => s.id === id);
 

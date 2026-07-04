@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import {
   WireframeButton,
@@ -12,10 +12,17 @@ import { usePrototype } from '../../src/context/PrototypeContext';
 import { getVerificationCodeError } from '../../src/utils/validation';
 
 export default function VerifyEmailScreen() {
-  const { email } = usePrototype();
+  const { demo } = useLocalSearchParams<{ demo?: string }>();
+  const { email, setEmail } = usePrototype();
   const [code, setCode] = useState('');
   const [touched, setTouched] = useState(false);
   const [resent, setResent] = useState(false);
+
+  useEffect(() => {
+    if (demo === 'prefill' && !email) {
+      setEmail('new.user@example.com');
+    }
+  }, [demo, email, setEmail]);
 
   const codeError = touched ? getVerificationCodeError(code) : undefined;
 

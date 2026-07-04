@@ -126,6 +126,17 @@ export default function ScenariosScreen() {
         <WireframeButton label="Back to welcome" variant="secondary" onPress={() => router.replace('/')} />
       }
     >
+      <WireframeSection title="Flow map">
+        <WireframeBox>
+          <Text style={{ lineHeight: 22 }}>
+            See how screens connect across each flow. Tap any screen to jump to that point in the journey with
+            the right app state.
+          </Text>
+          <WireframeButton label="Open flow map" onPress={() => router.push('/flow-map')} />
+          <Text style={{ color: '#666', fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/flow-map')}</Text>
+        </WireframeBox>
+      </WireframeSection>
+
       <WireframeSection title="Mock test values">
         <WireframeBox>
           <Text>Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>
