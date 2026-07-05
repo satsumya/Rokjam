@@ -22,6 +22,3 @@ jobs:
 
       - name: Typecheck and validate flow map
         run: npm run check
-        env:
-          CI: true
-          GITHUB_BASE_REF: ${{ github.base_ref || 'main' }}

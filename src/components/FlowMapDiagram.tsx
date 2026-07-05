@@ -1,4 +1,4 @@
-import { Image, Platform, Pressable, Text, View } from 'react-native';
+import { Image, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
 import {
   FLOW_FRAME_MIN_HEIGHT,
@@ -14,43 +14,61 @@ import {
   type FlowMapScreen,
   type FlowNavigateContext,
 } from '../constants/flowMap';
-import { getFlowManifest, getScreenManifest } from '../constants/flowMapManifest';
+import { getFlowManifest } from '../constants/flowMapManifest';
 import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
+import { useFlowMapCapture } from '../hooks/useFlowMapCapture';
 import { navigateFlowScreen } from '../utils/flowMapNavigate';
 import { downloadFlowScreenCapture, downloadFlowScreensBulk } from '../utils/flowScreenDownload';
+import { flowScreenPreviewSource } from '../utils/flowScreenCaptureClient';
 import { formatFlowMapVersionStatus } from '../utils/flowMapVersionFormat';
+import type { FlowMapVersionEntry } from '../constants/flowMapManifest';
+
 import { WireframeSection } from './Wireframe';
 
-const ARROW = '#2563EB';
-const ARROW_FILL = '#EFF6FF';
-const CANVAS_BG = '#F4F7FB';
+type ActionVariant = 'download' | 'update';
 
-function DownloadButton({
+function FlowMapActionButton({
   label,
   onPress,
   accessibilityLabel,
+  variant = 'download',
+  disabled,
 }: {
   label: string;
   onPress: () => void;
   accessibilityLabel: string;
+  variant?: ActionVariant;
+  disabled?: boolean;
 }) {
+  const isUpdate = variant === 'update';
+  const borderColor = isUpdate ? '#059669' : '#2563EB';
+  const backgroundColor = isUpdate ? '#ECFDF5' : '#EFF6FF';
+  const pressedBg = isUpdate ? '#D1FAE5' : '#DBEAFE';
+  const textColor = isUpdate ? '#047857' : '#1D4ED8';
+
   return (
     <Pressable
       onPress={onPress}
+      disabled={disabled}
       accessibilityLabel={accessibilityLabel}
       style={({ pressed }) => ({
         borderWidth: 1,
-        borderColor: '#2563EB',
+        borderColor,
         borderRadius: 12,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        backgroundColor: pressed ? '#DBEAFE' : '#EFF6FF',
+        backgroundColor: pressed ? pressedBg : backgroundColor,
+        opacity: disabled ? 0.5 : 1,
       })}
     >
-      <Text style={{ fontSize: 12, fontWeight: '600', color: '#1D4ED8' }}>{label}</Text>
+      <Text style={{ fontSize: 12, fontWeight: '600', color: textColor }}>{label}</Text>
     </Pressable>
   );
 }
+
+const ARROW = '#2563EB';
+const ARROW_FILL = '#EFF6FF';
+const CANVAS_BG = '#F4F7FB';
 
 function VersionStatus({ version, updatedAt }: { version: string; updatedAt: string }) {
   return (
@@ -233,6 +251,11 @@ function FlowScreenNode({
   y,
   frameHeight,
   onPress,
+  screenMeta,
+  cacheKey,
+  onUpdate,
+  updating,
+  canUpdate,
 }: {
   screen: FlowMapScreen;
   subtitle?: string;
@@ -240,10 +263,16 @@ function FlowScreenNode({
   y: number;
   frameHeight: number;
   onPress: () => void;
+  screenMeta?: FlowMapVersionEntry;
+  cacheKey?: string;
+  onUpdate?: () => void;
+  updating?: boolean;
+  canUpdate?: boolean;
 }) {
-  const imageSource = FLOW_SCREEN_IMAGES[screen.id];
-  const canDownload = Boolean(imageSource);
-  const screenMeta = getScreenManifest(screen.id);
+  const bundled = FLOW_SCREEN_IMAGES[screen.id];
+  const previewUri = flowScreenPreviewSource(screen.id, cacheKey);
+  const imageSource = previewUri ?? (bundled ? bundled : null);
+  const canDownload = Boolean(bundled || previewUri);
 
   return (
     <View
@@ -280,7 +309,7 @@ function FlowScreenNode({
         >
           {imageSource ? (
             <Image
-              source={imageSource}
+              source={typeof imageSource === 'number' ? imageSource : imageSource}
               style={{ width: '100%', height: '100%' }}
               resizeMode="contain"
               accessibilityLabel={screen.label}
@@ -314,12 +343,21 @@ function FlowScreenNode({
           {screen.label}
         </Text>
         {canDownload ? (
-          <DownloadButton
+          <FlowMapActionButton
             label="Download"
             onPress={() => {
               void downloadFlowScreenCapture(screen.id, screen.label);
             }}
             accessibilityLabel={`Download screenshot of ${screen.label}`}
+          />
+        ) : null}
+        {canUpdate && onUpdate ? (
+          <FlowMapActionButton
+            label={updating ? 'Updating…' : 'Update'}
+            variant="update"
+            disabled={updating}
+            onPress={onUpdate}
+            accessibilityLabel={`Update screenshot of ${screen.label}`}
           />
         ) : null}
       </View>
@@ -342,13 +380,29 @@ function FlowScreenNode({
 function FlowJourneyCanvas({
   journey,
   onScreenPress,
+  extraDimensions,
+  screenMetaMap,
+  flowMetaEntry,
+  cacheKeys,
+  onUpdateScreen,
+  onUpdateFlow,
+  busyKey,
+  canUpdate,
 }: {
   journey: FlowMapJourney;
   onScreenPress: (screen: FlowMapScreen) => void;
+  extraDimensions: Record<string, { width: number; height: number }>;
+  screenMetaMap: Record<string, FlowMapVersionEntry>;
+  flowMetaEntry?: FlowMapVersionEntry;
+  cacheKeys: Record<string, string>;
+  onUpdateScreen: (screenId: string) => void;
+  onUpdateFlow: (flowId: string) => void;
+  busyKey: string | null;
+  canUpdate: boolean;
 }) {
-  const { width, height, nodes } = journeyCanvasSize(journey);
+  const { width, height, nodes } = journeyCanvasSize(journey, extraDimensions);
   const nodeById = new Map(nodes.map((n) => [n.nodeId, n]));
-  const flowMeta = getFlowManifest(journey.id);
+  const flowMeta = flowMetaEntry ?? getFlowManifest(journey.id);
   const bulkItems = journeyScreenIds(journey)
     .filter((id) => FLOW_SCREEN_IMAGES[id])
     .map((id) => ({
@@ -356,29 +410,44 @@ function FlowJourneyCanvas({
       label: FLOW_MAP_SCREENS[id]?.label ?? id,
     }));
   const canBulkDownload = bulkItems.length > 0;
+  const flowBusy = busyKey === `flow:${journey.id}`;
 
   return (
     <WireframeSection
       title={journey.title}
       subtitle={flowMeta ? formatFlowMapVersionStatus(flowMeta.version, flowMeta.updatedAt) : undefined}
       headerAction={
-        canBulkDownload ? (
-          <DownloadButton
-            label="Download all"
-            onPress={() => {
-              void downloadFlowScreensBulk(bulkItems, journey.title, flowMeta?.version);
-            }}
-            accessibilityLabel={`Download all screenshots for ${journey.title}`}
-          />
+        canBulkDownload || canUpdate ? (
+          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            {canUpdate ? (
+              <FlowMapActionButton
+                label={flowBusy ? 'Updating…' : 'Update all'}
+                variant="update"
+                disabled={flowBusy || Boolean(busyKey)}
+                onPress={() => onUpdateFlow(journey.id)}
+                accessibilityLabel={`Update all screenshots for ${journey.title}`}
+              />
+            ) : null}
+            {canBulkDownload ? (
+              <FlowMapActionButton
+                label="Download all"
+                onPress={() => {
+                  void downloadFlowScreensBulk(bulkItems, journey.title, flowMeta?.version);
+                }}
+                accessibilityLabel={`Download all screenshots for ${journey.title}`}
+              />
+            ) : null}
+          </View>
         ) : undefined
       }
     >
       <Text style={{ color: '#6B7280', marginBottom: 16, lineHeight: 20 }}>{journey.description}</Text>
-      <View
-        style={{
-          width: '100%',
-          overflow: 'visible',
-        }}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator
+        nestedScrollEnabled
+        style={{ width: '100%' }}
+        contentContainerStyle={{ flexGrow: 0 }}
       >
         <View
           style={{
@@ -388,8 +457,7 @@ function FlowJourneyCanvas({
             borderRadius: 16,
             borderWidth: 1,
             borderColor: '#E5E7EB',
-            overflow: 'visible',
-            alignSelf: 'flex-start',
+            overflow: 'hidden',
           }}
         >
           <FlowEdgesSvg
@@ -411,11 +479,16 @@ function FlowJourneyCanvas({
                 y={node.y}
                 frameHeight={node.frameHeight}
                 onPress={() => onScreenPress(screen)}
+                screenMeta={screenMetaMap[node.screenId]}
+                cacheKey={cacheKeys[node.screenId]}
+                onUpdate={() => onUpdateScreen(node.screenId)}
+                updating={busyKey === `screen:${node.screenId}`}
+                canUpdate={canUpdate}
               />
             );
           })}
         </View>
-      </View>
+      </ScrollView>
     </WireframeSection>
   );
 }
@@ -427,6 +500,9 @@ export function FlowMapDiagram({
   navigateCtx: FlowNavigateContext;
   journeyFilter?: FlowMapJourney['id'] | 'all';
 }) {
+  const capture = useFlowMapCapture();
+  const canUpdate = Platform.OS === 'web' && capture.serverReady === true;
+
   const journeys =
     journeyFilter && journeyFilter !== 'all'
       ? FLOW_MAP_JOURNEYS.filter((j) => j.id === journeyFilter)
@@ -438,8 +514,52 @@ export function FlowMapDiagram({
 
   return (
     <>
+      {Platform.OS === 'web' && capture.serverReady === false ? (
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: '#FCD34D',
+            backgroundColor: '#FFFBEB',
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={{ color: '#92400E', lineHeight: 20 }}>
+            To use Update buttons, run{' '}
+            <Text style={{ fontWeight: '700' }}>npm run flow-map-capture-server</Text> in a second terminal
+            while this app is running.
+          </Text>
+        </View>
+      ) : null}
+      {capture.error ? (
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: '#FCA5A5',
+            backgroundColor: '#FEF2F2',
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={{ color: '#B91C1C' }}>{capture.error}</Text>
+        </View>
+      ) : null}
       {journeys.map((journey) => (
-        <FlowJourneyCanvas key={journey.id} journey={journey} onScreenPress={handlePress} />
+        <FlowJourneyCanvas
+          key={journey.id}
+          journey={journey}
+          onScreenPress={handlePress}
+          extraDimensions={capture.dimensions}
+          screenMetaMap={capture.screenMeta}
+          flowMetaEntry={capture.flowMeta[journey.id]}
+          cacheKeys={capture.cacheKeys}
+          onUpdateScreen={capture.updateScreen}
+          onUpdateFlow={capture.updateFlow}
+          busyKey={capture.busyKey}
+          canUpdate={canUpdate}
+        />
       ))}
     </>
   );

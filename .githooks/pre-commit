@@ -1,4 +1,4 @@
 #!/bin/sh
-# Runs on commit when hooks are installed via: npm run setup-hooks
+# Optional: git config core.hooksPath .githooks
 set -e
 npm run check

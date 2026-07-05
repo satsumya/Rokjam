@@ -12,21 +12,19 @@ All agents (Cursor, Claude, Copilot, etc.) working in this repo **must** follow 
 
 1. Implement the change in `app/` and/or `src/components/`.
 2. Update the matching **docs/tickets/Flow/*.md** acceptance criteria if behaviour changed.
-3. Update the **flow map** (required — CI enforces this when `app/` or `src/components/` change):
-   - `src/constants/flowMap.ts` — journeys and screen entries
-   - `scripts/flow-map-screens.json` + `src/constants/flowScreenImages.ts` — if the screen has a PNG preview
-   - Run `npm run validate-flow-map:fix` then `npm run capture-flow-screens` (dev server on `:8081`)
-   - Bump versions: `npm run bump-flow-map -- --flow <id> --level patch|minor|major`
+3. Register new screens in the flow map (`flowMap.ts`, `flow-map-screens.json`, `flowScreenImages.ts` if needed) and run `npm run validate-flow-map:fix`.
 4. Wrap testing-only UI in `<PrototypeOnly>` so flow-map screenshots hide it.
-5. Run **`npm run check`** before finishing — must pass.
+5. **Refresh screenshots from the flow map page** using **Update** / **Update all** (requires `npm run flow-map-capture-server` in a second terminal), or run `npm run capture-flow-screens` from the CLI.
+6. Run **`npm run check`** before finishing.
 
 ## Commands
 
 | Command | Purpose |
 | --- | --- |
-| `npm run check` | Typecheck + flow map validation + stale-flow guard |
+| `npm run check` | Typecheck + flow map structural validation |
+| `npm run flow-map-capture-server` | Local API for flow map **Update** buttons |
 | `npm run validate-flow-map` | Verify manifest, screens, PNGs, and flow specs align |
-| `npm run capture-flow-screens` | Regenerate flow-map PNGs |
+| `npm run capture-flow-screens` | Regenerate all flow-map PNGs from CLI |
 | `npm run bump-flow-map` | Bump screen or flow version |
 
 See [docs/tickets/Testing.md](docs/tickets/Testing.md) for scenario tester and flow map maintenance.

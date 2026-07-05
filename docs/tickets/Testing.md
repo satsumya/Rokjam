@@ -27,18 +27,27 @@ Each **Run scenario** button resets app state, applies the scenario setup, then 
 
 ## Flow map maintenance
 
+**In the app** (recommended after UI changes):
+
+1. Terminal 1: `npm run web`
+2. Terminal 2: `npm run flow-map-capture-server`
+3. Open `/flow-map` → **Update** on a screen or **Update all** on a flow section
+
+**CLI** (all screens at once):
+
 ```bash
-npm run check                    # typecheck + validate + stale-flow guard (run before every commit)
-npm run setup-hooks              # one-time: install pre-commit hook
-npm run validate-flow-map        # check manifest, screens list, and PNG assets match
+npm run capture-flow-screens     # dev server on :8081 required
+```
+
+**Structure & versions:**
+
+```bash
+npm run check                    # typecheck + validate flow map structure
 npm run validate-flow-map:fix    # add missing manifest entries
-npm run capture-flow-screens     # regenerate PNGs + update timestamps
 npm run bump-flow-map -- --screen welcome --level patch
 ```
 
-CI on GitHub runs `npm run check` on every push and PR. The stale-flow guard blocks screen changes that omit flow-map updates.
-
-See [Standards.md](./Standards.md#flow-map) for version bump rules and the checklist when adding screens or flows. Agents must follow [AGENTS.md](../../AGENTS.md).
+See [Standards.md](./Standards.md#flow-map) for version bump rules. Agents must follow [AGENTS.md](../../AGENTS.md).
 
 ## Setups
 

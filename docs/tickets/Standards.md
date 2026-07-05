@@ -77,23 +77,22 @@ npm run capture-flow-screens -- --bump patch
 
 ### Adding or changing screens and flows
 
-1. Update the screen or journey in `src/constants/flowMap.ts`.
-2. If the screen has a PNG preview, add it to `scripts/flow-map-screens.json` and `src/constants/flowScreenImages.ts`.
-3. Run `npm run validate-flow-map:fix` to add missing manifest entries.
-4. Run `npm run capture-flow-screens` (dev server on `:8081`) to regenerate PNGs.
-5. Bump the relevant screen and/or flow version with `npm run bump-flow-map`.
-6. Run `npm run validate-flow-map` — must pass before merging.
+1. Update `src/constants/flowMap.ts` (and `flow-map-screens.json` + `flowScreenImages.ts` for PNG previews).
+2. Run `npm run validate-flow-map:fix`.
+3. Refresh screenshots via **Update** on the flow map page, or `npm run capture-flow-screens`.
+4. Bump versions with `npm run bump-flow-map` when appropriate.
 
-Wrap testing-only UI in `<PrototypeOnly>` so screenshots hide it (`flowCapture=1` during capture).
+Wrap testing-only UI in `<PrototypeOnly>` (`flowCapture=1` during capture).
 
 ### Automation
 
-| When | What runs |
+| Command | Purpose |
 | --- | --- |
-| Every commit (after `npm run setup-hooks`) | `npm run check` via `.githooks/pre-commit` |
-| Every push / PR | GitHub Actions runs `npm run check` |
-| `npm run check` | TypeScript + flow map validation + stale-flow guard |
+| `npm run flow-map-capture-server` | Powers **Update** / **Update all** on the flow map page |
+| `npm run capture-flow-screens` | Regenerate every PNG from the CLI |
+| `npm run validate-flow-map` | Structural checks (manifest, screens list, flow specs) |
+| `npm run check` | Typecheck + validate-flow-map |
 
-The **stale-flow guard** fails if `app/` or `src/components/` files change without at least one flow-map artifact also changing (`flowMap.ts`, `flow-map-screens.json`, `Flow/*.md`, screenshots, etc.).
+Use **Update** buttons on `/flow-map` after UI changes (with the capture server and `npm run web` running). Bump versions manually when appropriate.
 
 Agents must follow [AGENTS.md](../../AGENTS.md) and `.cursor/rules/` — both reference this file.

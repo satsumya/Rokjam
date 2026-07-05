@@ -6,7 +6,7 @@ Edit checkboxes in the ticket files as you implement or verify.
 
 ## Standards
 
-Cross-cutting rules (date format, required fields, validation, flow map automation, agent obligations, etc.) live in **[Standards.md](./Standards.md)**. Flow specs and **[AGENTS.md](../AGENTS.md)** reference these by default. CI runs `npm run check` on every push/PR.
+Cross-cutting rules (date format, required fields, validation, flow map upkeep, etc.) live in **[Standards.md](./Standards.md)**. Flow specs and **[AGENTS.md](../../AGENTS.md)** reference these by default.
 
 ## Testing
 

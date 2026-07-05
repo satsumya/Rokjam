@@ -424,7 +424,10 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
   },
 ];
 
-export function resolveJourneyLayout(journey: FlowMapJourney): FlowMapLayoutNode[] {
+export function resolveJourneyLayout(
+  journey: FlowMapJourney,
+  extraDimensions?: Record<string, { width: number; height: number }>,
+): FlowMapLayoutNode[] {
   const nodes: FlowMapLayoutNode[] = [];
   let stepX = 0;
 
@@ -436,6 +439,7 @@ export function resolveJourneyLayout(journey: FlowMapJourney): FlowMapLayoutNode
         slot.screenId,
         FLOW_NODE_WIDTH,
         FLOW_FRAME_MIN_HEIGHT,
+        extraDimensions,
       );
       nodes.push({
         nodeId: slot.nodeId,
@@ -454,9 +458,12 @@ export function resolveJourneyLayout(journey: FlowMapJourney): FlowMapLayoutNode
   return nodes;
 }
 
-export function journeyCanvasSize(journey: FlowMapJourney) {
+export function journeyCanvasSize(
+  journey: FlowMapJourney,
+  extraDimensions?: Record<string, { width: number; height: number }>,
+) {
   const pad = 48;
-  const nodes = resolveJourneyLayout(journey);
+  const nodes = resolveJourneyLayout(journey, extraDimensions);
   let maxX = 0;
   let maxY = 0;
   for (const node of nodes) {

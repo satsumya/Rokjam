@@ -2,69 +2,69 @@
   "flows": {
     "sign-up-login": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "member-profile": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "session-create": {
       "version": "0.1.0",
-      "updatedAt": "2026-07-05T12:43:13.631Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "session-view-edit": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "dashboard": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "community": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     }
   },
   "screens": {
     "welcome": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "signup": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "verify-email": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "welcome-signup": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "login": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "forgot-password": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "reset-password": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "profile-setup": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "dashboard-new": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "dashboard-returning": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:08:34.563Z"
     },
     "dashboard-trends": {
       "version": "0.0.0",
@@ -96,43 +96,43 @@
     },
     "dashboard-profile-ready": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "dashboard-one-session": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "dashboard-many-sessions": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "dashboard-mid-session": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "active-session-empty": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "active-session-empty-incomplete": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "active-session-adding-climb": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "active-session-multi-climbs": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "active-session-end-sheet": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     },
     "active-session-end-sheet-filled": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "updatedAt": "2026-07-05T14:09:49.890Z"
     }
   }
 }
