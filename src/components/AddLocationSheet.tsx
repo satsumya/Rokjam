@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import { AddressSearch } from './AddressSearch';
 import { LevelRow } from './LevelRow';
-import { WireframeBottomSheet, WireframeButton, WireframeField } from './Wireframe';
+import { WireframeButton, WireframeField, WireframeModal } from './Wireframe';
 import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
 import type { DifficultyLevel } from '../context/PrototypeContext';
 import { usePrototype } from '../context/PrototypeContext';
@@ -69,7 +69,17 @@ export function AddLocationSheet({
   };
 
   return (
-    <WireframeBottomSheet visible={visible} title="Add climbing location" onClose={onClose}>
+    <WireframeModal
+      visible={visible}
+      title="Add climbing location"
+      onClose={onClose}
+      footer={
+        <>
+          {address ? <WireframeButton label="Save location" onPress={handleSave} /> : null}
+          <WireframeButton label="Cancel" variant="ghost" onPress={onClose} />
+        </>
+      }
+    >
       <Text style={{ color: '#6B7280', lineHeight: 20 }}>
         Search for your gym or crag, then set up difficulty levels for this location.
       </Text>
@@ -161,13 +171,6 @@ export function AddLocationSheet({
       )}
 
       {error && address ? <Text style={{ color: '#C0392B' }}>{error}</Text> : null}
-
-      {address ? (
-        <>
-          <WireframeButton label="Save location" onPress={handleSave} />
-          <WireframeButton label="Cancel" variant="ghost" onPress={onClose} />
-        </>
-      ) : null}
-    </WireframeBottomSheet>
+    </WireframeModal>
   );
 }

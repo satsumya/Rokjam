@@ -22,6 +22,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 - [x] Date display format — Show dates as **Day DD Mmm YYYY** (e.g. Friday 03 Jul 2026)
 - [x] Preset + custom dropdowns — Time and duration fields offer common presets and allow typing a custom value (e.g. end time, session duration)
+- [x] Dropdown menus — Preset pickers use a true dropdown (native `<select>` on web; floating overlay menu on native). Do not use inline accordion-style expand/collapse for preset selection
 
 ## Lists & filters
 
@@ -29,7 +30,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 ## Locations
 
-- [x] Address search — Location fields use address search with suggestions as the user types; offer “add anyway” when no match is found
+- [x] Address search — Location fields use address search with suggestions as the user types; offer “add anyway” when no match is found; suggestions in a capped, scrollable list
 - [x] Home location symbol — Mark home/base location with 🏠, not the words “home” or “base”
 
 ## Difficulty levels
@@ -44,6 +45,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 - [x] Edit in context — Put editable fields near the action that needs them; do not tell users to go elsewhere (e.g. end time/duration in the save/end sheet)
 - [x] Confirmations use bottom sheet — Destructive or final actions (delete session, save/end session) use a bottom sheet with clear confirm/cancel
+- [x] Complex forms in context — Multi-step adds opened mid-flow (e.g. location + difficulty levels during a session) use a centered modal with scrollable body and pinned footer actions, not a bottom sheet
 - [x] Share when saved or ended — Share session/climb only after the session is saved or ended, not during active editing
 
 ## Flow map

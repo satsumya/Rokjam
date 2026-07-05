@@ -1,5 +1,6 @@
 import {
   KeyboardAvoidingView,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -245,6 +246,56 @@ export function WireframeBottomSheet({
   );
 }
 
+export function WireframeModal({
+  visible,
+  title,
+  children,
+  footer,
+  onClose,
+}: {
+  visible: boolean;
+  title: string;
+  children: ReactNode;
+  footer?: ReactNode;
+  onClose: () => void;
+}) {
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <View style={styles.modalRoot}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Close dialog"
+          onPress={onClose}
+          style={styles.modalBackdrop}
+        />
+        <View style={styles.modalCard}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>{title}</Text>
+            <Pressable
+              onPress={onClose}
+              accessibilityRole="button"
+              accessibilityLabel="Close"
+              hitSlop={8}
+              style={styles.modalClose}
+            >
+              <Text style={styles.modalCloseText}>×</Text>
+            </Pressable>
+          </View>
+          <ScrollView
+            style={styles.modalBody}
+            contentContainerStyle={styles.modalBodyContent}
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled
+          >
+            {children}
+          </ScrollView>
+          {footer ? <View style={styles.modalFooter}>{footer}</View> : null}
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 export function WireframeHintList({
   items,
 }: {
@@ -326,4 +377,47 @@ const styles = StyleSheet.create({
   link: { color: '#111', fontSize: 15, textDecorationLine: 'underline', textAlign: 'center' },
   section: { gap: 10 },
   sectionTitle: { fontSize: 16, fontWeight: '700', color: '#222' },
+  modalRoot: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+  },
+  modalCard: {
+    width: '100%',
+    maxWidth: 480,
+    maxHeight: '90%',
+    backgroundColor: '#FFF',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#CCC',
+    overflow: 'hidden',
+    zIndex: 1,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEE',
+    gap: 12,
+  },
+  modalTitle: { flex: 1, fontSize: 18, fontWeight: '700', color: '#111' },
+  modalClose: { padding: 4 },
+  modalCloseText: { fontSize: 28, lineHeight: 28, color: '#666' },
+  modalBody: { flexGrow: 0, flexShrink: 1 },
+  modalBodyContent: { padding: 20, gap: 12 },
+  modalFooter: {
+    padding: 20,
+    paddingTop: 0,
+    gap: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#EEE',
+  },
 });

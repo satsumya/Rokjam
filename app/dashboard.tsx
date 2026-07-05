@@ -46,7 +46,7 @@ export default function DashboardScreen() {
     .filter((s) => s.status === 'completed')
     .sort((a, b) => b.date.localeCompare(a.date));
   const recentSessions = showAllSessions ? completedSessions : completedSessions.slice(0, 3);
-  const activeSession = sessions.find((s) => s.status === 'active');
+  const activeSessions = sessions.filter((s) => s.status === 'active');
   const demoApplied = useRef<string | null>(null);
 
   useEffect(() => {
@@ -128,20 +128,21 @@ export default function DashboardScreen() {
             Profile incomplete — you can still start a session and add a location during it.
           </Text>
         ) : null}
-        {activeSession ? (
-          <WireframeBox>
-            <Text style={{ fontWeight: '700' }}>Session in progress</Text>
+        {activeSessions.map((session) => (
+          <WireframeBox key={session.id}>
+            <Text style={{ fontWeight: '700' }}>
+              Session in progress{activeSessions.length > 1 ? ` — ${session.date}` : ''}
+            </Text>
             <WireframeButton
               label="Continue session"
-              onPress={() => router.push(`/sessions/${activeSession.id}/active`)}
+              onPress={() => router.push(`/sessions/${session.id}/active`)}
             />
           </WireframeBox>
-        ) : (
-          <WireframeButton
-            label="Start climbing session"
-            onPress={() => router.push('/sessions/create')}
-          />
-        )}
+        ))}
+        <WireframeButton
+          label="Start climbing session"
+          onPress={() => router.push('/sessions/create')}
+        />
       </WireframeSection>
 
       {!needsProfile ? (
