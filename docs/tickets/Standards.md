@@ -85,3 +85,15 @@ npm run capture-flow-screens -- --bump patch
 6. Run `npm run validate-flow-map` — must pass before merging.
 
 Wrap testing-only UI in `<PrototypeOnly>` so screenshots hide it (`flowCapture=1` during capture).
+
+### Automation
+
+| When | What runs |
+| --- | --- |
+| Every commit (after `npm run setup-hooks`) | `npm run check` via `.githooks/pre-commit` |
+| Every push / PR | GitHub Actions runs `npm run check` |
+| `npm run check` | TypeScript + flow map validation + stale-flow guard |
+
+The **stale-flow guard** fails if `app/` or `src/components/` files change without at least one flow-map artifact also changing (`flowMap.ts`, `flow-map-screens.json`, `Flow/*.md`, screenshots, etc.).
+
+Agents must follow [AGENTS.md](../../AGENTS.md) and `.cursor/rules/` — both reference this file.

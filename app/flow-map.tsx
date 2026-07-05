@@ -46,6 +46,7 @@ export default function FlowMapPage() {
     seedDemoProfileOnly: prototype.seedDemoProfileOnly,
     seedDemoSessions: prototype.seedDemoSessions,
     seedDemoActiveSession: prototype.seedDemoActiveSession,
+    seedFlowDemo: prototype.seedFlowDemo,
     setEmail: prototype.setEmail,
   };
 

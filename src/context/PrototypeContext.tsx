@@ -1,6 +1,12 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
 import { createDemoSessions, MOCK_PUBLIC_SESSIONS } from '../constants/mockSessions';
+import {
+  buildFlowDemoSession,
+  createFlowManySessions,
+  FLOW_DEMO_SESSION_ID,
+  type FlowDemoPreset,
+} from '../constants/flowDemoSessions';
 import { DEFAULT_LEVEL_COLORS, PET_ROCK_AVATARS } from '../constants/difficultyLevels';
 import {
   IMPROVEMENT_TAG_SUGGESTIONS,
@@ -47,6 +53,11 @@ type PrototypeContextValue = {
   addImprovementTag: (tag: string) => void;
   removeImprovementTag: (tag: string) => void;
   addLocation: (name: string, nickname?: string) => string;
+  addLocationWithLevels: (
+    name: string,
+    nickname: string | undefined,
+    levels: DifficultyLevel[],
+  ) => string;
   updateLocation: (id: string, patch: Partial<Location>) => void;
   setHomeLocation: (id: string) => void;
   addLevel: (locationId: string) => void;
@@ -65,6 +76,7 @@ type PrototypeContextValue = {
   removeClimb: (sessionId: string, climbId: string) => void;
   seedDemoSessions: () => void;
   seedDemoActiveSession: () => void;
+  seedFlowDemo: (preset: FlowDemoPreset) => void;
   seedDemoProfileOnly: () => void;
   seedReturningUser: () => void;
   toggleFollowUser: (username: string) => void;
@@ -151,6 +163,26 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             isHome: current.length === 0,
             levels: [createDefaultLevel(0)],
             levelSort: 'easy-hard',
+          },
+        ]);
+        return id;
+      },
+      addLocationWithLevels: (name, nickname, levels) => {
+        const id = `${Date.now()}`;
+        const normalized = levels.map((level, index) => ({
+          id: level.id.startsWith('draft-') ? `${id}-level-${index}` : level.id,
+          name: level.name.trim() || createDefaultLevel(index).name,
+          color: level.color.trim() || createDefaultLevel(index).color,
+        }));
+        setLocations((current) => [
+          ...current,
+          {
+            id,
+            name,
+            nickname,
+            isHome: current.length === 0,
+            levels: normalized.length ? normalized : [createDefaultLevel(0)],
+            levelSort: 'easy-hard' as const,
           },
         ]);
         return id;
@@ -347,6 +379,64 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             ],
           },
         ]);
+      },
+      seedFlowDemo: (preset) => {
+        const demoLocation = createDemoLocation();
+        setEmail('returning.user@example.com');
+        setAvatar(PET_ROCK_AVATARS[0]);
+        setUsername('alex_climber');
+        setStrengthTags(STRENGTH_TAG_SUGGESTIONS.slice(0, 2));
+        setImprovementTags(IMPROVEMENT_TAG_SUGGESTIONS.slice(0, 1));
+
+        if (preset === 'profile-incomplete') {
+          setLocations([]);
+          setProfileComplete(false);
+          setProfileSkipped(true);
+          setSessions([]);
+          return;
+        }
+
+        if (preset === 'profile-ready') {
+          setLocations([demoLocation]);
+          setProfileComplete(true);
+          setProfileSkipped(false);
+          setSessions([]);
+          return;
+        }
+
+        if (preset === 'dashboard-one-session') {
+          setLocations([demoLocation]);
+          setProfileComplete(true);
+          setProfileSkipped(false);
+          setSessions(createDemoSessions(demoLocation.id, demoLocation.name).slice(0, 1));
+          return;
+        }
+
+        if (preset === 'dashboard-many-sessions') {
+          setLocations([demoLocation]);
+          setProfileComplete(true);
+          setProfileSkipped(false);
+          setSessions(createFlowManySessions(demoLocation.id, demoLocation.name));
+          return;
+        }
+
+        const incomplete = preset === 'active-empty-incomplete';
+        if (incomplete) {
+          setLocations([]);
+          setProfileComplete(false);
+          setProfileSkipped(true);
+        } else {
+          setLocations([demoLocation]);
+          setProfileComplete(true);
+          setProfileSkipped(false);
+        }
+
+        const session = buildFlowDemoSession(
+          preset,
+          incomplete ? '' : demoLocation.id,
+          incomplete ? '' : demoLocation.name,
+        );
+        setSessions(session ? [session] : []);
       },
       seedDemoProfileOnly: () => {
         const demoLocation = createDemoLocation();

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { AddressSearch } from './AddressSearch';
-import { WireframeBox, WireframeLink } from './Wireframe';
+import { AddLocationSheet } from './AddLocationSheet';
+import { WireframeBox, WireframeButton, WireframeLink } from './Wireframe';
 import { usePrototype } from '../context/PrototypeContext';
 
 export function SessionLocationPanel({
@@ -12,29 +12,75 @@ export function SessionLocationPanel({
   sessionLocationId: string;
   onLocationLinked: (locationId: string, locationName: string) => void;
 }) {
-  const { locations, addLocation } = usePrototype();
-  const [changingLocation, setChangingLocation] = useState(locations.length === 0);
-  const [addingLocation, setAddingLocation] = useState(false);
+  const { locations } = usePrototype();
+  const [changingLocation, setChangingLocation] = useState(false);
+  const [showAddSheet, setShowAddSheet] = useState(false);
 
-  const sessionLoc = locations.find((l) => l.id === sessionLocationId) ?? locations[0];
+  const sessionLoc = locations.find((l) => l.id === sessionLocationId);
 
-  const handleAddLocation = (address: string) => {
-    const id = addLocation(address);
-    onLocationLinked(id, address);
-    setAddingLocation(false);
+  const handleLocationSaved = (locationId: string, locationName: string) => {
+    onLocationLinked(locationId, locationName);
     setChangingLocation(false);
+    setShowAddSheet(false);
   };
 
-  if (locations.length === 0 || addingLocation) {
+  const addSheet = (
+    <AddLocationSheet
+      visible={showAddSheet}
+      onClose={() => setShowAddSheet(false)}
+      onSaved={handleLocationSaved}
+    />
+  );
+
+  if (locations.length === 0) {
     return (
       <View style={{ gap: 8 }}>
         <Text style={{ fontWeight: '600' }}>Location</Text>
         <WireframeBox>
-          <AddressSearch required={false} onSelect={handleAddLocation} />
+          <Text>No location linked to this session yet.</Text>
+          <Text style={{ color: '#6B7280', fontSize: 13, lineHeight: 18 }}>
+            Search for your gym or crag and set up difficulty levels.
+          </Text>
+          <WireframeButton label="Add location" onPress={() => setShowAddSheet(true)} />
         </WireframeBox>
-        {addingLocation && locations.length > 0 ? (
-          <WireframeLink label="Cancel" onPress={() => setAddingLocation(false)} />
-        ) : null}
+        {addSheet}
+      </View>
+    );
+  }
+
+  if (!sessionLoc || changingLocation) {
+    return (
+      <View style={{ gap: 8 }}>
+        <Text style={{ fontWeight: '600' }}>Location</Text>
+        <WireframeBox>
+          <Text>{sessionLoc ? 'Choose a different location' : 'Select a location for this session'}</Text>
+          <View style={{ gap: 6 }}>
+            {locations.map((loc) => (
+              <Pressable
+                key={loc.id}
+                onPress={() => {
+                  onLocationLinked(loc.id, loc.name);
+                  setChangingLocation(false);
+                }}
+              >
+                <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
+                  {loc.isHome ? '🏠 ' : ''}
+                  {loc.nickname ? `${loc.nickname} — ` : ''}
+                  {loc.name}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+          {sessionLoc ? (
+            <WireframeLink label="Cancel" onPress={() => setChangingLocation(false)} />
+          ) : null}
+        </WireframeBox>
+        <Pressable onPress={() => setShowAddSheet(true)}>
+          <Text style={{ color: '#666', fontSize: 14, textDecorationLine: 'underline' }}>
+            Add new location
+          </Text>
+        </Pressable>
+        {addSheet}
       </View>
     );
   }
@@ -42,44 +88,22 @@ export function SessionLocationPanel({
   return (
     <View style={{ gap: 8 }}>
       <Text style={{ fontWeight: '600' }}>Location</Text>
-      {sessionLoc && !changingLocation ? (
-        <WireframeBox>
-          <Text>
-            {sessionLoc.isHome ? '🏠 ' : ''}
-            {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
-            {sessionLoc.name}
-          </Text>
-          {locations.length > 1 ? (
-            <WireframeLink label="Change location" onPress={() => setChangingLocation(true)} />
-          ) : null}
-        </WireframeBox>
-      ) : (
-        <View style={{ gap: 6 }}>
-          {locations.map((loc) => (
-            <Pressable
-              key={loc.id}
-              onPress={() => {
-                onLocationLinked(loc.id, loc.name);
-                setChangingLocation(false);
-              }}
-            >
-              <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
-                {loc.isHome ? '🏠 ' : ''}
-                {loc.nickname ? `${loc.nickname} — ` : ''}
-                {loc.name}
-              </Text>
-            </Pressable>
-          ))}
-          <WireframeLink label="Cancel" onPress={() => setChangingLocation(false)} />
-        </View>
-      )}
-      {!addingLocation ? (
-        <Pressable onPress={() => setAddingLocation(true)}>
-          <Text style={{ color: '#666', fontSize: 14, textDecorationLine: 'underline' }}>
-            Add new location
-          </Text>
-        </Pressable>
-      ) : null}
+      <WireframeBox>
+        <Text>
+          {sessionLoc.isHome ? '🏠 ' : ''}
+          {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
+          {sessionLoc.name}
+        </Text>
+        {locations.length > 1 ? (
+          <WireframeLink label="Change location" onPress={() => setChangingLocation(true)} />
+        ) : null}
+      </WireframeBox>
+      <Pressable onPress={() => setShowAddSheet(true)}>
+        <Text style={{ color: '#666', fontSize: 14, textDecorationLine: 'underline' }}>
+          Add new location
+        </Text>
+      </Pressable>
+      {addSheet}
     </View>
   );
 }

@@ -5,6 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { ClimbEditor } from '../../../src/components/SessionClimb';
 import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
 import { SessionLocationPanel } from '../../../src/components/SessionLocationPanel';
+import { WireframeDropdown } from '../../../src/components/WireframeDropdown';
 import {
   WireframeBox,
   WireframeBottomSheet,
@@ -15,6 +16,7 @@ import {
   WireframeSection,
 } from '../../../src/components/Wireframe';
 import { TAKEN_USERNAMES } from '../../../src/constants/mockData';
+import { FLOW_DEMO_SESSION_ID, type FlowDemoPreset } from '../../../src/constants/flowDemoSessions';
 import { usePrototype } from '../../../src/context/PrototypeContext';
 import type { SessionClimb } from '../../../src/types/climbingSession';
 import {
@@ -25,7 +27,6 @@ import {
   formatSessionDate,
   nowTimeLabel,
   parseSessionDateDisplay,
-  todayIso,
 } from '../../../src/utils/sessionUtils';
 import { getUsernameError } from '../../../src/utils/validation';
 
@@ -39,6 +40,15 @@ const emptyClimb = (): SessionClimb => ({
   isProject: false,
   attempts: [{ id: 'draft-a', progress: [] }],
 });
+
+const FLOW_ACTIVE_DEMOS: Record<string, FlowDemoPreset> = {
+  'flow-empty': 'active-empty',
+  'flow-empty-incomplete': 'active-empty-incomplete',
+  'flow-adding': 'active-adding',
+  'flow-multi': 'active-multi',
+  'flow-end-sheet': 'active-end-sheet',
+  'flow-end-sheet-filled': 'active-end-sheet-filled',
+};
 
 export default function ActiveSessionScreen() {
   const { id, demo } = useLocalSearchParams<{ id: string; demo?: string }>();
@@ -55,30 +65,67 @@ export default function ActiveSessionScreen() {
     updateClimb,
     removeClimb,
     seedDemoActiveSession,
+    seedFlowDemo,
   } = usePrototype();
   const demoApplied = useRef(false);
-
-  useEffect(() => {
-    if (demo !== 'active' || demoApplied.current) return;
-    if (sessions.some((s) => s.id === id)) return;
-    seedDemoActiveSession();
-    demoApplied.current = true;
-  }, [demo, id, seedDemoActiveSession, sessions]);
-
-  const session = sessions.find((s) => s.id === id);
-  const location = locations.find((l) => l.id === session?.locationId) ?? locations[0];
-  const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
+  const flowUiApplied = useRef<string | null>(null);
 
   const [editingClimbId, setEditingClimbId] = useState<string | null>(null);
   const [draftClimb, setDraftClimb] = useState<SessionClimb | null>(null);
   const [showEndSheet, setShowEndSheet] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
-  const [endTime, setEndTime] = useState('');
+  const [endTime, setEndTime] = useState(() => nowTimeLabel());
   const [durationMinutes, setDurationMinutes] = useState<number | undefined>();
+  const [customEndTime, setCustomEndTime] = useState('');
+  const [customDuration, setCustomDuration] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [climbPrompt, setClimbPrompt] = useState('');
   const [removeTarget, setRemoveTarget] = useState<SessionClimb | null>(null);
+
+  useEffect(() => {
+    if (!demo) return;
+
+    const flowPreset = FLOW_ACTIVE_DEMOS[demo];
+    if (flowPreset) {
+      if (!sessions.some((s) => s.id === FLOW_DEMO_SESSION_ID)) {
+        seedFlowDemo(flowPreset);
+        return;
+      }
+      if (flowUiApplied.current === demo) return;
+
+      if (demo === 'flow-adding') {
+        setEditingClimbId('new');
+        setDraftClimb(emptyClimb());
+      }
+      if (demo === 'flow-end-sheet') {
+        const now = nowTimeLabel();
+        setEndTime(now);
+        setCustomEndTime('');
+        setDurationMinutes(computeDurationMinutes('17:30', now));
+        setCustomDuration('');
+        setShowEndSheet(true);
+      }
+      if (demo === 'flow-end-sheet-filled') {
+        setEndTime('19:30');
+        setCustomEndTime('');
+        setDurationMinutes(90);
+        setCustomDuration('');
+        setShowEndSheet(true);
+      }
+      flowUiApplied.current = demo;
+      return;
+    }
+
+    if (demo !== 'active' || demoApplied.current) return;
+    if (sessions.some((s) => s.id === id)) return;
+    seedDemoActiveSession();
+    demoApplied.current = true;
+  }, [demo, id, seedDemoActiveSession, seedFlowDemo, sessions]);
+
+  const session = sessions.find((s) => s.id === id);
+  const location = locations.find((l) => l.id === session?.locationId) ?? locations[0];
+  const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
 
   const usernameError = useMemo(() => {
     if (!isPublic || username.trim()) return undefined;
@@ -86,6 +133,29 @@ export default function ActiveSessionScreen() {
     if (!usernameInput.trim()) return 'Username is required for public sessions';
     return getUsernameError(usernameInput, TAKEN_USERNAMES);
   }, [isPublic, username, usernameInput, usernameTouched]);
+
+  const endTimeOptions = useMemo(() => {
+    const now = nowTimeLabel();
+    const presets = END_TIME_PRESETS.filter((preset) => preset !== now);
+    return [
+      { value: now, label: `Now (${now})` },
+      ...presets.map((preset) => ({ value: preset, label: preset })),
+    ];
+  }, [showEndSheet]);
+
+  const durationOptions = useMemo(
+    () => DURATION_PRESETS.map((preset) => ({ value: String(preset.minutes), label: preset.label })),
+    [],
+  );
+
+  const openEndSheet = () => {
+    const now = nowTimeLabel();
+    setEndTime(now);
+    setCustomEndTime('');
+    setDurationMinutes(computeDurationMinutes(session?.startTime ?? now, now));
+    setCustomDuration('');
+    setShowEndSheet(true);
+  };
 
   if (!session) {
     return (
@@ -129,7 +199,7 @@ export default function ActiveSessionScreen() {
       if (!usernameInput.trim() || usernameError) return;
       setUsername(usernameInput.trim());
     }
-    const resolvedEnd = endTime || nowTimeLabel();
+    const resolvedEnd = endTime;
     const duration =
       durationMinutes ?? computeDurationMinutes(session.startTime, resolvedEnd);
     completeSession(session.id, {
@@ -184,10 +254,7 @@ export default function ActiveSessionScreen() {
           <WireframeButton
             label="Save / end session"
             variant="secondary"
-            onPress={() => {
-              setEndTime(endTime || nowTimeLabel());
-              setShowEndSheet(true);
-            }}
+            onPress={openEndSheet}
           />
         </>
       }
@@ -223,44 +290,44 @@ export default function ActiveSessionScreen() {
             <Text>Sharing as {username}</Text>
           ) : null}
 
-          <Text style={{ fontWeight: '600' }}>End time</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-            {END_TIME_PRESETS.map((preset) => (
-              <Pressable key={preset} onPress={() => setEndTime(preset)}>
-                <Text
-                  style={{
-                    borderWidth: 1,
-                    borderColor: endTime === preset ? '#111' : '#CCC',
-                    borderRadius: 12,
-                    paddingHorizontal: 10,
-                    paddingVertical: 4,
-                  }}
-                >
-                  {preset}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-          <WireframeField label="End time" value={endTime} onChangeText={setEndTime} placeholder="HH:MM" />
+          <WireframeDropdown
+            label="End time"
+            value={endTime}
+            options={endTimeOptions}
+            onChange={(value) => {
+              setEndTime(value);
+              setCustomEndTime('');
+              setDurationMinutes(computeDurationMinutes(session.startTime, value));
+            }}
+            customValue={customEndTime}
+            onCustomChange={(value) => {
+              setCustomEndTime(value);
+              const trimmed = value.trim();
+              if (!trimmed) return;
+              setEndTime(trimmed);
+              setDurationMinutes(computeDurationMinutes(session.startTime, trimmed));
+            }}
+            customPlaceholder="HH:MM"
+          />
 
-          <Text style={{ fontWeight: '600' }}>Duration</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-            {DURATION_PRESETS.map((preset) => (
-              <Pressable key={preset.minutes} onPress={() => setDurationMinutes(preset.minutes)}>
-                <Text
-                  style={{
-                    borderWidth: 1,
-                    borderColor: durationMinutes === preset.minutes ? '#111' : '#CCC',
-                    borderRadius: 12,
-                    paddingHorizontal: 10,
-                    paddingVertical: 4,
-                  }}
-                >
-                  {preset.label}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
+          <WireframeDropdown
+            label="Duration"
+            value={durationMinutes != null ? String(durationMinutes) : ''}
+            options={durationOptions}
+            onChange={(value) => {
+              setDurationMinutes(Number(value));
+              setCustomDuration('');
+            }}
+            customValue={customDuration}
+            onCustomChange={(value) => {
+              setCustomDuration(value);
+              const minutes = Number(value);
+              if (!Number.isNaN(minutes) && minutes > 0) {
+                setDurationMinutes(minutes);
+              }
+            }}
+            customPlaceholder="Minutes"
+          />
 
           <WireframeButton label="Confirm and save session" onPress={endSession} />
           <WireframeButton label="Cancel" variant="ghost" onPress={() => setShowEndSheet(false)} />
@@ -286,8 +353,8 @@ export default function ActiveSessionScreen() {
         <WireframeBox>
           <Text style={{ fontWeight: '700' }}>Profile not complete</Text>
           <Text>
-            You can keep logging this session. Add a location below when you want difficulty levels on
-            climbs.
+            You can keep logging this session. Tap Add location to search for your gym and set up
+            difficulty levels.
           </Text>
         </WireframeBox>
       ) : null}

@@ -12,6 +12,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ReactNode } from 'react';
 
+import { useFlowCapture } from '../hooks/useFlowCapture';
+
 export function WireframeScreen({
   title,
   children,
@@ -25,20 +27,38 @@ export function WireframeScreen({
   headerRight?: ReactNode;
   overlay?: ReactNode;
 }) {
+  const flowCapture = useFlowCapture();
+
+  const header = (
+    <View style={styles.headerRow}>
+      <Text style={styles.title}>{title}</Text>
+      {headerRight}
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.screen}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.flex}
       >
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <View style={styles.headerRow}>
-            <Text style={styles.title}>{title}</Text>
-            {headerRight}
+        {flowCapture ? (
+          <View style={[styles.flex, { justifyContent: 'space-between' }]}>
+            <View style={styles.content}>
+              {header}
+              <View style={styles.body}>{children}</View>
+            </View>
+            {footer ? <View style={styles.footer}>{footer}</View> : null}
           </View>
-          <View style={styles.body}>{children}</View>
-        </ScrollView>
-        {footer ? <View style={styles.footer}>{footer}</View> : null}
+        ) : (
+          <>
+            <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+              {header}
+              <View style={styles.body}>{children}</View>
+            </ScrollView>
+            {footer ? <View style={styles.footer}>{footer}</View> : null}
+          </>
+        )}
       </KeyboardAvoidingView>
       {overlay}
     </SafeAreaView>

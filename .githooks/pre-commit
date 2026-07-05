@@ -1,0 +1,4 @@
+#!/bin/sh
+# Runs on commit when hooks are installed via: npm run setup-hooks
+set -e
+npm run check

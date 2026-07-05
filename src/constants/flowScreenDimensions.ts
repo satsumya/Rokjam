@@ -32,23 +32,63 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "profile-setup": {
     "width": 720,
-    "height": 1652
+    "height": 1890
   },
   "dashboard-new": {
     "width": 720,
-    "height": 1980
+    "height": 1560
+  },
+  "dashboard-profile-ready": {
+    "width": 720,
+    "height": 2398
   },
   "dashboard-returning": {
     "width": 720,
-    "height": 3042
+    "height": 3460
   },
   "dashboard-trends": {
     "width": 720,
-    "height": 1560
+    "height": 3560
+  },
+  "dashboard-one-session": {
+    "width": 720,
+    "height": 3060
+  },
+  "dashboard-many-sessions": {
+    "width": 720,
+    "height": 4338
+  },
+  "dashboard-mid-session": {
+    "width": 720,
+    "height": 2600
   },
   "active-session": {
     "width": 720,
+    "height": 1588
+  },
+  "active-session-empty": {
+    "width": 720,
     "height": 1560
+  },
+  "active-session-empty-incomplete": {
+    "width": 720,
+    "height": 1664
+  },
+  "active-session-adding-climb": {
+    "width": 720,
+    "height": 2650
+  },
+  "active-session-multi-climbs": {
+    "width": 720,
+    "height": 4878
+  },
+  "active-session-end-sheet": {
+    "width": 720,
+    "height": 4878
+  },
+  "active-session-end-sheet-filled": {
+    "width": 720,
+    "height": 4878
   },
   "sessions-list": {
     "width": 720,
@@ -56,15 +96,15 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "session-detail": {
     "width": 720,
-    "height": 1826
+    "height": 2304
   },
   "session-edit": {
     "width": 720,
-    "height": 2700
+    "height": 2938
   },
   "community": {
     "width": 720,
-    "height": 2170
+    "height": 2288
   }
 };
 

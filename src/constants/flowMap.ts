@@ -1,5 +1,6 @@
 import type { ScenarioFlow, ScenarioSetup } from './scenarios';
 import { SCENARIO_FLOWS } from './scenarios';
+import type { FlowDemoPreset } from './flowDemoSessions';
 import { frameHeightForScreen } from './flowScreenDimensions';
 
 export type FlowNavigateContext = {
@@ -8,6 +9,7 @@ export type FlowNavigateContext = {
   seedDemoProfileOnly: () => void;
   seedDemoSessions: () => void;
   seedDemoActiveSession: () => void;
+  seedFlowDemo: (preset: FlowDemoPreset) => void;
   setEmail: (value: string) => void;
 };
 
@@ -122,9 +124,18 @@ export const FLOW_MAP_SCREENS: Record<string, FlowMapScreen> = {
   'dashboard-new': {
     id: 'dashboard-new',
     label: 'Dashboard',
-    subtitle: 'Profile incomplete prompt',
-    path: '/dashboard?demo=new-user',
-    setup: 'profile-only',
+    subtitle: 'Profile incomplete · no sessions',
+    path: '/dashboard?demo=profile-incomplete',
+    setup: 'fresh',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('profile-incomplete'),
+  },
+  'dashboard-profile-ready': {
+    id: 'dashboard-profile-ready',
+    label: 'Dashboard',
+    subtitle: 'Profile complete · no sessions',
+    path: '/dashboard?demo=profile-ready',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('profile-ready'),
   },
   'dashboard-returning': {
     id: 'dashboard-returning',
@@ -140,6 +151,30 @@ export const FLOW_MAP_SCREENS: Record<string, FlowMapScreen> = {
     path: '/dashboard?demo=seed',
     setup: 'returning',
   },
+  'dashboard-one-session': {
+    id: 'dashboard-one-session',
+    label: 'Dashboard',
+    subtitle: 'After first session saved',
+    path: '/dashboard?demo=one-session',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('dashboard-one-session'),
+  },
+  'dashboard-many-sessions': {
+    id: 'dashboard-many-sessions',
+    label: 'Dashboard',
+    subtitle: 'Many sessions logged',
+    path: '/dashboard?demo=many-sessions',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('dashboard-many-sessions'),
+  },
+  'dashboard-mid-session': {
+    id: 'dashboard-mid-session',
+    label: 'Dashboard',
+    subtitle: 'Session in progress',
+    path: '/dashboard?demo=mid-session',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('dashboard-mid-session'),
+  },
   'active-session': {
     id: 'active-session',
     label: 'Active session',
@@ -147,6 +182,54 @@ export const FLOW_MAP_SCREENS: Record<string, FlowMapScreen> = {
     path: '/sessions/demo-active-session/active?demo=active',
     setup: 'returning',
     beforeNavigate: ({ seedDemoActiveSession }) => seedDemoActiveSession(),
+  },
+  'active-session-empty': {
+    id: 'active-session-empty',
+    label: 'Active session',
+    subtitle: 'Initial state · profile complete',
+    path: '/sessions/demo-flow-session/active?demo=flow-empty',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('active-empty'),
+  },
+  'active-session-empty-incomplete': {
+    id: 'active-session-empty-incomplete',
+    label: 'Active session',
+    subtitle: 'Initial state · profile incomplete',
+    path: '/sessions/demo-flow-session/active?demo=flow-empty-incomplete',
+    setup: 'fresh',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('active-empty-incomplete'),
+  },
+  'active-session-adding-climb': {
+    id: 'active-session-adding-climb',
+    label: 'Active session',
+    subtitle: 'Adding a climb',
+    path: '/sessions/demo-flow-session/active?demo=flow-adding',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('active-adding'),
+  },
+  'active-session-multi-climbs': {
+    id: 'active-session-multi-climbs',
+    label: 'Active session',
+    subtitle: 'Multiple climbs · sort & filter',
+    path: '/sessions/demo-flow-session/active?demo=flow-multi',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('active-multi'),
+  },
+  'active-session-end-sheet': {
+    id: 'active-session-end-sheet',
+    label: 'Save / end session',
+    subtitle: 'End time defaults to now',
+    path: '/sessions/demo-flow-session/active?demo=flow-end-sheet',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('active-end-sheet'),
+  },
+  'active-session-end-sheet-filled': {
+    id: 'active-session-end-sheet-filled',
+    label: 'Save / end session',
+    subtitle: 'End time & duration set',
+    path: '/sessions/demo-flow-session/active?demo=flow-end-sheet-filled',
+    setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('active-end-sheet-filled'),
   },
   'sessions-list': {
     id: 'sessions-list',
@@ -253,15 +336,49 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
   {
     id: 'session-create',
     title: SCENARIO_FLOWS.find((f) => f.id === 'session-create')!.doc,
-    description: 'Start, log climbs during, and end a climbing session.',
+    description:
+      'Start a session from the dashboard, log climbs with varied detail, save/end, and return home — including exiting mid-session.',
     steps: [
-      { nodes: [{ nodeId: 'home', screenId: 'dashboard-returning' }] },
-      { nodes: [{ nodeId: 'active', screenId: 'active-session' }] },
-      { nodes: [{ nodeId: 'home-end', screenId: 'dashboard-returning' }] },
+      {
+        nodes: [
+          { nodeId: 'dash-ready', screenId: 'dashboard-profile-ready' },
+          { nodeId: 'dash-incomplete', screenId: 'dashboard-new' },
+        ],
+      },
+      {
+        nodes: [
+          { nodeId: 'active-empty', screenId: 'active-session-empty' },
+          { nodeId: 'active-empty-inc', screenId: 'active-session-empty-incomplete' },
+        ],
+      },
+      { nodes: [{ nodeId: 'adding', screenId: 'active-session-adding-climb' }] },
+      { nodes: [{ nodeId: 'multi', screenId: 'active-session-multi-climbs' }] },
+      {
+        nodes: [
+          { nodeId: 'end-empty', screenId: 'active-session-end-sheet' },
+          { nodeId: 'end-filled', screenId: 'active-session-end-sheet-filled' },
+          { nodeId: 'dash-mid', screenId: 'dashboard-mid-session' },
+        ],
+      },
+      {
+        nodes: [
+          { nodeId: 'dash-one', screenId: 'dashboard-one-session' },
+          { nodeId: 'dash-many', screenId: 'dashboard-many-sessions' },
+        ],
+      },
     ],
     edges: [
-      { from: 'home', to: 'active', label: 'Start session' },
-      { from: 'active', to: 'home-end', label: 'Save / end session' },
+      { from: 'dash-ready', to: 'active-empty', label: 'Start session' },
+      { from: 'dash-incomplete', to: 'active-empty-inc', label: 'Start session' },
+      { from: 'active-empty', to: 'adding', label: 'Add climb' },
+      { from: 'active-empty-inc', to: 'adding', label: 'Add climb' },
+      { from: 'adding', to: 'multi', label: 'Save climb' },
+      { from: 'multi', to: 'end-empty', label: 'Save / end session' },
+      { from: 'multi', to: 'end-filled', label: 'Save / end session' },
+      { from: 'multi', to: 'dash-mid', label: 'Dashboard (mid-session)' },
+      { from: 'end-empty', to: 'dash-one', label: 'Confirm and save' },
+      { from: 'end-filled', to: 'dash-one', label: 'Confirm and save' },
+      { from: 'dash-one', to: 'dash-many', label: 'After more sessions' },
     ],
   },
   {
@@ -290,7 +407,7 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     title: SCENARIO_FLOWS.find((f) => f.id === 'dashboard')!.doc,
     description: 'Trends and standout stats on the dashboard home.',
     steps: [
-      { nodes: [{ nodeId: 'empty', screenId: 'dashboard-new' }] },
+      { nodes: [{ nodeId: 'empty', screenId: 'dashboard-profile-ready' }] },
       { nodes: [{ nodeId: 'with-data', screenId: 'dashboard-trends' }] },
     ],
     edges: [{ from: 'empty', to: 'with-data', label: 'After first sessions logged' }],

@@ -1,0 +1,20 @@
+---
+description: Keep flow map in sync when screens or journeys change
+globs: app/**/*.tsx,src/components/**/*.tsx,src/constants/flowMap.ts,docs/tickets/Flow/**/*.md
+alwaysApply: false
+---
+
+# Flow map (required on screen changes)
+
+CI fails if you change `app/` or `src/components/` without also updating flow-map artifacts.
+
+When adding or changing a user-facing screen or journey:
+
+1. **flowMap.ts** — add/update `FLOW_MAP_SCREENS` and `FLOW_MAP_JOURNEYS` entries
+2. **flow-map-screens.json** + **flowScreenImages.ts** — for PNG previews
+3. **validate-flow-map:fix** → **capture-flow-screens** → **bump-flow-map**
+4. **PrototypeOnly** — hide scenario tester and other test-only UI from screenshots
+
+Version semantics (Standards.md): PATCH = bug/copy/screenshot, MINOR = feature, MAJOR = major feature.
+
+Full checklist: docs/tickets/Standards.md § Flow map

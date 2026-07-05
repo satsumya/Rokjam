@@ -1,0 +1,173 @@
+import { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+
+import { AddressSearch } from './AddressSearch';
+import { LevelRow } from './LevelRow';
+import { WireframeBottomSheet, WireframeButton, WireframeField } from './Wireframe';
+import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
+import type { DifficultyLevel } from '../context/PrototypeContext';
+import { usePrototype } from '../context/PrototypeContext';
+
+function createDraftLevel(index: number): DifficultyLevel {
+  const preset = DEFAULT_LEVEL_COLORS[index];
+  return {
+    id: `draft-level-${index}-${Date.now()}`,
+    name: preset?.name ?? 'Custom',
+    color: preset?.color ?? '#AAAAAA',
+  };
+}
+
+export function AddLocationSheet({
+  visible,
+  onClose,
+  onSaved,
+}: {
+  visible: boolean;
+  onClose: () => void;
+  onSaved: (locationId: string, locationName: string) => void;
+}) {
+  const { addLocationWithLevels } = usePrototype();
+  const [address, setAddress] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [levels, setLevels] = useState<DifficultyLevel[]>([createDraftLevel(0)]);
+  const [dragSourceId, setDragSourceId] = useState<string | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!visible) return;
+    setAddress('');
+    setNickname('');
+    setLevels([createDraftLevel(0)]);
+    setDragSourceId(null);
+    setError('');
+  }, [visible]);
+
+  const handleSelectAddress = (value: string) => {
+    setAddress(value);
+    setError('');
+  };
+
+  const updateDraftLevel = (levelId: string, patch: Partial<DifficultyLevel>) => {
+    setLevels((current) =>
+      current.map((level) => (level.id === levelId ? { ...level, ...patch } : level)),
+    );
+  };
+
+  const handleSave = () => {
+    if (!address.trim()) {
+      setError('Search and select a location first');
+      return;
+    }
+    if (levels.some((level) => !level.color.trim())) {
+      setError('Each difficulty level needs a colour');
+      return;
+    }
+
+    const id = addLocationWithLevels(address.trim(), nickname.trim() || undefined, levels);
+    onSaved(id, address.trim());
+    onClose();
+  };
+
+  return (
+    <WireframeBottomSheet visible={visible} title="Add climbing location" onClose={onClose}>
+      <Text style={{ color: '#6B7280', lineHeight: 20 }}>
+        Search for your gym or crag, then set up difficulty levels for this location.
+      </Text>
+
+      {!address ? (
+        <AddressSearch onSelect={handleSelectAddress} error={error} required />
+      ) : (
+        <View style={{ gap: 12 }}>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#CCC',
+              borderRadius: 8,
+              padding: 12,
+              backgroundColor: '#FAFAFA',
+              gap: 4,
+            }}
+          >
+            <Text style={{ fontWeight: '700' }}>Selected location</Text>
+            <Text>{address}</Text>
+            <WireframeButton
+              label="Change location"
+              variant="ghost"
+              onPress={() => {
+                setAddress('');
+                setError('');
+              }}
+            />
+          </View>
+
+          <WireframeField
+            label="Nickname"
+            value={nickname}
+            onChangeText={setNickname}
+            placeholder="e.g. Home gym"
+          />
+
+          <Text style={{ fontWeight: '700' }}>Difficulty levels</Text>
+          <Text style={{ color: '#6B7280', fontSize: 13, lineHeight: 18 }}>
+            Add the colour grades used at this location. You need at least one level.
+          </Text>
+
+          <View style={{ gap: 8 }}>
+            {levels.map((level, index) => (
+              <LevelRow
+                key={level.id}
+                level={level}
+                index={index}
+                total={levels.length}
+                dragSourceId={dragSourceId}
+                onUpdate={(patch) => updateDraftLevel(level.id, patch)}
+                onMoveUp={() => {
+                  if (index === 0) return;
+                  const next = [...levels];
+                  [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                  setLevels(next);
+                }}
+                onMoveDown={() => {
+                  if (index >= levels.length - 1) return;
+                  const next = [...levels];
+                  [next[index], next[index + 1]] = [next[index + 1], next[index]];
+                  setLevels(next);
+                }}
+                onRemove={() => {
+                  if (levels.length <= 1) return;
+                  setLevels((current) => current.filter((item) => item.id !== level.id));
+                }}
+                onDragStart={setDragSourceId}
+                onDragTarget={(targetId) => {
+                  if (!dragSourceId || dragSourceId === targetId) return;
+                  const fromIndex = levels.findIndex((item) => item.id === dragSourceId);
+                  const toIndex = levels.findIndex((item) => item.id === targetId);
+                  if (fromIndex < 0 || toIndex < 0) return;
+                  const next = [...levels];
+                  [next[fromIndex], next[toIndex]] = [next[toIndex], next[fromIndex]];
+                  setLevels(next);
+                  setDragSourceId(null);
+                }}
+              />
+            ))}
+          </View>
+
+          <WireframeButton
+            label="Add level"
+            variant="secondary"
+            onPress={() => setLevels((current) => [...current, createDraftLevel(current.length)])}
+          />
+        </View>
+      )}
+
+      {error && address ? <Text style={{ color: '#C0392B' }}>{error}</Text> : null}
+
+      {address ? (
+        <>
+          <WireframeButton label="Save location" onPress={handleSave} />
+          <WireframeButton label="Cancel" variant="ghost" onPress={onClose} />
+        </>
+      ) : null}
+    </WireframeBottomSheet>
+  );
+}

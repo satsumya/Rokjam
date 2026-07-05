@@ -28,13 +28,17 @@ Each **Run scenario** button resets app state, applies the scenario setup, then 
 ## Flow map maintenance
 
 ```bash
+npm run check                    # typecheck + validate + stale-flow guard (run before every commit)
+npm run setup-hooks              # one-time: install pre-commit hook
 npm run validate-flow-map        # check manifest, screens list, and PNG assets match
 npm run validate-flow-map:fix    # add missing manifest entries
 npm run capture-flow-screens     # regenerate PNGs + update timestamps
 npm run bump-flow-map -- --screen welcome --level patch
 ```
 
-See [Standards.md](./Standards.md#flow-map) for version bump rules and the checklist when adding screens or flows.
+CI on GitHub runs `npm run check` on every push and PR. The stale-flow guard blocks screen changes that omit flow-map updates.
+
+See [Standards.md](./Standards.md#flow-map) for version bump rules and the checklist when adding screens or flows. Agents must follow [AGENTS.md](../../AGENTS.md).
 
 ## Setups
 

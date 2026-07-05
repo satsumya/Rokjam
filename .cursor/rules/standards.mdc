@@ -1,0 +1,20 @@
+---
+description: Prototype standards — forms, copy, dates, locations, tags, navigation
+alwaysApply: true
+---
+
+# Standards (required)
+
+Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
+
+- Required fields use `*` only; never label fields "optional"
+- New-user forms start blank; validate inline (not only on submit)
+- Dates: **Day DD Mmm YYYY**; time/duration: preset dropdown + custom value
+- Address search with suggestions; "add anyway" when no match; home = 🏠
+- Tags as removable chips with suggestions; typing is secondary
+- Destructive/final actions use bottom sheets; share only after save/end
+- No developer-only copy in the UI
+
+When implementing a flow, read the matching **docs/tickets/Flow/*.md** ticket and update its checkboxes.
+
+Before completing work, run **`npm run check`**.

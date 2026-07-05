@@ -27,10 +27,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "check": "tsc --noEmit && node scripts/validate-flow-map.mjs && node scripts/check-flow-map-stale.mjs",
     "capture-flow-screens": "node scripts/capture-flow-screens.mjs && node scripts/validate-flow-map.mjs",
     "validate-flow-map": "node scripts/validate-flow-map.mjs",
     "validate-flow-map:fix": "node scripts/validate-flow-map.mjs --fix",
-    "bump-flow-map": "node scripts/bump-flow-map-version.mjs"
+    "bump-flow-map": "node scripts/bump-flow-map-version.mjs",
+    "setup-hooks": "git config core.hooksPath .githooks && chmod +x .githooks/pre-commit && echo 'Git hooks installed (.githooks/pre-commit runs npm run check on staged changes).'"
   },
   "private": true
 }

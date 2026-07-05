@@ -33,6 +33,8 @@ export default function DashboardScreen() {
     sessions,
     seedDemoSessions,
     seedDemoProfileOnly,
+    seedFlowDemo,
+    seedReturningUser,
     resetSession,
   } = usePrototype();
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
@@ -53,14 +55,32 @@ export default function DashboardScreen() {
     if (demo === 'session-ready') {
       seedDemoSessions();
       demoApplied.current = demo;
-    } else if (demo === 'new-user') {
+    } else if (demo === 'new-user' || demo === 'profile-incomplete') {
+      seedFlowDemo('profile-incomplete');
+      demoApplied.current = demo;
+    } else if (demo === 'profile-ready') {
       seedDemoProfileOnly();
       demoApplied.current = demo;
-    } else if (demo === 'seed' && !needsProfile && completedSessions.length === 0) {
-      seedDemoSessions();
+    } else if (demo === 'one-session') {
+      seedFlowDemo('dashboard-one-session');
+      demoApplied.current = demo;
+    } else if (demo === 'many-sessions') {
+      seedFlowDemo('dashboard-many-sessions');
+      demoApplied.current = demo;
+    } else if (demo === 'mid-session') {
+      seedFlowDemo('dashboard-mid-session');
+      demoApplied.current = demo;
+    } else if (demo === 'seed') {
+      seedReturningUser();
       demoApplied.current = demo;
     }
-  }, [demo, needsProfile, completedSessions.length, seedDemoSessions, seedDemoProfileOnly]);
+  }, [
+    demo,
+    seedDemoSessions,
+    seedDemoProfileOnly,
+    seedFlowDemo,
+    seedReturningUser,
+  ]);
 
   return (
     <WireframeScreen
@@ -87,7 +107,7 @@ export default function DashboardScreen() {
       {needsProfile ? (
         <WireframeBox>
           <Text style={{ fontWeight: '700' }}>Complete your profile</Text>
-          <Text>Add your climbing locations and difficulty levels to get started.</Text>
+          <Text>Add your climbing locations and difficulty levels to unlock trends and filters.</Text>
           <WireframeButton
             label="Set up profile"
             variant="secondary"
@@ -102,25 +122,30 @@ export default function DashboardScreen() {
         <Text>{email || 'member@example.com'}</Text>
       </WireframeBox>
 
+      <WireframeSection title="Climbing">
+        {needsProfile ? (
+          <Text style={{ color: '#6B7280', lineHeight: 20, marginBottom: 4 }}>
+            Profile incomplete — you can still start a session and add a location during it.
+          </Text>
+        ) : null}
+        {activeSession ? (
+          <WireframeBox>
+            <Text style={{ fontWeight: '700' }}>Session in progress</Text>
+            <WireframeButton
+              label="Continue session"
+              onPress={() => router.push(`/sessions/${activeSession.id}/active`)}
+            />
+          </WireframeBox>
+        ) : (
+          <WireframeButton
+            label="Start climbing session"
+            onPress={() => router.push('/sessions/create')}
+          />
+        )}
+      </WireframeSection>
+
       {!needsProfile ? (
         <>
-          <WireframeSection title="Climbing">
-            {activeSession ? (
-              <WireframeBox>
-                <Text style={{ fontWeight: '700' }}>Session in progress</Text>
-                <WireframeButton
-                  label="Continue session"
-                  onPress={() => router.push(`/sessions/${activeSession.id}/active`)}
-                />
-              </WireframeBox>
-            ) : (
-              <WireframeButton
-                label="Start climbing session"
-                onPress={() => router.push('/sessions/create')}
-              />
-            )}
-          </WireframeSection>
-
           <WireframeSection title="Recent sessions">
             <View style={{ flexDirection: 'row', gap: 12, marginBottom: 4 }}>
               <Pressable onPress={() => setShowAllSessions(false)}>

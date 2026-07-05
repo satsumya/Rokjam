@@ -88,6 +88,24 @@ export function parseFlowScreenImageIds(content) {
   return [...content.matchAll(/^\s+(?:'([^']+)'|([\w-]+)):\s*require/gm)].map((m) => m[1] ?? m[2]);
 }
 
+export function parseScenarioFlowIds(scenariosPath) {
+  const content = fs.readFileSync(scenariosPath, 'utf8');
+  const match = content.match(/export const SCENARIO_FLOWS[^=]*=\s*\[([\s\S]*?)\];/);
+  if (!match) return [];
+  return [...match[1].matchAll(/id: '([^']+)'/g)].map((m) => m[1]);
+}
+
+export function parseScenarioFlowDocs(scenariosPath) {
+  const content = fs.readFileSync(scenariosPath, 'utf8');
+  const match = content.match(/export const SCENARIO_FLOWS[^=]*=\s*\[([\s\S]*?)\];/);
+  if (!match) return {};
+  const docs = {};
+  for (const m of match[1].matchAll(/id: '([^']+)',\s*doc: '([^']+)'/g)) {
+    docs[m[1]] = m[2];
+  }
+  return docs;
+}
+
 export function syncFlowUpdatedAt(manifest, journeyScreens) {
   const now = new Date().toISOString();
 

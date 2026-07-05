@@ -4,6 +4,7 @@
  */
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import {
   assetsScreensDir,
   captureScreensPath,
@@ -14,9 +15,15 @@ import {
   parseFlowMapJourneys,
   parseFlowMapScreens,
   parseFlowScreenImageIds,
+  parseScenarioFlowDocs,
+  parseScenarioFlowIds,
   saveManifest,
   syncFlowUpdatedAt,
 } from './flow-map-manifest-utils.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const scenariosPath = path.join(__dirname, '../src/constants/scenarios.ts');
+const flowSpecsDir = path.join(__dirname, '../docs/tickets/Flow');
 
 const fix = process.argv.includes('--fix');
 
@@ -98,6 +105,36 @@ function main() {
   const orphanManifestFlows = Object.keys(manifest.flows).filter((id) => !journeys[id]);
   for (const id of orphanManifestFlows) {
     errors.push(`Manifest flow "${id}" is not in FLOW_MAP_JOURNEYS`);
+  }
+
+  const scenarioFlowIds = parseScenarioFlowIds(scenariosPath);
+  const scenarioDocs = parseScenarioFlowDocs(scenariosPath);
+  const journeyIds = Object.keys(journeys);
+
+  for (const flowId of scenarioFlowIds) {
+    if (!journeyIds.includes(flowId)) {
+      errors.push(`SCENARIO_FLOWS id "${flowId}" has no FLOW_MAP_JOURNEYS entry`);
+    }
+  }
+
+  for (const flowId of journeyIds) {
+    if (!scenarioFlowIds.includes(flowId)) {
+      errors.push(`FLOW_MAP_JOURNEYS id "${flowId}" is not in SCENARIO_FLOWS`);
+    }
+  }
+
+  if (fs.existsSync(flowSpecsDir)) {
+    const specFiles = fs
+      .readdirSync(flowSpecsDir)
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => f.replace(/\.md$/, ''));
+
+    for (const flowId of scenarioFlowIds) {
+      const doc = scenarioDocs[flowId];
+      if (doc && !specFiles.includes(doc)) {
+        errors.push(`Flow spec docs/tickets/Flow/${doc}.md is missing for "${flowId}"`);
+      }
+    }
   }
 
   if (changed && fix) {

@@ -71,23 +71,47 @@ async function main() {
     process.stdout.write(`Capturing ${screen.id}… `);
     await page.setViewportSize({ width: VIEWPORT_W, height: VIEWPORT_H });
     await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(1800);
 
     const contentHeight = await page.evaluate((minH) => {
-      let max = Math.max(
+      const measure = (el) => {
+        const rect = el.getBoundingClientRect();
+        const style = window.getComputedStyle(el);
+        if (style.display === 'none' || style.visibility === 'hidden') return 0;
+        let bottom = rect.bottom + window.scrollY;
+        for (const child of el.children) {
+          bottom = Math.max(bottom, measure(child));
+        }
+        return bottom;
+      };
+
+      const bodyBottom = measure(document.body);
+      const docHeight = Math.max(
         document.documentElement.scrollHeight,
         document.body.scrollHeight,
+        bodyBottom,
         minH,
       );
-      for (const el of document.querySelectorAll('div')) {
-        const h = el.scrollHeight;
-        if (h > max) max = h;
-      }
-      return Math.min(Math.max(max, minH), 3200);
+      return Math.min(Math.max(docHeight, minH), 5600);
     }, VIEWPORT_H);
 
-    if (contentHeight > VIEWPORT_H) {
-      await page.setViewportSize({ width: VIEWPORT_W, height: contentHeight });
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(200);
+
+    const finalHeight = await page.evaluate((minH) => {
+      const measure = (el) => {
+        const rect = el.getBoundingClientRect();
+        let bottom = rect.bottom + window.scrollY;
+        for (const child of el.children) {
+          bottom = Math.max(bottom, measure(child));
+        }
+        return bottom;
+      };
+      return Math.min(Math.max(measure(document.body), minH), 5600);
+    }, VIEWPORT_H);
+
+    if (finalHeight > VIEWPORT_H) {
+      await page.setViewportSize({ width: VIEWPORT_W, height: finalHeight });
       await page.waitForTimeout(400);
     }
 

@@ -1,4 +1,4 @@
-/** Static PNG captures — regenerate with `node scripts/capture-flow-screens.mjs` */
+/** Static PNG captures — regenerate with `npm run capture-flow-screens` */
 export const FLOW_SCREEN_IMAGES: Record<string, number> = {
   welcome: require('../../assets/flow-screens/welcome.png'),
   signup: require('../../assets/flow-screens/signup.png'),
@@ -9,9 +9,19 @@ export const FLOW_SCREEN_IMAGES: Record<string, number> = {
   'reset-password': require('../../assets/flow-screens/reset-password.png'),
   'profile-setup': require('../../assets/flow-screens/profile-setup.png'),
   'dashboard-new': require('../../assets/flow-screens/dashboard-new.png'),
+  'dashboard-profile-ready': require('../../assets/flow-screens/dashboard-profile-ready.png'),
   'dashboard-returning': require('../../assets/flow-screens/dashboard-returning.png'),
   'dashboard-trends': require('../../assets/flow-screens/dashboard-trends.png'),
+  'dashboard-one-session': require('../../assets/flow-screens/dashboard-one-session.png'),
+  'dashboard-many-sessions': require('../../assets/flow-screens/dashboard-many-sessions.png'),
+  'dashboard-mid-session': require('../../assets/flow-screens/dashboard-mid-session.png'),
   'active-session': require('../../assets/flow-screens/active-session.png'),
+  'active-session-empty': require('../../assets/flow-screens/active-session-empty.png'),
+  'active-session-empty-incomplete': require('../../assets/flow-screens/active-session-empty-incomplete.png'),
+  'active-session-adding-climb': require('../../assets/flow-screens/active-session-adding-climb.png'),
+  'active-session-multi-climbs': require('../../assets/flow-screens/active-session-multi-climbs.png'),
+  'active-session-end-sheet': require('../../assets/flow-screens/active-session-end-sheet.png'),
+  'active-session-end-sheet-filled': require('../../assets/flow-screens/active-session-end-sheet-filled.png'),
   'sessions-list': require('../../assets/flow-screens/sessions-list.png'),
   'session-detail': require('../../assets/flow-screens/session-detail.png'),
   'session-edit': require('../../assets/flow-screens/session-edit.png'),

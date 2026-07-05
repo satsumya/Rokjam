@@ -2,97 +2,137 @@
   "flows": {
     "sign-up-login": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "member-profile": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "session-create": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "version": "0.1.0",
+      "updatedAt": "2026-07-05T12:43:13.631Z"
     },
     "session-view-edit": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "dashboard": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "community": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     }
   },
   "screens": {
     "welcome": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "signup": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "verify-email": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "welcome-signup": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "login": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "forgot-password": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "reset-password": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "profile-setup": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "dashboard-new": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "dashboard-returning": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "dashboard-trends": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "active-session": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "sessions-list": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "session-detail": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "session-edit": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "community": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T02:09:00.000Z"
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "community-fresh": {
       "version": "0.0.0",
       "updatedAt": "2026-07-05T02:09:00.000Z"
+    },
+    "dashboard-profile-ready": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "dashboard-one-session": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "dashboard-many-sessions": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "dashboard-mid-session": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "active-session-empty": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "active-session-empty-incomplete": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "active-session-adding-climb": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "active-session-multi-climbs": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "active-session-end-sheet": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
+    },
+    "active-session-end-sheet-filled": {
+      "version": "0.0.0",
+      "updatedAt": "2026-07-05T12:43:05.609Z"
     }
   }
 }
