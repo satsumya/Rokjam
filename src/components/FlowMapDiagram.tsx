@@ -366,7 +366,7 @@ function FlowJourneyCanvas({
           <DownloadButton
             label="Download all"
             onPress={() => {
-              void downloadFlowScreensBulk(bulkItems, journey.title);
+              void downloadFlowScreensBulk(bulkItems, journey.title, flowMeta?.version);
             }}
             accessibilityLabel={`Download all screenshots for ${journey.title}`}
           />

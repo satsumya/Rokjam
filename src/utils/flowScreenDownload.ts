@@ -1,12 +1,43 @@
 import { Image, Linking, Platform } from 'react-native';
 
 import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
+import { getScreenManifest } from '../constants/flowMapManifest';
 
 function slugify(label: string) {
   return label
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
+}
+
+function compactSlug(text: string) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '');
+}
+
+/** Base name without version — avoids redundant label + screenId (e.g. welcome-welcome → welcome). */
+export function captureBaseName(screenId: string, label: string) {
+  const slug = slugify(label);
+  if (!slug) return screenId;
+
+  const normSlug = compactSlug(slug);
+  const normId = compactSlug(screenId);
+
+  if (slug === screenId || normSlug === normId) return screenId;
+  if (screenId.startsWith(`${slug}-`)) return screenId;
+  if (normId.startsWith(normSlug) && normId.length > normSlug.length) return screenId;
+
+  return `${slug}-${screenId}`;
+}
+
+function captureFilename(screenId: string, label: string) {
+  const version = getScreenManifest(screenId)?.version ?? '0.0.0';
+  return `${captureBaseName(screenId, label)}-v${version}.png`;
+}
+
+function bulkZipFilename(zipName: string, flowVersion?: string) {
+  const version = flowVersion ?? '0.0.0';
+  const base = compactSlug(zipName) || 'flowscreens';
+  return `${base}-v${version}.zip`;
 }
 
 function triggerBrowserDownload(blobUrl: string, filename: string) {
@@ -48,11 +79,6 @@ function bundledAssetUri(source: number): string | null {
   return resolve(source)?.uri ?? null;
 }
 
-function captureFilename(screenId: string, label: string) {
-  const slug = slugify(label) || screenId;
-  return `${slug}-${screenId}.png`;
-}
-
 export async function downloadFlowScreenCapture(screenId: string, label: string) {
   if (!FLOW_SCREEN_IMAGES[screenId]) return;
 
@@ -77,6 +103,7 @@ export async function downloadFlowScreenCapture(screenId: string, label: string)
 export async function downloadFlowScreensBulk(
   items: { screenId: string; label: string }[],
   zipName: string,
+  flowVersion?: string,
 ) {
   const downloadable = items.filter((item) => FLOW_SCREEN_IMAGES[item.screenId]);
   if (!downloadable.length) return;
@@ -99,7 +126,7 @@ export async function downloadFlowScreensBulk(
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     const blobUrl = URL.createObjectURL(zipBlob);
     try {
-      triggerBrowserDownload(blobUrl, `${slugify(zipName) || 'flow-screens'}.zip`);
+      triggerBrowserDownload(blobUrl, bulkZipFilename(zipName, flowVersion));
     } finally {
       URL.revokeObjectURL(blobUrl);
     }
