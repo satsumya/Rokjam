@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 
 import { ClimbEditor } from '../../../src/components/SessionClimb';
 import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
+import { SessionTimeField } from '../../../src/components/SessionTimeField';
 import {
   WireframeBox,
   WireframeBottomSheet,
@@ -135,15 +136,15 @@ export default function EditSessionScreen() {
           value={session.date}
           onChangeText={(date) => updateSession(session.id, { date })}
         />
-        <WireframeField
+        <SessionTimeField
           label="Start time"
           value={session.startTime}
-          onChangeText={(startTime) => updateSession(session.id, { startTime })}
+          onChange={(startTime) => updateSession(session.id, { startTime })}
         />
-        <WireframeField
+        <SessionTimeField
           label="End time"
           value={session.endTime ?? ''}
-          onChangeText={(endTime) => updateSession(session.id, { endTime })}
+          onChange={(endTime) => updateSession(session.id, { endTime })}
         />
         <View style={{ gap: 4 }}>
           <Pressable onPress={() => setIsPublic(false)}>

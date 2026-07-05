@@ -21,6 +21,8 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 ## Dates & times
 
 - [x] Date display format — Show dates as **Day DD Mmm YYYY** (e.g. Friday 03 Jul 2026)
+- [x] Time display and input — Use **h:mm AM/PM** (e.g. 6:30 PM, 12:00 PM) for all session times, presets, and custom time fields
+- [x] Time field validation — Use `SessionTimeField` (or `WireframeDropdown` with `customTime`) for time inputs; validate in real time and only save valid values
 - [x] Preset + custom dropdowns — Time and duration fields offer common presets and allow typing a custom value (e.g. end time, session duration)
 - [x] Dropdown menus — Preset pickers use a true dropdown (native `<select>` on web; floating overlay menu on native). Do not use inline accordion-style expand/collapse for preset selection
 
@@ -64,14 +66,16 @@ Use **MAJOR.MINOR.PATCH** semantics:
 | Minor functionality or feature update | MINOR | 0.0.1 → 0.1.0 |
 | Major functionality or feature update | MAJOR | 0.1.0 → 1.0.0 |
 
-Bump manually when the change type is known:
+**Automatic patch bumps** — **Update** / **Update all** on `/flow-map` (and `npm run capture-flow-screens`) compare each new PNG to the existing file. When the screenshot changed, the screen gets a **patch** bump and its **version-updated** timestamp updates; affected flow sections bump **patch** too. Unchanged screenshots leave version and timestamp as-is (timestamps reflect the last version change, not the last capture attempt). Restart `npm run flow-map-capture-server` after pulling capture-script changes.
+
+**Manual bumps** — Use when the change type is known but screenshots are unchanged, or for minor/major releases:
 
 ```bash
 npm run bump-flow-map -- --screen welcome --level patch
 npm run bump-flow-map -- --flow sign-up-login --level minor
 ```
 
-Recapturing screenshots updates **timestamps** automatically. Add `--bump patch` when recapture reflects a bug-fix-only change:
+Force a bump on every captured screen regardless of visual change (CLI only):
 
 ```bash
 npm run capture-flow-screens -- --bump patch
@@ -82,7 +86,7 @@ npm run capture-flow-screens -- --bump patch
 1. Update `src/constants/flowMap.ts` (and `flow-map-screens.json` + `flowScreenImages.ts` for PNG previews).
 2. Run `npm run validate-flow-map:fix`.
 3. Refresh screenshots via **Update** on the flow map page, or `npm run capture-flow-screens`.
-4. Bump versions with `npm run bump-flow-map` when appropriate.
+4. Use `npm run bump-flow-map` for **minor** or **major** bumps when appropriate.
 
 Wrap testing-only UI in `<PrototypeOnly>` (`flowCapture=1` during capture).
 
@@ -95,6 +99,6 @@ Wrap testing-only UI in `<PrototypeOnly>` (`flowCapture=1` during capture).
 | `npm run validate-flow-map` | Structural checks (manifest, screens list, flow specs) |
 | `npm run check` | Typecheck + validate-flow-map |
 
-Use **Update** buttons on `/flow-map` after UI changes (with the capture server and `npm run web` running). Bump versions manually when appropriate.
+Use **Update** buttons on `/flow-map` after UI changes (with the capture server and `npm run web` running). Patch versions bump automatically when the screenshot changed.
 
 Agents must follow [AGENTS.md](../../AGENTS.md) and `.cursor/rules/` — both reference this file.

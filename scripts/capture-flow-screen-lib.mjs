@@ -9,8 +9,8 @@ import {
   loadManifest,
   parseFlowMapJourneys,
   saveManifest,
-  syncFlowUpdatedAt,
-  touchCapturedScreens,
+  applyCaptureVersionBumps,
+  sha256File,
 } from './flow-map-manifest-utils.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -139,9 +139,17 @@ export async function captureFlowScreens({
   });
 
   const captured = {};
+  const changedScreenIds = [];
+
   for (const screen of targets) {
+    const filePath = path.join(outDir, `${screen.id}.png`);
+    const beforeHash = await sha256File(filePath);
     const size = await captureOneScreen(page, screen, appBase);
+    const afterHash = await sha256File(filePath);
     captured[screen.id] = size;
+    if (beforeHash !== afterHash) {
+      changedScreenIds.push(screen.id);
+    }
   }
 
   await browser.close();
@@ -151,9 +159,21 @@ export async function captureFlowScreens({
 
   const manifest = loadManifest();
   const capturedIds = targets.map((s) => s.id);
-  touchCapturedScreens(manifest, capturedIds, bumpLevel ? { bump: true, level: bumpLevel } : {});
-  syncFlowUpdatedAt(manifest, parseFlowMapJourneys(fs.readFileSync(flowMapPath, 'utf8')));
+  const journeys = parseFlowMapJourneys(fs.readFileSync(flowMapPath, 'utf8'));
+  const bumps = applyCaptureVersionBumps(manifest, journeys, capturedIds, changedScreenIds, {
+    manualBumpLevel: bumpLevel,
+  });
   saveManifest(manifest);
+
+  for (const bump of bumps.screens) {
+    console.log(`Bumped screen ${bump.id}: v${bump.previousVersion} → v${bump.nextVersion}`);
+  }
+  for (const bump of bumps.flows) {
+    console.log(`Bumped flow ${bump.id}: v${bump.previousVersion} → v${bump.nextVersion}`);
+  }
+  if (!bumps.screens.length && !bumpLevel) {
+    console.log('No visual changes — versions unchanged.');
+  }
 
   const screens = capturedIds.map((id) => ({
     id,
@@ -161,18 +181,26 @@ export async function captureFlowScreens({
     height: dimensions[id].height,
     version: manifest.screens[id].version,
     updatedAt: manifest.screens[id].updatedAt,
+    changed: changedScreenIds.includes(id),
   }));
 
   const flows = Object.keys(manifest.flows)
     .filter((flowId) => {
-      const journeyScreens = parseFlowMapJourneys(fs.readFileSync(flowMapPath, 'utf8'))[flowId] ?? [];
+      const journeyScreens = journeys[flowId] ?? [];
       return journeyScreens.some((sid) => capturedIds.includes(sid));
     })
-    .map((flowId) => ({
-      id: flowId,
-      version: manifest.flows[flowId].version,
-      updatedAt: manifest.flows[flowId].updatedAt,
-    }));
+    .map((flowId) => {
+      const journeyScreens = journeys[flowId] ?? [];
+      const flowChanged = bumpLevel
+        ? journeyScreens.some((sid) => capturedIds.includes(sid))
+        : journeyScreens.some((sid) => changedScreenIds.includes(sid));
+      return {
+        id: flowId,
+        version: manifest.flows[flowId].version,
+        updatedAt: manifest.flows[flowId].updatedAt,
+        changed: flowChanged,
+      };
+    });
 
-  return { screens, flows };
+  return { screens, flows, changedScreenIds, bumps };
 }

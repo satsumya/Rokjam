@@ -36,7 +36,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-new": {
     "width": 720,
-    "height": 1802
+    "height": 1560
   },
   "dashboard-profile-ready": {
     "width": 720,
@@ -44,7 +44,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-returning": {
     "width": 720,
-    "height": 3460
+    "height": 3048
   },
   "dashboard-trends": {
     "width": 720,
@@ -60,7 +60,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-mid-session": {
     "width": 720,
-    "height": 2600
+    "height": 2716
   },
   "active-session": {
     "width": 720,

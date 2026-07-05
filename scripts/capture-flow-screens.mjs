@@ -25,11 +25,20 @@ async function main() {
   });
 
   for (const screen of result.screens) {
-    console.log(`Captured ${screen.id}… ${screen.width}×${screen.height}`);
+    console.log(
+      `Captured ${screen.id}… ${screen.width}×${screen.height}${screen.changed ? ' (changed)' : ' (unchanged)'}`,
+    );
   }
 
+  const changedCount = result.changedScreenIds?.length ?? 0;
   console.log(`Saved ${result.screens.length} screens to assets/flow-screens/ and public/flow-screens/`);
-  console.log(`Updated flow map manifest timestamps${bumpLevel ? ` (screens bumped ${bumpLevel})` : ''}.`);
+  if (bumpLevel) {
+    console.log(`Bumped all captured screens and flows (${bumpLevel}).`);
+  } else if (changedCount > 0) {
+    console.log(`Auto-bumped patch version for ${changedCount} changed screen(s) and affected flow(s).`);
+  } else {
+    console.log('No visual changes — versions unchanged.');
+  }
 }
 
 main().catch((err) => {

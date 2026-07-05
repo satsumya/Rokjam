@@ -5,6 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { ClimbEditor } from '../../../src/components/SessionClimb';
 import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
 import { SessionLocationPanel } from '../../../src/components/SessionLocationPanel';
+import { SessionTimeField } from '../../../src/components/SessionTimeField';
 import { WireframeDropdown } from '../../../src/components/WireframeDropdown';
 import {
   WireframeBox,
@@ -300,14 +301,12 @@ export default function ActiveSessionScreen() {
               setDurationMinutes(computeDurationMinutes(session.startTime, value));
             }}
             customValue={customEndTime}
+            customTime
             onCustomChange={(value) => {
               setCustomEndTime(value);
-              const trimmed = value.trim();
-              if (!trimmed) return;
-              setEndTime(trimmed);
-              setDurationMinutes(computeDurationMinutes(session.startTime, trimmed));
+              setEndTime(value);
+              setDurationMinutes(computeDurationMinutes(session.startTime, value));
             }}
-            customPlaceholder="HH:MM"
           />
 
           <WireframeDropdown
@@ -381,10 +380,10 @@ export default function ActiveSessionScreen() {
             updateSession(session.id, { locationId, locationName })
           }
         />
-        <WireframeField
+        <SessionTimeField
           label="Start time"
           value={session.startTime}
-          onChangeText={(startTime) => updateSession(session.id, { startTime })}
+          onChange={(startTime) => updateSession(session.id, { startTime })}
         />
       </WireframeSection>
 

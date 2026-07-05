@@ -1,6 +1,7 @@
 /**
  * Read/write flow map version manifest — shared by capture, validate, and bump scripts.
  */
+import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -42,12 +43,18 @@ export function bumpVersion(current, level) {
   return `${major}.${minor}.${patch}`;
 }
 
-export function touchEntry(entry, { bump, level, at = new Date().toISOString() } = {}) {
+export function bumpManifestEntry(entry, level = 'patch', at = new Date().toISOString()) {
+  const previousVersion = entry.version;
+  entry.version = bumpVersion(entry.version, level);
   entry.updatedAt = at;
+  return { previousVersion, nextVersion: entry.version, updatedAt: at };
+}
+
+export function touchEntry(entry, { bump, level, at = new Date().toISOString() } = {}) {
   if (bump && level) {
-    entry.version = bumpVersion(entry.version, level);
+    return bumpManifestEntry(entry, level, at);
   }
-  return entry;
+  return null;
 }
 
 export function ensureManifestEntry(manifest, kind, id, at) {
@@ -106,24 +113,70 @@ export function parseScenarioFlowDocs(scenariosPath) {
   return docs;
 }
 
-export function syncFlowUpdatedAt(manifest, journeyScreens) {
-  const now = new Date().toISOString();
+export function syncFlowUpdatedAt(manifest, journeyScreens, changedScreenIds = null) {
+  const changed = changedScreenIds ? new Set(changedScreenIds) : null;
 
   for (const [flowId, screenIds] of Object.entries(journeyScreens)) {
     const entry = manifest.flows[flowId];
     if (!entry) continue;
 
-    const dates = screenIds
+    const relevantIds = changed ? screenIds.filter((id) => changed.has(id)) : screenIds;
+    if (changed && relevantIds.length === 0) continue;
+
+    const dates = relevantIds
       .map((id) => manifest.screens[id]?.updatedAt)
       .filter(Boolean)
       .sort();
 
     if (dates.length) {
       entry.updatedAt = dates[dates.length - 1];
-    } else {
-      entry.updatedAt = now;
     }
   }
+}
+
+export async function sha256File(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+  const buf = await fs.promises.readFile(filePath);
+  return crypto.createHash('sha256').update(buf).digest('hex');
+}
+
+/**
+ * Bump versions only for screens whose PNG content changed.
+ * Flow versions bump (patch) when any contained screen changed.
+ * manualBumpLevel forces a bump on every captured screen/flow regardless of visual change.
+ */
+export function applyCaptureVersionBumps(
+  manifest,
+  journeyScreens,
+  capturedScreenIds,
+  changedScreenIds,
+  { manualBumpLevel = null } = {},
+) {
+  const at = new Date().toISOString();
+  const changed = new Set(changedScreenIds);
+  const bumpLevel = manualBumpLevel ?? 'patch';
+  const bumps = { screens: [], flows: [] };
+
+  for (const id of capturedScreenIds) {
+    ensureManifestEntry(manifest, 'screens', id, at);
+    if (manualBumpLevel || changed.has(id)) {
+      const result = touchEntry(manifest.screens[id], { bump: true, level: bumpLevel, at });
+      if (result) bumps.screens.push({ id, ...result });
+    }
+  }
+
+  for (const [flowId, screenIds] of Object.entries(journeyScreens)) {
+    const flowTouched = manualBumpLevel
+      ? screenIds.some((id) => capturedScreenIds.includes(id))
+      : screenIds.some((id) => changed.has(id));
+    if (!flowTouched) continue;
+
+    ensureManifestEntry(manifest, 'flows', flowId, at);
+    const result = touchEntry(manifest.flows[flowId], { bump: true, level: bumpLevel, at });
+    if (result) bumps.flows.push({ id: flowId, ...result });
+  }
+
+  return bumps;
 }
 
 export function touchCapturedScreens(manifest, screenIds, { bump, level } = {}) {

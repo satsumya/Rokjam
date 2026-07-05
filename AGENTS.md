@@ -25,6 +25,6 @@ All agents (Cursor, Claude, Copilot, etc.) working in this repo **must** follow 
 | `npm run flow-map-capture-server` | Local API for flow map **Update** buttons |
 | `npm run validate-flow-map` | Verify manifest, screens, PNGs, and flow specs align |
 | `npm run capture-flow-screens` | Regenerate all flow-map PNGs from CLI |
-| `npm run bump-flow-map` | Bump screen or flow version |
+| `npm run bump-flow-map` | Bump screen or flow version (minor/major, or patch without recapture) |
 
 See [docs/tickets/Testing.md](docs/tickets/Testing.md) for scenario tester and flow map maintenance.

@@ -18,7 +18,6 @@ import {
   parseScenarioFlowDocs,
   parseScenarioFlowIds,
   saveManifest,
-  syncFlowUpdatedAt,
 } from './flow-map-manifest-utils.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -138,7 +137,6 @@ function main() {
   }
 
   if (changed && fix) {
-    syncFlowUpdatedAt(manifest, journeys);
     saveManifest(manifest);
   }
 

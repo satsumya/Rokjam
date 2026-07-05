@@ -5,6 +5,7 @@
  */
 import http from 'http';
 import { captureFlowScreens, defaultAppBase, screenIdsForFlow } from './capture-flow-screen-lib.mjs';
+import { loadManifest } from './flow-map-manifest-utils.mjs';
 
 const PORT = Number(process.env.FLOW_MAP_CAPTURE_PORT ?? 9876);
 
@@ -45,6 +46,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === 'GET' && req.url === '/manifest') {
+    sendJson(res, 200, { ok: true, manifest: loadManifest() });
+    return;
+  }
+
   if (req.method === 'GET' && req.url === '/health') {
     sendJson(res, 200, { ok: true, appBase: defaultAppBase });
     return;
@@ -65,7 +71,8 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const result = await captureFlowScreens({ screenIds });
-      sendJson(res, 200, { ok: true, ...result });
+      const manifest = loadManifest();
+      sendJson(res, 200, { ok: true, manifest, ...result });
       return;
     }
 
@@ -77,7 +84,8 @@ const server = http.createServer(async (req, res) => {
       }
       const screenIds = screenIdsForFlow(flowId);
       const result = await captureFlowScreens({ screenIds });
-      sendJson(res, 200, { ok: true, flowId, ...result });
+      const manifest = loadManifest();
+      sendJson(res, 200, { ok: true, flowId, manifest, ...result });
       return;
     }
 

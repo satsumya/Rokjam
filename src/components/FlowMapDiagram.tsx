@@ -14,7 +14,7 @@ import {
   type FlowMapScreen,
   type FlowNavigateContext,
 } from '../constants/flowMap';
-import { getFlowManifest } from '../constants/flowMapManifest';
+import { getFlowManifest, getScreenManifest } from '../constants/flowMapManifest';
 import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
 import { useFlowMapCapture } from '../hooks/useFlowMapCapture';
 import { navigateFlowScreen } from '../utils/flowMapNavigate';
@@ -479,7 +479,7 @@ function FlowJourneyCanvas({
                 y={node.y}
                 frameHeight={node.frameHeight}
                 onPress={() => onScreenPress(screen)}
-                screenMeta={screenMetaMap[node.screenId]}
+                screenMeta={screenMetaMap[node.screenId] ?? getScreenManifest(node.screenId)}
                 cacheKey={cacheKeys[node.screenId]}
                 onUpdate={() => onUpdateScreen(node.screenId)}
                 updating={busyKey === `screen:${node.screenId}`}
@@ -544,6 +544,20 @@ export function FlowMapDiagram({
           }}
         >
           <Text style={{ color: '#B91C1C' }}>{capture.error}</Text>
+        </View>
+      ) : null}
+      {capture.info ? (
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: '#BBF7D0',
+            backgroundColor: '#F0FDF4',
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 12,
+          }}
+        >
+          <Text style={{ color: '#166534' }}>{capture.info}</Text>
         </View>
       ) : null}
       {journeys.map((journey) => (

@@ -7,6 +7,7 @@ import {
   captureFlowMapFlow,
   captureFlowMapScreens,
   checkFlowMapCaptureServer,
+  fetchFlowMapManifest,
 } from '../utils/flowScreenCaptureClient';
 
 type CaptureState = {
@@ -27,42 +28,85 @@ export function useFlowMapCapture() {
   const [serverReady, setServerReady] = useState<boolean | null>(null);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [state, setState] = useState<CaptureState>(initialState);
 
   useEffect(() => {
     void checkFlowMapCaptureServer().then(setServerReady);
   }, []);
 
-  const updateScreen = useCallback(async (screenId: string) => {
-    setBusyKey(`screen:${screenId}`);
-    setError(null);
-    try {
-      const result = await captureFlowMapScreens([screenId]);
-      setState((prev) => applyCaptureResult(prev, result));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setBusyKey(null);
+  useEffect(() => {
+    if (!serverReady) return;
+    void fetchFlowMapManifest()
+      .then((manifest) => {
+        setState((prev) => ({
+          ...prev,
+          screens: { ...manifest.screens },
+          flows: { ...manifest.flows },
+        }));
+      })
+      .catch(() => {
+        // Capture server unavailable — keep bundled manifest.
+      });
+  }, [serverReady]);
+
+  const handleResult = useCallback((result: Awaited<ReturnType<typeof captureFlowMapScreens>>) => {
+    const screenBumps = result.bumps?.screens ?? [];
+    const changedCount =
+      screenBumps.length ||
+      result.changedScreenIds?.length ||
+      result.screens.filter((s) => s.changed).length;
+
+    if (changedCount === 0) {
+      setInfo('No visual changes detected — versions unchanged.');
+    } else if (screenBumps.length === 1) {
+      setInfo(`Updated ${screenBumps[0].id} → v${screenBumps[0].nextVersion}.`);
+    } else {
+      setInfo(`Updated ${changedCount} screen${changedCount === 1 ? '' : 's'} (patch version bump).`);
     }
+
+    setState((prev) => applyCaptureResult(prev, result));
   }, []);
 
-  const updateFlow = useCallback(async (flowId: string) => {
-    setBusyKey(`flow:${flowId}`);
-    setError(null);
-    try {
-      const result = await captureFlowMapFlow(flowId);
-      setState((prev) => applyCaptureResult(prev, result));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setBusyKey(null);
-    }
-  }, []);
+  const updateScreen = useCallback(
+    async (screenId: string) => {
+      setBusyKey(`screen:${screenId}`);
+      setError(null);
+      setInfo(null);
+      try {
+        const result = await captureFlowMapScreens([screenId]);
+        handleResult(result);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setBusyKey(null);
+      }
+    },
+    [handleResult],
+  );
+
+  const updateFlow = useCallback(
+    async (flowId: string) => {
+      setBusyKey(`flow:${flowId}`);
+      setError(null);
+      setInfo(null);
+      try {
+        const result = await captureFlowMapFlow(flowId);
+        handleResult(result);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      } finally {
+        setBusyKey(null);
+      }
+    },
+    [handleResult],
+  );
 
   return {
     serverReady,
     busyKey,
     error,
+    info,
     dimensions: state.dimensions,
     screenMeta: state.screens,
     flowMeta: state.flows,

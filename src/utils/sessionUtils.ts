@@ -36,7 +36,57 @@ export function parseSessionDateDisplay(display: string) {
   return d.toISOString().slice(0, 10);
 }
 
-export const END_TIME_PRESETS = ['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00'];
+export const END_TIME_PRESETS = [
+  '5:00 PM',
+  '5:30 PM',
+  '6:00 PM',
+  '6:30 PM',
+  '7:00 PM',
+  '7:30 PM',
+  '8:00 PM',
+  '8:30 PM',
+  '9:00 PM',
+];
+
+export const TIME_INPUT_PLACEHOLDER = '6:30 PM';
+
+export function formatTimeLabel(hours24: number, minutes: number) {
+  const period = hours24 >= 12 ? 'PM' : 'AM';
+  const hours12 = hours24 % 12 || 12;
+  return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
+}
+
+export function nowTimeLabel() {
+  const d = new Date();
+  return formatTimeLabel(d.getHours(), d.getMinutes());
+}
+
+export function parseTimeToMinutes(time: string) {
+  const trimmed = time.trim();
+  const ampm = trimmed.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (ampm) {
+    let hours = Number(ampm[1]);
+    const minutes = Number(ampm[2]);
+    const period = ampm[3].toUpperCase();
+    if (hours < 1 || hours > 12 || minutes > 59) return 0;
+    if (period === 'AM') {
+      if (hours === 12) hours = 0;
+    } else if (hours !== 12) {
+      hours += 12;
+    }
+    return hours * 60 + minutes;
+  }
+
+  const h24 = trimmed.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24) {
+    const hours = Number(h24[1]);
+    const minutes = Number(h24[2]);
+    if (hours > 23 || minutes > 59) return 0;
+    return hours * 60 + minutes;
+  }
+
+  return 0;
+}
 
 export const DURATION_PRESETS: { label: string; minutes: number }[] = [
   { label: '30 mins', minutes: 30 },
@@ -47,17 +97,6 @@ export const DURATION_PRESETS: { label: string; minutes: number }[] = [
   { label: '2.5 hr', minutes: 150 },
   { label: '3 hr', minutes: 180 },
 ];
-
-export function nowTimeLabel() {
-  const d = new Date();
-  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-}
-
-export function parseTimeToMinutes(time: string) {
-  const [h, m] = time.split(':').map(Number);
-  if (Number.isNaN(h) || Number.isNaN(m)) return 0;
-  return h * 60 + m;
-}
 
 export function formatDuration(minutes?: number) {
   if (!minutes || minutes <= 0) return '—';

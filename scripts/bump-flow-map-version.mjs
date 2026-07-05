@@ -7,7 +7,6 @@
  *   node scripts/bump-flow-map-version.mjs --screens welcome,login --level patch
  */
 import {
-  bumpVersion,
   loadManifest,
   saveManifest,
   touchEntry,
@@ -56,10 +55,8 @@ function main() {
       console.error(`Unknown screen: ${id}`);
       process.exit(1);
     }
-    const next = bumpVersion(entry.version, level);
-    touchEntry(entry, { at });
-    entry.version = next;
-    console.log(`Screen ${id}: v${next} (${at})`);
+    touchEntry(entry, { bump: true, level, at });
+    console.log(`Screen ${id}: v${entry.version} (${at})`);
   }
 
   for (const id of flows) {
@@ -68,10 +65,8 @@ function main() {
       console.error(`Unknown flow: ${id}`);
       process.exit(1);
     }
-    const next = bumpVersion(entry.version, level);
-    touchEntry(entry, { at });
-    entry.version = next;
-    console.log(`Flow ${id}: v${next} (${at})`);
+    touchEntry(entry, { bump: true, level, at });
+    console.log(`Flow ${id}: v${entry.version} (${at})`);
   }
 
   saveManifest(manifest);

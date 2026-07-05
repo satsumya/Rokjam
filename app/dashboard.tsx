@@ -85,21 +85,30 @@ export default function DashboardScreen() {
   return (
     <WireframeScreen
       title="Dashboard"
+      headerRight={
+        <Pressable
+          onPress={() => {
+            resetSession();
+            router.replace('/');
+          }}
+          accessibilityRole="button"
+          accessibilityLabel="Log out"
+          hitSlop={8}
+          style={{ padding: 4 }}
+        >
+          <Text style={{ fontSize: 22, lineHeight: 24, color: '#444' }}>⏻</Text>
+        </Pressable>
+      }
       footer={
         <>
-          <WireframeButton label="Community" variant="secondary" onPress={() => router.push('/community')} />
           <WireframeButton
-            label="Edit profile"
-            variant="secondary"
-            onPress={() => router.push('/profile/setup')}
+            label="Start climbing session"
+            onPress={() => router.push('/sessions/create')}
           />
           <WireframeButton
-            label="Log out"
-            variant="ghost"
-            onPress={() => {
-              resetSession();
-              router.replace('/');
-            }}
+            label="Community"
+            variant="secondary"
+            onPress={() => router.push('/community')}
           />
         </>
       }
@@ -117,33 +126,45 @@ export default function DashboardScreen() {
       ) : null}
 
       <WireframeBox>
-        <Text style={{ fontSize: 32 }}>{avatar}</Text>
-        <Text style={{ fontWeight: '700', fontSize: 18 }}>{username || 'Member'}</Text>
-        <Text>{email || 'member@example.com'}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <Text style={{ fontSize: 32 }}>{avatar}</Text>
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text style={{ fontWeight: '700', fontSize: 18 }}>{username || 'Member'}</Text>
+            <Text style={{ color: '#6B7280' }}>{email || 'member@example.com'}</Text>
+          </View>
+          <Pressable
+            onPress={() => router.push('/profile/setup')}
+            accessibilityRole="button"
+            accessibilityLabel="Edit profile"
+            hitSlop={8}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 4, padding: 4 }}
+          >
+            <Text style={{ fontSize: 16, color: '#111' }}>✎</Text>
+            <Text style={{ fontSize: 15, color: '#111', textDecorationLine: 'underline' }}>Edit</Text>
+          </Pressable>
+        </View>
       </WireframeBox>
 
-      <WireframeSection title="Climbing">
-        {needsProfile ? (
-          <Text style={{ color: '#6B7280', lineHeight: 20, marginBottom: 4 }}>
-            Profile incomplete — you can still start a session and add a location during it.
-          </Text>
-        ) : null}
-        {activeSessions.map((session) => (
-          <WireframeBox key={session.id}>
-            <Text style={{ fontWeight: '700' }}>
-              Session in progress{activeSessions.length > 1 ? ` — ${session.date}` : ''}
+      {needsProfile || activeSessions.length > 0 ? (
+        <WireframeSection title="Climbing">
+          {needsProfile ? (
+            <Text style={{ color: '#6B7280', lineHeight: 20, marginBottom: 4 }}>
+              Profile incomplete — you can still start a session and add a location during it.
             </Text>
-            <WireframeButton
-              label="Continue session"
-              onPress={() => router.push(`/sessions/${session.id}/active`)}
-            />
-          </WireframeBox>
-        ))}
-        <WireframeButton
-          label="Start climbing session"
-          onPress={() => router.push('/sessions/create')}
-        />
-      </WireframeSection>
+          ) : null}
+          {activeSessions.map((session) => (
+            <WireframeBox key={session.id}>
+              <Text style={{ fontWeight: '700' }}>
+                Session in progress{activeSessions.length > 1 ? ` — ${session.date}` : ''}
+              </Text>
+              <WireframeButton
+                label="Continue session"
+                onPress={() => router.push(`/sessions/${session.id}/active`)}
+              />
+            </WireframeBox>
+          ))}
+        </WireframeSection>
+      ) : null}
 
       {!needsProfile ? (
         <>
