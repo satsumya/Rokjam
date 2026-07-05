@@ -45,3 +45,43 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] Edit in context — Put editable fields near the action that needs them; do not tell users to go elsewhere (e.g. end time/duration in the save/end sheet)
 - [x] Confirmations use bottom sheet — Destructive or final actions (delete session, save/end session) use a bottom sheet with clear confirm/cancel
 - [x] Share when saved or ended — Share session/climb only after the session is saved or ended, not during active editing
+
+## Flow map
+
+The in-app flow map (`/flow-map`) documents prototype screens and journeys. Keep it in sync when flows or screens change.
+
+### Version numbers
+
+Flow sections and individual screens each have a version and last-updated timestamp in `src/constants/flowMapManifest.json`. All entries start at **0.0.0**.
+
+Use **MAJOR.MINOR.PATCH** semantics:
+
+| Change type | Bump | Example |
+| --- | --- | --- |
+| Minor bug fix, copy tweak, screenshot-only update | PATCH | 0.0.0 → 0.0.1 |
+| Minor functionality or feature update | MINOR | 0.0.1 → 0.1.0 |
+| Major functionality or feature update | MAJOR | 0.1.0 → 1.0.0 |
+
+Bump manually when the change type is known:
+
+```bash
+npm run bump-flow-map -- --screen welcome --level patch
+npm run bump-flow-map -- --flow sign-up-login --level minor
+```
+
+Recapturing screenshots updates **timestamps** automatically. Add `--bump patch` when recapture reflects a bug-fix-only change:
+
+```bash
+npm run capture-flow-screens -- --bump patch
+```
+
+### Adding or changing screens and flows
+
+1. Update the screen or journey in `src/constants/flowMap.ts`.
+2. If the screen has a PNG preview, add it to `scripts/flow-map-screens.json` and `src/constants/flowScreenImages.ts`.
+3. Run `npm run validate-flow-map:fix` to add missing manifest entries.
+4. Run `npm run capture-flow-screens` (dev server on `:8081`) to regenerate PNGs.
+5. Bump the relevant screen and/or flow version with `npm run bump-flow-map`.
+6. Run `npm run validate-flow-map` — must pass before merging.
+
+Wrap testing-only UI in `<PrototypeOnly>` so screenshots hide it (`flowCapture=1` during capture).

@@ -1,0 +1,18 @@
+[
+  { "id": "welcome", "path": "/" },
+  { "id": "signup", "path": "/auth/signup" },
+  { "id": "verify-email", "path": "/auth/verify-email?demo=prefill" },
+  { "id": "welcome-signup", "path": "/welcome-signup" },
+  { "id": "login", "path": "/auth/login?demo=prefill" },
+  { "id": "forgot-password", "path": "/auth/forgot-password" },
+  { "id": "reset-password", "path": "/auth/reset-password" },
+  { "id": "profile-setup", "path": "/profile/setup" },
+  { "id": "dashboard-new", "path": "/dashboard?demo=new-user" },
+  { "id": "dashboard-returning", "path": "/dashboard?demo=session-ready" },
+  { "id": "dashboard-trends", "path": "/dashboard?demo=seed" },
+  { "id": "active-session", "path": "/sessions/demo-active-session/active?demo=active" },
+  { "id": "sessions-list", "path": "/sessions?demo=seed" },
+  { "id": "session-detail", "path": "/sessions/demo-session-1?demo=seed" },
+  { "id": "session-edit", "path": "/sessions/demo-session-1/edit?demo=seed" },
+  { "id": "community", "path": "/community" }
+]

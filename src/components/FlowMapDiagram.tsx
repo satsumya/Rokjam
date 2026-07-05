@@ -6,6 +6,7 @@ import {
   FLOW_MAP_SCREENS,
   FLOW_NODE_WIDTH,
   journeyCanvasSize,
+  journeyScreenIds,
   nodeTotalHeight,
   type FlowMapJourney,
   type FlowMapLayoutEdge,
@@ -13,14 +14,51 @@ import {
   type FlowMapScreen,
   type FlowNavigateContext,
 } from '../constants/flowMap';
+import { getFlowManifest, getScreenManifest } from '../constants/flowMapManifest';
 import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
 import { navigateFlowScreen } from '../utils/flowMapNavigate';
-import { downloadFlowScreenCapture } from '../utils/flowScreenDownload';
+import { downloadFlowScreenCapture, downloadFlowScreensBulk } from '../utils/flowScreenDownload';
+import { formatFlowMapVersionStatus } from '../utils/flowMapVersionFormat';
 import { WireframeSection } from './Wireframe';
 
 const ARROW = '#2563EB';
 const ARROW_FILL = '#EFF6FF';
 const CANVAS_BG = '#F4F7FB';
+
+function DownloadButton({
+  label,
+  onPress,
+  accessibilityLabel,
+}: {
+  label: string;
+  onPress: () => void;
+  accessibilityLabel: string;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
+      style={({ pressed }) => ({
+        borderWidth: 1,
+        borderColor: '#2563EB',
+        borderRadius: 12,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        backgroundColor: pressed ? '#DBEAFE' : '#EFF6FF',
+      })}
+    >
+      <Text style={{ fontSize: 12, fontWeight: '600', color: '#1D4ED8' }}>{label}</Text>
+    </Pressable>
+  );
+}
+
+function VersionStatus({ version, updatedAt }: { version: string; updatedAt: string }) {
+  return (
+    <Text style={{ fontSize: 11, color: '#9CA3AF', textAlign: 'center', lineHeight: 15 }}>
+      {formatFlowMapVersionStatus(version, updatedAt)}
+    </Text>
+  );
+}
 
 type Rect = { x: number; y: number; w: number; frameH: number; totalH: number };
 
@@ -205,6 +243,7 @@ function FlowScreenNode({
 }) {
   const imageSource = FLOW_SCREEN_IMAGES[screen.id];
   const canDownload = Boolean(imageSource);
+  const screenMeta = getScreenManifest(screen.id);
 
   return (
     <View
@@ -275,22 +314,13 @@ function FlowScreenNode({
           {screen.label}
         </Text>
         {canDownload ? (
-          <Pressable
+          <DownloadButton
+            label="Download"
             onPress={() => {
               void downloadFlowScreenCapture(screen.id, screen.label);
             }}
             accessibilityLabel={`Download screenshot of ${screen.label}`}
-            style={({ pressed }) => ({
-              borderWidth: 1,
-              borderColor: '#2563EB',
-              borderRadius: 12,
-              paddingHorizontal: 8,
-              paddingVertical: 3,
-              backgroundColor: pressed ? '#DBEAFE' : '#EFF6FF',
-            })}
-          >
-            <Text style={{ fontSize: 11, fontWeight: '600', color: '#1D4ED8' }}>Download</Text>
-          </Pressable>
+          />
         ) : null}
       </View>
 
@@ -298,6 +328,12 @@ function FlowScreenNode({
         <Text style={{ marginTop: 2, fontSize: 11, textAlign: 'center', color: '#6B7280', lineHeight: 15 }}>
           {subtitle}
         </Text>
+      ) : null}
+
+      {screenMeta ? (
+        <View style={{ marginTop: 4 }}>
+          <VersionStatus version={screenMeta.version} updatedAt={screenMeta.updatedAt} />
+        </View>
       ) : null}
     </View>
   );
@@ -312,9 +348,31 @@ function FlowJourneyCanvas({
 }) {
   const { width, height, nodes } = journeyCanvasSize(journey);
   const nodeById = new Map(nodes.map((n) => [n.nodeId, n]));
+  const flowMeta = getFlowManifest(journey.id);
+  const bulkItems = journeyScreenIds(journey)
+    .filter((id) => FLOW_SCREEN_IMAGES[id])
+    .map((id) => ({
+      screenId: id,
+      label: FLOW_MAP_SCREENS[id]?.label ?? id,
+    }));
+  const canBulkDownload = bulkItems.length > 0;
 
   return (
-    <WireframeSection title={journey.title}>
+    <WireframeSection
+      title={journey.title}
+      subtitle={flowMeta ? formatFlowMapVersionStatus(flowMeta.version, flowMeta.updatedAt) : undefined}
+      headerAction={
+        canBulkDownload ? (
+          <DownloadButton
+            label="Download all"
+            onPress={() => {
+              void downloadFlowScreensBulk(bulkItems, journey.title);
+            }}
+            accessibilityLabel={`Download all screenshots for ${journey.title}`}
+          />
+        ) : undefined
+      }
+    >
       <Text style={{ color: '#6B7280', marginBottom: 16, lineHeight: 20 }}>{journey.description}</Text>
       <View
         style={{

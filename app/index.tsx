@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 
+import { PrototypeOnly } from '../src/components/PrototypeOnly';
 import { WireframeButton, WireframeScreen } from '../src/components/Wireframe';
 
 export default function WelcomeScreen() {
@@ -14,11 +15,13 @@ export default function WelcomeScreen() {
             variant="secondary"
             onPress={() => router.push('/auth/login')}
           />
-          <WireframeButton
-            label="Scenario tester"
-            variant="ghost"
-            onPress={() => router.push('/scenarios')}
-          />
+          <PrototypeOnly>
+            <WireframeButton
+              label="Scenario tester"
+              variant="ghost"
+              onPress={() => router.push('/scenarios')}
+            />
+          </PrototypeOnly>
         </>
       }
     >

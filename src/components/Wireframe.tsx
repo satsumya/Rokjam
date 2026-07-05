@@ -144,10 +144,36 @@ export function WireframeLink({ label, onPress }: { label: string; onPress: () =
   );
 }
 
-export function WireframeSection({ title, children }: { title: string; children: ReactNode }) {
+export function WireframeSection({
+  title,
+  subtitle,
+  headerAction,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  headerAction?: ReactNode;
+  children: ReactNode;
+}) {
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>{title}</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          gap: 12,
+          marginBottom: subtitle || headerAction ? 4 : 0,
+        }}
+      >
+        <View style={{ flex: 1 }}>
+          <Text style={styles.sectionTitle}>{title}</Text>
+          {subtitle ? (
+            <Text style={{ color: '#6B7280', fontSize: 12, marginTop: 4, lineHeight: 18 }}>{subtitle}</Text>
+          ) : null}
+        </View>
+        {headerAction}
+      </View>
       {children}
     </View>
   );

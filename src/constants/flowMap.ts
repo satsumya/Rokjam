@@ -52,7 +52,7 @@ export type FlowMapJourney = {
 
 export const FLOW_NODE_WIDTH = 360;
 export const FLOW_FRAME_MIN_HEIGHT = 780;
-export const FLOW_LABEL_HEIGHT = 56;
+export const FLOW_LABEL_HEIGHT = 76;
 /** Horizontal gap between journey steps */
 export const FLOW_STEP_GAP = 100;
 /** Vertical gap between alternate paths within one step */
@@ -347,4 +347,15 @@ export function journeyCanvasSize(journey: FlowMapJourney) {
     maxY = Math.max(maxY, node.y + nodeTotalHeight(node.frameHeight));
   }
   return { width: maxX + pad, height: maxY + pad, nodes };
+}
+
+/** Unique screen ids referenced in a journey (for bulk download). */
+export function journeyScreenIds(journey: FlowMapJourney): string[] {
+  const ids = new Set<string>();
+  for (const step of journey.steps) {
+    for (const node of step.nodes) {
+      ids.add(node.screenId);
+    }
+  }
+  return [...ids];
 }

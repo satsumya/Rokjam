@@ -67,7 +67,9 @@ export default function FlowMapPage() {
         <Text style={{ color: '#6B7280', lineHeight: 22 }}>
           Journeys read left to right. The first screen in each column shares the same top edge so the main path
           is easy to scan; alternate paths stack below. Tap a screen thumbnail to jump into the app at that point
-          with the right test data loaded. Use Download next to a label to save that PNG.
+          with the right test data loaded. Use Download next to a label for one screen, or Download all on a
+          flow section for a zip of every screen in that journey. Version numbers and last-updated timestamps
+          show when each flow and screen was last changed.
         </Text>
       </WireframeSection>
 

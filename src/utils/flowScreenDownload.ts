@@ -48,10 +48,15 @@ function bundledAssetUri(source: number): string | null {
   return resolve(source)?.uri ?? null;
 }
 
+function captureFilename(screenId: string, label: string) {
+  const slug = slugify(label) || screenId;
+  return `${slug}-${screenId}.png`;
+}
+
 export async function downloadFlowScreenCapture(screenId: string, label: string) {
   if (!FLOW_SCREEN_IMAGES[screenId]) return;
 
-  const filename = `${slugify(label) || screenId}.png`;
+  const filename = captureFilename(screenId, label);
 
   if (Platform.OS === 'web' && typeof document !== 'undefined') {
     const uri = publicScreenUri(screenId);
@@ -67,4 +72,41 @@ export async function downloadFlowScreenCapture(screenId: string, label: string)
 
   const uri = bundledAssetUri(FLOW_SCREEN_IMAGES[screenId]);
   if (uri) Linking.openURL(uri);
+}
+
+export async function downloadFlowScreensBulk(
+  items: { screenId: string; label: string }[],
+  zipName: string,
+) {
+  const downloadable = items.filter((item) => FLOW_SCREEN_IMAGES[item.screenId]);
+  if (!downloadable.length) return;
+
+  if (Platform.OS === 'web' && typeof document !== 'undefined') {
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+
+    for (const item of downloadable) {
+      const uri = publicScreenUri(item.screenId);
+      if (!uri) continue;
+
+      const response = await fetch(uri, { cache: 'no-cache' });
+      if (!response.ok) continue;
+
+      const blob = await response.blob();
+      zip.file(captureFilename(item.screenId, item.label), blob);
+    }
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const blobUrl = URL.createObjectURL(zipBlob);
+    try {
+      triggerBrowserDownload(blobUrl, `${slugify(zipName) || 'flow-screens'}.zip`);
+    } finally {
+      URL.revokeObjectURL(blobUrl);
+    }
+    return;
+  }
+
+  for (const item of downloadable) {
+    await downloadFlowScreenCapture(item.screenId, item.label);
+  }
 }

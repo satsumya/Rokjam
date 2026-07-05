@@ -3,6 +3,7 @@ import { Pressable, Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { SessionRow } from '../../src/components/SessionClimb';
+import { PrototypeOnly } from '../../src/components/PrototypeOnly';
 import {
   WireframeBox,
   WireframeButton,
@@ -46,7 +47,9 @@ export default function SessionsListScreen() {
       {completed.length === 0 ? (
         <WireframeBox>
           <Text>No completed sessions yet.</Text>
-          <WireframeButton label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
+          <PrototypeOnly>
+            <WireframeButton label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
+          </PrototypeOnly>
         </WireframeBox>
       ) : (
         <WireframeSection title={`${completed.length} session${completed.length === 1 ? '' : 's'}`}>

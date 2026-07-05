@@ -1,39 +1,50 @@
 /**
  * Capture prototype screen PNGs for the flow map.
  * Requires: dev server on http://localhost:8081
- * Run: node scripts/capture-flow-screens.mjs
+ * Run: npm run capture-flow-screens [-- --bump patch]
+ *
+ * Updates screen updatedAt in flowMapManifest.json automatically.
+ * Pass --bump patch|minor|major to also bump version on captured screens.
  */
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  flowMapPath,
+  loadManifest,
+  parseFlowMapJourneys,
+  saveManifest,
+  syncFlowUpdatedAt,
+  touchCapturedScreens,
+} from './flow-map-manifest-utils.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(__dirname, '../assets/flow-screens');
 const publicDir = path.join(__dirname, '../public/flow-screens');
 const dimensionsFile = path.join(__dirname, '../src/constants/flowScreenDimensions.ts');
+const screensFile = path.join(__dirname, 'flow-map-screens.json');
 const base = 'http://localhost:8081';
 
 const VIEWPORT_W = 360;
 const VIEWPORT_H = 780;
 
-const screens = [
-  { id: 'welcome', path: '/' },
-  { id: 'signup', path: '/auth/signup' },
-  { id: 'verify-email', path: '/auth/verify-email?demo=prefill' },
-  { id: 'welcome-signup', path: '/welcome-signup' },
-  { id: 'login', path: '/auth/login?demo=prefill' },
-  { id: 'forgot-password', path: '/auth/forgot-password' },
-  { id: 'reset-password', path: '/auth/reset-password' },
-  { id: 'profile-setup', path: '/profile/setup' },
-  { id: 'dashboard-new', path: '/dashboard?demo=new-user' },
-  { id: 'dashboard-returning', path: '/dashboard?demo=session-ready' },
-  { id: 'dashboard-trends', path: '/dashboard?demo=seed' },
-  { id: 'active-session', path: '/sessions/demo-active-session/active?demo=active' },
-  { id: 'sessions-list', path: '/sessions?demo=seed' },
-  { id: 'session-detail', path: '/sessions/demo-session-1?demo=seed' },
-  { id: 'session-edit', path: '/sessions/demo-session-1/edit?demo=seed' },
-  { id: 'community', path: '/community' },
-];
+function withFlowCapture(path) {
+  const separator = path.includes('?') ? '&' : '?';
+  return `${path}${separator}flowCapture=1`;
+}
+
+function parseBumpLevel(argv) {
+  const idx = argv.indexOf('--bump');
+  if (idx === -1) return null;
+  const level = argv[idx + 1];
+  if (!level || !['patch', 'minor', 'major'].includes(level)) {
+    throw new Error('Usage: --bump patch|minor|major');
+  }
+  return level;
+}
+
+const screens = JSON.parse(fs.readFileSync(screensFile, 'utf8'));
+const bumpLevel = parseBumpLevel(process.argv);
 
 async function readPngSize(filePath) {
   const buf = await fs.promises.readFile(filePath);
@@ -55,7 +66,7 @@ async function main() {
   const dimensions = {};
 
   for (const screen of screens) {
-    const url = `${base}${screen.path}`;
+    const url = `${base}${withFlowCapture(screen.path)}`;
     const filePath = path.join(outDir, `${screen.id}.png`);
     process.stdout.write(`Capturing ${screen.id}… `);
     await page.setViewportSize({ width: VIEWPORT_W, height: VIEWPORT_H });
@@ -102,7 +113,15 @@ export function frameHeightForScreen(screenId: string, nodeWidth: number, minHei
 }
 `;
   await fs.promises.writeFile(dimensionsFile, ts);
+
+  const manifest = loadManifest();
+  const capturedIds = screens.map((s) => s.id);
+  touchCapturedScreens(manifest, capturedIds, bumpLevel ? { bump: true, level: bumpLevel } : {});
+  syncFlowUpdatedAt(manifest, parseFlowMapJourneys(fs.readFileSync(flowMapPath, 'utf8')));
+  saveManifest(manifest);
+
   console.log(`Saved ${screens.length} screens to assets/flow-screens/ and public/flow-screens/`);
+  console.log(`Updated flow map manifest timestamps${bumpLevel ? ` (screens bumped ${bumpLevel})` : ''}.`);
 }
 
 main().catch((err) => {

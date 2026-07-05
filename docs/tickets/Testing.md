@@ -20,10 +20,21 @@ Scenario coverage for the Stage 1 prototype.
 | Filter by flow | SignUpLogin, MemberProfile, ClimbingSessionCreate, etc. (matches `Flow/*.md` specs) |
 | Filter by user type | New user, existing user, or all — also drives setup for “any user” scenarios |
 | Filter by path type | Happy, alternate, error |
-| **Flow map** | Visual journey diagram with screen previews — tap any screen to jump in |
+| **Flow map** | Visual journey diagram with screen previews — tap any screen to jump in; bulk download per flow; version/timestamp per flow and screen |
 | Mock values | Shown on scenario page (credentials, `thegoat`, verify code, address search) |
 
 Each **Run scenario** button resets app state, applies the scenario setup, then navigates to the route.
+
+## Flow map maintenance
+
+```bash
+npm run validate-flow-map        # check manifest, screens list, and PNG assets match
+npm run validate-flow-map:fix    # add missing manifest entries
+npm run capture-flow-screens     # regenerate PNGs + update timestamps
+npm run bump-flow-map -- --screen welcome --level patch
+```
+
+See [Standards.md](./Standards.md#flow-map) for version bump rules and the checklist when adding screens or flows.
 
 ## Setups
 
