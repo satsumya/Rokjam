@@ -65,9 +65,9 @@ export default function FlowMapPage() {
     >
       <WireframeSection title="How to use">
         <Text style={{ color: '#6B7280', lineHeight: 22 }}>
-          Follow the blue arrows between screens. Thumbnails are 360px wide at phone ratio (min 780px tall), and
-          grow taller when a screen has more content. Scroll the page or zoom out in the browser to see the full
-          diagram — tap any screen to jump into the app.
+          Journeys read left to right. The first screen in each column shares the same top edge so the main path
+          is easy to scan; alternate paths stack below. Tap a screen thumbnail to jump into the app at that point
+          with the right test data loaded. Use Download next to a label to save that PNG.
         </Text>
       </WireframeSection>
 

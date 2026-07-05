@@ -15,6 +15,7 @@ import {
 } from '../constants/flowMap';
 import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
 import { navigateFlowScreen } from '../utils/flowMapNavigate';
+import { downloadFlowScreenCapture } from '../utils/flowScreenDownload';
 import { WireframeSection } from './Wireframe';
 
 const ARROW = '#2563EB';
@@ -42,37 +43,42 @@ function anchorPoint(rect: Rect, side: 'right' | 'left' | 'bottom' | 'top') {
 }
 
 function pickAnchors(from: Rect, to: Rect): { start: { x: number; y: number }; end: { x: number; y: number } } {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
+  const fromCenterX = from.x + from.w / 2;
+  const toCenterX = to.x + to.w / 2;
+  const fromCenterY = from.y + from.frameH / 2;
+  const toCenterY = to.y + to.frameH / 2;
 
-  if (Math.abs(dy) > Math.abs(dx) * 0.55) {
-    if (dy > 0) {
-      return { start: anchorPoint(from, 'bottom'), end: anchorPoint(to, 'top') };
-    }
-    return { start: anchorPoint(from, 'top'), end: anchorPoint(to, 'bottom') };
-  }
-
-  if (dx > 0) {
+  // Journey progresses left → right between steps
+  if (toCenterX > fromCenterX + 24) {
     return { start: anchorPoint(from, 'right'), end: anchorPoint(to, 'left') };
   }
-  return { start: anchorPoint(from, 'left'), end: anchorPoint(to, 'right') };
+  if (toCenterX < fromCenterX - 24) {
+    return { start: anchorPoint(from, 'left'), end: anchorPoint(to, 'right') };
+  }
+
+  // Same step: alternate paths stack vertically
+  if (toCenterY > fromCenterY) {
+    return { start: anchorPoint(from, 'bottom'), end: anchorPoint(to, 'top') };
+  }
+  return { start: anchorPoint(from, 'top'), end: anchorPoint(to, 'bottom') };
 }
 
 function edgePath(start: { x: number; y: number }, end: { x: number; y: number }) {
   const dx = end.x - start.x;
   const dy = end.y - start.y;
 
-  if (Math.abs(dx) < 8 || Math.abs(dy) < 8) {
+  if (Math.abs(dx) < 8 && Math.abs(dy) < 8) {
     return `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
   }
 
-  if (Math.abs(dy) > Math.abs(dx)) {
-    const midY = (start.y + end.y) / 2;
-    return `M ${start.x} ${start.y} L ${start.x} ${midY} L ${end.x} ${midY} L ${end.x} ${end.y}`;
+  // Prefer horizontal routing for forward journey steps
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    const midX = (start.x + end.x) / 2;
+    return `M ${start.x} ${start.y} L ${midX} ${start.y} L ${midX} ${end.y} L ${end.x} ${end.y}`;
   }
 
-  const midX = (start.x + end.x) / 2;
-  return `M ${start.x} ${start.y} L ${midX} ${start.y} L ${midX} ${end.y} L ${end.x} ${end.y}`;
+  const midY = (start.y + end.y) / 2;
+  return `M ${start.x} ${start.y} L ${start.x} ${midY} L ${end.x} ${midY} L ${end.x} ${end.y}`;
 }
 
 function FlowEdgesSvg({
@@ -198,69 +204,102 @@ function FlowScreenNode({
   onPress: () => void;
 }) {
   const imageSource = FLOW_SCREEN_IMAGES[screen.id];
+  const canDownload = Boolean(imageSource);
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => ({
+    <View
+      style={{
         position: 'absolute',
         left: x,
         top: y,
         width: FLOW_NODE_WIDTH,
-        opacity: pressed ? 0.92 : 1,
-        transform: [{ scale: pressed ? 0.98 : 1 }],
-      })}
+      }}
     >
+      <Pressable
+        onPress={onPress}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.92 : 1,
+          transform: [{ scale: pressed ? 0.98 : 1 }],
+        })}
+      >
+        <View
+          style={{
+            width: FLOW_NODE_WIDTH,
+            height: frameHeight,
+            minHeight: FLOW_FRAME_MIN_HEIGHT,
+            borderRadius: 24,
+            borderWidth: 2,
+            borderColor: '#D1D5DB',
+            backgroundColor: '#FFF',
+            overflow: 'hidden',
+            shadowColor: '#000',
+            shadowOpacity: 0.08,
+            shadowRadius: 12,
+            shadowOffset: { width: 0, height: 4 },
+            elevation: 3,
+          }}
+        >
+          {imageSource ? (
+            <Image
+              source={imageSource}
+              style={{ width: '100%', height: '100%' }}
+              resizeMode="contain"
+              accessibilityLabel={screen.label}
+            />
+          ) : (
+            <View style={{ flex: 1, backgroundColor: '#E5E7EB', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color: '#6B7280', fontSize: 12 }}>No preview</Text>
+            </View>
+          )}
+        </View>
+      </Pressable>
+
       <View
         style={{
-          width: FLOW_NODE_WIDTH,
-          height: frameHeight,
-          minHeight: FLOW_FRAME_MIN_HEIGHT,
-          borderRadius: 24,
-          borderWidth: 2,
-          borderColor: '#D1D5DB',
-          backgroundColor: '#FFF',
-          overflow: 'hidden',
-          shadowColor: '#000',
-          shadowOpacity: 0.08,
-          shadowRadius: 12,
-          shadowOffset: { width: 0, height: 4 },
-          elevation: 3,
-        }}
-      >
-        {imageSource ? (
-          <Image
-            source={imageSource}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="contain"
-            accessibilityLabel={screen.label}
-          />
-        ) : (
-          <View style={{ flex: 1, backgroundColor: '#E5E7EB', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ color: '#6B7280', fontSize: 12 }}>No preview</Text>
-          </View>
-        )}
-      </View>
-      <Text
-        style={{
           marginTop: 10,
-          fontWeight: '700',
-          fontSize: 14,
-          textAlign: 'center',
-          color: '#111827',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          flexWrap: 'wrap',
         }}
       >
-        {screen.label}
-      </Text>
+        <Text
+          style={{
+            fontWeight: '700',
+            fontSize: 14,
+            textAlign: 'center',
+            color: '#111827',
+          }}
+        >
+          {screen.label}
+        </Text>
+        {canDownload ? (
+          <Pressable
+            onPress={() => {
+              void downloadFlowScreenCapture(screen.id, screen.label);
+            }}
+            accessibilityLabel={`Download screenshot of ${screen.label}`}
+            style={({ pressed }) => ({
+              borderWidth: 1,
+              borderColor: '#2563EB',
+              borderRadius: 12,
+              paddingHorizontal: 8,
+              paddingVertical: 3,
+              backgroundColor: pressed ? '#DBEAFE' : '#EFF6FF',
+            })}
+          >
+            <Text style={{ fontSize: 11, fontWeight: '600', color: '#1D4ED8' }}>Download</Text>
+          </Pressable>
+        ) : null}
+      </View>
+
       {subtitle ? (
         <Text style={{ marginTop: 2, fontSize: 11, textAlign: 'center', color: '#6B7280', lineHeight: 15 }}>
           {subtitle}
         </Text>
       ) : null}
-      <Text style={{ marginTop: 6, fontSize: 10, textAlign: 'center', color: '#2563EB', fontWeight: '600' }}>
-        Tap to open
-      </Text>
-    </Pressable>
+    </View>
   );
 }
 

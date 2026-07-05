@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(__dirname, '../assets/flow-screens');
+const publicDir = path.join(__dirname, '../public/flow-screens');
 const dimensionsFile = path.join(__dirname, '../src/constants/flowScreenDimensions.ts');
 const base = 'http://localhost:8081';
 
@@ -43,6 +44,7 @@ async function readPngSize(filePath) {
 async function main() {
   const { chromium } = await import('playwright');
   await fs.promises.mkdir(outDir, { recursive: true });
+  await fs.promises.mkdir(publicDir, { recursive: true });
 
   const browser = await chromium.launch();
   const page = await browser.newPage({
@@ -79,6 +81,7 @@ async function main() {
     }
 
     await page.screenshot({ path: filePath, type: 'png', fullPage: false });
+    await fs.promises.copyFile(filePath, path.join(publicDir, `${screen.id}.png`));
     const size = await readPngSize(filePath);
     dimensions[screen.id] = { width: size.width, height: size.height };
     process.stdout.write(`${size.width}×${size.height}\n`);
@@ -99,7 +102,7 @@ export function frameHeightForScreen(screenId: string, nodeWidth: number, minHei
 }
 `;
   await fs.promises.writeFile(dimensionsFile, ts);
-  console.log(`Saved ${screens.length} screens to assets/flow-screens/`);
+  console.log(`Saved ${screens.length} screens to assets/flow-screens/ and public/flow-screens/`);
 }
 
 main().catch((err) => {

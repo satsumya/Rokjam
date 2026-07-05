@@ -30,8 +30,9 @@ export type FlowMapLayoutNode = {
   subtitle?: string;
 };
 
-export type FlowMapLayoutRow = {
-  nodes: { nodeId: string; screenId: string; x: number; subtitle?: string }[];
+export type FlowMapLayoutStep = {
+  /** Screens at the same journey stage — stacked vertically when there are alternates */
+  nodes: { nodeId: string; screenId: string; subtitle?: string }[];
 };
 
 export type FlowMapLayoutEdge = {
@@ -44,14 +45,18 @@ export type FlowMapJourney = {
   id: ScenarioFlow;
   title: string;
   description: string;
-  rows: FlowMapLayoutRow[];
+  /** Left-to-right journey stages */
+  steps: FlowMapLayoutStep[];
   edges: FlowMapLayoutEdge[];
 };
 
 export const FLOW_NODE_WIDTH = 360;
 export const FLOW_FRAME_MIN_HEIGHT = 780;
 export const FLOW_LABEL_HEIGHT = 56;
-export const FLOW_ROW_GAP = 80;
+/** Horizontal gap between journey steps */
+export const FLOW_STEP_GAP = 100;
+/** Vertical gap between alternate paths within one step */
+export const FLOW_BRANCH_GAP = 48;
 
 export function nodeTotalHeight(frameHeight: number) {
   return frameHeight + FLOW_LABEL_HEIGHT;
@@ -185,27 +190,31 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'sign-up-login',
     title: SCENARIO_FLOWS.find((f) => f.id === 'sign-up-login')!.doc,
     description: 'New user sign-up, returning login, and password recovery.',
-    rows: [
-      { nodes: [{ nodeId: 'welcome', screenId: 'welcome', x: 760 }] },
+    steps: [
+      { nodes: [{ nodeId: 'welcome', screenId: 'welcome' }] },
       {
         nodes: [
-          { nodeId: 'signup', screenId: 'signup', x: 80 },
-          { nodeId: 'login', screenId: 'login', x: 920 },
-          { nodeId: 'forgot', screenId: 'forgot-password', x: 1760 },
+          { nodeId: 'signup', screenId: 'signup' },
+          { nodeId: 'login', screenId: 'login' },
         ],
       },
       {
         nodes: [
-          { nodeId: 'verify', screenId: 'verify-email', x: 80 },
-          { nodeId: 'dash-login', screenId: 'dashboard-returning', x: 920 },
-          { nodeId: 'reset', screenId: 'reset-password', x: 1760 },
+          { nodeId: 'verify', screenId: 'verify-email' },
+          { nodeId: 'dash-login', screenId: 'dashboard-returning' },
+          { nodeId: 'forgot', screenId: 'forgot-password' },
         ],
       },
-      { nodes: [{ nodeId: 'welcome-after', screenId: 'welcome-signup', x: 80 }] },
       {
         nodes: [
-          { nodeId: 'profile', screenId: 'profile-setup', x: 0 },
-          { nodeId: 'dash-skip', screenId: 'dashboard-new', x: 720 },
+          { nodeId: 'welcome-after', screenId: 'welcome-signup' },
+          { nodeId: 'reset', screenId: 'reset-password' },
+        ],
+      },
+      {
+        nodes: [
+          { nodeId: 'profile', screenId: 'profile-setup' },
+          { nodeId: 'dash-skip', screenId: 'dashboard-new' },
         ],
       },
     ],
@@ -225,15 +234,15 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'member-profile',
     title: SCENARIO_FLOWS.find((f) => f.id === 'member-profile')!.doc,
     description: 'Member profile setup after sign-up or from dashboard prompt.',
-    rows: [
+    steps: [
       {
         nodes: [
-          { nodeId: 'from-welcome', screenId: 'welcome-signup', x: 80 },
-          { nodeId: 'from-dash', screenId: 'dashboard-new', x: 920 },
+          { nodeId: 'from-welcome', screenId: 'welcome-signup' },
+          { nodeId: 'from-dash', screenId: 'dashboard-new' },
         ],
       },
-      { nodes: [{ nodeId: 'profile', screenId: 'profile-setup', x: 500 }] },
-      { nodes: [{ nodeId: 'done', screenId: 'dashboard-returning', x: 500 }] },
+      { nodes: [{ nodeId: 'profile', screenId: 'profile-setup' }] },
+      { nodes: [{ nodeId: 'done', screenId: 'dashboard-returning' }] },
     ],
     edges: [
       { from: 'from-welcome', to: 'profile', label: 'Create profile' },
@@ -245,10 +254,10 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'session-create',
     title: SCENARIO_FLOWS.find((f) => f.id === 'session-create')!.doc,
     description: 'Start, log climbs during, and end a climbing session.',
-    rows: [
-      { nodes: [{ nodeId: 'home', screenId: 'dashboard-returning', x: 500 }] },
-      { nodes: [{ nodeId: 'active', screenId: 'active-session', x: 500 }] },
-      { nodes: [{ nodeId: 'home-end', screenId: 'dashboard-returning', x: 500 }] },
+    steps: [
+      { nodes: [{ nodeId: 'home', screenId: 'dashboard-returning' }] },
+      { nodes: [{ nodeId: 'active', screenId: 'active-session' }] },
+      { nodes: [{ nodeId: 'home-end', screenId: 'dashboard-returning' }] },
     ],
     edges: [
       { from: 'home', to: 'active', label: 'Start session' },
@@ -259,19 +268,15 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'session-view-edit',
     title: SCENARIO_FLOWS.find((f) => f.id === 'session-view-edit')!.doc,
     description: 'Browse sessions from dashboard or full list, view and edit details.',
-    rows: [
+    steps: [
       {
         nodes: [
-          { nodeId: 'home', screenId: 'dashboard-returning', x: 0 },
-          { nodeId: 'list', screenId: 'sessions-list', x: 720 },
+          { nodeId: 'home', screenId: 'dashboard-returning' },
+          { nodeId: 'list', screenId: 'sessions-list' },
         ],
       },
-      {
-        nodes: [
-          { nodeId: 'detail', screenId: 'session-detail', x: 360 },
-          { nodeId: 'edit', screenId: 'session-edit', x: 1080 },
-        ],
-      },
+      { nodes: [{ nodeId: 'detail', screenId: 'session-detail' }] },
+      { nodes: [{ nodeId: 'edit', screenId: 'session-edit' }] },
     ],
     edges: [
       { from: 'home', to: 'list', label: 'View all sessions' },
@@ -284,13 +289,9 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'dashboard',
     title: SCENARIO_FLOWS.find((f) => f.id === 'dashboard')!.doc,
     description: 'Trends and standout stats on the dashboard home.',
-    rows: [
-      {
-        nodes: [
-          { nodeId: 'with-data', screenId: 'dashboard-trends', x: 80 },
-          { nodeId: 'empty', screenId: 'dashboard-new', x: 920 },
-        ],
-      },
+    steps: [
+      { nodes: [{ nodeId: 'empty', screenId: 'dashboard-new' }] },
+      { nodes: [{ nodeId: 'with-data', screenId: 'dashboard-trends' }] },
     ],
     edges: [{ from: 'empty', to: 'with-data', label: 'After first sessions logged' }],
   },
@@ -298,13 +299,9 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'community',
     title: SCENARIO_FLOWS.find((f) => f.id === 'community')!.doc,
     description: 'Public sessions feed — all, near home, and following.',
-    rows: [
-      {
-        nodes: [
-          { nodeId: 'home', screenId: 'dashboard-returning', x: 80 },
-          { nodeId: 'feed', screenId: 'community', x: 920 },
-        ],
-      },
+    steps: [
+      { nodes: [{ nodeId: 'home', screenId: 'dashboard-returning' }] },
+      { nodes: [{ nodeId: 'feed', screenId: 'community' }] },
     ],
     edges: [{ from: 'home', to: 'feed', label: 'Open community' }],
   },
@@ -312,27 +309,29 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
 
 export function resolveJourneyLayout(journey: FlowMapJourney): FlowMapLayoutNode[] {
   const nodes: FlowMapLayoutNode[] = [];
-  let y = 0;
+  let stepX = 0;
 
-  for (const row of journey.rows) {
-    let rowFrameHeight = 0;
-    for (const slot of row.nodes) {
+  for (const step of journey.steps) {
+    let stepY = 0;
+
+    for (const slot of step.nodes) {
       const frameHeight = frameHeightForScreen(
         slot.screenId,
         FLOW_NODE_WIDTH,
         FLOW_FRAME_MIN_HEIGHT,
       );
-      rowFrameHeight = Math.max(rowFrameHeight, frameHeight);
       nodes.push({
         nodeId: slot.nodeId,
         screenId: slot.screenId,
-        x: slot.x,
-        y,
+        x: stepX,
+        y: stepY,
         frameHeight,
         subtitle: slot.subtitle,
       });
+      stepY += nodeTotalHeight(frameHeight) + FLOW_BRANCH_GAP;
     }
-    y += rowFrameHeight + FLOW_LABEL_HEIGHT + FLOW_ROW_GAP;
+
+    stepX += FLOW_NODE_WIDTH + FLOW_STEP_GAP;
   }
 
   return nodes;
