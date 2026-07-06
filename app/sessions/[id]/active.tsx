@@ -5,7 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { ClimbEditor } from '../../../src/components/SessionClimb';
 import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
 import { SessionLocationPanel } from '../../../src/components/SessionLocationPanel';
-import { SessionTimeField } from '../../../src/components/SessionTimeField';
+import { SessionTimeDropdown } from '../../../src/components/SessionTimeDropdown';
 import { WireframeDropdown } from '../../../src/components/WireframeDropdown';
 import {
   WireframeBox,
@@ -24,7 +24,6 @@ import {
   climbHasDetails,
   computeDurationMinutes,
   DURATION_PRESETS,
-  END_TIME_PRESETS,
   formatSessionDate,
   nowTimeLabel,
   parseSessionDateDisplay,
@@ -77,7 +76,6 @@ export default function ActiveSessionScreen() {
   const [isPublic, setIsPublic] = useState(false);
   const [endTime, setEndTime] = useState(() => nowTimeLabel());
   const [durationMinutes, setDurationMinutes] = useState<number | undefined>();
-  const [customEndTime, setCustomEndTime] = useState('');
   const [customDuration, setCustomDuration] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
@@ -102,16 +100,14 @@ export default function ActiveSessionScreen() {
       if (demo === 'flow-end-sheet') {
         const now = nowTimeLabel();
         setEndTime(now);
-        setCustomEndTime('');
-        setDurationMinutes(computeDurationMinutes('17:30', now));
+        setDurationMinutes(computeDurationMinutes('5:30 PM', now));
         setCustomDuration('');
         setShowEndSheet(true);
       }
       if (demo === 'flow-end-sheet-filled') {
-        setEndTime('19:30');
-        setCustomEndTime('');
-        setDurationMinutes(90);
+        setEndTime('7:30 PM');
         setCustomDuration('');
+        setDurationMinutes(90);
         setShowEndSheet(true);
       }
       flowUiApplied.current = demo;
@@ -135,15 +131,6 @@ export default function ActiveSessionScreen() {
     return getUsernameError(usernameInput, TAKEN_USERNAMES);
   }, [isPublic, username, usernameInput, usernameTouched]);
 
-  const endTimeOptions = useMemo(() => {
-    const now = nowTimeLabel();
-    const presets = END_TIME_PRESETS.filter((preset) => preset !== now);
-    return [
-      { value: now, label: `Now (${now})` },
-      ...presets.map((preset) => ({ value: preset, label: preset })),
-    ];
-  }, [showEndSheet]);
-
   const durationOptions = useMemo(
     () => DURATION_PRESETS.map((preset) => ({ value: String(preset.minutes), label: preset.label })),
     [],
@@ -152,7 +139,6 @@ export default function ActiveSessionScreen() {
   const openEndSheet = () => {
     const now = nowTimeLabel();
     setEndTime(now);
-    setCustomEndTime('');
     setDurationMinutes(computeDurationMinutes(session?.startTime ?? now, now));
     setCustomDuration('');
     setShowEndSheet(true);
@@ -291,19 +277,10 @@ export default function ActiveSessionScreen() {
             <Text>Sharing as {username}</Text>
           ) : null}
 
-          <WireframeDropdown
+          <SessionTimeDropdown
             label="End time"
             value={endTime}
-            options={endTimeOptions}
             onChange={(value) => {
-              setEndTime(value);
-              setCustomEndTime('');
-              setDurationMinutes(computeDurationMinutes(session.startTime, value));
-            }}
-            customValue={customEndTime}
-            customTime
-            onCustomChange={(value) => {
-              setCustomEndTime(value);
               setEndTime(value);
               setDurationMinutes(computeDurationMinutes(session.startTime, value));
             }}
@@ -380,7 +357,7 @@ export default function ActiveSessionScreen() {
             updateSession(session.id, { locationId, locationName })
           }
         />
-        <SessionTimeField
+        <SessionTimeDropdown
           label="Start time"
           value={session.startTime}
           onChange={(startTime) => updateSession(session.id, { startTime })}

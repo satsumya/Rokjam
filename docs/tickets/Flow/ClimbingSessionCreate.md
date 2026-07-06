@@ -9,7 +9,7 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] If no location added users will need an option to be able to add now — Opens a centered modal (not a bottom sheet) with address search, optional nickname, and full difficulty-level setup (same journey as member profile)
 - [x] Users must be able to swap the location or add a new location but adding a new location is not a prominent option
 - [x] Start time auto adds current time
-- [x] Option to set the end time using a dropdown or choose length of the climbing session using a dropdown — True dropdown menu (native select on web; floating overlay on native), not an inline accordion; presets plus custom field per Standards
+- [x] Option to set the end time using a dropdown or choose length of the climbing session using a dropdown — `SessionTimeDropdown` for start/end time (12:00 AM–11:45 PM, 15-min steps); duration dropdown with presets + custom minutes
 - [x] Add climbs
 - [x] While adding or editing a climb, footer primary action is Save climb (replaces Add climb until saved or cancelled)
 - [x] Edit climbs

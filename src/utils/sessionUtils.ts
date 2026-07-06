@@ -36,29 +36,10 @@ export function parseSessionDateDisplay(display: string) {
   return d.toISOString().slice(0, 10);
 }
 
-export const END_TIME_PRESETS = [
-  '5:00 PM',
-  '5:30 PM',
-  '6:00 PM',
-  '6:30 PM',
-  '7:00 PM',
-  '7:30 PM',
-  '8:00 PM',
-  '8:30 PM',
-  '9:00 PM',
-];
-
-export const TIME_INPUT_PLACEHOLDER = '6:30 PM';
-
 export function formatTimeLabel(hours24: number, minutes: number) {
   const period = hours24 >= 12 ? 'PM' : 'AM';
   const hours12 = hours24 % 12 || 12;
   return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
-}
-
-export function nowTimeLabel() {
-  const d = new Date();
-  return formatTimeLabel(d.getHours(), d.getMinutes());
 }
 
 export function parseTimeToMinutes(time: string) {
@@ -86,6 +67,44 @@ export function parseTimeToMinutes(time: string) {
   }
 
   return 0;
+}
+
+export function snapTimeToQuarterHours(hours24: number, minutes: number) {
+  let total = hours24 * 60 + minutes;
+  total = Math.round(total / 15) * 15;
+  total = ((total % (24 * 60)) + 24 * 60) % (24 * 60);
+  return formatTimeLabel(Math.floor(total / 60), total % 60);
+}
+
+export const TIME_DROPDOWN_VALUES: string[] = (() => {
+  const values: string[] = [];
+  for (let hour = 0; hour < 24; hour += 1) {
+    for (let minute = 0; minute < 60; minute += 15) {
+      values.push(formatTimeLabel(hour, minute));
+    }
+  }
+  return values;
+})();
+
+export const TIME_DROPDOWN_OPTIONS = TIME_DROPDOWN_VALUES.map((value) => ({
+  value,
+  label: value,
+}));
+
+/** Map any h:mm AM/PM value to the nearest 15-minute dropdown option. */
+export function resolveTimeDropdownValue(time: string) {
+  const trimmed = time.trim();
+  if (!trimmed) return TIME_DROPDOWN_VALUES[0];
+  if (TIME_DROPDOWN_VALUES.includes(trimmed)) return trimmed;
+  const totalMinutes = parseTimeToMinutes(trimmed);
+  const hours24 = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+  return snapTimeToQuarterHours(hours24, mins);
+}
+
+export function nowTimeLabel() {
+  const d = new Date();
+  return snapTimeToQuarterHours(d.getHours(), d.getMinutes());
 }
 
 export const DURATION_PRESETS: { label: string; minutes: number }[] = [

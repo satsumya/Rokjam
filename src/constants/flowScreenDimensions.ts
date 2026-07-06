@@ -84,7 +84,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "active-session-end-sheet": {
     "width": 720,
-    "height": 4878
+    "height": 4832
   },
   "active-session-end-sheet-filled": {
     "width": 720,

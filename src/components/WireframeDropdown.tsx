@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 import { WireframeField } from './Wireframe';
-import { SessionTimeField } from './SessionTimeField';
 
 export type DropdownOption = {
   value: string;
@@ -126,7 +125,6 @@ export function WireframeDropdown({
   customValue,
   onCustomChange,
   customPlaceholder,
-  customTime,
 }: {
   label: string;
   value: string;
@@ -135,7 +133,6 @@ export function WireframeDropdown({
   customValue?: string;
   onCustomChange?: (value: string) => void;
   customPlaceholder?: string;
-  customTime?: boolean;
 }) {
   const triggerRef = useRef<View>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -186,16 +183,12 @@ export function WireframeDropdown({
       )}
 
       {onCustomChange ? (
-        customTime ? (
-          <SessionTimeField label="Custom" value={customValue ?? ''} onChange={onCustomChange} />
-        ) : (
-          <WireframeField
-            label="Custom"
-            value={customValue ?? ''}
-            onChangeText={onCustomChange}
-            placeholder={customPlaceholder ?? 'Type a custom value'}
-          />
-        )
+        <WireframeField
+          label="Custom"
+          value={customValue ?? ''}
+          onChangeText={onCustomChange}
+          placeholder={customPlaceholder ?? 'Type a custom value'}
+        />
       ) : null}
     </View>
   );

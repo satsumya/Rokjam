@@ -2,19 +2,19 @@
   "flows": {
     "sign-up-login": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:20:18.112Z"
+      "updatedAt": "2026-07-05T22:50:56.728Z"
     },
     "member-profile": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:20:18.112Z"
+      "updatedAt": "2026-07-05T22:50:56.728Z"
     },
     "session-create": {
       "version": "0.1.0",
-      "updatedAt": "2026-07-05T15:20:18.112Z"
+      "updatedAt": "2026-07-06T01:01:19.014Z"
     },
     "session-view-edit": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "updatedAt": "2026-07-05T15:22:04.687Z"
     },
     "dashboard": {
       "version": "0.0.0",
@@ -22,7 +22,7 @@
     },
     "community": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "updatedAt": "2026-07-05T15:22:04.687Z"
     }
   },
   "screens": {
@@ -48,7 +48,7 @@
     },
     "forgot-password": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "updatedAt": "2026-07-05T15:22:11.870Z"
     },
     "reset-password": {
       "version": "0.0.0",
@@ -60,11 +60,11 @@
     },
     "dashboard-new": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:20:18.112Z"
+      "updatedAt": "2026-07-05T22:50:56.728Z"
     },
     "dashboard-returning": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "updatedAt": "2026-07-05T15:22:04.687Z"
     },
     "dashboard-trends": {
       "version": "0.0.0",
@@ -112,7 +112,7 @@
     },
     "active-session-empty": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:07:31.058Z"
+      "updatedAt": "2026-07-06T01:00:40.663Z"
     },
     "active-session-empty-incomplete": {
       "version": "0.0.0",
@@ -128,7 +128,7 @@
     },
     "active-session-end-sheet": {
       "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "updatedAt": "2026-07-06T01:01:19.014Z"
     },
     "active-session-end-sheet-filled": {
       "version": "0.0.0",

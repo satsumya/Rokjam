@@ -21,10 +21,11 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 ## Dates & times
 
 - [x] Date display format — Show dates as **Day DD Mmm YYYY** (e.g. Friday 03 Jul 2026)
-- [x] Time display and input — Use **h:mm AM/PM** (e.g. 6:30 PM, 12:00 PM) for all session times, presets, and custom time fields
-- [x] Time field validation — Use `SessionTimeField` (or `WireframeDropdown` with `customTime`) for time inputs; validate in real time and only save valid values
-- [x] Preset + custom dropdowns — Time and duration fields offer common presets and allow typing a custom value (e.g. end time, session duration)
-- [x] Dropdown menus — Preset pickers use a true dropdown (native `<select>` on web; floating overlay menu on native). Do not use inline accordion-style expand/collapse for preset selection
+- [x] Time display format — Use **h:mm AM/PM** (e.g. 6:30 PM, 12:00 PM) for stored and displayed session times
+- [x] Time field UI — All session time fields use `SessionTimeDropdown` (`WireframeDropdown` with the standard time list). No free-text time inputs
+- [x] Time dropdown options — **12:00 AM** through **11:45 PM** in **15-minute** steps (96 options). Auto-filled times snap to the nearest quarter hour
+- [x] Preset + custom dropdowns — Duration fields may offer presets plus a custom value; time fields do not use custom text entry
+- [x] Dropdown menus — Pickers use a true dropdown (native `<select>` on web; floating overlay menu on native). Do not use inline accordion-style expand/collapse
 
 ## Lists & filters
 
