@@ -40,7 +40,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-profile-ready": {
     "width": 720,
-    "height": 2398
+    "height": 1986
   },
   "dashboard-returning": {
     "width": 720,
@@ -48,19 +48,19 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-trends": {
     "width": 720,
-    "height": 3560
+    "height": 3178
   },
   "dashboard-one-session": {
     "width": 720,
-    "height": 3060
+    "height": 2678
   },
   "dashboard-many-sessions": {
     "width": 720,
-    "height": 4338
+    "height": 3956
   },
   "dashboard-mid-session": {
     "width": 720,
-    "height": 2716
+    "height": 2402
   },
   "active-session": {
     "width": 720,
@@ -72,15 +72,15 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "active-session-empty-incomplete": {
     "width": 720,
-    "height": 1652
+    "height": 1606
   },
   "active-session-adding-climb": {
     "width": 720,
-    "height": 2650
+    "height": 2604
   },
   "active-session-multi-climbs": {
     "width": 720,
-    "height": 4878
+    "height": 4832
   },
   "active-session-end-sheet": {
     "width": 720,
@@ -88,7 +88,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "active-session-end-sheet-filled": {
     "width": 720,
-    "height": 4878
+    "height": 4832
   },
   "sessions-list": {
     "width": 720,

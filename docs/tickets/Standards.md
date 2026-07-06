@@ -55,6 +55,42 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 The in-app flow map (`/flow-map`) documents prototype screens and journeys. Keep it in sync when flows or screens change.
 
+### Screen names & download filenames
+
+Each flow map screen has a **label** and optional **descriptors** in `src/constants/flowMap.ts`. Use descriptors only when variants share the same label (e.g. several Dashboard states).
+
+**On the flow map** — `Label | Descriptor one | Descriptor two` (` | ` between parts). Screens with no descriptors show the label only. End-session sheets use label **Active session** with tag **End** (display: `Active session | End`).
+
+**Downloaded PNGs** — Same parts joined with `--`; spaces become hyphens; version appended last:
+
+`{step}.{scenario}[.{substep}]-[{Tag}-]{Label--Descriptor-one--Descriptor-two}--v0.0.0.png`
+
+**Flow placement prefix** (per journey, on each node in `flowMap.ts`):
+
+| Part | Meaning |
+| --- | --- |
+| **step** | Left-to-right position in the journey (1, 2, 3…) |
+| **scenario** | Alternate path at that step (`0` = only one path; `1`, `2`… = first, second alternate) |
+| **substep** | Optional — state further in the journey on the same step but not a new screen (e.g. end sheet overlays: `4.0.1`, `4.0.2`) |
+
+When `placement` is omitted on a node, it defaults from layout: step = column index + 1; scenario = `0` when alone, else node index + 1.
+
+**End session sheets** — `downloadTag: 'End'` adds `[End]-` after the placement prefix. Label is **Active session** (not “Save / end session”).
+
+Examples (session create flow):
+
+| Display | Download |
+| --- | --- |
+| Dashboard \| Profile complete \| No sessions | `1.1-Dashboard--Profile-complete--No-sessions--v0.0.0.png` |
+| Dashboard \| Blank profile \| No climbs | `1.2-Dashboard--Blank-profile--No-climbs--v0.0.0.png` |
+| Active session \| Add climb | `3.0-Active-session--Add-climb--v0.0.0.png` |
+| Active session \| End | `4.0.1-[End]-Active-session--v0.0.0.png` |
+| Active session \| End \| End time set | `4.0.2-[End]-Active-session--End-time-set--v0.0.0.png` |
+| Dashboard \| Mid-session | `5.3-Dashboard--Mid-session--v0.0.0.png` |
+| Welcome | `1.0-Welcome--v0.0.0.png` |
+
+Internal asset ids (e.g. `dashboard-new.png` in `assets/flow-screens/`) stay as stable slugs; only display names and download filenames use this convention.
+
 ### Version numbers
 
 Flow sections and individual screens each have a version and last-updated timestamp in `src/constants/flowMapManifest.json`. All entries start at **0.0.0**.

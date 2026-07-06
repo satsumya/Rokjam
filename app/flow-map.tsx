@@ -72,8 +72,8 @@ export default function FlowMapPage() {
           with the right test data loaded. Use **Update** (green) to refresh a screenshot after UI changes,
           or **Update all** on a flow section — patch versions bump automatically when the image changed.
           Requires `npm run flow-map-capture-server` in a second terminal.
-          Use Download for PNG exports. Version numbers and last-updated timestamps show when each flow and screen
-          was last changed.
+          Use Download for PNG exports — filenames follow the screen naming convention in Standards (label, optional descriptors, version).
+          Expand **Version info** on a flow section to see version numbers and last-updated timestamps.
         </Text>
       </WireframeSection>
 

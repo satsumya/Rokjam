@@ -137,6 +137,16 @@ export default function ScenariosScreen() {
         </WireframeBox>
       </WireframeSection>
 
+      <WireframeSection title="Colour system">
+        <WireframeBox>
+          <Text style={{ lineHeight: 22 }}>
+            Preview brand, neutral, and semantic colour tokens — including contrast and alpha variants.
+          </Text>
+          <WireframeButton label="Open colour system" onPress={() => router.push('/color-system')} />
+          <Text style={{ color: '#666', fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
+        </WireframeBox>
+      </WireframeSection>
+
       <WireframeSection title="Mock test values">
         <WireframeBox>
           <Text>Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>

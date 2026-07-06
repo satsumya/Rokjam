@@ -1,43 +1,34 @@
 import { Image, Linking, Platform } from 'react-native';
 
+import type { FlowMapPlacement } from '../constants/flowMap';
 import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
 import { getScreenManifest } from '../constants/flowMapManifest';
+import { compareFlowPlacements } from '../constants/flowMap';
+import { formatFlowScreenDownloadFilename } from './flowScreenNaming';
 
-function slugify(label: string) {
-  return label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
+export type FlowScreenDownloadInput = {
+  screenId: string;
+  label: string;
+  descriptors?: string[];
+  downloadTag?: string;
+  downloadDescriptors?: string[];
+  placement?: FlowMapPlacement;
+};
 
-function compactSlug(text: string) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, '');
-}
-
-/** Base name without version — avoids redundant label + screenId (e.g. welcome-welcome → welcome). */
-export function captureBaseName(screenId: string, label: string) {
-  const slug = slugify(label);
-  if (!slug) return screenId;
-
-  const normSlug = compactSlug(slug);
-  const normId = compactSlug(screenId);
-
-  if (slug === screenId || normSlug === normId) return screenId;
-  if (screenId.startsWith(`${slug}-`)) return screenId;
-  if (normId.startsWith(normSlug) && normId.length > normSlug.length) return screenId;
-
-  return `${slug}-${screenId}`;
-}
-
-function captureFilename(screenId: string, label: string) {
-  const version = getScreenManifest(screenId)?.version ?? '0.0.0';
-  return `${captureBaseName(screenId, label)}-v${version}.png`;
+function captureFilename(item: FlowScreenDownloadInput) {
+  const version = getScreenManifest(item.screenId)?.version ?? '0.0.0';
+  return formatFlowScreenDownloadFilename(
+    item.label,
+    item.downloadDescriptors ?? item.descriptors ?? [],
+    version,
+    { placement: item.placement, downloadTag: item.downloadTag },
+  );
 }
 
 function bulkZipFilename(zipName: string, flowVersion?: string) {
   const version = flowVersion ?? '0.0.0';
-  const base = compactSlug(zipName) || 'flowscreens';
-  return `${base}-v${version}.zip`;
+  const base = zipName.trim().replace(/\s+/g, '-') || 'flow-screens';
+  return `${base}--v${version}.zip`;
 }
 
 function triggerBrowserDownload(blobUrl: string, filename: string) {
@@ -79,13 +70,13 @@ function bundledAssetUri(source: number): string | null {
   return resolve(source)?.uri ?? null;
 }
 
-export async function downloadFlowScreenCapture(screenId: string, label: string) {
-  if (!FLOW_SCREEN_IMAGES[screenId]) return;
+export async function downloadFlowScreenCapture(item: FlowScreenDownloadInput) {
+  if (!FLOW_SCREEN_IMAGES[item.screenId]) return;
 
-  const filename = captureFilename(screenId, label);
+  const filename = captureFilename(item);
 
   if (Platform.OS === 'web' && typeof document !== 'undefined') {
-    const uri = publicScreenUri(screenId);
+    const uri = publicScreenUri(item.screenId);
     if (!uri) return;
 
     try {
@@ -96,16 +87,22 @@ export async function downloadFlowScreenCapture(screenId: string, label: string)
     return;
   }
 
-  const uri = bundledAssetUri(FLOW_SCREEN_IMAGES[screenId]);
+  const uri = bundledAssetUri(FLOW_SCREEN_IMAGES[item.screenId]);
   if (uri) Linking.openURL(uri);
 }
 
 export async function downloadFlowScreensBulk(
-  items: { screenId: string; label: string }[],
+  items: FlowScreenDownloadInput[],
   zipName: string,
   flowVersion?: string,
 ) {
-  const downloadable = items.filter((item) => FLOW_SCREEN_IMAGES[item.screenId]);
+  const downloadable = items
+    .filter((item) => FLOW_SCREEN_IMAGES[item.screenId])
+    .sort((a, b) => {
+      if (!a.placement || !b.placement) return 0;
+      return compareFlowPlacements(a.placement, b.placement);
+    });
+
   if (!downloadable.length) return;
 
   if (Platform.OS === 'web' && typeof document !== 'undefined') {
@@ -120,7 +117,7 @@ export async function downloadFlowScreensBulk(
       if (!response.ok) continue;
 
       const blob = await response.blob();
-      zip.file(captureFilename(item.screenId, item.label), blob);
+      zip.file(captureFilename(item), blob);
     }
 
     const zipBlob = await zip.generateAsync({ type: 'blob' });
@@ -134,6 +131,6 @@ export async function downloadFlowScreensBulk(
   }
 
   for (const item of downloadable) {
-    await downloadFlowScreenCapture(item.screenId, item.label);
+    await downloadFlowScreenCapture(item);
   }
 }

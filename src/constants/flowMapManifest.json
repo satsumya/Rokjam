@@ -9,16 +9,16 @@
       "updatedAt": "2026-07-05T22:50:56.728Z"
     },
     "session-create": {
-      "version": "0.1.0",
-      "updatedAt": "2026-07-06T01:01:19.014Z"
+      "version": "0.1.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "session-view-edit": {
       "version": "0.0.0",
       "updatedAt": "2026-07-05T15:22:04.687Z"
     },
     "dashboard": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.2",
+      "updatedAt": "2026-07-06T06:29:57.322Z"
     },
     "community": {
       "version": "0.0.0",
@@ -67,8 +67,8 @@
       "updatedAt": "2026-07-05T15:22:04.687Z"
     },
     "dashboard-trends": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T06:29:57.322Z"
     },
     "active-session": {
       "version": "0.0.0",
@@ -95,44 +95,44 @@
       "updatedAt": "2026-07-05T02:09:00.000Z"
     },
     "dashboard-profile-ready": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "dashboard-one-session": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "dashboard-many-sessions": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "dashboard-mid-session": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "active-session-empty": {
       "version": "0.0.0",
       "updatedAt": "2026-07-06T01:00:40.663Z"
     },
     "active-session-empty-incomplete": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "active-session-adding-climb": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "active-session-multi-climbs": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "active-session-end-sheet": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-06T01:01:19.014Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     },
     "active-session-end-sheet-filled": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:03:59.072Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-06T01:26:12.998Z"
     }
   }
 }

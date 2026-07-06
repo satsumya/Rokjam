@@ -5,12 +5,13 @@ import {
   FLOW_MAP_JOURNEYS,
   FLOW_MAP_SCREENS,
   FLOW_NODE_WIDTH,
+  compareFlowPlacements,
   journeyCanvasSize,
-  journeyScreenIds,
   nodeTotalHeight,
   type FlowMapJourney,
   type FlowMapLayoutEdge,
   type FlowMapLayoutNode,
+  type FlowMapPlacement,
   type FlowMapScreen,
   type FlowNavigateContext,
 } from '../constants/flowMap';
@@ -19,10 +20,12 @@ import { FLOW_SCREEN_IMAGES } from '../constants/flowScreenImages';
 import { useFlowMapCapture } from '../hooks/useFlowMapCapture';
 import { navigateFlowScreen } from '../utils/flowMapNavigate';
 import { downloadFlowScreenCapture, downloadFlowScreensBulk } from '../utils/flowScreenDownload';
+import type { FlowScreenDownloadInput } from '../utils/flowScreenDownload';
 import { flowScreenPreviewSource } from '../utils/flowScreenCaptureClient';
-import { formatFlowMapVersionStatus } from '../utils/flowMapVersionFormat';
+import { formatFlowScreenDisplayName } from '../utils/flowScreenNaming';
 import type { FlowMapVersionEntry } from '../constants/flowMapManifest';
 
+import { FlowMapVersionAccordion } from './FlowMapVersionAccordion';
 import { WireframeSection } from './Wireframe';
 
 type ActionVariant = 'download' | 'update';
@@ -70,12 +73,22 @@ const ARROW = '#2563EB';
 const ARROW_FILL = '#EFF6FF';
 const CANVAS_BG = '#F4F7FB';
 
-function VersionStatus({ version, updatedAt }: { version: string; updatedAt: string }) {
-  return (
-    <Text style={{ fontSize: 11, color: '#9CA3AF', textAlign: 'center', lineHeight: 15 }}>
-      {formatFlowMapVersionStatus(version, updatedAt)}
-    </Text>
-  );
+function flowScreenDisplayName(screen: FlowMapScreen) {
+  return formatFlowScreenDisplayName(screen.label, screen.descriptors, screen.downloadTag);
+}
+
+function flowScreenDownloadItem(
+  screen: FlowMapScreen,
+  placement?: FlowMapPlacement,
+): FlowScreenDownloadInput {
+  return {
+    screenId: screen.id,
+    label: screen.label,
+    descriptors: screen.descriptors,
+    downloadTag: screen.downloadTag,
+    downloadDescriptors: screen.downloadDescriptors,
+    placement,
+  };
 }
 
 type Rect = { x: number; y: number; w: number; frameH: number; totalH: number };
@@ -251,7 +264,7 @@ function FlowScreenNode({
   y,
   frameHeight,
   onPress,
-  screenMeta,
+  placement,
   cacheKey,
   onUpdate,
   updating,
@@ -259,11 +272,11 @@ function FlowScreenNode({
 }: {
   screen: FlowMapScreen;
   subtitle?: string;
+  placement: FlowMapPlacement;
   x: number;
   y: number;
   frameHeight: number;
   onPress: () => void;
-  screenMeta?: FlowMapVersionEntry;
   cacheKey?: string;
   onUpdate?: () => void;
   updating?: boolean;
@@ -273,6 +286,8 @@ function FlowScreenNode({
   const previewUri = flowScreenPreviewSource(screen.id, cacheKey);
   const imageSource = previewUri ?? (bundled ? bundled : null);
   const canDownload = Boolean(bundled || previewUri);
+  const displayName = flowScreenDisplayName(screen);
+  const downloadItem = flowScreenDownloadItem(screen, placement);
 
   return (
     <View
@@ -312,7 +327,7 @@ function FlowScreenNode({
               source={typeof imageSource === 'number' ? imageSource : imageSource}
               style={{ width: '100%', height: '100%' }}
               resizeMode="contain"
-              accessibilityLabel={screen.label}
+              accessibilityLabel={displayName}
             />
           ) : (
             <View style={{ flex: 1, backgroundColor: '#E5E7EB', alignItems: 'center', justifyContent: 'center' }}>
@@ -340,15 +355,15 @@ function FlowScreenNode({
             color: '#111827',
           }}
         >
-          {screen.label}
+          {displayName}
         </Text>
         {canDownload ? (
           <FlowMapActionButton
             label="Download"
             onPress={() => {
-              void downloadFlowScreenCapture(screen.id, screen.label);
+              void downloadFlowScreenCapture(downloadItem);
             }}
-            accessibilityLabel={`Download screenshot of ${screen.label}`}
+            accessibilityLabel={`Download screenshot of ${displayName}`}
           />
         ) : null}
         {canUpdate && onUpdate ? (
@@ -357,7 +372,7 @@ function FlowScreenNode({
             variant="update"
             disabled={updating}
             onPress={onUpdate}
-            accessibilityLabel={`Update screenshot of ${screen.label}`}
+            accessibilityLabel={`Update screenshot of ${displayName}`}
           />
         ) : null}
       </View>
@@ -366,12 +381,6 @@ function FlowScreenNode({
         <Text style={{ marginTop: 2, fontSize: 11, textAlign: 'center', color: '#6B7280', lineHeight: 15 }}>
           {subtitle}
         </Text>
-      ) : null}
-
-      {screenMeta ? (
-        <View style={{ marginTop: 4 }}>
-          <VersionStatus version={screenMeta.version} updatedAt={screenMeta.updatedAt} />
-        </View>
       ) : null}
     </View>
   );
@@ -403,19 +412,42 @@ function FlowJourneyCanvas({
   const { width, height, nodes } = journeyCanvasSize(journey, extraDimensions);
   const nodeById = new Map(nodes.map((n) => [n.nodeId, n]));
   const flowMeta = flowMetaEntry ?? getFlowManifest(journey.id);
-  const bulkItems = journeyScreenIds(journey)
-    .filter((id) => FLOW_SCREEN_IMAGES[id])
-    .map((id) => ({
-      screenId: id,
-      label: FLOW_MAP_SCREENS[id]?.label ?? id,
-    }));
+  const bulkItems = nodes
+    .filter((node) => FLOW_SCREEN_IMAGES[node.screenId])
+    .map((node) => {
+      const screen = FLOW_MAP_SCREENS[node.screenId];
+      if (!screen) return null;
+      return flowScreenDownloadItem(screen, node.placement);
+    })
+    .filter((item): item is FlowScreenDownloadInput => item != null)
+    .sort((a, b) => {
+      if (!a.placement || !b.placement) return 0;
+      return compareFlowPlacements(a.placement, b.placement);
+    });
   const canBulkDownload = bulkItems.length > 0;
   const flowBusy = busyKey === `flow:${journey.id}`;
+
+  const versionItems = [
+    ...(flowMeta
+      ? [{ label: journey.title, version: flowMeta.version, updatedAt: flowMeta.updatedAt }]
+      : []),
+    ...nodes.flatMap((node) => {
+      const screen = FLOW_MAP_SCREENS[node.screenId];
+      const meta = screenMetaMap[node.screenId] ?? getScreenManifest(node.screenId);
+      if (!screen || !meta) return [];
+      return [
+        {
+          label: flowScreenDisplayName(screen),
+          version: meta.version,
+          updatedAt: meta.updatedAt,
+        },
+      ];
+    }),
+  ];
 
   return (
     <WireframeSection
       title={journey.title}
-      subtitle={flowMeta ? formatFlowMapVersionStatus(flowMeta.version, flowMeta.updatedAt) : undefined}
       headerAction={
         canBulkDownload || canUpdate ? (
           <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -441,6 +473,7 @@ function FlowJourneyCanvas({
         ) : undefined
       }
     >
+      <FlowMapVersionAccordion items={versionItems} />
       <Text style={{ color: '#6B7280', marginBottom: 16, lineHeight: 20 }}>{journey.description}</Text>
       <ScrollView
         horizontal
@@ -474,12 +507,12 @@ function FlowJourneyCanvas({
               <FlowScreenNode
                 key={node.nodeId}
                 screen={screen}
-                subtitle={node.subtitle ?? screen.subtitle}
+                subtitle={node.subtitle}
+                placement={node.placement}
                 x={node.x}
                 y={node.y}
                 frameHeight={node.frameHeight}
                 onPress={() => onScreenPress(screen)}
-                screenMeta={screenMetaMap[node.screenId] ?? getScreenManifest(node.screenId)}
                 cacheKey={cacheKeys[node.screenId]}
                 onUpdate={() => onUpdateScreen(node.screenId)}
                 updating={busyKey === `screen:${node.screenId}`}
