@@ -57,16 +57,16 @@ export function pickReadableText(background: string, options: string[]) {
 
 export function buildScale(main: string, lightTarget = '#FFFFFF', darkTarget = '#000000') {
   return {
-    50: mixHex(main, lightTarget, 0.92),
-    100: mixHex(main, lightTarget, 0.84),
-    200: mixHex(main, lightTarget, 0.68),
-    300: mixHex(main, lightTarget, 0.52),
-    400: mixHex(main, lightTarget, 0.28),
-    500: main,
-    600: mixHex(main, darkTarget, 0.12),
-    700: mixHex(main, darkTarget, 0.28),
-    800: mixHex(main, darkTarget, 0.44),
-    900: mixHex(main, darkTarget, 0.6),
+    50: mixHex(main, lightTarget, 0.88),
+    100: mixHex(main, lightTarget, 0.64),
+    200: mixHex(main, lightTarget, 0.46),
+    300: mixHex(main, lightTarget, 0.24),
+    400: main,
+    500: mixHex(main, darkTarget, 0.1),
+    600: mixHex(main, darkTarget, 0.3),
+    700: mixHex(main, darkTarget, 0.65),
+    800: mixHex(main, darkTarget, 0.82),
+    900: mixHex(main, darkTarget, 0.9),
   } as const;
 }
 
@@ -74,26 +74,29 @@ export type ColorShade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 90
 
 export type ColorScale = Record<ColorShade, string>;
 
-export type PaletteShades = {
-  main: string;
-  light: string;
-  dark: string;
-  accent: string;
+export type TonalContrastConfig = {
+  /** Start from this palette shade. */
+  from: 'dark' | 'light';
+  /** Mix toward this colour to improve contrast on main (0–1). */
+  mix?: number;
+  /** Used when `from` is `dark`. Defaults to `#000000`. */
+  darkTarget?: string;
+  /** Used when `from` is `light`. Defaults to `#FFFFFF`. */
+  lightTarget?: string;
 };
 
-export function buildPalette(main: string, lightTarget = '#FFFFFF', darkTarget = '#000000'): PaletteShades {
-  const scale = buildScale(main, lightTarget, darkTarget);
-  return {
-    main,
-    light: scale[100],
-    dark: scale[800],
-    accent: scale[600],
-  };
-}
+export function resolveTonalContrast(
+  shades: { light: string; dark: string },
+  config: TonalContrastConfig,
+): string {
+  const base = config.from === 'dark' ? shades.dark : shades.light;
+  const mix = config.mix ?? 0;
+  if (mix <= 0) return base;
 
-export function buildContrastPair(background: string, tonal: string, neutralLight: string, neutralDark: string) {
-  return {
-    tonal: pickReadableText(background, [tonal, neutralDark, neutralLight]),
-    neutral: pickReadableText(background, [neutralDark, neutralLight, tonal]),
-  };
+  const target =
+    config.from === 'dark'
+      ? (config.darkTarget ?? '#000000')
+      : (config.lightTarget ?? '#FFFFFF');
+
+  return mixHex(base, target, mix);
 }

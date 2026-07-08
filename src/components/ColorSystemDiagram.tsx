@@ -1,4 +1,5 @@
 import { ScrollView, Text, View } from 'react-native';
+import type { ReactNode } from 'react';
 
 import {
   BRAND_COLOR_ORDER,
@@ -18,23 +19,71 @@ export type ColorSystemFilter = 'all' | 'brand' | 'neutral' | 'semantic';
 
 const ALPHA_STEPS = [1, 0.75, 0.5, 0.25, 0.12] as const;
 
-function Swatch({
+type ContrastPreview = {
+  label: string;
+  token: string;
+  color: string;
+};
+
+function ShadeSwatch({
   token,
-  value,
-  background = '#FFFFFF',
-  showContrast = true,
+  background,
+  contrasts = [],
+  accentBorder,
 }: {
   token: string;
-  value: string;
-  background?: string;
-  showContrast?: boolean;
+  background: string;
+  contrasts?: ContrastPreview[];
+  accentBorder?: string;
 }) {
-  const onDark = colors.neutral[900];
-  const onLight = colors.neutral[50];
-  const textColor = contrastRatio(onDark, value) >= contrastRatio(onLight, value) ? onDark : onLight;
+  return (
+    <View style={{ width: 156, gap: 6 }}>
+      <View
+        style={{
+          minHeight: 88,
+          borderRadius: 12,
+          backgroundColor: accentBorder ? colors.neutral[50] : background,
+          borderWidth: accentBorder ? 3 : 1,
+          borderColor: accentBorder ?? colors.neutral[200],
+          justifyContent: 'flex-end',
+          padding: 10,
+          gap: 4,
+        }}
+      >
+        {contrasts.length ? (
+          contrasts.map((contrast) => (
+            <View key={contrast.token} style={{ gap: 1 }}>
+              <Text style={{ fontSize: 13, fontWeight: '700', color: contrast.color }}>Aa</Text>
+              <Text style={{ fontSize: 9, fontWeight: '600', color: contrast.color, opacity: 0.85 }}>
+                {contrast.label}
+              </Text>
+            </View>
+          ))
+        ) : accentBorder ? (
+          <Text style={{ fontSize: 10, fontWeight: '600', color: colors.neutral[600] }}>Border / icon</Text>
+        ) : null}
+      </View>
+      <Text style={{ fontSize: 12, fontWeight: '700', color: colors.neutral[900] }}>{token}</Text>
+      <Text style={{ fontSize: 11, color: colors.neutral[600], fontFamily: 'monospace' }}>
+        {accentBorder ?? background}
+      </Text>
+      {contrasts.map((contrast) => (
+        <Text key={`${contrast.token}-hex`} style={{ fontSize: 10, color: colors.neutral[500], lineHeight: 14 }}>
+          {contrast.token}: {contrast.color}
+        </Text>
+      ))}
+    </View>
+  );
+}
+
+function Swatch({ token, value }: { token: string; value: string }) {
+  const fg =
+    contrastRatio(colors.neutral[900], value) >= contrastRatio(colors.neutral[50], value)
+      ? colors.neutral[900]
+      : colors.neutral[50];
 
   return (
-    <View style={{ width: 132, gap: 6 }}>
+    <View style={{ width: 140, gap: 6 }}>
       <View
         style={{
           height: 72,
@@ -46,17 +95,10 @@ function Swatch({
           padding: 8,
         }}
       >
-        {showContrast ? (
-          <Text style={{ fontSize: 11, fontWeight: '700', color: textColor }}>Aa</Text>
-        ) : null}
+        <Text style={{ fontSize: 11, fontWeight: '700', color: fg }}>Aa</Text>
       </View>
       <Text style={{ fontSize: 12, fontWeight: '700', color: colors.neutral[900] }}>{token}</Text>
       <Text style={{ fontSize: 11, color: colors.neutral[600], fontFamily: 'monospace' }}>{value}</Text>
-      {showContrast ? (
-        <Text style={{ fontSize: 10, color: colors.neutral[500], lineHeight: 14 }}>
-          on {background === '#FFFFFF' ? 'white' : 'surface'}
-        </Text>
-      ) : null}
     </View>
   );
 }
@@ -64,11 +106,11 @@ function Swatch({
 function PaletteRow({
   title,
   description,
-  entries,
+  children,
 }: {
   title: string;
   description?: string;
-  entries: { token: string; value: string }[];
+  children: ReactNode;
 }) {
   return (
     <View style={{ gap: 10 }}>
@@ -81,13 +123,55 @@ function PaletteRow({
         ) : null}
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator nestedScrollEnabled>
-        <View style={{ flexDirection: 'row', gap: 12, paddingBottom: 4 }}>
-          {entries.map((entry) => (
-            <Swatch key={entry.token} token={entry.token} value={entry.value} />
-          ))}
-        </View>
+        <View style={{ flexDirection: 'row', gap: 12, paddingBottom: 4 }}>{children}</View>
       </ScrollView>
     </View>
+  );
+}
+
+function brandPaletteSwatches(prefix: string, token: (typeof colors.brand)[BrandColorId]) {
+  return (
+    <>
+      <ShadeSwatch
+        token={`${prefix}.main`}
+        background={token.main}
+        contrasts={[
+          {
+            label: 'contrast.alt',
+            token: `${prefix}.main.contrast.alt`,
+            color: token.mainContrast.alt,
+          },
+          {
+            label: 'contrast.tonal',
+            token: `${prefix}.main.contrast.tonal`,
+            color: token.mainContrast.tonal,
+          },
+        ]}
+      />
+      <ShadeSwatch
+        token={`${prefix}.light`}
+        background={token.light}
+        contrasts={[
+          {
+            label: 'contrast',
+            token: `${prefix}.light.contrast`,
+            color: token.lightContrast,
+          },
+        ]}
+      />
+      <ShadeSwatch
+        token={`${prefix}.dark`}
+        background={token.dark}
+        contrasts={[
+          {
+            label: 'contrast',
+            token: `${prefix}.dark.contrast`,
+            color: token.darkContrast,
+          },
+        ]}
+      />
+      <ShadeSwatch token={`${prefix}.accent`} background={token.accent} accentBorder={token.accent} />
+    </>
   );
 }
 
@@ -98,16 +182,10 @@ function BrandPaletteSection({ id }: { id: BrandColorId }) {
   return (
     <PaletteRow
       title={`Brand ${label}`}
-      description="Climbing difficulty communication and general brand use."
-      entries={[
-        { token: `brand.${id}.main`, value: token.main },
-        { token: `brand.${id}.light`, value: token.light },
-        { token: `brand.${id}.dark`, value: token.dark },
-        { token: `brand.${id}.accent`, value: token.accent },
-        { token: `brand.${id}.contrast.neutral`, value: token.contrast.neutral },
-        { token: `brand.${id}.contrast.tonal`, value: token.contrast.tonal },
-      ]}
-    />
+      description="Text on each shade uses its contrast tokens — main shows both alt and tonal options."
+    >
+      {brandPaletteSwatches(`brand.${id}`, token)}
+    </PaletteRow>
   );
 }
 
@@ -116,18 +194,9 @@ function SemanticPaletteSection({ id }: { id: SemanticColorId }) {
   const label = semanticColorLabel(id);
 
   return (
-    <PaletteRow
-      title={`Semantic ${label}`}
-      description="UI feedback and messaging."
-      entries={[
-        { token: `semantic.${id}.main`, value: token.main },
-        { token: `semantic.${id}.light`, value: token.light },
-        { token: `semantic.${id}.dark`, value: token.dark },
-        { token: `semantic.${id}.accent`, value: token.accent },
-        { token: `semantic.${id}.contrast.neutral`, value: token.contrast.neutral },
-        { token: `semantic.${id}.contrast.tonal`, value: token.contrast.tonal },
-      ]}
-    />
+    <PaletteRow title={`Semantic ${label}`} description="UI feedback and messaging.">
+      {brandPaletteSwatches(`semantic.${id}`, token)}
+    </PaletteRow>
   );
 }
 
@@ -167,8 +236,8 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
       {showBrand ? (
         <WireframeSection title="Brand colours">
           <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 8 }}>
-            Used for climbing difficulty levels and brand accents. Each colour has main, light, dark, accent, and
-            suggested contrast text tokens.
+            Used for climbing difficulty levels and brand accents. Contrast colours are for text on their
+            related shade — e.g. text on `brand.yellow.main` uses `main.contrast.alt` or `main.contrast.tonal`.
           </Text>
           <View style={{ gap: 20 }}>
             {BRAND_COLOR_ORDER.map((id) => (
@@ -186,12 +255,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
           <ScrollView horizontal showsHorizontalScrollIndicator nestedScrollEnabled>
             <View style={{ flexDirection: 'row', gap: 12, paddingBottom: 4 }}>
               {NEUTRAL_SHADES.map((shade) => (
-                <Swatch
-                  key={shade}
-                  token={`neutral.${shade}`}
-                  value={colors.neutral[shade]}
-                  showContrast={shade >= 400}
-                />
+                <Swatch key={shade} token={`neutral.${shade}`} value={colors.neutral[shade]} />
               ))}
             </View>
           </ScrollView>
@@ -236,7 +300,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
             {BRAND_COLOR_ORDER.map((id) => {
               const token = colors.brand[id];
-              const text = token.contrast.neutral;
+              const text = token.mainContrast.alt;
               return (
                 <View
                   key={id}
