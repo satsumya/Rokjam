@@ -48,6 +48,23 @@ export function contrastRatio(foreground: string, background: string) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+/** WCAG 2.x AA minimum contrast ratios. */
+export const WCAG_AA_NORMAL_TEXT = 4.5;
+export const WCAG_AA_LARGE_TEXT = 3;
+
+export function wcagAaStatus(foreground: string, background: string) {
+  const ratio = contrastRatio(foreground, background);
+  return {
+    ratio,
+    passesNormalText: ratio >= WCAG_AA_NORMAL_TEXT,
+    passesLargeText: ratio >= WCAG_AA_LARGE_TEXT,
+  };
+}
+
+export function formatContrastRatio(ratio: number) {
+  return `${ratio.toFixed(2)}:1`;
+}
+
 export function pickReadableText(background: string, options: string[]) {
   const ranked = options
     .map((color) => ({ color, ratio: contrastRatio(color, background) }))

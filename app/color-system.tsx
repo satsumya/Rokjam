@@ -52,8 +52,9 @@ export default function ColorSystemPage() {
         <Text style={{ color: colors.neutral[600], lineHeight: 22 }}>
           Live reference for design tokens in `src/theme/colors.ts`. Brand colours match climbing difficulty
           levels; neutral and semantic scales support UI surfaces and feedback. Token names map to the CSS-style
-          convention in DesignSystem.md (e.g. `brand.blue.main`, `neutral.100`). Adjust seeds in the theme file
-          and refresh this page to review changes.
+          convention in DesignSystem.md (e.g. `brand.blue.main`, `neutral.100`). Adjust tokens in the theme
+          file — WCAG AA pass/fail recalculates automatically when this page reloads (hot reload in dev, or
+          refresh the browser). No separate recheck step.
         </Text>
         <Text style={{ color: colors.neutral[500], fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
       </WireframeSection>

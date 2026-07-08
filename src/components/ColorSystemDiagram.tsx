@@ -11,7 +11,7 @@ import {
   type BrandColorId,
   type SemanticColorId,
 } from '../theme/colors';
-import { contrastRatio, withAlpha } from '../theme/colorUtils';
+import { contrastRatio, formatContrastRatio, wcagAaStatus, withAlpha } from '../theme/colorUtils';
 
 import { WireframeSection } from './Wireframe';
 
@@ -25,6 +25,40 @@ type ContrastPreview = {
   color: string;
 };
 
+function WcagAaCheck({
+  foreground,
+  background,
+}: {
+  foreground: string;
+  background: string;
+}) {
+  const aa = wcagAaStatus(foreground, background);
+
+  return (
+    <View style={{ gap: 2, marginTop: 2 }}>
+      <Text
+        style={{
+          fontSize: 10,
+          lineHeight: 14,
+          color: aa.passesNormalText ? colors.semantic.positive.dark : colors.semantic.negative.main,
+          fontWeight: '600',
+        }}
+      >
+        AA normal {formatContrastRatio(aa.ratio)} {aa.passesNormalText ? '✓' : '✗'}
+      </Text>
+      <Text
+        style={{
+          fontSize: 10,
+          lineHeight: 14,
+          color: aa.passesLargeText ? colors.semantic.positive.dark : colors.neutral[500],
+        }}
+      >
+        AA large {aa.passesLargeText ? '✓' : '✗'} (3:1)
+      </Text>
+    </View>
+  );
+}
+
 function ShadeSwatch({
   token,
   background,
@@ -36,6 +70,8 @@ function ShadeSwatch({
   contrasts?: ContrastPreview[];
   accentBorder?: string;
 }) {
+  const shadeBackground = accentBorder ? colors.neutral[50] : background;
+
   return (
     <View style={{ width: 156, gap: 6 }}>
       <View
@@ -68,9 +104,12 @@ function ShadeSwatch({
         {accentBorder ?? background}
       </Text>
       {contrasts.map((contrast) => (
-        <Text key={`${contrast.token}-hex`} style={{ fontSize: 10, color: colors.neutral[500], lineHeight: 14 }}>
-          {contrast.token}: {contrast.color}
-        </Text>
+        <View key={`${contrast.token}-meta`}>
+          <Text style={{ fontSize: 10, color: colors.neutral[500], lineHeight: 14 }}>
+            {contrast.token}: {contrast.color}
+          </Text>
+          <WcagAaCheck foreground={contrast.color} background={shadeBackground} />
+        </View>
       ))}
     </View>
   );
@@ -238,6 +277,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
           <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 8 }}>
             Used for climbing difficulty levels and brand accents. Contrast colours are for text on their
             related shade — e.g. text on `brand.yellow.main` uses `main.contrast.alt` or `main.contrast.tonal`.
+            Each contrast shows WCAG AA pass/fail (normal text 4.5:1, large text 3:1).
           </Text>
           <View style={{ gap: 20 }}>
             {BRAND_COLOR_ORDER.map((id) => (
@@ -302,18 +342,20 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
               const token = colors.brand[id];
               const text = token.mainContrast.alt;
               return (
-                <View
-                  key={id}
-                  style={{
-                    borderRadius: 999,
-                    paddingHorizontal: 14,
-                    paddingVertical: 8,
-                    backgroundColor: token.main,
-                    borderWidth: 1,
-                    borderColor: colors.neutral[300],
-                  }}
-                >
-                  <Text style={{ fontWeight: '700', color: text }}>{brandColorLabel(id)}</Text>
+                <View key={id} style={{ gap: 4, maxWidth: 160 }}>
+                  <View
+                    style={{
+                      borderRadius: 999,
+                      paddingHorizontal: 14,
+                      paddingVertical: 8,
+                      backgroundColor: token.main,
+                      borderWidth: 1,
+                      borderColor: colors.neutral[300],
+                    }}
+                  >
+                    <Text style={{ fontWeight: '700', color: text }}>{brandColorLabel(id)}</Text>
+                  </View>
+                  <WcagAaCheck foreground={text} background={token.main} />
                 </View>
               );
             })}
