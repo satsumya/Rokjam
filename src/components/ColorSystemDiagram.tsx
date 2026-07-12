@@ -40,7 +40,7 @@ function WcagAaCheck({
         style={{
           fontSize: 10,
           lineHeight: 14,
-          color: aa.passesNormalText ? colors.semantic.positive.dark : colors.semantic.negative.main,
+          color: aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main,
           fontWeight: '600',
         }}
       >
@@ -50,7 +50,7 @@ function WcagAaCheck({
         style={{
           fontSize: 10,
           lineHeight: 14,
-          color: aa.passesLargeText ? colors.semantic.positive.dark : colors.neutral[500],
+          color: aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500],
         }}
       >
         AA large {aa.passesLargeText ? '✓' : '✗'} (3:1)
@@ -231,10 +231,35 @@ function BrandPaletteSection({ id }: { id: BrandColorId }) {
 function SemanticPaletteSection({ id }: { id: SemanticColorId }) {
   const token = colors.semantic[id];
   const label = semanticColorLabel(id);
+  const prefix = `semantic.${id}`;
 
   return (
-    <PaletteRow title={`Semantic ${label}`} description="UI feedback and messaging.">
-      {brandPaletteSwatches(`semantic.${id}`, token)}
+    <PaletteRow
+      title={`Semantic ${label}`}
+      description="Main is neutral 800 tinted with the accent. Accent, accent contrast, and main contrast are set manually."
+    >
+      <ShadeSwatch
+        token={`${prefix}.main`}
+        background={token.main}
+        contrasts={[
+          {
+            label: 'main.contrast',
+            token: `${prefix}.main.contrast`,
+            color: token.mainContrast,
+          },
+        ]}
+      />
+      <ShadeSwatch
+        token={`${prefix}.accent`}
+        background={token.accent}
+        contrasts={[
+          {
+            label: 'accent.contrast',
+            token: `${prefix}.accent.contrast`,
+            color: token.accentContrast,
+          },
+        ]}
+      />
     </PaletteRow>
   );
 }

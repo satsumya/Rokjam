@@ -2,7 +2,7 @@
  * Design system colour tokens — see docs/tickets/DesignSystem.md.
  * Visual reference: /color-system
  */
-import { buildScale, resolveTonalContrast, type ColorScale, type TonalContrastConfig } from './colorUtils';
+import { buildScale, mixHex, resolveTonalContrast, type ColorScale, type TonalContrastConfig } from './colorUtils';
 
 export type BrandColorId =
   | 'yellow'
@@ -38,11 +38,28 @@ export type BrandColorToken = {
   darkContrast: string;
 };
 
-export type SemanticColorToken = BrandColorToken;
+export type SemanticPaletteDefinition = {
+  /** Manually chosen accent hex (used for borders, icons, and accent fills). */
+  accent: string;
+  /** Manually chosen contrast (text/icon) for use on the accent. */
+  accentContrast: string;
+  /** Manually chosen contrast (text) for use on main. */
+  mainContrast: string;
+  /** How much the accent mixes into neutral[900] to produce main (0–1). Defaults to SEMANTIC_MAIN_MIX. */
+  mainMix?: number;
+};
+
+export type SemanticColorToken = {
+  /** neutral[800] tinted with the accent. */
+  main: string;
+  mainContrast: string;
+  accent: string;
+  accentContrast: string;
+};
 
 const BRAND_PALETTES: Record<BrandColorId, BrandPaletteDefinition> = {
   yellow: {
-    main: '#FCD32C',
+    main: '#FFD95C',
     light: '#FEEFB3',
     dark: '#563809',
     accent: '#FCD32C',
@@ -125,15 +142,25 @@ function buildBrandToken(definition: BrandPaletteDefinition): BrandColorToken {
   };
 }
 
-function createSemanticToken(id: SemanticColorId): SemanticColorToken {
-  const source: Record<SemanticColorId, BrandColorId> = {
-    negative: 'red',
-    attention: 'orange',
-    positive: 'green',
-    info: 'blue',
-    discovery: 'purple',
+/** Default mix of accent into neutral[900] for semantic `main`. */
+export const SEMANTIC_MAIN_MIX = 0.12;
+
+const SEMANTIC_PALETTES: Record<SemanticColorId, SemanticPaletteDefinition> = {
+  negative: { accent: '#AD2424', accentContrast: '#FFFFFF', mainContrast: '#FF7272', mainMix: 0.24 },
+  attention: { accent: '#FBC66F', accentContrast: '#332c25', mainContrast: '#FBC66F' },
+  positive: { accent: '#92E98A', accentContrast: '#332c25', mainContrast: '#92E98A' },
+  info: { accent: '#0375AA', accentContrast: '#FFFFFF', mainContrast: '#95CEE9', mainMix: 0.24 },
+  discovery: { accent: '#D29EF8', accentContrast: '#332c25', mainContrast: '#D29EF8' },
+};
+
+function buildSemanticToken(definition: SemanticPaletteDefinition): SemanticColorToken {
+  const { accent, accentContrast, mainContrast, mainMix } = definition;
+  return {
+    main: mixHex(neutralScale[900], accent, mainMix ?? SEMANTIC_MAIN_MIX),
+    mainContrast,
+    accent,
+    accentContrast,
   };
-  return buildBrandToken(BRAND_PALETTES[source[id]]);
 }
 
 export const colors = {
@@ -150,11 +177,11 @@ export const colors = {
   },
   neutral: neutralScale,
   semantic: {
-    negative: createSemanticToken('negative'),
-    attention: createSemanticToken('attention'),
-    positive: createSemanticToken('positive'),
-    info: createSemanticToken('info'),
-    discovery: createSemanticToken('discovery'),
+    negative: buildSemanticToken(SEMANTIC_PALETTES.negative),
+    attention: buildSemanticToken(SEMANTIC_PALETTES.attention),
+    positive: buildSemanticToken(SEMANTIC_PALETTES.positive),
+    info: buildSemanticToken(SEMANTIC_PALETTES.info),
+    discovery: buildSemanticToken(SEMANTIC_PALETTES.discovery),
   },
 } as const;
 

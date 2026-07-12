@@ -17,10 +17,10 @@ export function formatHex(r: number, g: number, b: number) {
     .join('')}`;
 }
 
-export function mixHex(base: string, target: string, targetWeight: number) {
+export function mixHex(base: string, target: string, mix: number) {
   const [br, bg, bb] = parseHex(base);
   const [tr, tg, tb] = parseHex(target);
-  const weight = Math.min(1, Math.max(0, targetWeight));
+  const weight = Math.min(1, Math.max(0, mix));
   return formatHex(
     br * (1 - weight) + tr * weight,
     bg * (1 - weight) + tg * weight,

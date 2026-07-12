@@ -2,9 +2,9 @@
 
 Visual reference: `/color-system` (also linked from Scenario tester). Tokens live in `src/theme/colors.ts`.
 
-### Brand & semantic palettes
+### Brand palettes
 
-Each brand and semantic colour has four shades — all defined as **explicit hex values** (not generated):
+Each brand colour has four shades — all defined as **explicit hex values** (not generated):
 
 | Shade | Use |
 | --- | --- |
@@ -22,7 +22,27 @@ Example tokens for `brand.green`:
 
 Brand colours: yellow, blue, purple, green, orange, red, black, white, pink.
 
-Semantic colours (same shade structure): negative, attention, positive, info, discovery.
+### Semantic palettes
+
+Semantic colours: negative, attention, positive, info, discovery. Defined in `SEMANTIC_PALETTES` (`src/theme/colors.ts`).
+
+Each semantic colour has **three manually chosen hex values** plus a derived `main`:
+
+| Token | Source | Use |
+| --- | --- | --- |
+| **accent** | manual hex | Accent fills, borders, icons |
+| **accent.contrast** | manual hex | Text/icon on the accent |
+| **main** | `neutral[900]` mixed with the accent (`mainMix`, default 0.12) | Message/banner surface |
+| **main.contrast** | manual hex | Text on main |
+
+Example tokens for `semantic.positive`:
+
+- `semantic.positive.main` (derived)
+- `semantic.positive.main.contrast`
+- `semantic.positive.accent`
+- `semantic.positive.accent.contrast`
+
+Adjust the mix per colour with `mainMix` on its `SEMANTIC_PALETTES` entry.
 
 ### Contrast tokens
 
@@ -55,7 +75,7 @@ brand.green.dark.contrast
 brand.green.accent
 ```
 
-Apply the same pattern to semantic colours (e.g. `semantic.positive.main.contrast.alt`).
+Semantic colours use their own contrast tokens (`main.contrast`, `accent.contrast`) — see Semantic palettes above.
 
 ### Neutral
 
@@ -76,7 +96,8 @@ Apply the same pattern to semantic colours (e.g. `semantic.positive.main.contras
 ### Checklist
 
 - [x] Brand colour tokens (main, light, dark, accent as hex)
-- [x] Contrast token structure (main alt/tonal, light, dark; no accent contrast)
+- [x] Brand contrast token structure (main alt/tonal, light, dark; no accent contrast)
+- [x] Semantic tokens (manual accent, accent contrast, main contrast; main = neutral 800 tinted with accent)
 - [ ] Neutral 50–900 scale finalised
 - [ ] WCAG AA verified on all contrast pairs
 - [ ] Wireframe / app screens migrated from hardcoded hex
