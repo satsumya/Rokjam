@@ -365,7 +365,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
             {BRAND_COLOR_ORDER.map((id) => {
               const token = colors.brand[id];
-              const text = token.mainContrast.alt;
+              const text = token.mainContrast.tonal;
               return (
                 <View key={id} style={{ gap: 4, maxWidth: 160 }}>
                   <View
