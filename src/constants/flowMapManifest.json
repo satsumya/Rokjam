@@ -1,70 +1,70 @@
 {
   "flows": {
     "sign-up-login": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T22:50:56.728Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "member-profile": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T22:50:56.728Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "session-create": {
-      "version": "0.1.1",
-      "updatedAt": "2026-07-06T01:26:12.998Z"
+      "version": "0.1.2",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "session-view-edit": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:22:04.687Z"
+      "version": "0.0.2",
+      "updatedAt": "2026-07-12T12:16:39.715Z"
     },
     "dashboard": {
       "version": "0.0.2",
       "updatedAt": "2026-07-06T06:29:57.322Z"
     },
     "community": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:22:04.687Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     }
   },
   "screens": {
     "welcome": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "signup": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "verify-email": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "welcome-signup": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "login": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "forgot-password": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:22:11.870Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "reset-password": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "profile-setup": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:19:53.914Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "dashboard-new": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T22:50:56.728Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "dashboard-returning": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T15:22:04.687Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:15:30.370Z"
     },
     "dashboard-trends": {
       "version": "0.0.1",
@@ -75,16 +75,16 @@
       "updatedAt": "2026-07-05T12:43:05.609Z"
     },
     "sessions-list": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:16:39.715Z"
     },
     "session-detail": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:16:39.715Z"
     },
     "session-edit": {
-      "version": "0.0.0",
-      "updatedAt": "2026-07-05T12:43:05.609Z"
+      "version": "0.0.1",
+      "updatedAt": "2026-07-12T12:16:39.715Z"
     },
     "community": {
       "version": "0.0.0",

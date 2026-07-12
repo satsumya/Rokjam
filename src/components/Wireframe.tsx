@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ReactNode } from 'react';
 
 import { useFlowCapture } from '../hooks/useFlowCapture';
+import { ui } from '../theme/colors';
 
 export function WireframeScreen({
   title,
@@ -99,7 +100,7 @@ export function WireframeField({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder ?? label}
-        placeholderTextColor="#999"
+        placeholderTextColor={ui.placeholder}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         maxLength={maxLength}
@@ -190,7 +191,7 @@ export function WireframeSection({
         <View style={{ flex: 1 }}>
           <Text style={styles.sectionTitle}>{title}</Text>
           {subtitle ? (
-            <Text style={{ color: '#6B7280', fontSize: 12, marginTop: 4, lineHeight: 18 }}>{subtitle}</Text>
+            <Text style={{ color: ui.textMuted, fontSize: 12, marginTop: 4, lineHeight: 18 }}>{subtitle}</Text>
           ) : null}
         </View>
         {headerAction}
@@ -226,13 +227,13 @@ export function WireframeBottomSheet({
     >
       <Pressable
         onPress={onClose}
-        style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.35)' }}
+        style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: ui.overlay }}
       />
       <View
         style={{
           borderTopWidth: 1,
-          borderTopColor: '#CCC',
-          backgroundColor: '#FFF',
+          borderTopColor: ui.border,
+          backgroundColor: ui.surface,
           padding: 20,
           gap: 12,
           borderTopLeftRadius: 16,
@@ -314,7 +315,7 @@ export function WireframeHintList({
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  screen: { flex: 1, backgroundColor: '#FFFFFF' },
+  screen: { flex: 1, backgroundColor: ui.background },
   content: { padding: 20, paddingBottom: 32 },
   headerRow: {
     flexDirection: 'row',
@@ -323,60 +324,60 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     gap: 12,
   },
-  title: { flex: 1, fontSize: 28, fontWeight: '700', color: '#111' },
+  title: { flex: 1, fontSize: 28, fontWeight: '700', color: ui.text },
   body: { gap: 16 },
   footer: {
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: '#DDD',
-    backgroundColor: '#FAFAFA',
+    borderTopColor: ui.borderSubtle,
+    backgroundColor: ui.surfaceMuted,
     gap: 12,
   },
   field: { gap: 6 },
-  label: { fontSize: 14, fontWeight: '600', color: '#333' },
-  required: { color: '#C0392B' },
+  label: { fontSize: 14, fontWeight: '600', color: ui.textLabel },
+  required: { color: ui.danger },
   input: {
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: ui.border,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
     fontSize: 16,
-    backgroundColor: '#FFF',
-    color: '#111',
+    backgroundColor: ui.surface,
+    color: ui.text,
   },
-  inputError: { borderColor: '#C0392B' },
-  hint: { color: '#666', fontSize: 13 },
-  errorText: { color: '#C0392B', fontSize: 13 },
+  inputError: { borderColor: ui.danger },
+  hint: { color: ui.textMuted, fontSize: 13 },
+  errorText: { color: ui.danger, fontSize: 13 },
   hintList: { gap: 4 },
-  hintItem: { color: '#888', fontSize: 13 },
-  hintItemMet: { color: '#2E7D32' },
+  hintItem: { color: ui.textSubtle, fontSize: 13 },
+  hintItemMet: { color: ui.success },
   button: {
     borderWidth: 1,
-    borderColor: '#111',
-    backgroundColor: '#111',
+    borderColor: ui.primary,
+    backgroundColor: ui.primary,
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
   },
-  buttonSecondary: { backgroundColor: '#FFF', borderColor: '#111' },
+  buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
   buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent' },
   buttonPressed: { opacity: 0.85 },
   buttonDisabled: { opacity: 0.4 },
-  buttonText: { color: '#FFF', fontSize: 16, fontWeight: '600' },
-  buttonTextSecondary: { color: '#111' },
-  buttonTextGhost: { color: '#111', textDecorationLine: 'underline' },
+  buttonText: { color: ui.primaryText, fontSize: 16, fontWeight: '600' },
+  buttonTextSecondary: { color: ui.primary },
+  buttonTextGhost: { color: ui.primary, textDecorationLine: 'underline' },
   box: {
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: ui.border,
     borderRadius: 8,
     padding: 12,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: ui.surfaceMuted,
     gap: 8,
   },
-  link: { color: '#111', fontSize: 15, textDecorationLine: 'underline', textAlign: 'center' },
+  link: { color: ui.primary, fontSize: 15, textDecorationLine: 'underline', textAlign: 'center' },
   section: { gap: 10 },
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: '#222' },
+  sectionTitle: { fontSize: 16, fontWeight: '700', color: ui.text },
   modalRoot: {
     flex: 1,
     justifyContent: 'center',
@@ -385,16 +386,16 @@ const styles = StyleSheet.create({
   },
   modalBackdrop: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0,0,0,0.45)',
+    backgroundColor: ui.overlay,
   },
   modalCard: {
     width: '100%',
     maxWidth: 480,
     maxHeight: '90%',
-    backgroundColor: '#FFF',
+    backgroundColor: ui.surface,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: ui.border,
     overflow: 'hidden',
     zIndex: 1,
   },
@@ -405,12 +406,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#EEE',
+    borderBottomColor: ui.borderSubtle,
     gap: 12,
   },
-  modalTitle: { flex: 1, fontSize: 18, fontWeight: '700', color: '#111' },
+  modalTitle: { flex: 1, fontSize: 18, fontWeight: '700', color: ui.text },
   modalClose: { padding: 4 },
-  modalCloseText: { fontSize: 28, lineHeight: 28, color: '#666' },
+  modalCloseText: { fontSize: 28, lineHeight: 28, color: ui.textMuted },
   modalBody: { flexGrow: 0, flexShrink: 1 },
   modalBodyContent: { padding: 20, gap: 12 },
   modalFooter: {
@@ -418,6 +419,6 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     gap: 12,
     borderTopWidth: 1,
-    borderTopColor: '#EEE',
+    borderTopColor: ui.borderSubtle,
   },
 });

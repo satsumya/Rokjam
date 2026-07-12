@@ -8,6 +8,7 @@ import {
   type FlowDemoPreset,
 } from '../constants/flowDemoSessions';
 import { DEFAULT_LEVEL_COLORS, PET_ROCK_AVATARS } from '../constants/difficultyLevels';
+import { colors } from '../theme/colors';
 import {
   IMPROVEMENT_TAG_SUGGESTIONS,
   MOCK_EXISTING_USER,
@@ -90,7 +91,7 @@ function createDefaultLevel(index: number): DifficultyLevel {
   if (preset) {
     return { id: `${Date.now()}-${index}`, name: preset.name, color: preset.color };
   }
-  return { id: `${Date.now()}-${index}`, name: 'Custom', color: '#AAAAAA' };
+  return { id: `${Date.now()}-${index}`, name: 'Custom', color: colors.neutral[400] };
 }
 
 function createDemoLocation(): Location {

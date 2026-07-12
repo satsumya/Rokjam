@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 
 import { WireframeButton, WireframeScreen } from '../src/components/Wireframe';
 import { usePrototype } from '../src/context/PrototypeContext';
+import { ui } from '../src/theme/colors';
 
 export default function PostSignUpWelcomeScreen() {
   const { setProfileSkipped } = usePrototype();
@@ -17,7 +18,7 @@ export default function PostSignUpWelcomeScreen() {
       title="Welcome"
       headerRight={
         <Pressable onPress={skipToDashboard}>
-          <Text style={{ fontSize: 24, color: '#666' }}>×</Text>
+          <Text style={{ fontSize: 24, color: ui.textMuted }}>×</Text>
         </Pressable>
       }
       footer={
@@ -27,7 +28,7 @@ export default function PostSignUpWelcomeScreen() {
         </>
       }
     >
-      <Text style={{ color: '#666', lineHeight: 22 }}>
+      <Text style={{ color: ui.textMuted, lineHeight: 22 }}>
         Your account is ready. Set up your member profile to personalise your climbing experience.
       </Text>
     </WireframeScreen>

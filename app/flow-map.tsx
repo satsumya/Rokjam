@@ -7,6 +7,7 @@ import { SCENARIO_FLOWS } from '../src/constants/scenarios';
 import type { ScenarioFlow } from '../src/constants/scenarios';
 import { WireframeButton, WireframeScreen, WireframeSection } from '../src/components/Wireframe';
 import { usePrototype } from '../src/context/PrototypeContext';
+import { ui } from '../src/theme/colors';
 
 type FlowFilter = ScenarioFlow | 'all';
 
@@ -24,11 +25,11 @@ function FilterChip({
       onPress={onPress}
       style={{
         borderWidth: 1,
-        borderColor: active ? '#111' : '#CCC',
+        borderColor: active ? ui.borderStrong : ui.border,
         borderRadius: 16,
         paddingHorizontal: 12,
         paddingVertical: 6,
-        backgroundColor: active ? '#F0F0F0' : '#FFF',
+        backgroundColor: active ? ui.surfaceMuted : ui.surface,
       }}
     >
       <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14 }}>{label}</Text>
@@ -65,7 +66,7 @@ export default function FlowMapPage() {
       }
     >
       <WireframeSection title="How to use">
-        <Text style={{ color: '#6B7280', lineHeight: 22 }}>
+        <Text style={{ color: ui.textMuted, lineHeight: 22 }}>
           Journeys read left to right. The first screen in each column shares the same top edge so the main path
           is easy to scan; alternate paths stack below. Scroll horizontally within a journey when the diagram
           is wider than your screen. Tap a screen thumbnail to jump into the app at that point

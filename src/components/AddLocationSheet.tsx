@@ -7,13 +7,14 @@ import { WireframeButton, WireframeField, WireframeModal } from './Wireframe';
 import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
 import type { DifficultyLevel } from '../context/PrototypeContext';
 import { usePrototype } from '../context/PrototypeContext';
+import { colors, ui } from '../theme/colors';
 
 function createDraftLevel(index: number): DifficultyLevel {
   const preset = DEFAULT_LEVEL_COLORS[index];
   return {
     id: `draft-level-${index}-${Date.now()}`,
     name: preset?.name ?? 'Custom',
-    color: preset?.color ?? '#AAAAAA',
+    color: preset?.color ?? colors.neutral[400],
   };
 }
 
@@ -80,7 +81,7 @@ export function AddLocationSheet({
         </>
       }
     >
-      <Text style={{ color: '#6B7280', lineHeight: 20 }}>
+      <Text style={{ color: ui.textMuted, lineHeight: 20 }}>
         Search for your gym or crag, then set up difficulty levels for this location.
       </Text>
 
@@ -91,10 +92,10 @@ export function AddLocationSheet({
           <View
             style={{
               borderWidth: 1,
-              borderColor: '#CCC',
+              borderColor: ui.border,
               borderRadius: 8,
               padding: 12,
-              backgroundColor: '#FAFAFA',
+              backgroundColor: ui.surfaceMuted,
               gap: 4,
             }}
           >
@@ -118,7 +119,7 @@ export function AddLocationSheet({
           />
 
           <Text style={{ fontWeight: '700' }}>Difficulty levels</Text>
-          <Text style={{ color: '#6B7280', fontSize: 13, lineHeight: 18 }}>
+          <Text style={{ color: ui.textMuted, fontSize: 13, lineHeight: 18 }}>
             Add the colour grades used at this location. You need at least one level.
           </Text>
 
@@ -170,7 +171,7 @@ export function AddLocationSheet({
         </View>
       )}
 
-      {error && address ? <Text style={{ color: '#C0392B' }}>{error}</Text> : null}
+      {error && address ? <Text style={{ color: ui.danger }}>{error}</Text> : null}
     </WireframeModal>
   );
 }

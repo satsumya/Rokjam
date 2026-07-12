@@ -44,7 +44,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-returning": {
     "width": 720,
-    "height": 3048
+    "height": 2788
   },
   "dashboard-trends": {
     "width": 720,
@@ -100,7 +100,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "session-edit": {
     "width": 720,
-    "height": 2938
+    "height": 2846
   },
   "community": {
     "width": 720,

@@ -9,6 +9,7 @@ import {
   WireframeLink,
   WireframeScreen,
 } from '../../src/components/Wireframe';
+import { ui } from '../../src/theme/colors';
 import { isPasswordValid } from '../../src/utils/validation';
 
 export default function ResetPasswordScreen() {
@@ -37,7 +38,7 @@ export default function ResetPasswordScreen() {
         </>
       }
     >
-      <Text style={{ color: '#666' }}>Set a new password for {email || 'your account'}.</Text>
+      <Text style={{ color: ui.textMuted }}>Set a new password for {email || 'your account'}.</Text>
       <WireframeField
         label="New password"
         required

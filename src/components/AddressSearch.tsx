@@ -3,6 +3,7 @@ import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
 import { ADDRESS_SUGGESTIONS } from '../constants/mockData';
 import { WireframeButton, WireframeField } from './Wireframe';
+import { ui } from '../theme/colors';
 
 export function AddressSearch({
   onSelect,
@@ -61,14 +62,14 @@ export function AddressSearch({
               marginTop: 4,
               maxHeight: 180,
               borderWidth: 1,
-              borderColor: '#CCC',
+              borderColor: ui.border,
               borderRadius: 8,
-              backgroundColor: '#FFF',
+              backgroundColor: ui.surface,
               overflow: 'hidden',
               ...(Platform.OS === 'web'
-                ? { boxShadow: '0 4px 12px rgba(0,0,0,0.12)' as const }
+                ? { boxShadow: `0 4px 12px ${ui.shadowSoft}` }
                 : {
-                    shadowColor: '#000',
+                    shadowColor: ui.shadow,
                     shadowOffset: { width: 0, height: 2 },
                     shadowOpacity: 0.1,
                     shadowRadius: 4,
@@ -85,8 +86,8 @@ export function AddressSearch({
                     paddingHorizontal: 12,
                     paddingVertical: 12,
                     borderTopWidth: index === 0 ? 0 : 1,
-                    borderTopColor: '#EEE',
-                    backgroundColor: '#FFF',
+                    borderTopColor: ui.borderSubtle,
+                    backgroundColor: ui.surface,
                   }}
                 >
                   <Text>{item}</Text>
@@ -98,12 +99,12 @@ export function AddressSearch({
       </View>
 
       {query.trim().length >= 2 && suggestions.length === 0 && !showAddAnyway ? (
-        <Text style={{ color: '#666', fontSize: 13 }}>No matches found.</Text>
+        <Text style={{ color: ui.textMuted, fontSize: 13 }}>No matches found.</Text>
       ) : null}
 
       {showAddAnyway ? (
         <View style={{ gap: 8 }}>
-          <Text style={{ color: '#666', fontSize: 13 }}>
+          <Text style={{ color: ui.textMuted, fontSize: 13 }}>
             Address not found. You can add it anyway.
           </Text>
           <WireframeButton

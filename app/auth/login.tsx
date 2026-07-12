@@ -8,6 +8,7 @@ import {
   WireframeLink,
   WireframeScreen,
 } from '../../src/components/Wireframe';
+import { ui } from '../../src/theme/colors';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { getLoginIdentifierError } from '../../src/utils/validation';
@@ -84,7 +85,7 @@ export default function LoginScreen() {
       }
     >
       {existing === '1' ? (
-        <Text style={{ color: '#666', marginBottom: 8 }}>
+        <Text style={{ color: ui.textMuted, marginBottom: 8 }}>
           An account already exists for this email. Log in instead.
         </Text>
       ) : null}

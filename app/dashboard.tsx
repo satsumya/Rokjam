@@ -12,6 +12,7 @@ import {
   WireframeSection,
 } from '../src/components/Wireframe';
 import { usePrototype } from '../src/context/PrototypeContext';
+import { ui } from '../src/theme/colors';
 import type { TrendTimeframe } from '../src/types/climbingSession';
 import {
   computeDurationMinutes,
@@ -96,7 +97,7 @@ export default function DashboardScreen() {
           hitSlop={8}
           style={{ padding: 4 }}
         >
-          <Text style={{ fontSize: 22, lineHeight: 24, color: '#444' }}>⏻</Text>
+          <Text style={{ fontSize: 22, lineHeight: 24, color: ui.textLabel }}>⏻</Text>
         </Pressable>
       }
       footer={
@@ -130,7 +131,7 @@ export default function DashboardScreen() {
           <Text style={{ fontSize: 32 }}>{avatar}</Text>
           <View style={{ flex: 1, gap: 2 }}>
             <Text style={{ fontWeight: '700', fontSize: 18 }}>{username || 'Member'}</Text>
-            <Text style={{ color: '#6B7280' }}>{email || 'member@example.com'}</Text>
+            <Text style={{ color: ui.textMuted }}>{email || 'member@example.com'}</Text>
           </View>
           <Pressable
             onPress={() => router.push('/profile/setup')}
@@ -139,8 +140,8 @@ export default function DashboardScreen() {
             hitSlop={8}
             style={{ flexDirection: 'row', alignItems: 'center', gap: 4, padding: 4 }}
           >
-            <Text style={{ fontSize: 16, color: '#111' }}>✎</Text>
-            <Text style={{ fontSize: 15, color: '#111', textDecorationLine: 'underline' }}>Edit</Text>
+            <Text style={{ fontSize: 16, color: ui.text }}>✎</Text>
+            <Text style={{ fontSize: 15, color: ui.text, textDecorationLine: 'underline' }}>Edit</Text>
           </Pressable>
         </View>
       </WireframeBox>
@@ -148,7 +149,7 @@ export default function DashboardScreen() {
       {needsProfile || activeSessions.length > 0 ? (
         <WireframeSection title="Climbing">
           {needsProfile ? (
-            <Text style={{ color: '#6B7280', lineHeight: 20, marginBottom: 4 }}>
+            <Text style={{ color: ui.textMuted, lineHeight: 20, marginBottom: 4 }}>
               Profile incomplete — you can still start a session and add a location during it.
             </Text>
           ) : null}
@@ -228,7 +229,7 @@ export default function DashboardScreen() {
                     alignItems: 'center',
                     gap: 4,
                     borderWidth: 1,
-                    borderColor: '#DDD',
+                    borderColor: ui.borderSubtle,
                     borderRadius: 12,
                     paddingHorizontal: 8,
                     paddingVertical: 4,

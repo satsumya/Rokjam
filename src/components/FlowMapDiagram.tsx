@@ -27,8 +27,26 @@ import type { FlowMapVersionEntry } from '../constants/flowMapManifest';
 
 import { FlowMapVersionAccordion } from './FlowMapVersionAccordion';
 import { WireframeSection } from './Wireframe';
+import { colors, ui } from '../theme/colors';
+import { mixHex } from '../theme/colorUtils';
 
 type ActionVariant = 'download' | 'update';
+
+/** Status palettes for flow-map chrome, derived from the brand tokens. */
+const FLOW_STATUS = {
+  download: {
+    border: colors.brand.blue.accent,
+    bg: colors.brand.blue.light,
+    pressedBg: mixHex(colors.brand.blue.light, colors.brand.blue.accent, 0.25),
+    text: colors.brand.blue.dark,
+  },
+  update: {
+    border: colors.brand.green.accent,
+    bg: colors.brand.green.light,
+    pressedBg: mixHex(colors.brand.green.light, colors.brand.green.accent, 0.25),
+    text: colors.brand.green.dark,
+  },
+} as const;
 
 function FlowMapActionButton({
   label,
@@ -43,11 +61,11 @@ function FlowMapActionButton({
   variant?: ActionVariant;
   disabled?: boolean;
 }) {
-  const isUpdate = variant === 'update';
-  const borderColor = isUpdate ? '#059669' : '#2563EB';
-  const backgroundColor = isUpdate ? '#ECFDF5' : '#EFF6FF';
-  const pressedBg = isUpdate ? '#D1FAE5' : '#DBEAFE';
-  const textColor = isUpdate ? '#047857' : '#1D4ED8';
+  const palette = variant === 'update' ? FLOW_STATUS.update : FLOW_STATUS.download;
+  const borderColor = palette.border;
+  const backgroundColor = palette.bg;
+  const pressedBg = palette.pressedBg;
+  const textColor = palette.text;
 
   return (
     <Pressable
@@ -69,9 +87,9 @@ function FlowMapActionButton({
   );
 }
 
-const ARROW = '#2563EB';
-const ARROW_FILL = '#EFF6FF';
-const CANVAS_BG = '#F4F7FB';
+const ARROW = colors.brand.blue.dark;
+const ARROW_FILL = colors.brand.blue.light;
+const CANVAS_BG = ui.surfaceMuted;
 
 function flowScreenDisplayName(screen: FlowMapScreen) {
   return formatFlowScreenDisplayName(screen.label, screen.descriptors, screen.downloadTag);
@@ -244,7 +262,7 @@ function FlowEdgesSvg({
                 textAnchor="middle"
                 fontSize={11}
                 fontWeight="600"
-                fill="#1D4ED8"
+                fill={ARROW}
                 fontFamily="system-ui, -apple-system, sans-serif"
               >
                 {edge.label}
@@ -312,10 +330,10 @@ function FlowScreenNode({
             minHeight: FLOW_FRAME_MIN_HEIGHT,
             borderRadius: 24,
             borderWidth: 2,
-            borderColor: '#D1D5DB',
-            backgroundColor: '#FFF',
+            borderColor: ui.border,
+            backgroundColor: ui.surface,
             overflow: 'hidden',
-            shadowColor: '#000',
+            shadowColor: ui.shadow,
             shadowOpacity: 0.08,
             shadowRadius: 12,
             shadowOffset: { width: 0, height: 4 },
@@ -330,8 +348,8 @@ function FlowScreenNode({
               accessibilityLabel={displayName}
             />
           ) : (
-            <View style={{ flex: 1, backgroundColor: '#E5E7EB', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: '#6B7280', fontSize: 12 }}>No preview</Text>
+            <View style={{ flex: 1, backgroundColor: ui.borderSubtle, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color: ui.textMuted, fontSize: 12 }}>No preview</Text>
             </View>
           )}
         </View>
@@ -352,7 +370,7 @@ function FlowScreenNode({
             fontWeight: '700',
             fontSize: 14,
             textAlign: 'center',
-            color: '#111827',
+            color: ui.text,
           }}
         >
           {displayName}
@@ -378,7 +396,7 @@ function FlowScreenNode({
       </View>
 
       {subtitle ? (
-        <Text style={{ marginTop: 2, fontSize: 11, textAlign: 'center', color: '#6B7280', lineHeight: 15 }}>
+        <Text style={{ marginTop: 2, fontSize: 11, textAlign: 'center', color: ui.textMuted, lineHeight: 15 }}>
           {subtitle}
         </Text>
       ) : null}
@@ -474,7 +492,7 @@ function FlowJourneyCanvas({
       }
     >
       <FlowMapVersionAccordion items={versionItems} />
-      <Text style={{ color: '#6B7280', marginBottom: 16, lineHeight: 20 }}>{journey.description}</Text>
+      <Text style={{ color: ui.textMuted, marginBottom: 16, lineHeight: 20 }}>{journey.description}</Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator
@@ -489,7 +507,7 @@ function FlowJourneyCanvas({
             backgroundColor: CANVAS_BG,
             borderRadius: 16,
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: ui.borderSubtle,
             overflow: 'hidden',
           }}
         >
@@ -551,14 +569,14 @@ export function FlowMapDiagram({
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#FCD34D',
-            backgroundColor: '#FFFBEB',
+            borderColor: colors.brand.yellow.accent,
+            backgroundColor: colors.brand.yellow.light,
             borderRadius: 8,
             padding: 12,
             marginBottom: 12,
           }}
         >
-          <Text style={{ color: '#92400E', lineHeight: 20 }}>
+          <Text style={{ color: colors.brand.yellow.dark, lineHeight: 20 }}>
             To use Update buttons, run{' '}
             <Text style={{ fontWeight: '700' }}>npm run flow-map-capture-server</Text> in a second terminal
             while this app is running.
@@ -569,28 +587,28 @@ export function FlowMapDiagram({
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#FCA5A5',
-            backgroundColor: '#FEF2F2',
+            borderColor: colors.brand.red.accent,
+            backgroundColor: colors.brand.red.light,
             borderRadius: 8,
             padding: 12,
             marginBottom: 12,
           }}
         >
-          <Text style={{ color: '#B91C1C' }}>{capture.error}</Text>
+          <Text style={{ color: colors.brand.red.dark }}>{capture.error}</Text>
         </View>
       ) : null}
       {capture.info ? (
         <View
           style={{
             borderWidth: 1,
-            borderColor: '#BBF7D0',
-            backgroundColor: '#F0FDF4',
+            borderColor: colors.brand.green.accent,
+            backgroundColor: colors.brand.green.light,
             borderRadius: 8,
             padding: 12,
             marginBottom: 12,
           }}
         >
-          <Text style={{ color: '#166534' }}>{capture.info}</Text>
+          <Text style={{ color: colors.brand.green.dark }}>{capture.info}</Text>
         </View>
       ) : null}
       {journeys.map((journey) => (

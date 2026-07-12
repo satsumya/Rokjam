@@ -16,6 +16,7 @@ import {
   WireframeScreen,
   WireframeSection,
 } from '../../../src/components/Wireframe';
+import { ui } from '../../../src/theme/colors';
 import { TAKEN_USERNAMES } from '../../../src/constants/mockData';
 import { FLOW_DEMO_SESSION_ID, type FlowDemoPreset } from '../../../src/constants/flowDemoSessions';
 import { usePrototype } from '../../../src/context/PrototypeContext';
@@ -337,7 +338,7 @@ export default function ActiveSessionScreen() {
 
       {climbPrompt ? (
         <WireframeBox>
-          <Text style={{ color: '#C0392B' }}>{climbPrompt}</Text>
+          <Text style={{ color: ui.danger }}>{climbPrompt}</Text>
         </WireframeBox>
       ) : null}
 

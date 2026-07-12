@@ -1,5 +1,6 @@
 import { DEFAULT_LEVEL_COLORS } from './difficultyLevels';
 import type { ClimbingSession } from '../types/climbingSession';
+import { colors } from '../theme/colors';
 
 export function createDemoSessions(homeLocationId: string, homeLocationName: string): ClimbingSession[] {
   const levels = DEFAULT_LEVEL_COLORS.slice(0, 5);
@@ -136,7 +137,7 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
       {
         id: 'pc1',
         levelName: 'Blue',
-        levelColor: '#4A90D9',
+        levelColor: colors.brand.blue.main,
         name: 'Corner crack',
         tags: ['crimpy'],
         notes: '',
@@ -150,7 +151,7 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
       {
         id: 'pc2',
         levelName: 'Purple',
-        levelColor: '#9B59B6',
+        levelColor: colors.brand.purple.main,
         name: 'Roof dyno',
         tags: ['dyno'],
         notes: '',
@@ -179,7 +180,7 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
       {
         id: 'pc3',
         levelName: 'Orange',
-        levelColor: '#E67E22',
+        levelColor: colors.brand.orange.main,
         name: 'River wall traverse',
         tags: ['slab', 'balance'],
         notes: '',
@@ -208,7 +209,7 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
       {
         id: 'pc4',
         levelName: 'Orange',
-        levelColor: '#E67E22',
+        levelColor: colors.brand.orange.main,
         name: 'Comp qualifier',
         tags: ['power', 'overhang'],
         notes: 'Still working the crux',

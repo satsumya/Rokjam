@@ -1,6 +1,7 @@
 import { Pressable, Text, View } from 'react-native';
 
 import { WireframeBox, WireframeSection } from './Wireframe';
+import { ui } from '../theme/colors';
 import type { ClimbingSession, TrendTimeframe } from '../types/climbingSession';
 import {
   computeStandoutTrends,
@@ -12,18 +13,18 @@ import {
 function MiniBars({ data, unit }: { data: { label: string; value: number }[]; unit?: string }) {
   const max = Math.max(...data.map((d) => d.value), 1);
   if (!data.length) {
-    return <Text style={{ color: '#666' }}>No data in this timeframe.</Text>;
+    return <Text style={{ color: ui.textMuted }}>No data in this timeframe.</Text>;
   }
   return (
     <View style={{ gap: 6 }}>
       {data.map((item) => (
         <View key={item.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <Text style={{ width: 36, fontSize: 12, color: '#666' }}>{item.label}</Text>
+          <Text style={{ width: 36, fontSize: 12, color: ui.textMuted }}>{item.label}</Text>
           <View
             style={{
               flex: 1,
               height: 14,
-              backgroundColor: '#EEE',
+              backgroundColor: ui.borderSubtle,
               borderRadius: 4,
               overflow: 'hidden',
             }}
@@ -32,7 +33,7 @@ function MiniBars({ data, unit }: { data: { label: string; value: number }[]; un
               style={{
                 width: `${(item.value / max) * 100}%`,
                 height: '100%',
-                backgroundColor: '#111',
+                backgroundColor: ui.primary,
               }}
             />
           </View>
@@ -89,7 +90,7 @@ export function DashboardTrends({
             </Pressable>
           ))}
         </View>
-        <Text style={{ color: '#666', fontSize: 13 }}>Showing {timeframeLabel.toLowerCase()} view</Text>
+        <Text style={{ color: ui.textMuted, fontSize: 13 }}>Showing {timeframeLabel.toLowerCase()} view</Text>
       </WireframeBox>
 
       <WireframeBox>

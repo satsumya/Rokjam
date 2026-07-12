@@ -18,6 +18,7 @@ import {
   nextAttemptProgress,
 } from '../types/climbingSession';
 import { formatSessionDate } from '../utils/sessionUtils';
+import { ui } from '../theme/colors';
 
 type DifficultyLevel = Location['levels'][number];
 
@@ -42,7 +43,7 @@ function DifficultyQuickPick({
             onPress={() => onSelect(level)}
             style={{
               borderWidth: 1,
-              borderColor: selectedLevelId === level.id ? '#111' : '#CCC',
+              borderColor: selectedLevelId === level.id ? ui.borderStrong : ui.border,
               borderRadius: 12,
               paddingHorizontal: 10,
               paddingVertical: 6,
@@ -144,7 +145,7 @@ export function ClimbAtGlance({
         )}
         {onRemove ? (
           <Pressable onPress={onRemove} hitSlop={8}>
-            <Text style={{ color: '#C0392B', fontWeight: '600', fontSize: 14 }}>Remove</Text>
+            <Text style={{ color: ui.danger, fontWeight: '600', fontSize: 14 }}>Remove</Text>
           </Pressable>
         ) : null}
       </View>
@@ -244,7 +245,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                   }
                   style={{
                     borderWidth: 1,
-                    borderColor: climb.levelId === level.id ? '#111' : '#CCC',
+                    borderColor: climb.levelId === level.id ? ui.borderStrong : ui.border,
                     borderRadius: 12,
                     paddingHorizontal: 10,
                     paddingVertical: 6,
@@ -267,7 +268,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             </View>
           </View>
         ) : (
-          <Text style={{ color: '#666' }}>Add a location with levels to pick difficulty.</Text>
+          <Text style={{ color: ui.textMuted }}>Add a location with levels to pick difficulty.</Text>
         )}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           <Pressable onPress={() => onChange({ isWarmUp: !climb.isWarmUp })}>
@@ -307,7 +308,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
               <Text
                 style={{
                   borderWidth: 1,
-                  borderColor: climb.tags.includes(tag) ? '#111' : '#CCC',
+                  borderColor: climb.tags.includes(tag) ? ui.borderStrong : ui.border,
                   borderRadius: 12,
                   paddingHorizontal: 10,
                   paddingVertical: 4,
@@ -326,7 +327,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             style={{
               flex: 1,
               borderWidth: 1,
-              borderColor: '#CCC',
+              borderColor: ui.border,
               borderRadius: 8,
               paddingHorizontal: 12,
               paddingVertical: 10,
@@ -353,7 +354,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
               <Text style={{ fontWeight: '600', flex: 1 }}>Attempt {index + 1}</Text>
               {climb.attempts.length > 1 ? (
                 <Pressable onPress={() => removeAttempt(attempt.id)}>
-                  <Text style={{ color: '#666', textDecorationLine: 'underline' }}>Remove</Text>
+                  <Text style={{ color: ui.textMuted, textDecorationLine: 'underline' }}>Remove</Text>
                 </Pressable>
               ) : null}
             </View>
@@ -364,7 +365,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                     <Text
                       style={{
                         borderWidth: 1,
-                        borderColor: attempt.progress.includes(opt.value) ? '#111' : '#CCC',
+                        borderColor: attempt.progress.includes(opt.value) ? ui.borderStrong : ui.border,
                         borderRadius: 12,
                         paddingHorizontal: 8,
                         paddingVertical: 4,

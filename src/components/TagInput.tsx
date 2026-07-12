@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { WireframeButton } from './Wireframe';
+import { ui } from '../theme/colors';
 
 export function TagInput({
   label,
@@ -26,7 +27,7 @@ export function TagInput({
 
   return (
     <View style={{ gap: 8 }}>
-      <Text style={{ fontSize: 16, fontWeight: '700', color: '#222' }}>{label}</Text>
+      <Text style={{ fontSize: 16, fontWeight: '700', color: ui.text }}>{label}</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         {tags.map((tag) => (
           <Pressable
@@ -37,11 +38,11 @@ export function TagInput({
               alignItems: 'center',
               gap: 6,
               borderWidth: 1,
-              borderColor: '#111',
+              borderColor: ui.borderStrong,
               borderRadius: 16,
               paddingHorizontal: 12,
               paddingVertical: 6,
-              backgroundColor: '#F5F5F5',
+              backgroundColor: ui.surfaceMuted,
             }}
           >
             <Text>{tag}</Text>
@@ -57,7 +58,7 @@ export function TagInput({
           style={{
             flex: 1,
             borderWidth: 1,
-            borderColor: '#CCC',
+            borderColor: ui.border,
             borderRadius: 8,
             paddingHorizontal: 12,
             paddingVertical: 10,
@@ -75,7 +76,7 @@ export function TagInput({
               onPress={() => onAdd(item)}
               style={{
                 borderWidth: 1,
-                borderColor: '#CCC',
+                borderColor: ui.border,
                 borderRadius: 16,
                 paddingHorizontal: 12,
                 paddingVertical: 6,

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
+import { ui } from '../theme/colors';
 
 type Level = {
   id: string;
@@ -39,10 +40,10 @@ export function LevelRow({
     <View
       style={{
         borderWidth: 1,
-        borderColor: dragSourceId === level.id ? '#111' : '#EEE',
+        borderColor: dragSourceId === level.id ? ui.borderStrong : ui.borderSubtle,
         borderRadius: 8,
         padding: 8,
-        backgroundColor: '#FFF',
+        backgroundColor: ui.surface,
         gap: 6,
       }}
     >
@@ -53,7 +54,7 @@ export function LevelRow({
             paddingHorizontal: 6,
             paddingVertical: 4,
             borderWidth: 1,
-            borderColor: '#CCC',
+            borderColor: ui.border,
             borderRadius: 4,
           }}
         >
@@ -65,9 +66,9 @@ export function LevelRow({
               width: 24,
               height: 24,
               borderRadius: 4,
-              backgroundColor: level.color || '#EEE',
+              backgroundColor: level.color || ui.borderSubtle,
               borderWidth: 1,
-              borderColor: colorError ? '#C0392B' : '#CCC',
+              borderColor: colorError ? ui.danger : ui.border,
             }}
           />
         </Pressable>
@@ -78,7 +79,7 @@ export function LevelRow({
           style={{
             flex: 1,
             borderWidth: 1,
-            borderColor: '#CCC',
+            borderColor: ui.border,
             borderRadius: 6,
             paddingHorizontal: 10,
             paddingVertical: 6,
@@ -93,7 +94,7 @@ export function LevelRow({
         </Pressable>
         {total > 1 ? (
           <Pressable onPress={onRemove}>
-            <Text style={{ color: '#C0392B', fontWeight: '600' }}>×</Text>
+            <Text style={{ color: ui.danger, fontWeight: '600' }}>×</Text>
           </Pressable>
         ) : null}
       </View>
@@ -113,7 +114,7 @@ export function LevelRow({
                 gap: 8,
                 padding: 6,
                 borderWidth: 1,
-                borderColor: '#EEE',
+                borderColor: ui.borderSubtle,
                 borderRadius: 6,
               }}
             >
@@ -124,7 +125,7 @@ export function LevelRow({
                   borderRadius: 4,
                   backgroundColor: preset.color,
                   borderWidth: 1,
-                  borderColor: '#CCC',
+                  borderColor: ui.border,
                 }}
               />
               <Text>{preset.name}</Text>
@@ -136,7 +137,7 @@ export function LevelRow({
             placeholder="#HEX custom colour"
             style={{
               borderWidth: 1,
-              borderColor: '#CCC',
+              borderColor: ui.border,
               borderRadius: 8,
               padding: 10,
               fontSize: 16,
@@ -144,7 +145,7 @@ export function LevelRow({
           />
         </View>
       ) : null}
-      {colorError ? <Text style={{ color: '#C0392B', fontSize: 13, paddingLeft: 36 }}>{colorError}</Text> : null}
+      {colorError ? <Text style={{ color: ui.danger, fontSize: 13, paddingLeft: 36 }}>{colorError}</Text> : null}
     </View>
   );
 }

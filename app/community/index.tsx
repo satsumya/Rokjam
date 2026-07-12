@@ -12,6 +12,7 @@ import {
   WireframeSection,
 } from '../../src/components/Wireframe';
 import { usePrototype } from '../../src/context/PrototypeContext';
+import { ui } from '../../src/theme/colors';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -80,7 +81,7 @@ export default function CommunityScreen() {
                 <Text style={{ fontSize: 24 }}>{session.ownerAvatar}</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontWeight: '700' }}>{session.ownerUsername}</Text>
-                  <Text style={{ color: '#666', fontSize: 13 }}>{session.date}</Text>
+                  <Text style={{ color: ui.textMuted, fontSize: 13 }}>{session.date}</Text>
                 </View>
                 <WireframeButton
                   label={followedUsers.includes(session.ownerUsername) ? 'Following' : 'Follow'}

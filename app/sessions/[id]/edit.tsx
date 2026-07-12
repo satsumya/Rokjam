@@ -15,6 +15,7 @@ import {
   WireframeSection,
 } from '../../../src/components/Wireframe';
 import { usePrototype } from '../../../src/context/PrototypeContext';
+import { ui } from '../../../src/theme/colors';
 import type { SessionClimb } from '../../../src/types/climbingSession';
 import { climbHasDetails, formatSessionDate } from '../../../src/utils/sessionUtils';
 
@@ -154,7 +155,7 @@ export default function EditSessionScreen() {
             <Text>{isPublic ? '●' : '○'} Public</Text>
           </Pressable>
         </View>
-        {publicError ? <Text style={{ color: '#C0392B' }}>{publicError}</Text> : null}
+        {publicError ? <Text style={{ color: ui.danger }}>{publicError}</Text> : null}
       </WireframeSection>
 
       <WireframeSection title="Climbs">

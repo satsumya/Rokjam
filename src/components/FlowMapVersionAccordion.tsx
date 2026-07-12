@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { formatFlowMapVersionStatus } from '../utils/flowMapVersionFormat';
+import { ui } from '../theme/colors';
 
 export type FlowMapVersionAccordionItem = {
   label: string;
@@ -30,8 +31,8 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
           opacity: pressed ? 0.7 : 1,
         })}
       >
-        <Text style={{ fontSize: 12, color: '#6B7280' }}>{open ? '▾' : '▸'}</Text>
-        <Text style={{ fontSize: 12, color: '#6B7280', fontWeight: '600' }}>Version info</Text>
+        <Text style={{ fontSize: 12, color: ui.textMuted }}>{open ? '▾' : '▸'}</Text>
+        <Text style={{ fontSize: 12, color: ui.textMuted, fontWeight: '600' }}>Version info</Text>
       </Pressable>
       {open ? (
         <View
@@ -43,8 +44,8 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
         >
           {items.map((item) => (
             <View key={item.label}>
-              <Text style={{ fontSize: 12, fontWeight: '600', color: '#374151' }}>{item.label}</Text>
-              <Text style={{ fontSize: 11, color: '#9CA3AF', lineHeight: 15 }}>
+              <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textLabel }}>{item.label}</Text>
+              <Text style={{ fontSize: 11, color: ui.textSubtle, lineHeight: 15 }}>
                 {formatFlowMapVersionStatus(item.version, item.updatedAt)}
               </Text>
             </View>

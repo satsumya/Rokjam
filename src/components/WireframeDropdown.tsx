@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { WireframeField } from './Wireframe';
+import { ui } from '../theme/colors';
 
 export type DropdownOption = {
   value: string;
@@ -18,11 +19,11 @@ export type DropdownOption = {
 
 const fieldStyle = {
   borderWidth: 1,
-  borderColor: '#CCC',
+  borderColor: ui.border,
   borderRadius: 8,
   paddingHorizontal: 12,
   paddingVertical: 12,
-  backgroundColor: '#FFF',
+  backgroundColor: ui.surface,
 } as const;
 
 function WebSelect({
@@ -44,7 +45,7 @@ function WebSelect({
         appearance: 'auto',
         WebkitAppearance: 'menulist',
         fontSize: 16,
-        color: '#111',
+        color: ui.text,
         cursor: 'pointer',
         ...fieldStyle,
       }}
@@ -166,8 +167,8 @@ export function WireframeDropdown({
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: 16, color: '#111' }}>{displayLabel}</Text>
-            <Text style={{ color: '#666' }}>▾</Text>
+            <Text style={{ fontSize: 16, color: ui.text }}>{displayLabel}</Text>
+            <Text style={{ color: ui.textMuted }}>▾</Text>
           </Pressable>
           <NativeDropdownMenu
             visible={menuOpen}
@@ -203,11 +204,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     maxHeight: 240,
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: ui.border,
     borderRadius: 8,
-    backgroundColor: '#FFF',
+    backgroundColor: ui.surface,
     overflow: 'hidden',
-    shadowColor: '#000',
+    shadowColor: ui.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -216,14 +217,14 @@ const styles = StyleSheet.create({
   menuItem: {
     paddingHorizontal: 12,
     paddingVertical: 12,
-    backgroundColor: '#FFF',
+    backgroundColor: ui.surface,
   },
   menuItemBorder: {
     borderTopWidth: 1,
-    borderTopColor: '#EEE',
+    borderTopColor: ui.borderSubtle,
   },
   menuItemSelected: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: ui.surfaceMuted,
   },
   menuItemTextSelected: {
     fontWeight: '700',

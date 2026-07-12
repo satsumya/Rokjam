@@ -2,7 +2,7 @@
  * Design system colour tokens — see docs/tickets/DesignSystem.md.
  * Visual reference: /color-system
  */
-import { buildScale, mixHex, resolveTonalContrast, type ColorScale, type TonalContrastConfig } from './colorUtils';
+import { buildScale, mixHex, resolveTonalContrast, withAlpha, type ColorScale, type TonalContrastConfig } from './colorUtils';
 
 export type BrandColorId =
   | 'yellow'
@@ -94,11 +94,11 @@ const BRAND_PALETTES: Record<BrandColorId, BrandPaletteDefinition> = {
     mainContrast: { alt: '#332c25', tonal: { from: 'dark' } },
   },
   red: {
-    main: '#D34040',
+    main: '#CF3232',
     light: '#FFE1E1',
     dark: '#980A0A',
     accent: '#D34040',
-    mainContrast: { alt: '#ffffff', tonal: { from: 'light', mix: 0.95 } },
+    mainContrast: { alt: '#ffffff', tonal: { from: 'light', mix: 0.44 } },
   },
   black: {
     main: '#2A2A2A',
@@ -184,6 +184,46 @@ export const colors = {
     discovery: buildSemanticToken(SEMANTIC_PALETTES.discovery),
   },
 } as const;
+
+/**
+ * UI tokens — the single source of truth for interface colours. Every component
+ * should reference these instead of hardcoded hex values. Each token maps onto
+ * the neutral scale, brand, or semantic palettes above.
+ */
+export const ui = {
+  // Text
+  text: neutralScale[900],
+  textLabel: neutralScale[700],
+  textMuted: neutralScale[600],
+  textSubtle: neutralScale[500],
+  placeholder: neutralScale[400],
+  inverseText: neutralScale[50],
+
+  // Surfaces
+  background: neutralScale[50],
+  surface: '#FFFFFF',
+  surfaceMuted: neutralScale[100],
+
+  // Borders
+  border: neutralScale[300],
+  borderSubtle: neutralScale[200],
+  borderStrong: neutralScale[900],
+
+  // Interactive / primary action
+  primary: neutralScale[900],
+  primaryText: neutralScale[50],
+
+  // Feedback (dark shades chosen for AA-readable text on light surfaces)
+  danger: BRAND_PALETTES.red.dark,
+  success: BRAND_PALETTES.green.dark,
+
+  // Effects
+  shadow: neutralScale[900],
+  overlay: withAlpha(neutralScale[900], 0.45),
+  shadowSoft: withAlpha(neutralScale[900], 0.12),
+} as const;
+
+export type UiColorToken = keyof typeof ui;
 
 export const BRAND_COLOR_ORDER: BrandColorId[] = [
   'yellow',

@@ -13,6 +13,7 @@ import {
   WireframeSection,
   WireframeBox,
 } from '../../src/components/Wireframe';
+import { ui } from '../../src/theme/colors';
 import {
   IMPROVEMENT_TAG_SUGGESTIONS,
   STRENGTH_TAG_SUGGESTIONS,
@@ -144,7 +145,7 @@ export default function ProfileSetupScreen() {
               onPress={() => setAvatar(rock)}
               style={{
                 borderWidth: 1,
-                borderColor: avatar === rock ? '#111' : '#CCC',
+                borderColor: avatar === rock ? ui.borderStrong : ui.border,
                 borderRadius: 8,
                 padding: 12,
                 minWidth: 56,
@@ -180,7 +181,7 @@ export default function ProfileSetupScreen() {
               key={location.id}
               style={{
                 borderWidth: 1,
-                borderColor: '#CCC',
+                borderColor: ui.border,
                 borderRadius: 8,
                 overflow: 'hidden',
               }}
@@ -191,7 +192,7 @@ export default function ProfileSetupScreen() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   padding: 12,
-                  backgroundColor: '#FAFAFA',
+                  backgroundColor: ui.surfaceMuted,
                   gap: 8,
                 }}
               >
@@ -201,7 +202,7 @@ export default function ProfileSetupScreen() {
               </Pressable>
 
               {isOpen ? (
-                <View style={{ padding: 12, gap: 12, backgroundColor: '#FFF' }}>
+                <View style={{ padding: 12, gap: 12, backgroundColor: ui.surface }}>
                   {editingLocationId === location.id ? (
                     <View style={{ gap: 8 }}>
                       <WireframeField

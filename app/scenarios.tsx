@@ -8,6 +8,7 @@ import {
   WireframeScreen,
   WireframeSection,
 } from '../src/components/Wireframe';
+import { ui } from '../src/theme/colors';
 import {
   MOCK_TEST_VALUES,
   SCENARIO_FLOWS,
@@ -43,11 +44,11 @@ function FilterChip({
       onPress={onPress}
       style={{
         borderWidth: 1,
-        borderColor: active ? '#111' : '#CCC',
+        borderColor: active ? ui.borderStrong : ui.border,
         borderRadius: 16,
         paddingHorizontal: 12,
         paddingVertical: 6,
-        backgroundColor: active ? '#F0F0F0' : '#FFF',
+        backgroundColor: active ? ui.surfaceMuted : ui.surface,
       }}
     >
       <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14 }}>{label}</Text>
@@ -77,12 +78,12 @@ function ScenarioCard({
       <Text style={{ fontWeight: '700' }}>
         [{scenario.type}] {scenario.title}
       </Text>
-      <Text style={{ color: '#666', fontSize: 13 }}>
+      <Text style={{ color: ui.textMuted, fontSize: 13 }}>
         {effectiveUser === 'any' ? 'Any user' : effectiveUser === 'new' ? 'New user' : 'Existing user'} · Setup:{' '}
         {setup}
       </Text>
       <Text>{scenario.steps}</Text>
-      <Text style={{ color: '#666', fontSize: 13 }}>{scenarioWebLink(scenario.path)}</Text>
+      <Text style={{ color: ui.textMuted, fontSize: 13 }}>{scenarioWebLink(scenario.path)}</Text>
       <WireframeButton label="Run scenario" onPress={() => onRun(scenario)} />
     </WireframeBox>
   );
@@ -133,7 +134,7 @@ export default function ScenariosScreen() {
             the right app state.
           </Text>
           <WireframeButton label="Open flow map" onPress={() => router.push('/flow-map')} />
-          <Text style={{ color: '#666', fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/flow-map')}</Text>
+          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/flow-map')}</Text>
         </WireframeBox>
       </WireframeSection>
 
@@ -143,7 +144,7 @@ export default function ScenariosScreen() {
             Preview brand, neutral, and semantic colour tokens — including contrast and alpha variants.
           </Text>
           <WireframeButton label="Open colour system" onPress={() => router.push('/color-system')} />
-          <Text style={{ color: '#666', fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
+          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
         </WireframeBox>
       </WireframeSection>
 

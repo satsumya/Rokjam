@@ -4,6 +4,7 @@ import { Pressable, Text, View } from 'react-native';
 import { AddLocationSheet } from './AddLocationSheet';
 import { WireframeBox, WireframeButton, WireframeLink } from './Wireframe';
 import { usePrototype } from '../context/PrototypeContext';
+import { ui } from '../theme/colors';
 
 export function SessionLocationPanel({
   sessionLocationId,
@@ -38,7 +39,7 @@ export function SessionLocationPanel({
         <Text style={{ fontWeight: '600' }}>Location</Text>
         <WireframeBox>
           <Text>No location linked to this session yet.</Text>
-          <Text style={{ color: '#6B7280', fontSize: 13, lineHeight: 18 }}>
+          <Text style={{ color: ui.textMuted, fontSize: 13, lineHeight: 18 }}>
             Search for your gym or crag and set up difficulty levels.
           </Text>
           <WireframeButton label="Add location" onPress={() => setShowAddSheet(true)} />
@@ -76,7 +77,7 @@ export function SessionLocationPanel({
           ) : null}
         </WireframeBox>
         <Pressable onPress={() => setShowAddSheet(true)}>
-          <Text style={{ color: '#666', fontSize: 14, textDecorationLine: 'underline' }}>
+          <Text style={{ color: ui.textMuted, fontSize: 14, textDecorationLine: 'underline' }}>
             Add new location
           </Text>
         </Pressable>
@@ -99,7 +100,7 @@ export function SessionLocationPanel({
         ) : null}
       </WireframeBox>
       <Pressable onPress={() => setShowAddSheet(true)}>
-        <Text style={{ color: '#666', fontSize: 14, textDecorationLine: 'underline' }}>
+        <Text style={{ color: ui.textMuted, fontSize: 14, textDecorationLine: 'underline' }}>
           Add new location
         </Text>
       </Pressable>
