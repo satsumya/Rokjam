@@ -2,8 +2,16 @@
 // atoms → basic building blocks · molecules → small compositions · organisms → feature sections.
 
 // Atoms
-export { Icon, ICON_NAMES, type IconName } from './atoms/Icon';
+export {
+  Icon,
+  ICON_NAMES,
+  ICON_WEIGHTS,
+  DEFAULT_WEIGHT_FOR_SIZE,
+  type IconName,
+  type IconWeight,
+} from './atoms/Icon';
 export { iconSizes, ICON_SIZE_NAMES, type IconSize } from '../theme/icon';
+export { IconLibraryDiagram } from './organisms/IconLibraryDiagram';
 export { Button } from './atoms/Button';
 export { TextField } from './atoms/TextField';
 export { Card } from './atoms/Card';

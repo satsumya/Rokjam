@@ -10,7 +10,7 @@ import {
   CheckSquare,
   CircleIcon,
   DotsSixVertical,
-  House,
+  HouseLine,
   Sparkle,
   Square,
   VideoCamera,
@@ -45,7 +45,7 @@ const ICONS = {
   circle: CircleIcon,
   close: X,
   dragHandle: DotsSixVertical,
-  house: House,
+  house: HouseLine,
   sparkle: Sparkle,
   video: VideoCamera,
 } satisfies Record<string, PhosphorIcon>;
@@ -54,18 +54,41 @@ export type IconName = keyof typeof ICONS;
 
 export const ICON_NAMES = Object.keys(ICONS) as IconName[];
 
+/** Allowed Phosphor weights, in increasing visual heaviness. */
+export const ICON_WEIGHTS = ['regular', 'bold', 'fill', 'duotone'] as const;
+
+export type IconWeight = (typeof ICON_WEIGHTS)[number];
+
+/**
+ * Default weight per size token: small icons read better filled, larger ones
+ * bold. Weight follows size automatically unless a `weight` is passed.
+ */
+export const DEFAULT_WEIGHT_FOR_SIZE: Record<IconSize, IconWeight> = {
+  xs: 'fill',
+  sm: 'fill',
+  md: 'bold',
+  lg: 'bold',
+  xl: 'bold',
+};
+
 /**
  * `size` accepts an icon-size token (`xs`–`xl`, the preferred form) or a raw
- * pixel number as an escape hatch. Defaults to `sm` (20px).
+ * pixel number as an escape hatch. Defaults to `sm` (20px). `weight` defaults to
+ * the size's mapped weight (see DEFAULT_WEIGHT_FOR_SIZE); pass it to override.
  */
 export function Icon({
   name,
   size = 'sm',
   color = ui.text,
-  weight = 'regular',
+  weight,
   ...rest
-}: { name: IconName; size?: IconSize | number } & Omit<IconProps, 'size'>) {
+}: { name: IconName; size?: IconSize | number; weight?: IconWeight } & Omit<
+  IconProps,
+  'size' | 'weight'
+>) {
   const Glyph = ICONS[name];
   const px = typeof size === 'number' ? size : iconSizes[size];
-  return <Glyph size={px} color={color} weight={weight} {...rest} />;
+  const resolvedWeight =
+    weight ?? (typeof size === 'number' ? 'regular' : DEFAULT_WEIGHT_FOR_SIZE[size]);
+  return <Glyph size={px} color={color} weight={resolvedWeight} {...rest} />;
 }

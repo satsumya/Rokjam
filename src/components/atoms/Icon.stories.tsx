@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 import { Text, View } from 'react-native';
 
-import { Icon, ICON_NAMES } from './Icon';
+import { Icon, ICON_NAMES, ICON_WEIGHTS } from './Icon';
 import { Padded } from '../storybook.helpers';
 import { ui } from '../../theme/colors';
 import { ICON_SIZE_NAMES, iconSizes } from '../../theme/icon';
@@ -14,10 +14,7 @@ const meta = {
   argTypes: {
     name: { control: 'select', options: ICON_NAMES },
     size: { control: 'select', options: ICON_SIZE_NAMES },
-    weight: {
-      control: 'select',
-      options: ['thin', 'light', 'regular', 'bold', 'fill', 'duotone'],
-    },
+    weight: { control: 'select', options: ICON_WEIGHTS },
   },
 } satisfies Meta<typeof Icon>;
 

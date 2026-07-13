@@ -22,6 +22,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 - [x] Icon source — All UI icons come from the `Icon` atom (Phosphor). Never hardcode emoji or glyph characters as icons
 - [x] Icon size scale — Size icons with the scale tokens passed to `Icon`'s `size` prop, not raw pixel numbers: `xs` 16, `sm` 20, `md` 24, `lg` 32, `xl` 40 (e.g. `<Icon name="house" size="xs" />`)
+- [x] Icon weight — Weight follows size automatically: xs/sm → fill, md/lg/xl → bold. Allowed weights are regular, bold, fill, duotone (thin and light are disabled); regular and duotone aren't size-mapped and are manual-only. Only pass an explicit `weight` for semantic exceptions (e.g. an unchecked checkbox or unmet hint stays regular)
 
 ## Dates & times
 

@@ -147,6 +147,17 @@ export default function ScenariosScreen() {
         </Card>
       </Section>
 
+      <Section title="Icon library">
+        <Card>
+          <Text style={{ lineHeight: 22 }}>
+            Browse every icon in use, the size scale, and each Phosphor weight — see whether iconography stays
+            on regular or mixes bold, fill, and more.
+          </Text>
+          <Button label="Open icon library" onPress={() => router.push('/icon-library')} />
+          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/icon-library')}</Text>
+        </Card>
+      </Section>
+
       <Section title="Mock test values">
         <Card>
           <Text>Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>

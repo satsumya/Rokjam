@@ -16,6 +16,7 @@ Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 - No developer-only copy in the UI
 - Icons come from the `Icon` atom (Phosphor); never hardcode emoji/glyphs as UI icons
 - Size icons with the scale tokens (`xs` 16 · `sm` 20 · `md` 24 · `lg` 32 · `xl` 40), e.g. `<Icon name="house" size="xs" />`; avoid raw pixel numbers
+- Icon weight follows size automatically (xs/sm → fill, md/lg/xl → bold); allowed weights are regular/bold/fill/duotone (no thin/light), with regular/duotone manual-only (not size-mapped). Only pass an explicit `weight` for semantic exceptions (e.g. an unchecked checkbox or unmet hint stays regular)
 
 When implementing a flow, read the matching **docs/tickets/Flow/*.md** ticket and update its checkboxes.
 

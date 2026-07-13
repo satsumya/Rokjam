@@ -121,7 +121,7 @@ export function LevelRow({
         </Pressable>
         {total > 1 ? (
           <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
-            <Icon name="close" size="xs" color={ui.danger} weight="bold" />
+            <Icon name="close" size="xs" color={ui.danger} />
           </Pressable>
         ) : null}
       </View>

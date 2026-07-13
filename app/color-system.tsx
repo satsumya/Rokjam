@@ -52,7 +52,8 @@ export default function ColorSystemPage() {
       title="Colour system"
       footer={
         <>
-          <Button label="Flow map" variant="secondary" onPress={() => router.push('/flow-map')} />
+          <Button label="Icon library" variant="secondary" onPress={() => router.push('/icon-library')} />
+          <Button label="Flow map" variant="ghost" onPress={() => router.push('/flow-map')} />
           <Button label="Back to welcome" variant="ghost" onPress={() => router.replace('/')} />
         </>
       }

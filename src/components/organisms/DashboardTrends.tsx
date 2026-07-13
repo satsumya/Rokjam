@@ -84,7 +84,7 @@ export function DashboardTrends({
           <Text style={{ fontWeight: '700' }}>Standout climbs</Text>
           {standouts.map((t) => (
             <View key={t.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              <Icon name="sparkle" size="xs" color={ui.text} weight="fill" />
+              <Icon name="sparkle" size="xs" color={ui.text} />
               <Text>
                 {t.label}: {t.detail}
               </Text>
