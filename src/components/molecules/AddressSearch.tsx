@@ -5,6 +5,7 @@ import { ADDRESS_SUGGESTIONS } from '../../constants/mockData';
 import { Button } from '../atoms/Button';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 export function AddressSearch({
   onSelect,
@@ -83,13 +84,16 @@ export function AddressSearch({
                 <Pressable
                   key={item}
                   onPress={() => selectSuggestion(item)}
-                  style={{
-                    paddingHorizontal: 12,
-                    paddingVertical: 12,
-                    borderTopWidth: index === 0 ? 0 : 1,
-                    borderTopColor: ui.borderSubtle,
-                    backgroundColor: ui.surface,
-                  }}
+                  style={(state) => [
+                    {
+                      paddingHorizontal: 12,
+                      paddingVertical: 12,
+                      borderTopWidth: index === 0 ? 0 : 1,
+                      borderTopColor: ui.borderSubtle,
+                      backgroundColor: ui.surface,
+                    },
+                    interactionStyle(state),
+                  ]}
                 >
                   <Text>{item}</Text>
                 </Pressable>

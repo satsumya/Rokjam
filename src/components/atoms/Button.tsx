@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 export function Button({
   label,
@@ -17,12 +18,11 @@ export function Button({
     <Pressable
       onPress={onPress}
       disabled={disabled}
-      style={({ pressed }) => [
+      style={(state) => [
         styles.button,
         variant === 'secondary' && styles.buttonSecondary,
         variant === 'ghost' && styles.buttonGhost,
-        pressed && styles.buttonPressed,
-        disabled && styles.buttonDisabled,
+        disabled ? styles.buttonDisabled : interactionStyle(state),
       ]}
     >
       <Text
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
   buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
   buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent' },
-  buttonPressed: { opacity: 0.85 },
   buttonDisabled: { opacity: 0.4 },
   buttonText: { color: ui.primaryText, fontSize: 16, fontWeight: '600' },
   buttonTextSecondary: { color: ui.primary },

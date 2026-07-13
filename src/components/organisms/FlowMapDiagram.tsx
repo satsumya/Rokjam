@@ -29,6 +29,7 @@ import { FlowMapActionButton } from '../atoms/FlowMapActionButton';
 import { Section } from '../atoms/Section';
 import { FlowMapVersionAccordion } from '../molecules/FlowMapVersionAccordion';
 import { colors, ui } from '../../theme/colors';
+import { focusRing, interactionFlags } from '../../theme/interaction';
 
 const ARROW = colors.brand.blue.dark;
 const ARROW_FILL = colors.brand.blue.light;
@@ -261,10 +262,15 @@ function FlowScreenNode({
     >
       <Pressable
         onPress={onPress}
-        style={({ pressed }) => ({
-          opacity: pressed ? 0.92 : 1,
-          transform: [{ scale: pressed ? 0.98 : 1 }],
-        })}
+        style={(state) => {
+          const { pressed, hovered, focused } = interactionFlags(state);
+          return {
+            borderRadius: 24,
+            opacity: pressed ? 0.92 : 1,
+            transform: [{ scale: pressed ? 0.98 : hovered ? 1.01 : 1 }],
+            ...(focused ? focusRing : null),
+          };
+        }}
       >
         <View
           style={{

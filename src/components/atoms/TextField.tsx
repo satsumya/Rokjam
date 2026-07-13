@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { ui } from '../../theme/colors';
+import { focusRing, useHoverFocus } from '../../theme/interaction';
 
 export function TextField({
   label,
@@ -25,6 +26,8 @@ export function TextField({
   keyboardType?: 'default' | 'email-address' | 'number-pad';
   maxLength?: number;
 }) {
+  const { hovered, focused, bind } = useHoverFocus();
+
   return (
     <View style={styles.field}>
       <Text style={styles.label}>
@@ -39,7 +42,13 @@ export function TextField({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         maxLength={maxLength}
-        style={[styles.input, error ? styles.inputError : null]}
+        {...(bind as object)}
+        style={[
+          styles.input,
+          hovered ? styles.inputHover : null,
+          error ? styles.inputError : null,
+          focused ? focusRing : null,
+        ]}
       />
       {hint && !error ? <Text style={styles.hint}>{hint}</Text> : null}
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
@@ -61,6 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: ui.surface,
     color: ui.text,
   },
+  inputHover: { borderColor: ui.borderStrong },
   inputError: { borderColor: ui.danger },
   hint: { color: ui.textMuted, fontSize: 13 },
   errorText: { color: ui.danger, fontSize: 13 },

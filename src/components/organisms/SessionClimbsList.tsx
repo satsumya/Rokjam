@@ -8,6 +8,7 @@ import { ClimbCard } from '../molecules/ClimbCard';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb, SessionSort } from '../../types/climbingSession';
 import { filterClimbs, sortClimbs } from '../../utils/sessionUtils';
+import { interactionStyle } from '../../theme/interaction';
 
 const SORT_OPTIONS: { value: SessionSort; label: string }[] = [
   { value: 'order', label: 'Newest first' },
@@ -79,7 +80,11 @@ export function SessionClimbsList({
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             <Text style={{ fontWeight: '600' }}>Sort:</Text>
             {SORT_OPTIONS.map(({ value, label }) => (
-              <Pressable key={value} onPress={() => setSort(value)}>
+              <Pressable
+                key={value}
+                onPress={() => setSort(value)}
+                style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+              >
                 <Text style={{ fontWeight: sort === value ? '700' : '400' }}>{label}</Text>
               </Pressable>
             ))}
@@ -88,11 +93,18 @@ export function SessionClimbsList({
             <Text style={{ fontWeight: '600' }}>Filter</Text>
             {showDifficultyFilter ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-                <Pressable onPress={() => setFilterDifficulty('')}>
+                <Pressable
+                  onPress={() => setFilterDifficulty('')}
+                  style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+                >
                   <Text style={{ fontWeight: !filterDifficulty ? '700' : '400' }}>All difficulties</Text>
                 </Pressable>
                 {filterableLevels.map((level) => (
-                  <Pressable key={level.id} onPress={() => setFilterDifficulty(level.id)}>
+                  <Pressable
+                    key={level.id}
+                    onPress={() => setFilterDifficulty(level.id)}
+                    style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+                  >
                     <Text style={{ fontWeight: filterDifficulty === level.id ? '700' : '400' }}>
                       {level.name}
                     </Text>
@@ -112,11 +124,18 @@ export function SessionClimbsList({
             />
             {showTagFilter ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
-                <Pressable onPress={() => setFilterTag('')}>
+                <Pressable
+                  onPress={() => setFilterTag('')}
+                  style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+                >
                   <Text style={{ fontWeight: !filterTag ? '700' : '400' }}>All tags</Text>
                 </Pressable>
                 {usedTags.map((tag) => (
-                  <Pressable key={tag} onPress={() => setFilterTag(tag)}>
+                  <Pressable
+                    key={tag}
+                    onPress={() => setFilterTag(tag)}
+                    style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+                  >
                     <Text style={{ fontWeight: filterTag === tag ? '700' : '400' }}>{tag}</Text>
                   </Pressable>
                 ))}

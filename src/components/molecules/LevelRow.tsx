@@ -3,6 +3,7 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import { ui } from '../../theme/colors';
+import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
 
 type Level = {
   id: string;
@@ -34,6 +35,8 @@ export function LevelRow({
   dragSourceId: string | null;
 }) {
   const [showColors, setShowColors] = useState(false);
+  const nameField = useHoverFocus();
+  const hexField = useHoverFocus();
   const colorError = !level.color.trim() ? 'Colour is required' : undefined;
 
   return (
@@ -50,17 +53,23 @@ export function LevelRow({
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
         <Pressable
           onPress={() => (dragSourceId ? onDragTarget(level.id) : onDragStart(level.id))}
-          style={{
-            paddingHorizontal: 6,
-            paddingVertical: 4,
-            borderWidth: 1,
-            borderColor: ui.border,
-            borderRadius: 4,
-          }}
+          style={(state) => [
+            {
+              paddingHorizontal: 6,
+              paddingVertical: 4,
+              borderWidth: 1,
+              borderColor: ui.border,
+              borderRadius: 4,
+            },
+            interactionStyle(state),
+          ]}
         >
           <Text>⋮⋮</Text>
         </Pressable>
-        <Pressable onPress={() => setShowColors((current) => !current)}>
+        <Pressable
+          onPress={() => setShowColors((current) => !current)}
+          style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+        >
           <View
             style={{
               width: 24,
@@ -76,24 +85,36 @@ export function LevelRow({
           value={level.name}
           onChangeText={(name) => onUpdate({ name })}
           placeholder="Level label"
-          style={{
-            flex: 1,
-            borderWidth: 1,
-            borderColor: ui.border,
-            borderRadius: 6,
-            paddingHorizontal: 10,
-            paddingVertical: 6,
-            fontSize: 15,
-          }}
+          {...(nameField.bind as object)}
+          style={[
+            {
+              flex: 1,
+              borderWidth: 1,
+              borderColor: nameField.hovered ? ui.borderStrong : ui.border,
+              borderRadius: 6,
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              fontSize: 15,
+            },
+            nameField.focused ? focusRing : null,
+          ]}
         />
-        <Pressable onPress={onMoveUp} disabled={index === 0}>
+        <Pressable
+          onPress={onMoveUp}
+          disabled={index === 0}
+          style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+        >
           <Text style={{ opacity: index === 0 ? 0.3 : 1, fontSize: 16 }}>↑</Text>
         </Pressable>
-        <Pressable onPress={onMoveDown} disabled={index === total - 1}>
+        <Pressable
+          onPress={onMoveDown}
+          disabled={index === total - 1}
+          style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+        >
           <Text style={{ opacity: index === total - 1 ? 0.3 : 1, fontSize: 16 }}>↓</Text>
         </Pressable>
         {total > 1 ? (
-          <Pressable onPress={onRemove}>
+          <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
             <Text style={{ color: ui.danger, fontWeight: '600' }}>×</Text>
           </Pressable>
         ) : null}
@@ -108,15 +129,18 @@ export function LevelRow({
                 onUpdate({ name: level.name || preset.name, color: preset.color });
                 setShowColors(false);
               }}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 8,
-                padding: 6,
-                borderWidth: 1,
-                borderColor: ui.borderSubtle,
-                borderRadius: 6,
-              }}
+              style={(state) => [
+                {
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: 6,
+                  borderWidth: 1,
+                  borderColor: ui.borderSubtle,
+                  borderRadius: 6,
+                },
+                interactionStyle(state),
+              ]}
             >
               <View
                 style={{
@@ -135,13 +159,17 @@ export function LevelRow({
             value={level.color}
             onChangeText={(color) => onUpdate({ color })}
             placeholder="#HEX custom colour"
-            style={{
-              borderWidth: 1,
-              borderColor: ui.border,
-              borderRadius: 8,
-              padding: 10,
-              fontSize: 16,
-            }}
+            {...(hexField.bind as object)}
+            style={[
+              {
+                borderWidth: 1,
+                borderColor: hexField.hovered ? ui.borderStrong : ui.border,
+                borderRadius: 8,
+                padding: 10,
+                fontSize: 16,
+              },
+              hexField.focused ? focusRing : null,
+            ]}
           />
         </View>
       ) : null}

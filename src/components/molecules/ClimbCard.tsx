@@ -8,6 +8,7 @@ import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb } from '../../types/climbingSession';
 import { bestAttemptProgress } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 type DifficultyLevel = Location['levels'][number];
 
@@ -53,14 +54,21 @@ export function ClimbCard({
     <Card>
       <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
         {onPress ? (
-          <Pressable style={{ flex: 1 }} onPress={onPress}>
+          <Pressable
+            style={(state) => [{ flex: 1, borderRadius: 4 }, interactionStyle(state)]}
+            onPress={onPress}
+          >
             {heading}
           </Pressable>
         ) : (
           <View style={{ flex: 1 }}>{heading}</View>
         )}
         {onRemove ? (
-          <Pressable onPress={onRemove} hitSlop={8}>
+          <Pressable
+            onPress={onRemove}
+            hitSlop={8}
+            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+          >
             <Text style={{ color: ui.danger, fontWeight: '600', fontSize: 14 }}>Remove</Text>
           </Pressable>
         ) : null}
@@ -79,7 +87,7 @@ export function ClimbCard({
       ) : null}
 
       {onPress ? (
-        <Pressable onPress={onPress}>
+        <Pressable onPress={onPress} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
           <Text>{attemptSummary}</Text>
           {climb.tags.length ? <Text>Tags: {climb.tags.join(', ')}</Text> : null}
           {labels.length ? <Text>{labels.join(' · ')}</Text> : null}

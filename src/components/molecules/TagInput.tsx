@@ -4,6 +4,7 @@ import { Text, TextInput, View } from 'react-native';
 import { Button } from '../atoms/Button';
 import { Chip, RemovableChip } from '../atoms/Chip';
 import { ui } from '../../theme/colors';
+import { focusRing, useHoverFocus } from '../../theme/interaction';
 
 export function TagInput({
   label,
@@ -19,6 +20,7 @@ export function TagInput({
   onRemove: (tag: string) => void;
 }) {
   const [draft, setDraft] = useState('');
+  const { hovered, focused, bind } = useHoverFocus();
 
   const handleAdd = () => {
     if (!draft.trim()) return;
@@ -39,15 +41,19 @@ export function TagInput({
           value={draft}
           onChangeText={setDraft}
           placeholder="Add a tag"
-          style={{
-            flex: 1,
-            borderWidth: 1,
-            borderColor: ui.border,
-            borderRadius: 8,
-            paddingHorizontal: 12,
-            paddingVertical: 10,
-            fontSize: 16,
-          }}
+          {...(bind as object)}
+          style={[
+            {
+              flex: 1,
+              borderWidth: 1,
+              borderColor: hovered ? ui.borderStrong : ui.border,
+              borderRadius: 8,
+              paddingHorizontal: 12,
+              paddingVertical: 10,
+              fontSize: 16,
+            },
+            focused ? focusRing : null,
+          ]}
         />
         <Button label="Add" variant="secondary" onPress={handleAdd} />
       </View>

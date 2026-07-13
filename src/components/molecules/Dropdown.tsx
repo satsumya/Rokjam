@@ -11,6 +11,7 @@ import {
 
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 export type DropdownOption = {
   value: string;
@@ -100,10 +101,11 @@ function NativeDropdownMenu({
                   onSelect(option.value);
                   onClose();
                 }}
-                style={[
+                style={(state) => [
                   styles.menuItem,
                   index > 0 ? styles.menuItemBorder : null,
                   option.value === value ? styles.menuItemSelected : null,
+                  interactionStyle(state),
                 ]}
               >
                 <Text style={option.value === value ? styles.menuItemTextSelected : undefined}>
@@ -160,12 +162,15 @@ export function Dropdown({
             ref={triggerRef}
             onPress={openMenu}
             accessibilityRole="button"
-            style={{
-              ...fieldStyle,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
+            style={(state) => [
+              {
+                ...fieldStyle,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              },
+              interactionStyle(state),
+            ]}
           >
             <Text style={{ fontSize: 16, color: ui.text }}>{displayLabel}</Text>
             <Text style={{ color: ui.textMuted }}>▾</Text>

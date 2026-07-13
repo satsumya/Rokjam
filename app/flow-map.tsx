@@ -7,6 +7,7 @@ import type { ScenarioFlow } from '../src/constants/scenarios';
 import { Button, FlowMapDiagram, Screen, Section } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
+import { interactionStyle } from '../src/theme/interaction';
 
 type FlowFilter = ScenarioFlow | 'all';
 
@@ -22,14 +23,17 @@ function FilterChip({
   return (
     <Pressable
       onPress={onPress}
-      style={{
-        borderWidth: 1,
-        borderColor: active ? ui.borderStrong : ui.border,
-        borderRadius: 16,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        backgroundColor: active ? ui.surfaceMuted : ui.surface,
-      }}
+      style={(state) => [
+        {
+          borderWidth: 1,
+          borderColor: active ? ui.borderStrong : ui.border,
+          borderRadius: 16,
+          paddingHorizontal: 12,
+          paddingVertical: 6,
+          backgroundColor: active ? ui.surfaceMuted : ui.surface,
+        },
+        interactionStyle(state),
+      ]}
     >
       <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14 }}>{label}</Text>
     </Pressable>

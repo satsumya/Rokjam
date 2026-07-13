@@ -1,6 +1,7 @@
 import { Pressable, Text } from 'react-native';
 
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 /** Compact outlined chip that toggles on/off (tags, attempt progress). */
 export function ToggleChip({
@@ -17,7 +18,7 @@ export function ToggleChip({
   fontSize?: number;
 }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={(state) => [{ borderRadius: 12 }, interactionStyle(state)]}>
       <Text
         style={{
           borderWidth: 1,

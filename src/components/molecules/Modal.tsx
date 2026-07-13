@@ -2,6 +2,7 @@ import { Modal as RNModal, Pressable, ScrollView, StyleSheet, Text, View } from 
 import type { ReactNode } from 'react';
 
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 export function Modal({
   visible,
@@ -33,7 +34,7 @@ export function Modal({
               accessibilityRole="button"
               accessibilityLabel="Close"
               hitSlop={8}
-              style={styles.modalClose}
+              style={(state) => [styles.modalClose, interactionStyle(state)]}
             >
               <Text style={styles.modalCloseText}>×</Text>
             </Pressable>

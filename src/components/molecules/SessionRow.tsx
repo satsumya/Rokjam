@@ -2,6 +2,7 @@ import { Pressable, Text } from 'react-native';
 
 import { Card } from '../atoms/Card';
 import { formatSessionDate } from '../../utils/sessionUtils';
+import { interactionStyle } from '../../theme/interaction';
 
 export function SessionRow({
   date,
@@ -19,7 +20,7 @@ export function SessionRow({
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={(state) => [{ borderRadius: 8 }, interactionStyle(state)]}>
       <Card>
         <Text style={{ fontWeight: '700' }}>{formatSessionDate(date)}</Text>
         <Text>{location}</Text>

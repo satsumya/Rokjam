@@ -1,5 +1,7 @@
 import { Pressable, Text } from 'react-native';
 
+import { interactionStyle } from '../../theme/interaction';
+
 /** Inline checkbox row rendered as `☑/☐ label`. */
 export function CheckboxRow({
   label,
@@ -11,7 +13,7 @@ export function CheckboxRow({
   onPress: () => void;
 }) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
       <Text>
         {checked ? '☑' : '☐'} {label}
       </Text>

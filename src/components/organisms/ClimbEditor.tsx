@@ -17,6 +17,7 @@ import {
   nextAttemptProgress,
 } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
+import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
 
 type ClimbEditorProps = {
   climb: SessionClimb;
@@ -27,6 +28,7 @@ type ClimbEditorProps = {
 
 export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorProps) {
   const [customTag, setCustomTag] = useState('');
+  const customTagField = useHoverFocus();
 
   const toggleTag = (tag: string) => {
     const next = climb.tags.includes(tag)
@@ -124,22 +126,30 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             value={customTag}
             onChangeText={setCustomTag}
             placeholder="Custom tag"
-            style={{
-              flex: 1,
-              borderWidth: 1,
-              borderColor: ui.border,
-              borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 10,
-              fontSize: 16,
-            }}
+            {...(customTagField.bind as object)}
+            style={[
+              {
+                flex: 1,
+                borderWidth: 1,
+                borderColor: customTagField.hovered ? ui.borderStrong : ui.border,
+                borderRadius: 8,
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                fontSize: 16,
+              },
+              customTagField.focused ? focusRing : null,
+            ]}
           />
           <Button label="Add tag" variant="secondary" onPress={addCustomTag} />
         </View>
         {climb.tags.length ? (
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
             {climb.tags.map((tag) => (
-              <Pressable key={tag} onPress={() => toggleTag(tag)}>
+              <Pressable
+                key={tag}
+                onPress={() => toggleTag(tag)}
+                style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+              >
                 <Text style={{ textDecorationLine: 'underline' }}>{tag} ×</Text>
               </Pressable>
             ))}
@@ -153,7 +163,10 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Text style={{ fontWeight: '600', flex: 1 }}>Attempt {index + 1}</Text>
               {climb.attempts.length > 1 ? (
-                <Pressable onPress={() => removeAttempt(attempt.id)}>
+                <Pressable
+                  onPress={() => removeAttempt(attempt.id)}
+                  style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+                >
                   <Text style={{ color: ui.textMuted, textDecorationLine: 'underline' }}>Remove</Text>
                 </Pressable>
               ) : null}

@@ -3,6 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { formatFlowMapVersionStatus } from '../../utils/flowMapVersionFormat';
 import { ui } from '../../theme/colors';
+import { interactionStyle } from '../../theme/interaction';
 
 export type FlowMapVersionAccordionItem = {
   label: string;
@@ -22,14 +23,17 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
         accessibilityLabel={open ? 'Hide version info' : 'Show version info'}
-        style={({ pressed }) => ({
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 6,
-          alignSelf: 'flex-start',
-          paddingVertical: 4,
-          opacity: pressed ? 0.7 : 1,
-        })}
+        style={(state) => [
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 6,
+            alignSelf: 'flex-start',
+            paddingVertical: 4,
+            borderRadius: 4,
+          },
+          interactionStyle(state),
+        ]}
       >
         <Text style={{ fontSize: 12, color: ui.textMuted }}>{open ? '▾' : '▸'}</Text>
         <Text style={{ fontSize: 12, color: ui.textMuted, fontWeight: '600' }}>Version info</Text>

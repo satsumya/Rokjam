@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 
 import { Button, Card, Screen, Section } from '../src/components';
 import { ui } from '../src/theme/colors';
+import { interactionStyle } from '../src/theme/interaction';
 import {
   MOCK_TEST_VALUES,
   SCENARIO_FLOWS,
@@ -37,14 +38,17 @@ function FilterChip({
   return (
     <Pressable
       onPress={onPress}
-      style={{
-        borderWidth: 1,
-        borderColor: active ? ui.borderStrong : ui.border,
-        borderRadius: 16,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        backgroundColor: active ? ui.surfaceMuted : ui.surface,
-      }}
+      style={(state) => [
+        {
+          borderWidth: 1,
+          borderColor: active ? ui.borderStrong : ui.border,
+          borderRadius: 16,
+          paddingHorizontal: 12,
+          paddingVertical: 6,
+          backgroundColor: active ? ui.surfaceMuted : ui.surface,
+        },
+        interactionStyle(state),
+      ]}
     >
       <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14 }}>{label}</Text>
     </Pressable>

@@ -10,6 +10,7 @@ import {
   Section,
 } from '../src/components';
 import { colors } from '../src/theme/colors';
+import { interactionStyle } from '../src/theme/interaction';
 import { scenarioWebLink } from '../src/constants/scenarios';
 
 function FilterChip({
@@ -24,14 +25,17 @@ function FilterChip({
   return (
     <Pressable
       onPress={onPress}
-      style={{
-        borderWidth: 1,
-        borderColor: active ? colors.neutral[900] : colors.neutral[300],
-        borderRadius: 16,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        backgroundColor: active ? colors.neutral[100] : colors.neutral[50],
-      }}
+      style={(state) => [
+        {
+          borderWidth: 1,
+          borderColor: active ? colors.neutral[900] : colors.neutral[300],
+          borderRadius: 16,
+          paddingHorizontal: 12,
+          paddingVertical: 6,
+          backgroundColor: active ? colors.neutral[100] : colors.neutral[50],
+        },
+        interactionStyle(state),
+      ]}
     >
       <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14, color: colors.neutral[900] }}>
         {label}
