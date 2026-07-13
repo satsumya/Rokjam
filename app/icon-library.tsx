@@ -12,6 +12,7 @@ export default function IconLibraryPage() {
       footer={
         <>
           <Button label="Colour system" variant="secondary" onPress={() => router.push('/color-system')} />
+          <Button label="Typography" variant="ghost" onPress={() => router.push('/typography')} />
           <Button label="Flow map" variant="ghost" onPress={() => router.push('/flow-map')} />
           <Button label="Back to welcome" variant="ghost" onPress={() => router.replace('/')} />
         </>

@@ -158,6 +158,17 @@ export default function ScenariosScreen() {
         </Card>
       </Section>
 
+      <Section title="Typography">
+        <Card>
+          <Text style={{ lineHeight: 22 }}>
+            Preview the type scale — six heading sizes and three body sizes on one modular scale — switch weight
+            and view real copy in each style.
+          </Text>
+          <Button label="Open typography" onPress={() => router.push('/typography')} />
+          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/typography')}</Text>
+        </Card>
+      </Section>
+
       <Section title="Mock test values">
         <Card>
           <Text>Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>

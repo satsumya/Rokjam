@@ -1,6 +1,6 @@
 /**
  * Typography system — see docs/tickets/DesignSystem.md § Typography.
- * Visual reference: /typography (planned)
+ * Visual reference: /typography
  *
  * Built on a single modular scale following
  * https://accessibility.build/guides/accessible-typography-wcag:

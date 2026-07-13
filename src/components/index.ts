@@ -12,6 +12,7 @@ export {
 } from './atoms/Icon';
 export { iconSizes, ICON_SIZE_NAMES, type IconSize } from '../theme/icon';
 export { IconLibraryDiagram } from './organisms/IconLibraryDiagram';
+export { TypographyDiagram } from './organisms/TypographyDiagram';
 export { Text } from './atoms/Text';
 export {
   headingSizes,

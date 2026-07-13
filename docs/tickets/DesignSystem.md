@@ -1,6 +1,6 @@
 ## Typography system
 
-Tokens live in `src/theme/typography.ts` (pure tokens) and `src/theme/fonts.ts` (loadable assets). Consume them through the **`Text` atom** — pass a `variant`, never a raw `fontSize`.
+Visual reference: `/typography` (linked from the Scenario tester). Tokens live in `src/theme/typography.ts` (pure tokens) and `src/theme/fonts.ts` (loadable assets). Consume them through the **`Text` atom** — pass a `variant`, never a raw `fontSize`.
 
 Built on one modular scale, following the [accessible typography guide](https://accessibility.build/guides/accessible-typography-wcag):
 
@@ -44,8 +44,8 @@ The scale consolidates the old ad-hoc sizes: 13/14/15 → 16 body, 11 → 12 sma
 - [x] Heading (6) and body (3) size groups, regular + bold for each
 - [x] Fira Sans (headings) + Saira (body) loaded via `useFonts`
 - [x] Composite `textVariants` roles + `Text` atom with `weight` prop
+- [x] `/typography` visual reference page
 - [ ] App screens migrated from hardcoded `fontSize` to the `Text` atom
-- [ ] `/typography` visual reference page
 - [ ] WCAG 1.4.12 text-spacing override verified on key screens
 
 ## Colour system
