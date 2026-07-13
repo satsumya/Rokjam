@@ -197,9 +197,9 @@ export default function ProfileSetupScreen() {
                   gap: 8,
                 }}
               >
-                {location.isHome ? <Icon name="house" size={16} color={ui.text} /> : null}
+                {location.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
                 <Text style={{ flex: 1, fontWeight: '700' }}>{location.name}</Text>
-                <Icon name={isOpen ? 'caretUp' : 'caretDown'} size={16} color={ui.text} />
+                <Icon name={isOpen ? 'caretUp' : 'caretDown'} size="xs" color={ui.text} />
               </Pressable>
 
               {isOpen ? (

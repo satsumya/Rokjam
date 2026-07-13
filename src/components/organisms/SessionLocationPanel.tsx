@@ -68,7 +68,7 @@ export function SessionLocationPanel({
                 }}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                  {loc.isHome ? <Icon name="house" size={14} color={ui.text} /> : null}
+                  {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
                   <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
                     {loc.nickname ? `${loc.nickname} — ` : ''}
                     {loc.name}
@@ -96,7 +96,7 @@ export function SessionLocationPanel({
       <Text style={{ fontWeight: '600' }}>Location</Text>
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-          {sessionLoc.isHome ? <Icon name="house" size={14} color={ui.text} /> : null}
+          {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
           <Text>
             {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
             {sessionLoc.name}

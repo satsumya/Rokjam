@@ -155,7 +155,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                 ]}
               >
                 <Text style={{ textDecorationLine: 'underline' }}>{tag}</Text>
-                <Icon name="close" size={13} color={ui.text} />
+                <Icon name="close" size="xs" color={ui.text} />
               </Pressable>
             ))}
           </View>

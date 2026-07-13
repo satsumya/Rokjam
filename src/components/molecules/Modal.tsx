@@ -37,7 +37,7 @@ export function Modal({
               hitSlop={8}
               style={(state) => [styles.modalClose, interactionStyle(state)]}
             >
-              <Icon name="close" size={22} color={ui.textMuted} />
+              <Icon name="close" size="md" color={ui.textMuted} />
             </Pressable>
           </View>
           <ScrollView

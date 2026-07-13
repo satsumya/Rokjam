@@ -10,7 +10,7 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
         <View key={item.label} style={styles.hintItemRow}>
           <Icon
             name={item.met ? 'checkCircle' : 'circle'}
-            size={14}
+            size="xs"
             color={item.met ? ui.success : ui.textSubtle}
             weight={item.met ? 'fill' : 'regular'}
           />

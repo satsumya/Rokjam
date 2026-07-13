@@ -45,8 +45,8 @@ export function ClimbCard({
       {climb.levelColor ? <LevelDot color={climb.levelColor} /> : null}
       <Text style={{ fontWeight: '700', flex: 1 }}>{climb.name || 'Unnamed climb'}</Text>
       <View style={{ flexDirection: 'row', gap: 4 }}>
-        {climb.hasImage ? <Icon name="camera" size={16} color={ui.textMuted} title="Photo" /> : null}
-        {climb.hasVideo ? <Icon name="video" size={16} color={ui.textMuted} title="Video" /> : null}
+        {climb.hasImage ? <Icon name="camera" size="xs" color={ui.textMuted} title="Photo" /> : null}
+        {climb.hasVideo ? <Icon name="video" size="xs" color={ui.textMuted} title="Video" /> : null}
       </View>
     </View>
   );

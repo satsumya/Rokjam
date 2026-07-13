@@ -36,7 +36,7 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
           interactionStyle(state),
         ]}
       >
-        <Icon name={open ? 'caretDown' : 'caretRight'} size={12} color={ui.textMuted} />
+        <Icon name={open ? 'caretDown' : 'caretRight'} size="xs" color={ui.textMuted} />
         <Text style={{ fontSize: 12, color: ui.textMuted, fontWeight: '600' }}>Version info</Text>
       </Pressable>
       {open ? (

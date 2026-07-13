@@ -69,7 +69,7 @@ export function RemovableChip({
       ]}
     >
       <Text>{label}</Text>
-      <Icon name="close" size={14} color={ui.text} />
+      <Icon name="close" size="xs" color={ui.text} />
     </Pressable>
   );
 }

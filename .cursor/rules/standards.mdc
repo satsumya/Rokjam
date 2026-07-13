@@ -15,6 +15,7 @@ Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 - Destructive/final actions use bottom sheets; share only after save/end
 - No developer-only copy in the UI
 - Icons come from the `Icon` atom (Phosphor); never hardcode emoji/glyphs as UI icons
+- Size icons with the scale tokens (`xs` 16 · `sm` 20 · `md` 24 · `lg` 32 · `xl` 40), e.g. `<Icon name="house" size="xs" />`; avoid raw pixel numbers
 
 When implementing a flow, read the matching **docs/tickets/Flow/*.md** ticket and update its checkboxes.
 

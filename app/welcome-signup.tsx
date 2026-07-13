@@ -18,7 +18,7 @@ export default function PostSignUpWelcomeScreen() {
       title="Welcome"
       headerRight={
         <Pressable onPress={skipToDashboard} accessibilityRole="button" accessibilityLabel="Skip">
-          <Icon name="close" size={24} color={ui.textMuted} />
+          <Icon name="close" size="md" color={ui.textMuted} />
         </Pressable>
       }
       footer={

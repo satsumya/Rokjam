@@ -34,7 +34,7 @@ export function WcagAaCheck({
         </Text>
         <Icon
           name={aa.passesNormalText ? 'check' : 'close'}
-          size={11}
+          size="xs"
           weight="bold"
           color={aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main}
         />
@@ -51,7 +51,7 @@ export function WcagAaCheck({
         </Text>
         <Icon
           name={aa.passesLargeText ? 'check' : 'close'}
-          size={11}
+          size="xs"
           weight="bold"
           color={aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500]}
         />

@@ -29,7 +29,7 @@ export function CheckboxRow({
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
         <Icon
           name={checked ? 'checkboxChecked' : 'checkboxUnchecked'}
-          size={18}
+          size="sm"
           color={checked ? ui.text : ui.textMuted}
           weight={checked ? 'fill' : 'regular'}
         />

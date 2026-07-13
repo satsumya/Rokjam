@@ -3,6 +3,7 @@
 
 // Atoms
 export { Icon, ICON_NAMES, type IconName } from './atoms/Icon';
+export { iconSizes, ICON_SIZE_NAMES, type IconSize } from '../theme/icon';
 export { Button } from './atoms/Button';
 export { TextField } from './atoms/TextField';
 export { Card } from './atoms/Card';

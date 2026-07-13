@@ -65,7 +65,7 @@ export function LevelRow({
             interactionStyle(state),
           ]}
         >
-          <Icon name="dragHandle" size={18} color={ui.textMuted} />
+          <Icon name="dragHandle" size="sm" color={ui.textMuted} />
         </Pressable>
         <Pressable
           onPress={() => setShowColors((current) => !current)}
@@ -105,7 +105,7 @@ export function LevelRow({
           disabled={index === 0}
           style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
         >
-          <Icon name="arrowUp" size={16} color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
+          <Icon name="arrowUp" size="xs" color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
         </Pressable>
         <Pressable
           onPress={onMoveDown}
@@ -114,14 +114,14 @@ export function LevelRow({
         >
           <Icon
             name="arrowDown"
-            size={16}
+            size="xs"
             color={ui.text}
             style={{ opacity: index === total - 1 ? 0.3 : 1 }}
           />
         </Pressable>
         {total > 1 ? (
           <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
-            <Icon name="close" size={16} color={ui.danger} weight="bold" />
+            <Icon name="close" size="xs" color={ui.danger} weight="bold" />
           </Pressable>
         ) : null}
       </View>

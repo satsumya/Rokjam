@@ -20,6 +20,7 @@ import {
 } from 'phosphor-react-native';
 
 import { ui } from '../../theme/colors';
+import { iconSizes, type IconSize } from '../../theme/icon';
 
 /**
  * Named icon registry — the single source of truth for app iconography, backed
@@ -53,13 +54,18 @@ export type IconName = keyof typeof ICONS;
 
 export const ICON_NAMES = Object.keys(ICONS) as IconName[];
 
+/**
+ * `size` accepts an icon-size token (`xs`–`xl`, the preferred form) or a raw
+ * pixel number as an escape hatch. Defaults to `sm` (20px).
+ */
 export function Icon({
   name,
-  size = 20,
+  size = 'sm',
   color = ui.text,
   weight = 'regular',
   ...rest
-}: { name: IconName } & IconProps) {
+}: { name: IconName; size?: IconSize | number } & Omit<IconProps, 'size'>) {
   const Glyph = ICONS[name];
-  return <Glyph size={size} color={color} weight={weight} {...rest} />;
+  const px = typeof size === 'number' ? size : iconSizes[size];
+  return <Glyph size={px} color={color} weight={weight} {...rest} />;
 }

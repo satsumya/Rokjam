@@ -174,7 +174,7 @@ export function Dropdown({
             ]}
           >
             <Text style={{ fontSize: 16, color: ui.text }}>{displayLabel}</Text>
-            <Icon name="caretDown" size={16} color={ui.textMuted} />
+            <Icon name="caretDown" size="xs" color={ui.textMuted} />
           </Pressable>
           <NativeDropdownMenu
             visible={menuOpen}

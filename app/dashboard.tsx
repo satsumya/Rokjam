@@ -263,7 +263,7 @@ function ViewRow({ label, value, home }: { label: string; value: string; home?: 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
       <Text>{label}: </Text>
-      {home ? <Icon name="house" size={14} color={ui.text} /> : null}
+      {home ? <Icon name="house" size="xs" color={ui.text} /> : null}
       <Text>{value}</Text>
     </View>
   );

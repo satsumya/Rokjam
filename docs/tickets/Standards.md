@@ -18,6 +18,11 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 - [x] No excess prototype text — Remove developer/context-only copy from the UI (e.g. “Returning user lands on dashboard”, “Stored as YYYY-MM-DD”, “Default option: cartoon pet rocks”)
 
+## Iconography
+
+- [x] Icon source — All UI icons come from the `Icon` atom (Phosphor). Never hardcode emoji or glyph characters as icons
+- [x] Icon size scale — Size icons with the scale tokens passed to `Icon`'s `size` prop, not raw pixel numbers: `xs` 16, `sm` 20, `md` 24, `lg` 32, `xl` 40 (e.g. `<Icon name="house" size="xs" />`)
+
 ## Dates & times
 
 - [x] Date display format — Show dates as **Day DD Mmm YYYY** (e.g. Friday 03 Jul 2026)
