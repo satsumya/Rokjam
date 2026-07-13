@@ -25,6 +25,10 @@ import { ui } from '../../theme/colors';
  * Named icon registry — the single source of truth for app iconography, backed
  * by Phosphor (https://phosphoricons.com). Reference icons by name so swapping
  * the underlying set or a single glyph only ever happens here.
+ *
+ * We import from the package barrel (clean prebuilt types); Metro can't resolve
+ * that barrel under its strict package-exports resolver, so metro.config.js
+ * bypasses package exports for phosphor-react-native.
  */
 const ICONS = {
   arrowUp: ArrowUp,
