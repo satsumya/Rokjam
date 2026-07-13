@@ -1,3 +1,53 @@
+## Typography system
+
+Tokens live in `src/theme/typography.ts` (pure tokens) and `src/theme/fonts.ts` (loadable assets). Consume them through the **`Text` atom** — pass a `variant`, never a raw `fontSize`.
+
+Built on one modular scale, following the [accessible typography guide](https://accessibility.build/guides/accessible-typography-wcag):
+
+- **Base body size:** 16px (WCAG-comfortable body minimum)
+- **Ratio:** 1.333 (perfect fourth) — a single ratio across the whole system
+- Each size is `16 × 1.333^step`, rounded to px
+
+Sizes split into two groups drawn from that scale:
+
+- **Headings** — 6 sizes (`headingSizes`, h6→h1): `16 · 21 · 28 · 38 · 51 · 67`
+- **Body** — 3 sizes (`bodySizes`): `12` (small) · `16` (base) · `21` (large)
+
+### Font families & weights
+
+- **Headings:** Fira Sans — `FiraSans_400Regular`, `FiraSans_700Bold`
+- **Body:** Saira — `Saira_400Regular`, `Saira_700Bold`
+
+**Regular and bold are available for every size.** Each weight is a distinct family string (React Native loads weights as separate files); `fontWeight` is set alongside for react-native-web parity. Fonts load in `app/_layout.tsx` via `useFonts`, gated by the splash screen.
+
+### Roles (`textVariants`)
+
+Consume via the `Text` atom: `<Text variant="h2" weight="bold">`. Headings default to **bold**, body to **regular**; pass `weight="regular"` / `weight="bold"` to switch. Line-height follows the guide — tighter as size grows.
+
+| Variant | Family | Size | Line-height | Default weight | Use |
+| --- | --- | --- | --- | --- | --- |
+| `h1` | Fira Sans | 67 | 1.1 | bold | Display / hero |
+| `h2` | Fira Sans | 51 | 1.15 | bold | Page headings |
+| `h3` | Fira Sans | 38 | 1.2 | bold | Large headings |
+| `h4` | Fira Sans | 28 | 1.25 | bold | Screen titles |
+| `h5` | Fira Sans | 21 | 1.3 | bold | Section, sheet & modal titles |
+| `h6` | Fira Sans | 16 | 1.35 | bold | Small subheadings |
+| `bodyLarge` | Saira | 21 | 1.5 | regular | Lead / emphasised copy |
+| `body` | Saira | 16 | 1.5 | regular | Default body (base) |
+| `bodySmall` | Saira | 12 | 1.5 | regular | Hints, meta, captions |
+
+The scale consolidates the old ad-hoc sizes: 13/14/15 → 16 body, 11 → 12 small, 18/22/24 → 21/28, 32 → 28. Migrating existing hardcoded `fontSize` usages to the `Text` atom is the follow-up (mirrors the colour migration still in progress).
+
+### Checklist
+
+- [x] Modular type scale (base 16, ratio 1.333)
+- [x] Heading (6) and body (3) size groups, regular + bold for each
+- [x] Fira Sans (headings) + Saira (body) loaded via `useFonts`
+- [x] Composite `textVariants` roles + `Text` atom with `weight` prop
+- [ ] App screens migrated from hardcoded `fontSize` to the `Text` atom
+- [ ] `/typography` visual reference page
+- [ ] WCAG 1.4.12 text-spacing override verified on key screens
+
 ## Colour system
 
 Visual reference: `/color-system` (also linked from Scenario tester). Tokens live in `src/theme/colors.ts`.

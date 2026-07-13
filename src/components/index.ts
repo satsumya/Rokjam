@@ -12,6 +12,21 @@ export {
 } from './atoms/Icon';
 export { iconSizes, ICON_SIZE_NAMES, type IconSize } from '../theme/icon';
 export { IconLibraryDiagram } from './organisms/IconLibraryDiagram';
+export { Text } from './atoms/Text';
+export {
+  headingSizes,
+  bodySizes,
+  fontFamilies,
+  fontWeights,
+  textVariants,
+  textStyle,
+  modularStep,
+  FONT_BASE,
+  FONT_RATIO,
+  TEXT_VARIANT_NAMES,
+  type TextVariant,
+  type FontWeightName,
+} from '../theme/typography';
 export { Button } from './atoms/Button';
 export { TextField } from './atoms/TextField';
 export { Card } from './atoms/Card';

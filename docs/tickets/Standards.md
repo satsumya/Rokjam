@@ -18,6 +18,13 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 - [x] No excess prototype text — Remove developer/context-only copy from the UI (e.g. “Returning user lands on dashboard”, “Stored as YYYY-MM-DD”, “Default option: cartoon pet rocks”)
 
+## Typography
+
+- [ ] Text source — All UI text comes from the `Text` atom with a `variant` from the type scale (`src/theme/typography.ts`). Never hardcode `fontSize`, `fontFamily`, or `lineHeight`
+- [ ] Type scale — One modular scale: base body **16px**, ratio **1.333** (perfect fourth). Headings (6): 16 · 21 · 28 · 38 · 51 · 67 (`h6`–`h1`); body (3): 12 · 16 · 21 (`bodySmall`, `body`, `bodyLarge`)
+- [ ] Font families & weights — Fira Sans for headings, Saira for body; regular + bold available for every size via the `weight` prop (headings default bold, body default regular)
+- [ ] Roles — Use the semantic variant, not a size: `h4` for screen titles, `h5` for section/sheet/modal titles, `body` for copy, `bodyLarge`/`body` `weight="bold"` for labels & buttons, `bodySmall` for hints/meta. See DesignSystem.md § Typography for the full table
+
 ## Iconography
 
 - [x] Icon source — All UI icons come from the `Icon` atom (Phosphor). Never hardcode emoji or glyph characters as icons
