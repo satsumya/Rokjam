@@ -2,6 +2,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
+import { Icon } from '../atoms/Icon';
 import { LevelDot } from '../atoms/LevelDot';
 import { DifficultyPicker } from './DifficultyPicker';
 import type { Location } from '../../context/PrototypeContext';
@@ -44,8 +45,8 @@ export function ClimbCard({
       {climb.levelColor ? <LevelDot color={climb.levelColor} /> : null}
       <Text style={{ fontWeight: '700', flex: 1 }}>{climb.name || 'Unnamed climb'}</Text>
       <View style={{ flexDirection: 'row', gap: 4 }}>
-        {climb.hasImage ? <Text accessibilityLabel="Photo">📷</Text> : null}
-        {climb.hasVideo ? <Text accessibilityLabel="Video">🎥</Text> : null}
+        {climb.hasImage ? <Icon name="camera" size={16} color={ui.textMuted} title="Photo" /> : null}
+        {climb.hasVideo ? <Icon name="video" size={16} color={ui.textMuted} title="Video" /> : null}
       </View>
     </View>
   );

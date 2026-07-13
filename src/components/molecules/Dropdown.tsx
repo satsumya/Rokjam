@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import { Icon } from '../atoms/Icon';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
@@ -173,7 +174,7 @@ export function Dropdown({
             ]}
           >
             <Text style={{ fontSize: 16, color: ui.text }}>{displayLabel}</Text>
-            <Text style={{ color: ui.textMuted }}>▾</Text>
+            <Icon name="caretDown" size={16} color={ui.textMuted} />
           </Pressable>
           <NativeDropdownMenu
             visible={menuOpen}

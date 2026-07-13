@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   DashboardTrends,
+  Icon,
   Link,
   Screen,
   Section,
@@ -260,9 +261,10 @@ export default function DashboardScreen() {
 
 function ViewRow({ label, value, home }: { label: string; value: string; home?: boolean }) {
   return (
-    <Text>
-      {label}: {home ? '🏠 ' : ''}
-      {value}
-    </Text>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+      <Text>{label}: </Text>
+      {home ? <Icon name="house" size={14} color={ui.text} /> : null}
+      <Text>{value}</Text>
+    </View>
   );
 }

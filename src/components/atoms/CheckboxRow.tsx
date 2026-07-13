@@ -1,8 +1,10 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
+import { Icon } from './Icon';
+import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
-/** Inline checkbox row rendered as `☑/☐ label`. */
+/** Inline checkbox row: a checkbox icon followed by its label. */
 export function CheckboxRow({
   label,
   checked,
@@ -24,9 +26,15 @@ export function CheckboxRow({
         previewInteractionStyle(previewState),
       ]}
     >
-      <Text>
-        {checked ? '☑' : '☐'} {label}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <Icon
+          name={checked ? 'checkboxChecked' : 'checkboxUnchecked'}
+          size={18}
+          color={checked ? ui.text : ui.textMuted}
+          weight={checked ? 'fill' : 'regular'}
+        />
+        <Text>{label}</Text>
+      </View>
     </Pressable>
   );
 }

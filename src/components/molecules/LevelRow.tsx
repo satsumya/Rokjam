@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
+import { Icon } from '../atoms/Icon';
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import { ui } from '../../theme/colors';
 import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
@@ -64,7 +65,7 @@ export function LevelRow({
             interactionStyle(state),
           ]}
         >
-          <Text>⋮⋮</Text>
+          <Icon name="dragHandle" size={18} color={ui.textMuted} />
         </Pressable>
         <Pressable
           onPress={() => setShowColors((current) => !current)}
@@ -104,18 +105,23 @@ export function LevelRow({
           disabled={index === 0}
           style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
         >
-          <Text style={{ opacity: index === 0 ? 0.3 : 1, fontSize: 16 }}>↑</Text>
+          <Icon name="arrowUp" size={16} color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
         </Pressable>
         <Pressable
           onPress={onMoveDown}
           disabled={index === total - 1}
           style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
         >
-          <Text style={{ opacity: index === total - 1 ? 0.3 : 1, fontSize: 16 }}>↓</Text>
+          <Icon
+            name="arrowDown"
+            size={16}
+            color={ui.text}
+            style={{ opacity: index === total - 1 ? 0.3 : 1 }}
+          />
         </Pressable>
         {total > 1 ? (
           <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
-            <Text style={{ color: ui.danger, fontWeight: '600' }}>×</Text>
+            <Icon name="close" size={16} color={ui.danger} weight="bold" />
           </Pressable>
         ) : null}
       </View>

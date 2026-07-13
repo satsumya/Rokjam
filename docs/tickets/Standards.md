@@ -34,7 +34,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 ## Locations
 
 - [x] Address search — Location fields use address search with suggestions as the user types; offer “add anyway” when no match is found; suggestions in a capped, scrollable list
-- [x] Home location symbol — Mark home/base location with 🏠, not the words “home” or “base”
+- [x] Home location symbol — Mark home/base location with the house icon (`<Icon name="house" />`), not the words “home” or “base”
 
 ## Difficulty levels
 

@@ -1,5 +1,6 @@
 import { Pressable, Text } from 'react-native';
 
+import { Icon } from './Icon';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
@@ -68,7 +69,7 @@ export function RemovableChip({
       ]}
     >
       <Text>{label}</Text>
-      <Text style={{ fontWeight: '700' }}>×</Text>
+      <Icon name="close" size={14} color={ui.text} />
     </Pressable>
   );
 }

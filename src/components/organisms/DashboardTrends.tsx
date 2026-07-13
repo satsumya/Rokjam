@@ -1,6 +1,7 @@
 import { Pressable, Text, View } from 'react-native';
 
 import { Card } from '../atoms/Card';
+import { Icon } from '../atoms/Icon';
 import { Section } from '../atoms/Section';
 import { MiniBars } from '../molecules/MiniBars';
 import { ui } from '../../theme/colors';
@@ -82,9 +83,12 @@ export function DashboardTrends({
         <Card>
           <Text style={{ fontWeight: '700' }}>Standout climbs</Text>
           {standouts.map((t) => (
-            <Text key={t.label}>
-              🎉 {t.label}: {t.detail}
-            </Text>
+            <View key={t.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Icon name="sparkle" size={16} color={ui.text} weight="fill" />
+              <Text>
+                {t.label}: {t.detail}
+              </Text>
+            </View>
           ))}
         </Card>
       ) : null}

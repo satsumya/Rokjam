@@ -51,7 +51,7 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Attempt summary in order of priority: Flash, Send, then Partial (start/middle/end)
 - [x] able to quick view all attempts and edit
 - [x] Name
-- [x] If media has been added (icons: 📷 photo, 🎥 video)
+- [x] If media has been added (icons: camera for photo, video camera for video)
 - [x] If it's a new climb (e.g. not a repeat climb) — text label: New (repeat climbs are unlabelled)
 - [x] at least one tag (if tags are added)
 - [x] able to quick view all tags

@@ -10,10 +10,11 @@ Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 - Required fields use `*` only; never label fields "optional"
 - New-user forms start blank; validate inline (not only on submit)
 - Dates: **Day DD Mmm YYYY**; time/duration: preset dropdown + custom value
-- Address search with suggestions; "add anyway" when no match; home = 🏠
+- Address search with suggestions; "add anyway" when no match; home = house icon
 - Tags as removable chips with suggestions; typing is secondary
 - Destructive/final actions use bottom sheets; share only after save/end
 - No developer-only copy in the UI
+- Icons come from the `Icon` atom (Phosphor); never hardcode emoji/glyphs as UI icons
 
 When implementing a flow, read the matching **docs/tickets/Flow/*.md** ticket and update its checkboxes.
 

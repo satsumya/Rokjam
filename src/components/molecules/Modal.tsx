@@ -1,6 +1,7 @@
 import { Modal as RNModal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { ReactNode } from 'react';
 
+import { Icon } from '../atoms/Icon';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 
@@ -36,7 +37,7 @@ export function Modal({
               hitSlop={8}
               style={(state) => [styles.modalClose, interactionStyle(state)]}
             >
-              <Text style={styles.modalCloseText}>×</Text>
+              <Icon name="close" size={22} color={ui.textMuted} />
             </Pressable>
           </View>
           <ScrollView
@@ -88,7 +89,6 @@ const styles = StyleSheet.create({
   },
   modalTitle: { flex: 1, fontSize: 18, fontWeight: '700', color: ui.text },
   modalClose: { padding: 4 },
-  modalCloseText: { fontSize: 28, lineHeight: 28, color: ui.textMuted },
   modalBody: { flexGrow: 0, flexShrink: 1 },
   modalBodyContent: { padding: 20, gap: 12 },
   modalFooter: {

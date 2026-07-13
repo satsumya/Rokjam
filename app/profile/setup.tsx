@@ -6,6 +6,7 @@ import {
   AddressSearch,
   Button,
   Card,
+  Icon,
   LevelRow,
   Link,
   Screen,
@@ -196,9 +197,9 @@ export default function ProfileSetupScreen() {
                   gap: 8,
                 }}
               >
-                {location.isHome ? <Text>🏠</Text> : null}
+                {location.isHome ? <Icon name="house" size={16} color={ui.text} /> : null}
                 <Text style={{ flex: 1, fontWeight: '700' }}>{location.name}</Text>
-                <Text>{isOpen ? '▲' : '▼'}</Text>
+                <Icon name={isOpen ? 'caretUp' : 'caretDown'} size={16} color={ui.text} />
               </Pressable>
 
               {isOpen ? (

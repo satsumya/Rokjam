@@ -4,6 +4,7 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
 import { CheckboxRow } from '../atoms/CheckboxRow';
+import { Icon } from '../atoms/Icon';
 import { ToggleChip } from '../atoms/ToggleChip';
 import { Section } from '../atoms/Section';
 import { TextField } from '../atoms/TextField';
@@ -148,9 +149,13 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
               <Pressable
                 key={tag}
                 onPress={() => toggleTag(tag)}
-                style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+                style={(state) => [
+                  { borderRadius: 4, flexDirection: 'row', alignItems: 'center', gap: 4 },
+                  interactionStyle(state),
+                ]}
               >
-                <Text style={{ textDecorationLine: 'underline' }}>{tag} ×</Text>
+                <Text style={{ textDecorationLine: 'underline' }}>{tag}</Text>
+                <Icon name="close" size={13} color={ui.text} />
               </Pressable>
             ))}
           </View>

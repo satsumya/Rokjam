@@ -3,6 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
+import { Icon } from '../atoms/Icon';
 import { Link } from '../atoms/Link';
 import { AddLocationSheet } from './AddLocationSheet';
 import { usePrototype } from '../../context/PrototypeContext';
@@ -66,11 +67,13 @@ export function SessionLocationPanel({
                   setChangingLocation(false);
                 }}
               >
-                <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
-                  {loc.isHome ? '🏠 ' : ''}
-                  {loc.nickname ? `${loc.nickname} — ` : ''}
-                  {loc.name}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  {loc.isHome ? <Icon name="house" size={14} color={ui.text} /> : null}
+                  <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
+                    {loc.nickname ? `${loc.nickname} — ` : ''}
+                    {loc.name}
+                  </Text>
+                </View>
               </Pressable>
             ))}
           </View>
@@ -92,11 +95,13 @@ export function SessionLocationPanel({
     <View style={{ gap: 8 }}>
       <Text style={{ fontWeight: '600' }}>Location</Text>
       <Card>
-        <Text>
-          {sessionLoc.isHome ? '🏠 ' : ''}
-          {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
-          {sessionLoc.name}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          {sessionLoc.isHome ? <Icon name="house" size={14} color={ui.text} /> : null}
+          <Text>
+            {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
+            {sessionLoc.name}
+          </Text>
+        </View>
         {locations.length > 1 ? (
           <Link label="Change location" onPress={() => setChangingLocation(true)} />
         ) : null}

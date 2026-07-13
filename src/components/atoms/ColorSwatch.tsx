@@ -1,5 +1,6 @@
 import { Text, View } from 'react-native';
 
+import { Icon } from './Icon';
 import { colors } from '../../theme/colors';
 import { contrastRatio, formatContrastRatio, wcagAaStatus } from '../../theme/colorUtils';
 
@@ -20,25 +21,50 @@ export function WcagAaCheck({
 
   return (
     <View style={{ gap: 2, marginTop: 2 }}>
-      <Text
-        style={{
-          fontSize: 10,
-          lineHeight: 14,
-          color: aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main,
-          fontWeight: '600',
-        }}
-      >
-        AA normal {formatContrastRatio(aa.ratio)} {aa.passesNormalText ? '✓' : '✗'}
-      </Text>
-      <Text
-        style={{
-          fontSize: 10,
-          lineHeight: 14,
-          color: aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500],
-        }}
-      >
-        AA large {aa.passesLargeText ? '✓' : '✗'} (3:1)
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+        <Text
+          style={{
+            fontSize: 10,
+            lineHeight: 14,
+            color: aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main,
+            fontWeight: '600',
+          }}
+        >
+          AA normal {formatContrastRatio(aa.ratio)}
+        </Text>
+        <Icon
+          name={aa.passesNormalText ? 'check' : 'close'}
+          size={11}
+          weight="bold"
+          color={aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main}
+        />
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+        <Text
+          style={{
+            fontSize: 10,
+            lineHeight: 14,
+            color: aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500],
+          }}
+        >
+          AA large
+        </Text>
+        <Icon
+          name={aa.passesLargeText ? 'check' : 'close'}
+          size={11}
+          weight="bold"
+          color={aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500]}
+        />
+        <Text
+          style={{
+            fontSize: 10,
+            lineHeight: 14,
+            color: aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500],
+          }}
+        >
+          (3:1)
+        </Text>
+      </View>
     </View>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import { Icon } from '../atoms/Icon';
 import { formatFlowMapVersionStatus } from '../../utils/flowMapVersionFormat';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
@@ -35,7 +36,7 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
           interactionStyle(state),
         ]}
       >
-        <Text style={{ fontSize: 12, color: ui.textMuted }}>{open ? '▾' : '▸'}</Text>
+        <Icon name={open ? 'caretDown' : 'caretRight'} size={12} color={ui.textMuted} />
         <Text style={{ fontSize: 12, color: ui.textMuted, fontWeight: '600' }}>Version info</Text>
       </Pressable>
       {open ? (
