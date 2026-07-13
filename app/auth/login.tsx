@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Button, Link, Screen, TextField } from '../../src/components';
+import { Button, Link, Screen, Text, TextField } from '../../src/components';
 import { ui } from '../../src/theme/colors';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
@@ -80,7 +79,7 @@ export default function LoginScreen() {
       }
     >
       {existing === '1' ? (
-        <Text style={{ color: ui.textMuted, marginBottom: 8 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 8 }}>
           An account already exists for this email. Log in instead.
         </Text>
       ) : null}

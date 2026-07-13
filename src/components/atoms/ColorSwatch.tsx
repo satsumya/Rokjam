@@ -1,6 +1,7 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Icon } from './Icon';
+import { Text } from './Text';
 import { colors } from '../../theme/colors';
 import { contrastRatio, formatContrastRatio, wcagAaStatus } from '../../theme/colorUtils';
 
@@ -23,12 +24,10 @@ export function WcagAaCheck({
     <View style={{ gap: 2, marginTop: 2 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
         <Text
-          style={{
-            fontSize: 10,
-            lineHeight: 14,
-            color: aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main,
-            fontWeight: '600',
-          }}
+          variant="bodySmall"
+          weight="bold"
+          color={aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main}
+          style={{ fontSize: 10, lineHeight: 14 }}
         >
           AA normal {formatContrastRatio(aa.ratio)}
         </Text>
@@ -40,11 +39,9 @@ export function WcagAaCheck({
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
         <Text
-          style={{
-            fontSize: 10,
-            lineHeight: 14,
-            color: aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500],
-          }}
+          variant="bodySmall"
+          color={aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500]}
+          style={{ fontSize: 10, lineHeight: 14 }}
         >
           AA large
         </Text>
@@ -54,11 +51,9 @@ export function WcagAaCheck({
           color={aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500]}
         />
         <Text
-          style={{
-            fontSize: 10,
-            lineHeight: 14,
-            color: aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500],
-          }}
+          variant="bodySmall"
+          color={aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500]}
+          style={{ fontSize: 10, lineHeight: 14 }}
         >
           (3:1)
         </Text>
@@ -97,23 +92,38 @@ export function ShadeSwatch({
         {contrasts.length ? (
           contrasts.map((contrast) => (
             <View key={contrast.token} style={{ gap: 1 }}>
-              <Text style={{ fontSize: 13, fontWeight: '700', color: contrast.color }}>Aa</Text>
-              <Text style={{ fontSize: 9, fontWeight: '600', color: contrast.color, opacity: 0.85 }}>
+              <Text variant="bodySmall" weight="bold" color={contrast.color} style={{ fontSize: 13 }}>
+                Aa
+              </Text>
+              <Text
+                variant="bodySmall"
+                weight="bold"
+                color={contrast.color}
+                style={{ fontSize: 9, opacity: 0.85 }}
+              >
                 {contrast.label}
               </Text>
             </View>
           ))
         ) : accentBorder ? (
-          <Text style={{ fontSize: 10, fontWeight: '600', color: colors.neutral[600] }}>Border / icon</Text>
+          <Text variant="bodySmall" weight="bold" color={colors.neutral[600]} style={{ fontSize: 10 }}>
+            Border / icon
+          </Text>
         ) : null}
       </View>
-      <Text style={{ fontSize: 12, fontWeight: '700', color: colors.neutral[900] }}>{token}</Text>
-      <Text style={{ fontSize: 11, color: colors.neutral[600], fontFamily: 'monospace' }}>
+      <Text variant="bodySmall" weight="bold" color={colors.neutral[900]}>
+        {token}
+      </Text>
+      <Text
+        variant="bodySmall"
+        color={colors.neutral[600]}
+        style={{ fontSize: 11, fontFamily: 'monospace' }}
+      >
         {accentBorder ?? background}
       </Text>
       {contrasts.map((contrast) => (
         <View key={`${contrast.token}-meta`}>
-          <Text style={{ fontSize: 10, color: colors.neutral[500], lineHeight: 14 }}>
+          <Text variant="bodySmall" color={colors.neutral[500]} style={{ fontSize: 10, lineHeight: 14 }}>
             {contrast.token}: {contrast.color}
           </Text>
           <WcagAaCheck foreground={contrast.color} background={shadeBackground} />
@@ -142,10 +152,20 @@ export function Swatch({ token, value }: { token: string; value: string }) {
           padding: 8,
         }}
       >
-        <Text style={{ fontSize: 11, fontWeight: '700', color: fg }}>Aa</Text>
+        <Text variant="bodySmall" weight="bold" color={fg} style={{ fontSize: 11 }}>
+          Aa
+        </Text>
       </View>
-      <Text style={{ fontSize: 12, fontWeight: '700', color: colors.neutral[900] }}>{token}</Text>
-      <Text style={{ fontSize: 11, color: colors.neutral[600], fontFamily: 'monospace' }}>{value}</Text>
+      <Text variant="bodySmall" weight="bold" color={colors.neutral[900]}>
+        {token}
+      </Text>
+      <Text
+        variant="bodySmall"
+        color={colors.neutral[600]}
+        style={{ fontSize: 11, fontFamily: 'monospace' }}
+      >
+        {value}
+      </Text>
     </View>
   );
 }

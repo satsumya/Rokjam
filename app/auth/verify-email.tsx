@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Button, Link, Screen, TextField } from '../../src/components';
+import { Button, Link, Screen, Text, TextField } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { ui } from '../../src/theme/colors';
 import { getVerificationCodeError } from '../../src/utils/validation';
@@ -42,10 +41,14 @@ export default function VerifyEmailScreen() {
         </>
       }
     >
-      <Text style={{ color: ui.textMuted, marginBottom: 8 }}>
+      <Text variant="body" color={ui.textMuted} style={{ marginBottom: 8 }}>
         Enter the 6-digit code sent to {email || 'your email'}.
       </Text>
-      {resent ? <Text style={{ color: ui.success }}>A new code has been sent.</Text> : null}
+      {resent ? (
+        <Text variant="body" color={ui.success}>
+          A new code has been sent.
+        </Text>
+      ) : null}
       <TextField
         label="Verification code"
         required

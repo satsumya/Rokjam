@@ -1,4 +1,4 @@
-import { Image, Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Image, Platform, Pressable, ScrollView, View } from 'react-native';
 
 import {
   FLOW_FRAME_MIN_HEIGHT,
@@ -27,6 +27,7 @@ import type { FlowMapVersionEntry } from '../../constants/flowMapManifest';
 
 import { FlowMapActionButton } from '../atoms/FlowMapActionButton';
 import { Section } from '../atoms/Section';
+import { Text } from '../atoms/Text';
 import { FlowMapVersionAccordion } from '../molecules/FlowMapVersionAccordion';
 import { colors, ui } from '../../theme/colors';
 import { focusRing, interactionFlags } from '../../theme/interaction';
@@ -298,7 +299,9 @@ function FlowScreenNode({
             />
           ) : (
             <View style={{ flex: 1, backgroundColor: ui.borderSubtle, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: ui.textMuted, fontSize: 12 }}>No preview</Text>
+              <Text variant="bodySmall" color={ui.textMuted}>
+                No preview
+              </Text>
             </View>
           )}
         </View>
@@ -314,14 +317,7 @@ function FlowScreenNode({
           flexWrap: 'wrap',
         }}
       >
-        <Text
-          style={{
-            fontWeight: '700',
-            fontSize: 14,
-            textAlign: 'center',
-            color: ui.text,
-          }}
-        >
+        <Text variant="body" weight="bold" style={{ textAlign: 'center' }}>
           {displayName}
         </Text>
         {canDownload ? (
@@ -345,7 +341,11 @@ function FlowScreenNode({
       </View>
 
       {subtitle ? (
-        <Text style={{ marginTop: 2, fontSize: 11, textAlign: 'center', color: ui.textMuted, lineHeight: 15 }}>
+        <Text
+          variant="bodySmall"
+          color={ui.textMuted}
+          style={{ marginTop: 2, fontSize: 11, textAlign: 'center' }}
+        >
           {subtitle}
         </Text>
       ) : null}
@@ -441,7 +441,9 @@ function FlowJourneyCanvas({
       }
     >
       <FlowMapVersionAccordion items={versionItems} />
-      <Text style={{ color: ui.textMuted, marginBottom: 16, lineHeight: 20 }}>{journey.description}</Text>
+      <Text variant="body" color={ui.textMuted} style={{ marginBottom: 16 }}>
+        {journey.description}
+      </Text>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator
@@ -525,10 +527,12 @@ export function FlowMapDiagram({
             marginBottom: 12,
           }}
         >
-          <Text style={{ color: colors.brand.yellow.dark, lineHeight: 20 }}>
+          <Text variant="body" color={colors.brand.yellow.dark}>
             To use Update buttons, run{' '}
-            <Text style={{ fontWeight: '700' }}>npm run flow-map-capture-server</Text> in a second terminal
-            while this app is running.
+            <Text variant="body" weight="bold">
+              npm run flow-map-capture-server
+            </Text>{' '}
+            in a second terminal while this app is running.
           </Text>
         </View>
       ) : null}
@@ -543,7 +547,9 @@ export function FlowMapDiagram({
             marginBottom: 12,
           }}
         >
-          <Text style={{ color: colors.brand.red.dark }}>{capture.error}</Text>
+          <Text variant="body" color={colors.brand.red.dark}>
+            {capture.error}
+          </Text>
         </View>
       ) : null}
       {capture.info ? (
@@ -557,7 +563,9 @@ export function FlowMapDiagram({
             marginBottom: 12,
           }}
         >
-          <Text style={{ color: colors.brand.green.dark }}>{capture.info}</Text>
+          <Text variant="body" color={colors.brand.green.dark}>
+            {capture.info}
+          </Text>
         </View>
       ) : null}
       {journeys.map((journey) => (

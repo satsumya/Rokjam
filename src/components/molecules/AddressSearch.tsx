@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { ADDRESS_SUGGESTIONS } from '../../constants/mockData';
 import { Button } from '../atoms/Button';
+import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
@@ -95,7 +96,7 @@ export function AddressSearch({
                     interactionStyle(state),
                   ]}
                 >
-                  <Text>{item}</Text>
+                  <Text variant="body">{item}</Text>
                 </Pressable>
               ))}
             </ScrollView>
@@ -104,12 +105,14 @@ export function AddressSearch({
       </View>
 
       {query.trim().length >= 2 && suggestions.length === 0 && !showAddAnyway ? (
-        <Text style={{ color: ui.textMuted, fontSize: 13 }}>No matches found.</Text>
+        <Text variant="bodySmall" color={ui.textMuted}>
+          No matches found.
+        </Text>
       ) : null}
 
       {showAddAnyway ? (
         <View style={{ gap: 8 }}>
-          <Text style={{ color: ui.textMuted, fontSize: 13 }}>
+          <Text variant="bodySmall" color={ui.textMuted}>
             Address not found. You can add it anyway.
           </Text>
           <Button

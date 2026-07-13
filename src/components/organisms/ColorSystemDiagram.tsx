@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import {
   BRAND_COLOR_ORDER,
@@ -12,6 +12,7 @@ import {
 } from '../../theme/colors';
 import { withAlpha } from '../../theme/colorUtils';
 import { Section } from '../atoms/Section';
+import { Text } from '../atoms/Text';
 import { ShadeSwatch, Swatch, WcagAaCheck } from '../atoms/ColorSwatch';
 import { PaletteRow } from '../molecules/PaletteRow';
 
@@ -118,7 +119,9 @@ function SemanticPaletteSection({ id }: { id: SemanticColorId }) {
 function AlphaPreview({ title, baseToken, baseColor }: { title: string; baseToken: string; baseColor: string }) {
   return (
     <View style={{ gap: 10 }}>
-      <Text style={{ fontSize: 14, fontWeight: '700', color: colors.neutral[900] }}>{title}</Text>
+      <Text variant="body" weight="bold" color={colors.neutral[900]}>
+        {title}
+      </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
         {ALPHA_STEPS.map((alpha) => (
           <View key={alpha} style={{ width: 120, gap: 6 }}>
@@ -131,7 +134,7 @@ function AlphaPreview({ title, baseToken, baseColor }: { title: string; baseToke
                 borderColor: colors.neutral[200],
               }}
             />
-            <Text style={{ fontSize: 11, fontWeight: '600', color: colors.neutral[800] }}>
+            <Text variant="bodySmall" weight="bold" color={colors.neutral[800]} style={{ fontSize: 11 }}>
               {baseToken} @ {Math.round(alpha * 100)}%
             </Text>
           </View>
@@ -150,7 +153,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
     <>
       {showBrand ? (
         <Section title="Brand colours">
-          <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 8 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 8 }}>
             Used for climbing difficulty levels and brand accents. Contrast colours are for text on their
             related shade — e.g. text on `brand.yellow.main` uses `main.contrast.alt` or `main.contrast.tonal`.
             Each contrast shows WCAG AA pass/fail (normal text 4.5:1, large text 3:1).
@@ -165,7 +168,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {showNeutral ? (
         <Section title="Neutral (sandy)">
-          <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 8 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 8 }}>
             50–100 for backgrounds; 800–900 for text.
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator nestedScrollEnabled>
@@ -180,7 +183,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {showSemantic ? (
         <Section title="Semantic colours">
-          <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 8 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 8 }}>
             Negative, attention, positive, info, and discovery states.
           </Text>
           <View style={{ gap: 20 }}>
@@ -193,7 +196,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {filter === 'all' ? (
         <Section title="Alpha previews">
-          <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 12 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 12 }}>
             Main shades with alpha blending — useful for overlays and subtle fills.
           </Text>
           <View style={{ gap: 20 }}>
@@ -210,7 +213,7 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {filter === 'all' ? (
         <Section title="Climbing difficulty chips">
-          <Text style={{ color: colors.neutral[600], lineHeight: 20, marginBottom: 12 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 12 }}>
             How brand colours appear on level labels in the app.
           </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
@@ -229,7 +232,9 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
                       borderColor: colors.neutral[300],
                     }}
                   >
-                    <Text style={{ fontWeight: '700', color: text }}>{brandColorLabel(id)}</Text>
+                    <Text variant="body" weight="bold" color={text}>
+                      {brandColorLabel(id)}
+                    </Text>
                   </View>
                   <WcagAaCheck foreground={text} background={token.main} />
                 </View>

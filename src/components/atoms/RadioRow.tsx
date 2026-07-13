@@ -5,15 +5,18 @@ import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
-/** Inline checkbox row: a checkbox icon followed by its label. */
-export function CheckboxRow({
+/**
+ * Inline radio row: a radio icon followed by its label. Use within a group where
+ * exactly one option is selected; the parent owns the exclusive selection state.
+ */
+export function RadioRow({
   label,
-  checked,
+  selected,
   onPress,
   previewState,
 }: {
   label: string;
-  checked: boolean;
+  selected: boolean;
   onPress: () => void;
   /** Preview/Storybook only: force a hover/press/focus visual state. */
   previewState?: PreviewState;
@@ -21,6 +24,8 @@ export function CheckboxRow({
   return (
     <Pressable
       onPress={onPress}
+      accessibilityRole="radio"
+      accessibilityState={{ selected }}
       style={(state) => [
         { borderRadius: 4 },
         interactionStyle(state),
@@ -29,10 +34,10 @@ export function CheckboxRow({
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
         <Icon
-          name={checked ? 'checkboxChecked' : 'checkboxUnchecked'}
+          name={selected ? 'radioSelected' : 'radioUnselected'}
           size="sm"
-          color={checked ? ui.text : ui.textMuted}
-          weight={checked ? 'fill' : 'regular'}
+          color={selected ? ui.text : ui.textMuted}
+          weight={selected ? 'fill' : 'regular'}
         />
         <Text variant="body">{label}</Text>
       </View>

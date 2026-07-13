@@ -1,6 +1,7 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { Icon } from './Icon';
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
@@ -33,7 +34,7 @@ export function Chip({
         previewInteractionStyle(previewState),
       ]}
     >
-      <Text>{label}</Text>
+      <Text variant="body">{label}</Text>
     </Pressable>
   );
 }
@@ -68,7 +69,7 @@ export function RemovableChip({
         previewInteractionStyle(previewState),
       ]}
     >
-      <Text>{label}</Text>
+      <Text variant="body">{label}</Text>
       <Icon name="close" size="xs" color={ui.text} />
     </Pressable>
   );

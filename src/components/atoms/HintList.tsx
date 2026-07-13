@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Icon } from './Icon';
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 
 export function HintList({ items }: { items: { label: string; met: boolean }[] }) {
@@ -14,7 +15,9 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
             color={item.met ? ui.success : ui.textSubtle}
             weight={item.met ? 'fill' : 'regular'}
           />
-          <Text style={[styles.hintItem, item.met && styles.hintItemMet]}>{item.label}</Text>
+          <Text variant="bodySmall" color={item.met ? ui.success : ui.textSubtle}>
+            {item.label}
+          </Text>
         </View>
       ))}
     </View>
@@ -24,6 +27,4 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
 const styles = StyleSheet.create({
   hintList: { gap: 4 },
   hintItemRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  hintItem: { color: ui.textSubtle, fontSize: 13 },
-  hintItemMet: { color: ui.success },
 });

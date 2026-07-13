@@ -3,12 +3,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ReactNode } from 'react';
 
+import { Text } from '../atoms/Text';
 import { useFlowCapture } from '../../hooks/useFlowCapture';
 import { ui } from '../../theme/colors';
 
@@ -29,7 +29,9 @@ export function Screen({
 
   const header = (
     <View style={styles.headerRow}>
-      <Text style={styles.title}>{title}</Text>
+      <Text variant="h4" style={styles.title}>
+        {title}
+      </Text>
       {headerRight}
     </View>
   );
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     gap: 12,
   },
-  title: { flex: 1, fontSize: 28, fontWeight: '700', color: ui.text },
+  title: { flex: 1 },
   body: { gap: 16 },
   footer: {
     padding: 20,

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Icon } from '../atoms/Icon';
+import { Text } from '../atoms/Text';
 import { formatFlowMapVersionStatus } from '../../utils/flowMapVersionFormat';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
@@ -37,7 +38,9 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
         ]}
       >
         <Icon name={open ? 'caretDown' : 'caretRight'} size="xs" color={ui.textMuted} />
-        <Text style={{ fontSize: 12, color: ui.textMuted, fontWeight: '600' }}>Version info</Text>
+        <Text variant="bodySmall" weight="bold" color={ui.textMuted}>
+          Version info
+        </Text>
       </Pressable>
       {open ? (
         <View
@@ -49,8 +52,10 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
         >
           {items.map((item) => (
             <View key={item.label}>
-              <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textLabel }}>{item.label}</Text>
-              <Text style={{ fontSize: 11, color: ui.textSubtle, lineHeight: 15 }}>
+              <Text variant="bodySmall" weight="bold" color={ui.textLabel}>
+                {item.label}
+              </Text>
+              <Text variant="bodySmall" color={ui.textSubtle}>
                 {formatFlowMapVersionStatus(item.version, item.updatedAt)}
               </Text>
             </View>

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -9,11 +9,13 @@ import {
   ClimbEditor,
   Dropdown,
   Link,
+  RadioRow,
   Screen,
   Section,
   SessionClimbsList,
   SessionLocationPanel,
   SessionTimeDropdown,
+  Text,
   TextField,
 } from '../../../src/components';
 import { ui } from '../../../src/theme/colors';
@@ -152,7 +154,7 @@ export default function ActiveSessionScreen() {
         footer={<Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
       >
         <Card>
-          <Text>This session could not be found.</Text>
+          <Text variant="body">This session could not be found.</Text>
         </Card>
       </Screen>
     );
@@ -226,7 +228,9 @@ export default function ActiveSessionScreen() {
       title="Climbing session"
       headerRight={
         <Pressable onPress={() => router.replace('/dashboard')}>
-          <Text style={{ fontSize: 15, textDecorationLine: 'underline' }}>Dashboard</Text>
+          <Text variant="body" style={{ textDecorationLine: 'underline' }}>
+            Dashboard
+          </Text>
         </Pressable>
       }
       footer={
@@ -254,12 +258,8 @@ export default function ActiveSessionScreen() {
           onClose={() => setShowEndSheet(false)}
         >
           <View style={{ gap: 4 }}>
-            <Pressable onPress={() => setIsPublic(false)}>
-              <Text>{!isPublic ? '●' : '○'} Private</Text>
-            </Pressable>
-            <Pressable onPress={() => setIsPublic(true)}>
-              <Text>{isPublic ? '●' : '○'} Public</Text>
-            </Pressable>
+            <RadioRow label="Private" selected={!isPublic} onPress={() => setIsPublic(false)} />
+            <RadioRow label="Public" selected={isPublic} onPress={() => setIsPublic(true)} />
           </View>
 
           {isPublic && !username.trim() ? (
@@ -275,7 +275,7 @@ export default function ActiveSessionScreen() {
               placeholder="Required for public sessions"
             />
           ) : isPublic && username.trim() ? (
-            <Text>Sharing as {username}</Text>
+            <Text variant="body">Sharing as {username}</Text>
           ) : null}
 
           <SessionTimeDropdown
@@ -315,7 +315,7 @@ export default function ActiveSessionScreen() {
           title="Remove climb?"
           onClose={() => setRemoveTarget(null)}
         >
-          <Text>
+          <Text variant="body">
             {removeTarget?.name?.trim()
               ? `"${removeTarget.name}" has details that will be lost.`
               : 'This climb has details that will be lost.'}
@@ -328,8 +328,10 @@ export default function ActiveSessionScreen() {
     >
       {needsProfile ? (
         <Card>
-          <Text style={{ fontWeight: '700' }}>Profile not complete</Text>
-          <Text>
+          <Text variant="body" weight="bold">
+            Profile not complete
+          </Text>
+          <Text variant="body">
             You can keep logging this session. Tap Add location to search for your gym and set up
             difficulty levels.
           </Text>
@@ -338,7 +340,9 @@ export default function ActiveSessionScreen() {
 
       {climbPrompt ? (
         <Card>
-          <Text style={{ color: ui.danger }}>{climbPrompt}</Text>
+          <Text variant="body" color={ui.danger}>
+            {climbPrompt}
+          </Text>
         </Card>
       ) : null}
 

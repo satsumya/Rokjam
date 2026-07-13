@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -11,6 +10,7 @@ import {
   Screen,
   Section,
   ShareMockBanner,
+  Text,
 } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { computeDurationMinutes, formatDuration, formatSessionDate } from '../../src/utils/sessionUtils';
@@ -38,7 +38,7 @@ export default function SessionDetailScreen() {
         footer={<Link label="Back to sessions" onPress={() => router.replace('/sessions')} />}
       >
         <Card>
-          <Text>This session could not be found.</Text>
+          <Text variant="body">This session could not be found.</Text>
         </Card>
       </Screen>
     );
@@ -82,7 +82,7 @@ export default function SessionDetailScreen() {
           title="Delete session?"
           onClose={() => setShowDeleteSheet(false)}
         >
-          <Text>This will permanently remove this session and all climbs in it.</Text>
+          <Text variant="body">This will permanently remove this session and all climbs in it.</Text>
           <Button
             label="Delete session"
             onPress={() => {
@@ -97,13 +97,15 @@ export default function SessionDetailScreen() {
       <ShareMockBanner visible={shareVisible} />
 
       <Card>
-        <Text style={{ fontWeight: '700' }}>{formatSessionDate(session.date)}</Text>
-        <Text>{session.locationName || 'No location set'}</Text>
-        <Text>
+        <Text variant="body" weight="bold">
+          {formatSessionDate(session.date)}
+        </Text>
+        <Text variant="body">{session.locationName || 'No location set'}</Text>
+        <Text variant="body">
           {session.startTime}
           {session.endTime ? ` – ${session.endTime}` : ''} ({duration})
         </Text>
-        <Text>
+        <Text variant="body">
           {session.climbs.length} climb{session.climbs.length === 1 ? '' : 's'} ·{' '}
           {session.isPublic ? 'Public' : 'Private'}
         </Text>
@@ -112,7 +114,7 @@ export default function SessionDetailScreen() {
       <Section title="Climbs">
         {session.climbs.length === 0 ? (
           <Card>
-            <Text>No climbs logged in this session.</Text>
+            <Text variant="body">No climbs logged in this session.</Text>
           </Card>
         ) : (
           session.climbs.map((climb) => (

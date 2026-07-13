@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -8,10 +8,12 @@ import {
   Card,
   ClimbEditor,
   Link,
+  RadioRow,
   Screen,
   Section,
   SessionClimbsList,
   SessionTimeDropdown,
+  Text,
   TextField,
 } from '../../../src/components';
 import { usePrototype } from '../../../src/context/PrototypeContext';
@@ -59,7 +61,7 @@ export default function EditSessionScreen() {
         footer={<Link label="Back" onPress={() => router.back()} />}
       >
         <Card>
-          <Text>Only completed sessions can be edited here.</Text>
+          <Text variant="body">Only completed sessions can be edited here.</Text>
         </Card>
       </Screen>
     );
@@ -120,7 +122,7 @@ export default function EditSessionScreen() {
           title="Remove climb?"
           onClose={() => setRemoveTarget(null)}
         >
-          <Text>
+          <Text variant="body">
             {removeTarget?.name?.trim()
               ? `"${removeTarget.name}" has details that will be lost.`
               : 'This climb has details that will be lost.'}
@@ -131,7 +133,9 @@ export default function EditSessionScreen() {
       }
     >
       <Section title="Session">
-        <Text style={{ fontWeight: '600' }}>{formatSessionDate(session.date)}</Text>
+        <Text variant="body" weight="bold">
+          {formatSessionDate(session.date)}
+        </Text>
         <TextField
           label="Date"
           value={session.date}
@@ -148,14 +152,14 @@ export default function EditSessionScreen() {
           onChange={(endTime) => updateSession(session.id, { endTime })}
         />
         <View style={{ gap: 4 }}>
-          <Pressable onPress={() => setIsPublic(false)}>
-            <Text>{!isPublic ? '●' : '○'} Private</Text>
-          </Pressable>
-          <Pressable onPress={() => setIsPublic(true)}>
-            <Text>{isPublic ? '●' : '○'} Public</Text>
-          </Pressable>
+          <RadioRow label="Private" selected={!isPublic} onPress={() => setIsPublic(false)} />
+          <RadioRow label="Public" selected={isPublic} onPress={() => setIsPublic(true)} />
         </View>
-        {publicError ? <Text style={{ color: ui.danger }}>{publicError}</Text> : null}
+        {publicError ? (
+          <Text variant="body" color={ui.danger}>
+            {publicError}
+          </Text>
+        ) : null}
       </Section>
 
       <Section title="Climbs">

@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 
 import { Icon } from '../atoms/Icon';
+import { Text } from '../atoms/Text';
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import { ui } from '../../theme/colors';
 import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
+import { bodySizes, fontFamilies } from '../../theme/typography';
 
 type Level = {
   id: string;
@@ -95,7 +97,9 @@ export function LevelRow({
               borderRadius: 6,
               paddingHorizontal: 10,
               paddingVertical: 6,
-              fontSize: 15,
+              fontFamily: fontFamilies.bodyRegular,
+              fontSize: bodySizes.base,
+              color: ui.text,
             },
             nameField.focused ? focusRing : null,
           ]}
@@ -158,7 +162,7 @@ export function LevelRow({
                   borderColor: ui.border,
                 }}
               />
-              <Text>{preset.name}</Text>
+              <Text variant="body">{preset.name}</Text>
             </Pressable>
           ))}
           <TextInput
@@ -172,14 +176,20 @@ export function LevelRow({
                 borderColor: hexField.hovered ? ui.borderStrong : ui.border,
                 borderRadius: 8,
                 padding: 10,
-                fontSize: 16,
+                fontFamily: fontFamilies.bodyRegular,
+                fontSize: bodySizes.base,
+                color: ui.text,
               },
               hexField.focused ? focusRing : null,
             ]}
           />
         </View>
       ) : null}
-      {colorError ? <Text style={{ color: ui.danger, fontSize: 13, paddingLeft: 36 }}>{colorError}</Text> : null}
+      {colorError ? (
+        <Text variant="bodySmall" color={ui.danger} style={{ paddingLeft: 36 }}>
+          {colorError}
+        </Text>
+      ) : null}
     </View>
   );
 }

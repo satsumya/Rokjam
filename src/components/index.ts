@@ -39,6 +39,8 @@ export { ToggleChip } from './atoms/ToggleChip';
 export { LevelDot } from './atoms/LevelDot';
 export { DifficultyChip } from './atoms/DifficultyChip';
 export { CheckboxRow } from './atoms/CheckboxRow';
+export { RadioRow } from './atoms/RadioRow';
+export { Avatar } from './atoms/Avatar';
 export { Bar } from './atoms/Bar';
 export { Swatch, ShadeSwatch, WcagAaCheck, type ContrastPreview } from './atoms/ColorSwatch';
 export { FlowMapActionButton, type FlowMapActionVariant } from './atoms/FlowMapActionButton';

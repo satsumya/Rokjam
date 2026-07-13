@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import type { ReactNode } from 'react';
 
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 
 export function Section({
@@ -26,9 +27,11 @@ export function Section({
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text style={styles.sectionTitle}>{title}</Text>
+          <Text variant="h6">{title}</Text>
           {subtitle ? (
-            <Text style={{ color: ui.textMuted, fontSize: 12, marginTop: 4, lineHeight: 18 }}>{subtitle}</Text>
+            <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 4 }}>
+              {subtitle}
+            </Text>
           ) : null}
         </View>
         {headerAction}
@@ -38,7 +41,6 @@ export function Section({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = {
   section: { gap: 10 },
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: ui.text },
-});
+} as const;

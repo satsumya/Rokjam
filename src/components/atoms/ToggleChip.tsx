@@ -1,5 +1,6 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
@@ -30,13 +31,14 @@ export function ToggleChip({
       ]}
     >
       <Text
+        variant="bodySmall"
         style={{
           borderWidth: 1,
           borderColor: selected ? ui.borderStrong : ui.border,
           borderRadius: 12,
           paddingHorizontal,
           paddingVertical: 4,
-          fontSize,
+          ...(fontSize ? { fontSize } : null),
         }}
       >
         {label}

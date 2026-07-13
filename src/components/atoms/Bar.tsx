@@ -1,5 +1,6 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 
 /** Single labelled horizontal bar for the mini bar charts. */
@@ -16,7 +17,9 @@ export function Bar({
 }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-      <Text style={{ width: 36, fontSize: 12, color: ui.textMuted }}>{label}</Text>
+      <Text variant="bodySmall" color={ui.textMuted} style={{ width: 36 }}>
+        {label}
+      </Text>
       <View
         style={{
           flex: 1,
@@ -34,7 +37,7 @@ export function Bar({
           }}
         />
       </View>
-      <Text style={{ width: 40, fontSize: 12, textAlign: 'right' }}>
+      <Text variant="bodySmall" style={{ width: 40, textAlign: 'right' }}>
         {value}
         {unit ?? ''}
       </Text>

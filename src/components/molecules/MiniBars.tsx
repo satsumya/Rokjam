@@ -1,12 +1,17 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Bar } from '../atoms/Bar';
+import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 
 export function MiniBars({ data, unit }: { data: { label: string; value: number }[]; unit?: string }) {
   const max = Math.max(...data.map((d) => d.value), 1);
   if (!data.length) {
-    return <Text style={{ color: ui.textMuted }}>No data in this timeframe.</Text>;
+    return (
+      <Text variant="body" color={ui.textMuted}>
+        No data in this timeframe.
+      </Text>
+    );
   }
   return (
     <View style={{ gap: 6 }}>

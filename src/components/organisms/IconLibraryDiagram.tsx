@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
+import { Text } from '../atoms/Text';
 import { colors, ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import { ICON_SIZE_NAMES, iconSizes, type IconSize } from '../../theme/icon';
@@ -50,7 +51,7 @@ function SelectChip({
         interactionStyle(state),
       ]}
     >
-      <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14, color: colors.neutral[900] }}>
+      <Text variant="body" weight={active ? 'bold' : 'regular'} color={colors.neutral[900]}>
         {label}
       </Text>
     </Pressable>
@@ -69,7 +70,7 @@ function Badge({ label, muted }: { label: string; muted?: boolean }) {
         borderColor: muted ? ui.borderSubtle : ui.border,
       }}
     >
-      <Text style={{ fontSize: 11, fontWeight: '600', color: muted ? ui.textSubtle : ui.text }}>
+      <Text variant="bodySmall" weight="bold" color={muted ? ui.textSubtle : ui.text} style={{ fontSize: 11 }}>
         {label}
       </Text>
     </View>
@@ -91,12 +92,17 @@ export function IconLibraryDiagram({
   return (
     <>
       <Section title="Weights">
-        <Text style={{ color: ui.textMuted, lineHeight: 20, marginBottom: 12 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 12 }}>
           We use four Phosphor weights (thin and light are disabled). Weight follows size automatically:{' '}
-          <Text style={{ fontWeight: '700', color: ui.text }}>xs/sm → fill</Text>,{' '}
-          <Text style={{ fontWeight: '700', color: ui.text }}>md/lg/xl → bold</Text>. `regular` and `duotone`
-          aren't mapped to a size (manual use only); `regular` is used for outline states like an unchecked
-          checkbox or unmet hint.
+          <Text variant="body" weight="bold">
+            xs/sm → fill
+          </Text>
+          ,{' '}
+          <Text variant="body" weight="bold">
+            md/lg/xl → bold
+          </Text>
+          . `regular` and `duotone` aren't mapped to a size (manual use only); `regular` is used for outline
+          states like an unchecked checkbox or unmet hint.
         </Text>
         <View style={{ gap: 14 }}>
           {ICON_WEIGHTS.map((w) => {
@@ -105,7 +111,9 @@ export function IconLibraryDiagram({
             return (
               <View key={w} style={{ gap: 8 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                  <Text style={{ fontSize: 14, fontWeight: '700', color: ui.text, minWidth: 72 }}>{w}</Text>
+                  <Text variant="body" weight="bold" style={{ minWidth: 72 }}>
+                    {w}
+                  </Text>
                   <Badge
                     label={isDefault ? `Default for ${sizes.join(', ')}` : 'Manual only'}
                     muted={!isDefault}
@@ -123,7 +131,7 @@ export function IconLibraryDiagram({
       </Section>
 
       <Section title="Sizes">
-        <Text style={{ color: ui.textMuted, lineHeight: 20, marginBottom: 12 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 12 }}>
           Size tokens from `src/theme/icon.ts`, each shown at its automatic weight. Pass the token name to the
           Icon `size` prop instead of a raw pixel number.
         </Text>
@@ -131,8 +139,10 @@ export function IconLibraryDiagram({
           {ICON_SIZE_NAMES.map((token) => (
             <View key={token} style={{ alignItems: 'center', gap: 6 }}>
               <Icon name="house" size={token} color={ui.text} />
-              <Text style={{ fontSize: 12, fontWeight: '700', color: ui.text }}>{token}</Text>
-              <Text style={{ fontSize: 11, color: ui.textMuted }}>
+              <Text variant="bodySmall" weight="bold">
+                {token}
+              </Text>
+              <Text variant="bodySmall" color={ui.textMuted} style={{ fontSize: 11 }}>
                 {iconSizes[token]}px · {DEFAULT_WEIGHT_FOR_SIZE[token]}
               </Text>
             </View>
@@ -141,13 +151,15 @@ export function IconLibraryDiagram({
       </Section>
 
       <Section title={`All icons (${ICON_NAMES.length})`}>
-        <Text style={{ color: ui.textMuted, lineHeight: 20, marginBottom: 12 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 12 }}>
           Every icon in the registry, previewed at the size and weight you pick below. Reference icons by name
           via the Icon atom.
         </Text>
 
         <View style={{ gap: 6, marginBottom: 10 }}>
-          <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>Preview weight</Text>
+          <Text variant="bodySmall" weight="bold">
+            Preview weight
+          </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {WEIGHT_OPTIONS.map((w) => (
               <SelectChip
@@ -161,7 +173,9 @@ export function IconLibraryDiagram({
         </View>
 
         <View style={{ gap: 6, marginBottom: 16 }}>
-          <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>Preview size</Text>
+          <Text variant="bodySmall" weight="bold">
+            Preview size
+          </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {ICON_SIZE_NAMES.map((s) => (
               <SelectChip key={s} label={s} active={size === s} onPress={() => setSize(s)} />
@@ -169,7 +183,7 @@ export function IconLibraryDiagram({
           </View>
         </View>
 
-        <Text style={{ color: ui.textSubtle, fontSize: 12, marginBottom: 12 }}>
+        <Text variant="bodySmall" color={ui.textSubtle} style={{ marginBottom: 12 }}>
           Showing size {size} ({iconSizes[size]}px), weight{' '}
           {galleryWeight ?? `${DEFAULT_WEIGHT_FOR_SIZE[size]} (auto)`}.
         </Text>
@@ -191,7 +205,9 @@ export function IconLibraryDiagram({
               }}
             >
               <Icon name={name} weight={galleryWeight} size={size} color={ui.text} />
-              <Text style={{ fontSize: 11, color: ui.textMuted, textAlign: 'center' }}>{name}</Text>
+              <Text variant="bodySmall" color={ui.textMuted} style={{ fontSize: 11, textAlign: 'center' }}>
+                {name}
+              </Text>
             </View>
           ))}
         </View>

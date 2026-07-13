@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
+  Avatar,
   Button,
   Card,
   DashboardTrends,
@@ -11,6 +12,7 @@ import {
   Screen,
   Section,
   SessionRow,
+  Text,
 } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
@@ -98,7 +100,7 @@ export default function DashboardScreen() {
           hitSlop={8}
           style={{ padding: 4 }}
         >
-          <Text style={{ fontSize: 22, lineHeight: 24, color: ui.textLabel }}>⏻</Text>
+          <Icon name="close" size="md" color={ui.textLabel} />
         </Pressable>
       }
       footer={
@@ -117,8 +119,12 @@ export default function DashboardScreen() {
     >
       {needsProfile ? (
         <Card>
-          <Text style={{ fontWeight: '700' }}>Complete your profile</Text>
-          <Text>Add your climbing locations and difficulty levels to unlock trends and filters.</Text>
+          <Text variant="body" weight="bold">
+            Complete your profile
+          </Text>
+          <Text variant="body">
+            Add your climbing locations and difficulty levels to unlock trends and filters.
+          </Text>
           <Button
             label="Set up profile"
             variant="secondary"
@@ -129,10 +135,14 @@ export default function DashboardScreen() {
 
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <Text style={{ fontSize: 32 }}>{avatar}</Text>
+          <Avatar emoji={avatar} size="lg" />
           <View style={{ flex: 1, gap: 2 }}>
-            <Text style={{ fontWeight: '700', fontSize: 18 }}>{username || 'Member'}</Text>
-            <Text style={{ color: ui.textMuted }}>{email || 'member@example.com'}</Text>
+            <Text variant="bodyLarge" weight="bold">
+              {username || 'Member'}
+            </Text>
+            <Text variant="body" color={ui.textMuted}>
+              {email || 'member@example.com'}
+            </Text>
           </View>
           <Pressable
             onPress={() => router.push('/profile/setup')}
@@ -141,8 +151,10 @@ export default function DashboardScreen() {
             hitSlop={8}
             style={{ flexDirection: 'row', alignItems: 'center', gap: 4, padding: 4 }}
           >
-            <Text style={{ fontSize: 16, color: ui.text }}>✎</Text>
-            <Text style={{ fontSize: 15, color: ui.text, textDecorationLine: 'underline' }}>Edit</Text>
+            <Icon name="pencil" size="xs" color={ui.text} />
+            <Text variant="body" style={{ textDecorationLine: 'underline' }}>
+              Edit
+            </Text>
           </Pressable>
         </View>
       </Card>
@@ -150,13 +162,13 @@ export default function DashboardScreen() {
       {needsProfile || activeSessions.length > 0 ? (
         <Section title="Climbing">
           {needsProfile ? (
-            <Text style={{ color: ui.textMuted, lineHeight: 20, marginBottom: 4 }}>
+            <Text variant="body" color={ui.textMuted} style={{ marginBottom: 4 }}>
               Profile incomplete — you can still start a session and add a location during it.
             </Text>
           ) : null}
           {activeSessions.map((session) => (
             <Card key={session.id}>
-              <Text style={{ fontWeight: '700' }}>
+              <Text variant="body" weight="bold">
                 Session in progress{activeSessions.length > 1 ? ` — ${session.date}` : ''}
               </Text>
               <Button
@@ -173,16 +185,20 @@ export default function DashboardScreen() {
           <Section title="Recent sessions">
             <View style={{ flexDirection: 'row', gap: 12, marginBottom: 4 }}>
               <Pressable onPress={() => setShowAllSessions(false)}>
-                <Text style={{ fontWeight: !showAllSessions ? '700' : '400' }}>Recent</Text>
+                <Text variant="body" weight={!showAllSessions ? 'bold' : 'regular'}>
+                  Recent
+                </Text>
               </Pressable>
               <Pressable onPress={() => setShowAllSessions(true)}>
-                <Text style={{ fontWeight: showAllSessions ? '700' : '400' }}>All</Text>
+                <Text variant="body" weight={showAllSessions ? 'bold' : 'regular'}>
+                  All
+                </Text>
               </Pressable>
               <Link label="Full list" onPress={() => router.push('/sessions')} />
             </View>
             {recentSessions.length === 0 ? (
               <Card>
-                <Text>No sessions yet.</Text>
+                <Text variant="body">No sessions yet.</Text>
               </Card>
             ) : (
               recentSessions.map((session) => {
@@ -219,7 +235,7 @@ export default function DashboardScreen() {
       <Section title="Profile summary">
         <Card>
           <ViewRow label="Home location" value={homeLocation?.name ?? 'Not set'} home={homeLocation?.isHome} />
-          {homeLocation?.nickname ? <Text>Nickname: {homeLocation.nickname}</Text> : null}
+          {homeLocation?.nickname ? <Text variant="body">Nickname: {homeLocation.nickname}</Text> : null}
           {homeLocation?.levels.length ? (
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
               {homeLocation.levels.map((level) => (
@@ -244,15 +260,19 @@ export default function DashboardScreen() {
                       backgroundColor: level.color,
                     }}
                   />
-                  <Text>{level.name}</Text>
+                  <Text variant="body">{level.name}</Text>
                 </View>
               ))}
             </View>
           ) : (
-            <Text>No levels set</Text>
+            <Text variant="body">No levels set</Text>
           )}
-          {strengthTags.length ? <Text>Strengths: {strengthTags.join(', ')}</Text> : null}
-          {improvementTags.length ? <Text>Areas to improve: {improvementTags.join(', ')}</Text> : null}
+          {strengthTags.length ? (
+            <Text variant="body">Strengths: {strengthTags.join(', ')}</Text>
+          ) : null}
+          {improvementTags.length ? (
+            <Text variant="body">Areas to improve: {improvementTags.join(', ')}</Text>
+          ) : null}
         </Card>
       </Section>
     </Screen>
@@ -262,9 +282,9 @@ export default function DashboardScreen() {
 function ViewRow({ label, value, home }: { label: string; value: string; home?: boolean }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-      <Text>{label}: </Text>
+      <Text variant="body">{label}: </Text>
       {home ? <Icon name="house" size="xs" color={ui.text} /> : null}
-      <Text>{value}</Text>
+      <Text variant="body">{value}</Text>
     </View>
   );
 }

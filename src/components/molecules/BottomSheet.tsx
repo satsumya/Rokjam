@@ -1,6 +1,7 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import type { ReactNode } from 'react';
 
+import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 
 export function BottomSheet({
@@ -42,7 +43,7 @@ export function BottomSheet({
           borderTopRightRadius: 16,
         }}
       >
-        <Text style={{ fontSize: 18, fontWeight: '700' }}>{title}</Text>
+        <Text variant="h5">{title}</Text>
         {children}
       </View>
     </View>

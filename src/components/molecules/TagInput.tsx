@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Chip, RemovableChip } from '../atoms/Chip';
+import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { focusRing, useHoverFocus } from '../../theme/interaction';
+import { bodySizes, fontFamilies } from '../../theme/typography';
 
 export function TagInput({
   label,
@@ -30,7 +32,9 @@ export function TagInput({
 
   return (
     <View style={{ gap: 8 }}>
-      <Text style={{ fontSize: 16, fontWeight: '700', color: ui.text }}>{label}</Text>
+      <Text variant="body" weight="bold">
+        {label}
+      </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         {tags.map((tag) => (
           <RemovableChip key={tag} label={tag} onPress={() => onRemove(tag)} />
@@ -50,7 +54,9 @@ export function TagInput({
               borderRadius: 8,
               paddingHorizontal: 12,
               paddingVertical: 10,
-              fontSize: 16,
+              fontFamily: fontFamilies.bodyRegular,
+              fontSize: bodySizes.base,
+              color: ui.text,
             },
             focused ? focusRing : null,
           ]}

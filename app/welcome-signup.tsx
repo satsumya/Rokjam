@@ -1,7 +1,7 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 import { router } from 'expo-router';
 
-import { Button, Icon, Screen } from '../src/components';
+import { Button, Icon, Screen, Text } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 
@@ -28,7 +28,7 @@ export default function PostSignUpWelcomeScreen() {
         </>
       }
     >
-      <Text style={{ color: ui.textMuted, lineHeight: 22 }}>
+      <Text variant="body" color={ui.textMuted}>
         Your account is ready. Set up your member profile to personalise your climbing experience.
       </Text>
     </Screen>

@@ -1,7 +1,8 @@
-import { Modal as RNModal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal as RNModal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import type { ReactNode } from 'react';
 
 import { Icon } from '../atoms/Icon';
+import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 
@@ -29,7 +30,9 @@ export function Modal({
         />
         <View style={styles.modalCard}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>{title}</Text>
+            <Text variant="h5" style={styles.modalTitle}>
+              {title}
+            </Text>
             <Pressable
               onPress={onClose}
               accessibilityRole="button"
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
     borderBottomColor: ui.borderSubtle,
     gap: 12,
   },
-  modalTitle: { flex: 1, fontSize: 18, fontWeight: '700', color: ui.text },
+  modalTitle: { flex: 1 },
   modalClose: { padding: 4 },
   modalBody: { flexGrow: 0, flexShrink: 1 },
   modalBodyContent: { padding: 20, gap: 12 },

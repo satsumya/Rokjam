@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Card } from '../atoms/Card';
 import { CheckboxRow } from '../atoms/CheckboxRow';
 import { Section } from '../atoms/Section';
+import { Text } from '../atoms/Text';
 import { ClimbCard } from '../molecules/ClimbCard';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb, SessionSort } from '../../types/climbingSession';
@@ -78,26 +79,34 @@ export function SessionClimbsList({
       {showSortFilter ? (
         <View style={{ gap: 8 }}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-            <Text style={{ fontWeight: '600' }}>Sort:</Text>
+            <Text variant="body" weight="bold">
+              Sort:
+            </Text>
             {SORT_OPTIONS.map(({ value, label }) => (
               <Pressable
                 key={value}
                 onPress={() => setSort(value)}
                 style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
               >
-                <Text style={{ fontWeight: sort === value ? '700' : '400' }}>{label}</Text>
+                <Text variant="body" weight={sort === value ? 'bold' : 'regular'}>
+                  {label}
+                </Text>
               </Pressable>
             ))}
           </View>
           <View style={{ gap: 4 }}>
-            <Text style={{ fontWeight: '600' }}>Filter</Text>
+            <Text variant="body" weight="bold">
+              Filter
+            </Text>
             {showDifficultyFilter ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
                 <Pressable
                   onPress={() => setFilterDifficulty('')}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
                 >
-                  <Text style={{ fontWeight: !filterDifficulty ? '700' : '400' }}>All difficulties</Text>
+                  <Text variant="body" weight={!filterDifficulty ? 'bold' : 'regular'}>
+                    All difficulties
+                  </Text>
                 </Pressable>
                 {filterableLevels.map((level) => (
                   <Pressable
@@ -105,7 +114,7 @@ export function SessionClimbsList({
                     onPress={() => setFilterDifficulty(level.id)}
                     style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
                   >
-                    <Text style={{ fontWeight: filterDifficulty === level.id ? '700' : '400' }}>
+                    <Text variant="body" weight={filterDifficulty === level.id ? 'bold' : 'regular'}>
                       {level.name}
                     </Text>
                   </Pressable>
@@ -128,7 +137,9 @@ export function SessionClimbsList({
                   onPress={() => setFilterTag('')}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
                 >
-                  <Text style={{ fontWeight: !filterTag ? '700' : '400' }}>All tags</Text>
+                  <Text variant="body" weight={!filterTag ? 'bold' : 'regular'}>
+                    All tags
+                  </Text>
                 </Pressable>
                 {usedTags.map((tag) => (
                   <Pressable
@@ -136,7 +147,9 @@ export function SessionClimbsList({
                     onPress={() => setFilterTag(tag)}
                     style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
                   >
-                    <Text style={{ fontWeight: filterTag === tag ? '700' : '400' }}>{tag}</Text>
+                    <Text variant="body" weight={filterTag === tag ? 'bold' : 'regular'}>
+                      {tag}
+                    </Text>
                   </Pressable>
                 ))}
               </View>
@@ -147,7 +160,7 @@ export function SessionClimbsList({
 
       {filteredClimbs.length === 0 ? (
         <Card>
-          <Text>No climbs yet. Tap Add climb to log your first climb.</Text>
+          <Text variant="body">No climbs yet. Tap Add climb to log your first climb.</Text>
         </Card>
       ) : (
         filteredClimbs.map((climb) => (

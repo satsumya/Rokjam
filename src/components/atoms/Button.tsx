@@ -1,5 +1,6 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
@@ -30,6 +31,8 @@ export function Button({
       ]}
     >
       <Text
+        variant="body"
+        weight="bold"
         style={[
           styles.buttonText,
           variant === 'secondary' && styles.buttonTextSecondary,
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
   buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
   buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent' },
   buttonDisabled: { opacity: 0.4 },
-  buttonText: { color: ui.primaryText, fontSize: 16, fontWeight: '600' },
+  buttonText: { color: ui.primaryText },
   buttonTextSecondary: { color: ui.primary },
   buttonTextGhost: { color: ui.primary, textDecorationLine: 'underline' },
 });

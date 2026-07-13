@@ -1,9 +1,10 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
 import { Icon } from '../atoms/Icon';
 import { LevelDot } from '../atoms/LevelDot';
+import { Text } from '../atoms/Text';
 import { DifficultyPicker } from './DifficultyPicker';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb } from '../../types/climbingSession';
@@ -43,7 +44,9 @@ export function ClimbCard({
   const heading = (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
       {climb.levelColor ? <LevelDot color={climb.levelColor} /> : null}
-      <Text style={{ fontWeight: '700', flex: 1 }}>{climb.name || 'Unnamed climb'}</Text>
+      <Text variant="body" weight="bold" style={{ flex: 1 }}>
+        {climb.name || 'Unnamed climb'}
+      </Text>
       <View style={{ flexDirection: 'row', gap: 4 }}>
         {climb.hasImage ? <Icon name="camera" size="xs" color={ui.textMuted} title="Photo" /> : null}
         {climb.hasVideo ? <Icon name="video" size="xs" color={ui.textMuted} title="Video" /> : null}
@@ -70,7 +73,9 @@ export function ClimbCard({
             hitSlop={8}
             style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
           >
-            <Text style={{ color: ui.danger, fontWeight: '600', fontSize: 14 }}>Remove</Text>
+            <Text variant="bodySmall" weight="bold" color={ui.danger}>
+              Remove
+            </Text>
           </Pressable>
         ) : null}
       </View>
@@ -84,20 +89,20 @@ export function ClimbCard({
           compact
         />
       ) : climb.levelName ? (
-        <Text>{climb.levelName}</Text>
+        <Text variant="body">{climb.levelName}</Text>
       ) : null}
 
       {onPress ? (
         <Pressable onPress={onPress} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
-          <Text>{attemptSummary}</Text>
-          {climb.tags.length ? <Text>Tags: {climb.tags.join(', ')}</Text> : null}
-          {labels.length ? <Text>{labels.join(' · ')}</Text> : null}
+          <Text variant="body">{attemptSummary}</Text>
+          {climb.tags.length ? <Text variant="body">Tags: {climb.tags.join(', ')}</Text> : null}
+          {labels.length ? <Text variant="body">{labels.join(' · ')}</Text> : null}
         </Pressable>
       ) : (
         <>
-          <Text>{attemptSummary}</Text>
-          {climb.tags.length ? <Text>Tags: {climb.tags.join(', ')}</Text> : null}
-          {labels.length ? <Text>{labels.join(' · ')}</Text> : null}
+          <Text variant="body">{attemptSummary}</Text>
+          {climb.tags.length ? <Text variant="body">Tags: {climb.tags.join(', ')}</Text> : null}
+          {labels.length ? <Text variant="body">{labels.join(' · ')}</Text> : null}
         </>
       )}
 

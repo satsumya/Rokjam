@@ -1,7 +1,9 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { focusRing, useHoverFocus, type PreviewState } from '../../theme/interaction';
+import { bodySizes, fontFamilies } from '../../theme/typography';
 
 export function TextField({
   label,
@@ -35,9 +37,13 @@ export function TextField({
 
   return (
     <View style={styles.field}>
-      <Text style={styles.label}>
+      <Text variant="body" weight="bold" style={styles.label}>
         {label}
-        {required ? <Text style={styles.required}> *</Text> : null}
+        {required ? (
+          <Text variant="body" weight="bold" color={ui.danger}>
+            {' '}*
+          </Text>
+        ) : null}
       </Text>
       <TextInput
         value={value}
@@ -55,28 +61,34 @@ export function TextField({
           focusActive ? focusRing : null,
         ]}
       />
-      {hint && !error ? <Text style={styles.hint}>{hint}</Text> : null}
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {hint && !error ? (
+        <Text variant="bodySmall" color={ui.textMuted}>
+          {hint}
+        </Text>
+      ) : null}
+      {error ? (
+        <Text variant="bodySmall" color={ui.danger}>
+          {error}
+        </Text>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   field: { gap: 6 },
-  label: { fontSize: 14, fontWeight: '600', color: ui.textLabel },
-  required: { color: ui.danger },
+  label: { color: ui.textLabel },
   input: {
     borderWidth: 1,
     borderColor: ui.border,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    fontSize: 16,
+    fontFamily: fontFamilies.bodyRegular,
+    fontSize: bodySizes.base,
     backgroundColor: ui.surface,
     color: ui.text,
   },
   inputHover: { borderColor: ui.borderStrong },
   inputError: { borderColor: ui.danger },
-  hint: { color: ui.textMuted, fontSize: 13 },
-  errorText: { color: ui.danger, fontSize: 13 },
 });

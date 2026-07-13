@@ -1,7 +1,6 @@
-import { Text } from 'react-native';
 import { router } from 'expo-router';
 
-import { Button, IconLibraryDiagram, Screen, Section } from '../src/components';
+import { Button, IconLibraryDiagram, Screen, Section, Text } from '../src/components';
 import { colors } from '../src/theme/colors';
 import { scenarioWebLink } from '../src/constants/scenarios';
 
@@ -19,13 +18,15 @@ export default function IconLibraryPage() {
       }
     >
       <Section title="How to use">
-        <Text style={{ color: colors.neutral[600], lineHeight: 22 }}>
+        <Text variant="body" color={colors.neutral[600]}>
           Live reference for every icon in the app, backed by Phosphor (phosphoricons.com). Icons come from the
           `Icon` atom — reference them by name (`src/components/atoms/Icon.tsx`), size them with the scale tokens
           (`src/theme/icon.ts`), and weight follows size automatically. Use the controls in the All icons
           section to preview the whole set at any size and weight.
         </Text>
-        <Text style={{ color: colors.neutral[500], fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/icon-library')}</Text>
+        <Text variant="bodySmall" color={colors.neutral[500]} style={{ marginTop: 8 }}>
+          {scenarioWebLink('/icon-library')}
+        </Text>
       </Section>
 
       <IconLibraryDiagram />

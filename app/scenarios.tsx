@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Linking, Pressable, Text, View } from 'react-native';
+import { Linking, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 
-import { Button, Card, Screen, Section } from '../src/components';
+import { Button, Card, Screen, Section, Text } from '../src/components';
 import { ui } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
 import {
@@ -50,7 +50,9 @@ function FilterChip({
         interactionStyle(state),
       ]}
     >
-      <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14 }}>{label}</Text>
+      <Text variant="body" weight={active ? 'bold' : 'regular'}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -74,15 +76,17 @@ function ScenarioCard({
 
   return (
     <Card>
-      <Text style={{ fontWeight: '700' }}>
+      <Text variant="body" weight="bold">
         [{scenario.type}] {scenario.title}
       </Text>
-      <Text style={{ color: ui.textMuted, fontSize: 13 }}>
+      <Text variant="bodySmall" color={ui.textMuted}>
         {effectiveUser === 'any' ? 'Any user' : effectiveUser === 'new' ? 'New user' : 'Existing user'} · Setup:{' '}
         {setup}
       </Text>
-      <Text>{scenario.steps}</Text>
-      <Text style={{ color: ui.textMuted, fontSize: 13 }}>{scenarioWebLink(scenario.path)}</Text>
+      <Text variant="body">{scenario.steps}</Text>
+      <Text variant="bodySmall" color={ui.textMuted}>
+        {scenarioWebLink(scenario.path)}
+      </Text>
       <Button label="Run scenario" onPress={() => onRun(scenario)} />
     </Card>
   );
@@ -128,60 +132,70 @@ export default function ScenariosScreen() {
     >
       <Section title="Flow map">
         <Card>
-          <Text style={{ lineHeight: 22 }}>
+          <Text variant="body">
             See how screens connect across each flow. Tap any screen to jump to that point in the journey with
             the right app state.
           </Text>
           <Button label="Open flow map" onPress={() => router.push('/flow-map')} />
-          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/flow-map')}</Text>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+            {scenarioWebLink('/flow-map')}
+          </Text>
         </Card>
       </Section>
 
       <Section title="Colour system">
         <Card>
-          <Text style={{ lineHeight: 22 }}>
+          <Text variant="body">
             Preview brand, neutral, and semantic colour tokens — including contrast and alpha variants.
           </Text>
           <Button label="Open colour system" onPress={() => router.push('/color-system')} />
-          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+            {scenarioWebLink('/color-system')}
+          </Text>
         </Card>
       </Section>
 
       <Section title="Icon library">
         <Card>
-          <Text style={{ lineHeight: 22 }}>
+          <Text variant="body">
             Browse every icon in use, the size scale, and each Phosphor weight — see whether iconography stays
             on regular or mixes bold, fill, and more.
           </Text>
           <Button label="Open icon library" onPress={() => router.push('/icon-library')} />
-          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/icon-library')}</Text>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+            {scenarioWebLink('/icon-library')}
+          </Text>
         </Card>
       </Section>
 
       <Section title="Typography">
         <Card>
-          <Text style={{ lineHeight: 22 }}>
+          <Text variant="body">
             Preview the type scale — six heading sizes and three body sizes on one modular scale — switch weight
             and view real copy in each style.
           </Text>
           <Button label="Open typography" onPress={() => router.push('/typography')} />
-          <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/typography')}</Text>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+            {scenarioWebLink('/typography')}
+          </Text>
         </Card>
       </Section>
 
       <Section title="Mock test values">
         <Card>
-          <Text>Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>
-          <Text>Returning username: {MOCK_TEST_VALUES.returningUsername}</Text>
-          <Text>Password: {MOCK_TEST_VALUES.password}</Text>
-          <Text>Taken username: {MOCK_TEST_VALUES.takenUsername}</Text>
-          <Text>Invalid verify code: {MOCK_TEST_VALUES.invalidVerifyCode}</Text>
-          <Text>Address search: type “{MOCK_TEST_VALUES.addressSearchHint}”</Text>
+          <Text variant="body">Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>
+          <Text variant="body">Returning username: {MOCK_TEST_VALUES.returningUsername}</Text>
+          <Text variant="body">Password: {MOCK_TEST_VALUES.password}</Text>
+          <Text variant="body">Taken username: {MOCK_TEST_VALUES.takenUsername}</Text>
+          <Text variant="body">Invalid verify code: {MOCK_TEST_VALUES.invalidVerifyCode}</Text>
+          <Text variant="body">Address search: type “{MOCK_TEST_VALUES.addressSearchHint}”</Text>
         </Card>
       </Section>
 
       <Section title="Filter scenarios">
-        <Text style={{ fontWeight: '600', marginBottom: 6 }}>Flow</Text>
+        <Text variant="body" weight="bold" style={{ marginBottom: 6 }}>
+          Flow
+        </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
           <FilterChip label="All flows" active={flowFilter === 'all'} onPress={() => setFlowFilter('all')} />
           {SCENARIO_FLOWS.map((flow) => (
@@ -193,7 +207,9 @@ export default function ScenariosScreen() {
             />
           ))}
         </View>
-        <Text style={{ fontWeight: '600', marginBottom: 6 }}>User</Text>
+        <Text variant="body" weight="bold" style={{ marginBottom: 6 }}>
+          User
+        </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
           <FilterChip label="All users" active={userFilter === 'all'} onPress={() => setUserFilter('all')} />
           <FilterChip label="New user" active={userFilter === 'new'} onPress={() => setUserFilter('new')} />
@@ -203,7 +219,9 @@ export default function ScenariosScreen() {
             onPress={() => setUserFilter('existing')}
           />
         </View>
-        <Text style={{ fontWeight: '600', marginBottom: 6 }}>Path type</Text>
+        <Text variant="body" weight="bold" style={{ marginBottom: 6 }}>
+          Path type
+        </Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           <FilterChip label="All paths" active={typeFilter === 'all'} onPress={() => setTypeFilter('all')} />
           <FilterChip
@@ -226,7 +244,7 @@ export default function ScenariosScreen() {
 
       {grouped.length === 0 ? (
         <Card>
-          <Text>No scenarios match the current filters.</Text>
+          <Text variant="body">No scenarios match the current filters.</Text>
         </Card>
       ) : (
         grouped.map((group) => (
@@ -240,8 +258,8 @@ export default function ScenariosScreen() {
 
       <Section title="Local web entry">
         <Card>
-          <Text>App home: {scenarioWebLink('/')}</Text>
-          <Text>This page: {scenarioWebLink('/scenarios')}</Text>
+          <Text variant="body">App home: {scenarioWebLink('/')}</Text>
+          <Text variant="body">This page: {scenarioWebLink('/scenarios')}</Text>
           <Button
             label="Open home in browser"
             variant="secondary"
@@ -252,10 +270,10 @@ export default function ScenariosScreen() {
 
       <Section title="Expo Go (device)">
         <Card>
-          <Text>1. Run npm start in the Rokjam repo</Text>
-          <Text>2. Scan the QR code with Expo Go</Text>
-          <Text>3. Open Scenario tester from the welcome screen</Text>
-          <Text>Base URL varies by machine — use the Metro URL shown in terminal.</Text>
+          <Text variant="body">1. Run npm start in the Rokjam repo</Text>
+          <Text variant="body">2. Scan the QR code with Expo Go</Text>
+          <Text variant="body">3. Open Scenario tester from the welcome screen</Text>
+          <Text variant="body">Base URL varies by machine — use the Metro URL shown in terminal.</Text>
         </Card>
       </Section>
     </Screen>

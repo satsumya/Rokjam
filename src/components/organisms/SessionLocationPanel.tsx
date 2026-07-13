@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
 import { Icon } from '../atoms/Icon';
 import { Link } from '../atoms/Link';
+import { Text } from '../atoms/Text';
 import { AddLocationSheet } from './AddLocationSheet';
 import { usePrototype } from '../../context/PrototypeContext';
 import { ui } from '../../theme/colors';
@@ -39,10 +40,12 @@ export function SessionLocationPanel({
   if (locations.length === 0) {
     return (
       <View style={{ gap: 8 }}>
-        <Text style={{ fontWeight: '600' }}>Location</Text>
+        <Text variant="body" weight="bold">
+          Location
+        </Text>
         <Card>
-          <Text>No location linked to this session yet.</Text>
-          <Text style={{ color: ui.textMuted, fontSize: 13, lineHeight: 18 }}>
+          <Text variant="body">No location linked to this session yet.</Text>
+          <Text variant="bodySmall" color={ui.textMuted}>
             Search for your gym or crag and set up difficulty levels.
           </Text>
           <Button label="Add location" onPress={() => setShowAddSheet(true)} />
@@ -55,9 +58,13 @@ export function SessionLocationPanel({
   if (!sessionLoc || changingLocation) {
     return (
       <View style={{ gap: 8 }}>
-        <Text style={{ fontWeight: '600' }}>Location</Text>
+        <Text variant="body" weight="bold">
+          Location
+        </Text>
         <Card>
-          <Text>{sessionLoc ? 'Choose a different location' : 'Select a location for this session'}</Text>
+          <Text variant="body">
+            {sessionLoc ? 'Choose a different location' : 'Select a location for this session'}
+          </Text>
           <View style={{ gap: 6 }}>
             {locations.map((loc) => (
               <Pressable
@@ -69,7 +76,7 @@ export function SessionLocationPanel({
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                   {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-                  <Text style={{ fontWeight: sessionLocationId === loc.id ? '700' : '400' }}>
+                  <Text variant="body" weight={sessionLocationId === loc.id ? 'bold' : 'regular'}>
                     {loc.nickname ? `${loc.nickname} — ` : ''}
                     {loc.name}
                   </Text>
@@ -82,7 +89,7 @@ export function SessionLocationPanel({
           ) : null}
         </Card>
         <Pressable onPress={() => setShowAddSheet(true)}>
-          <Text style={{ color: ui.textMuted, fontSize: 14, textDecorationLine: 'underline' }}>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
             Add new location
           </Text>
         </Pressable>
@@ -93,11 +100,13 @@ export function SessionLocationPanel({
 
   return (
     <View style={{ gap: 8 }}>
-      <Text style={{ fontWeight: '600' }}>Location</Text>
+      <Text variant="body" weight="bold">
+        Location
+      </Text>
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
           {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-          <Text>
+          <Text variant="body">
             {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
             {sessionLoc.name}
           </Text>
@@ -107,7 +116,7 @@ export function SessionLocationPanel({
         ) : null}
       </Card>
       <Pressable onPress={() => setShowAddSheet(true)}>
-        <Text style={{ color: ui.textMuted, fontSize: 14, textDecorationLine: 'underline' }}>
+        <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
           Add new location
         </Text>
       </Pressable>

@@ -1,8 +1,9 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Card } from '../atoms/Card';
 import { Icon } from '../atoms/Icon';
 import { Section } from '../atoms/Section';
+import { Text } from '../atoms/Text';
 import { MiniBars } from '../molecules/MiniBars';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
@@ -51,41 +52,50 @@ export function DashboardTrends({
               style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
             >
               <Text
-                style={{
-                  fontWeight: timeframe === t ? '700' : '400',
-                  textDecorationLine: timeframe === t ? 'underline' : 'none',
-                }}
+                variant="body"
+                weight={timeframe === t ? 'bold' : 'regular'}
+                style={{ textDecorationLine: timeframe === t ? 'underline' : 'none' }}
               >
                 {t === 'week' ? 'Week' : t === 'month' ? 'Month' : '3 mo'}
               </Text>
             </Pressable>
           ))}
         </View>
-        <Text style={{ color: ui.textMuted, fontSize: 13 }}>Showing {timeframeLabel.toLowerCase()} view</Text>
+        <Text variant="bodySmall" color={ui.textMuted}>
+          Showing {timeframeLabel.toLowerCase()} view
+        </Text>
       </Card>
 
       <Card>
-        <Text style={{ fontWeight: '700' }}>Session duration</Text>
+        <Text variant="body" weight="bold">
+          Session duration
+        </Text>
         <MiniBars data={durationData} unit="m" />
       </Card>
 
       <Card>
-        <Text style={{ fontWeight: '700' }}>Difficulty trend</Text>
+        <Text variant="body" weight="bold">
+          Difficulty trend
+        </Text>
         <MiniBars data={difficultyData} />
       </Card>
 
       <Card>
-        <Text style={{ fontWeight: '700' }}>Warm-up climb count</Text>
+        <Text variant="body" weight="bold">
+          Warm-up climb count
+        </Text>
         <MiniBars data={warmUpData} />
       </Card>
 
       {standouts.length ? (
         <Card>
-          <Text style={{ fontWeight: '700' }}>Standout climbs</Text>
+          <Text variant="body" weight="bold">
+            Standout climbs
+          </Text>
           {standouts.map((t) => (
             <View key={t.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
               <Icon name="sparkle" size="xs" color={ui.text} />
-              <Text>
+              <Text variant="body">
                 {t.label}: {t.detail}
               </Text>
             </View>

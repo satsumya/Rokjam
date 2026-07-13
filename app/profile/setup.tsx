@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
   AddressSearch,
+  Avatar,
   Button,
   Card,
   Icon,
@@ -12,6 +13,7 @@ import {
   Screen,
   Section,
   TagInput,
+  Text,
   TextField,
 } from '../../src/components';
 import { ui } from '../../src/theme/colors';
@@ -123,7 +125,9 @@ export default function ProfileSetupScreen() {
       title="Member profile"
       headerRight={
         <Pressable onPress={handleExit}>
-          <Text style={{ fontSize: 15, textDecorationLine: 'underline' }}>Exit</Text>
+          <Text variant="body" style={{ textDecorationLine: 'underline' }}>
+            Exit
+          </Text>
         </Pressable>
       }
       footer={
@@ -153,7 +157,7 @@ export default function ProfileSetupScreen() {
                 alignItems: 'center',
               }}
             >
-              <Text style={{ fontSize: 28 }}>{rock}</Text>
+              <Avatar emoji={rock} size="lg" />
             </Pressable>
           ))}
         </View>
@@ -198,7 +202,9 @@ export default function ProfileSetupScreen() {
                 }}
               >
                 {location.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-                <Text style={{ flex: 1, fontWeight: '700' }}>{location.name}</Text>
+                <Text variant="body" weight="bold" style={{ flex: 1 }}>
+                  {location.name}
+                </Text>
                 <Icon name={isOpen ? 'caretUp' : 'caretDown'} size="xs" color={ui.text} />
               </Pressable>
 
@@ -226,7 +232,9 @@ export default function ProfileSetupScreen() {
                     </View>
                   ) : (
                     <View style={{ gap: 8 }}>
-                      {location.nickname ? <Text>Nickname: {location.nickname}</Text> : null}
+                      {location.nickname ? (
+                        <Text variant="body">Nickname: {location.nickname}</Text>
+                      ) : null}
                       <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
                         <Button
                           label="Edit location"
@@ -247,7 +255,9 @@ export default function ProfileSetupScreen() {
                   )}
 
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={{ fontWeight: '700' }}>Difficulty levels</Text>
+                    <Text variant="body" weight="bold">
+                      Difficulty levels
+                    </Text>
                     <Button
                       label={location.levelSort === 'easy-hard' ? 'Easy → Hard' : 'Hard → Easy'}
                       variant="ghost"
@@ -257,8 +267,10 @@ export default function ProfileSetupScreen() {
 
                   {levelsNudgeLocationId === location.id ? (
                     <Card>
-                      <Text style={{ fontWeight: '600' }}>Add difficulty levels for this location</Text>
-                      <Text>
+                      <Text variant="body" weight="bold">
+                        Add difficulty levels for this location
+                      </Text>
+                      <Text variant="body">
                         Levels help when logging climbs. Adjust the default level or add more to match your
                         gym&apos;s grading.
                       </Text>

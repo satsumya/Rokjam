@@ -1,5 +1,6 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
+import { Text } from './Text';
 import { colors } from '../../theme/colors';
 import { mixHex } from '../../theme/colorUtils';
 import { focusRing, interactionFlags, type PreviewState } from '../../theme/interaction';
@@ -66,7 +67,9 @@ export function FlowMapActionButton({
         };
       }}
     >
-      <Text style={{ fontSize: 12, fontWeight: '600', color: textColor }}>{label}</Text>
+      <Text variant="bodySmall" weight="bold" color={textColor}>
+        {label}
+      </Text>
     </Pressable>
   );
 }

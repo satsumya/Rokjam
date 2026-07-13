@@ -1,7 +1,6 @@
-import { Text } from 'react-native';
-
 import { Card } from '../atoms/Card';
 import { Section } from '../atoms/Section';
+import { Text } from '../atoms/Text';
 import { MiniBars } from '../molecules/MiniBars';
 import type { ClimbingSession } from '../../types/climbingSession';
 
@@ -29,11 +28,13 @@ export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
   return (
     <Section title="Community trends">
       <Card>
-        <Text>Public sessions this week: {sessions.length}</Text>
-        <Text>Total flashes logged: {flashCount}</Text>
+        <Text variant="body">Public sessions this week: {sessions.length}</Text>
+        <Text variant="body">Total flashes logged: {flashCount}</Text>
         {topTags.length ? (
           <>
-            <Text style={{ fontWeight: '700', marginTop: 4 }}>Popular tags</Text>
+            <Text variant="body" weight="bold" style={{ marginTop: 4 }}>
+              Popular tags
+            </Text>
             <MiniBars data={topTags} />
           </>
         ) : null}

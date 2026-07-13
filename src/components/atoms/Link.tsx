@@ -1,5 +1,6 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
@@ -18,11 +19,13 @@ export function Link({
       onPress={onPress}
       style={(state) => [interactionStyle(state), previewInteractionStyle(previewState)]}
     >
-      <Text style={styles.link}>{label}</Text>
+      <Text variant="body" color={ui.primary} style={styles.link}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  link: { color: ui.primary, fontSize: 15, textDecorationLine: 'underline', textAlign: 'center' },
+  link: { textDecorationLine: 'underline', textAlign: 'center' },
 });

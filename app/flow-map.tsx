@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { SCENARIO_FLOWS } from '../src/constants/scenarios';
 import type { ScenarioFlow } from '../src/constants/scenarios';
-import { Button, FlowMapDiagram, Screen, Section } from '../src/components';
+import { Button, FlowMapDiagram, Screen, Section, Text } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
@@ -35,7 +35,9 @@ function FilterChip({
         interactionStyle(state),
       ]}
     >
-      <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14 }}>{label}</Text>
+      <Text variant="body" weight={active ? 'bold' : 'regular'}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -69,7 +71,7 @@ export default function FlowMapPage() {
       }
     >
       <Section title="How to use">
-        <Text style={{ color: ui.textMuted, lineHeight: 22 }}>
+        <Text variant="body" color={ui.textMuted}>
           Journeys read left to right. The first screen in each column shares the same top edge so the main path
           is easy to scan; alternate paths stack below. Scroll horizontally within a journey when the diagram
           is wider than your screen. Tap a screen thumbnail to jump into the app at that point

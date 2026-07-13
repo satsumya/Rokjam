@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 
 import {
+  Avatar,
   Button,
   Card,
   CommunityTrends,
@@ -10,6 +11,7 @@ import {
   Screen,
   Section,
   SessionRow,
+  Text,
 } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { ui } from '../../src/theme/colors';
@@ -62,7 +64,9 @@ export default function CommunityScreen() {
           ] as const
         ).map(([value, label]) => (
           <Pressable key={value} onPress={() => setTab(value)}>
-            <Text style={{ fontWeight: tab === value ? '700' : '400' }}>{label}</Text>
+            <Text variant="body" weight={tab === value ? 'bold' : 'regular'}>
+              {label}
+            </Text>
           </Pressable>
         ))}
       </View>
@@ -72,16 +76,20 @@ export default function CommunityScreen() {
       <Section title="Public sessions">
         {feed.length === 0 ? (
           <Card>
-            <Text>No public sessions to show.</Text>
+            <Text variant="body">No public sessions to show.</Text>
           </Card>
         ) : (
           feed.map((session) => (
             <Card key={session.id}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                <Text style={{ fontSize: 24 }}>{session.ownerAvatar}</Text>
+                <Avatar emoji={session.ownerAvatar} size="md" />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontWeight: '700' }}>{session.ownerUsername}</Text>
-                  <Text style={{ color: ui.textMuted, fontSize: 13 }}>{session.date}</Text>
+                  <Text variant="body" weight="bold">
+                    {session.ownerUsername}
+                  </Text>
+                  <Text variant="bodySmall" color={ui.textMuted}>
+                    {session.date}
+                  </Text>
                 </View>
                 <Button
                   label={followedUsers.includes(session.ownerUsername) ? 'Following' : 'Follow'}
@@ -104,7 +112,7 @@ export default function CommunityScreen() {
                 onPress={() => {}}
               />
               {session.climbs.slice(0, 2).map((climb) => (
-                <Text key={climb.id}>
+                <Text key={climb.id} variant="body">
                   {climb.levelName ? `${climb.levelName} · ` : ''}
                   {climb.name ?? 'Unnamed'} —{' '}
                   {climb.attempts[climb.attempts.length - 1]?.progress.join(', ') ?? '—'}

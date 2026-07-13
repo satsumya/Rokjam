@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Button, HintList, Link, Screen, TextField } from '../../src/components';
+import { Button, HintList, Link, Screen, Text, TextField } from '../../src/components';
 import { ui } from '../../src/theme/colors';
 import { isPasswordValid } from '../../src/utils/validation';
 
@@ -32,7 +31,9 @@ export default function ResetPasswordScreen() {
         </>
       }
     >
-      <Text style={{ color: ui.textMuted }}>Set a new password for {email || 'your account'}.</Text>
+      <Text variant="body" color={ui.textMuted}>
+        Set a new password for {email || 'your account'}.
+      </Text>
       <TextField
         label="New password"
         required

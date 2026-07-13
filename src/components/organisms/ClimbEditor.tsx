@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
 import { CheckboxRow } from '../atoms/CheckboxRow';
 import { Icon } from '../atoms/Icon';
+import { Text } from '../atoms/Text';
 import { ToggleChip } from '../atoms/ToggleChip';
 import { Section } from '../atoms/Section';
 import { TextField } from '../atoms/TextField';
 import { DifficultyPicker } from '../molecules/DifficultyPicker';
+import { bodySizes, fontFamilies } from '../../theme/typography';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb } from '../../types/climbingSession';
 import {
@@ -84,7 +86,9 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             }
           />
         ) : (
-          <Text style={{ color: ui.textMuted }}>Add a location with levels to pick difficulty.</Text>
+          <Text variant="body" color={ui.textMuted}>
+            Add a location with levels to pick difficulty.
+          </Text>
         )}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           <CheckboxRow label="Warm-up" checked={climb.isWarmUp} onPress={() => onChange({ isWarmUp: !climb.isWarmUp })} />
@@ -136,7 +140,9 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                 borderRadius: 8,
                 paddingHorizontal: 12,
                 paddingVertical: 10,
-                fontSize: 16,
+                fontFamily: fontFamilies.bodyRegular,
+                fontSize: bodySizes.base,
+                color: ui.text,
               },
               customTagField.focused ? focusRing : null,
             ]}
@@ -154,7 +160,9 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                   interactionStyle(state),
                 ]}
               >
-                <Text style={{ textDecorationLine: 'underline' }}>{tag}</Text>
+                <Text variant="body" style={{ textDecorationLine: 'underline' }}>
+                  {tag}
+                </Text>
                 <Icon name="close" size="xs" color={ui.text} />
               </Pressable>
             ))}
@@ -166,13 +174,17 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
         {climb.attempts.map((attempt, index) => (
           <View key={attempt.id} style={{ gap: 4, marginBottom: 8 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Text style={{ fontWeight: '600', flex: 1 }}>Attempt {index + 1}</Text>
+              <Text variant="body" weight="bold" style={{ flex: 1 }}>
+                Attempt {index + 1}
+              </Text>
               {climb.attempts.length > 1 ? (
                 <Pressable
                   onPress={() => removeAttempt(attempt.id)}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
                 >
-                  <Text style={{ color: ui.textMuted, textDecorationLine: 'underline' }}>Remove</Text>
+                  <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
+                    Remove
+                  </Text>
                 </Pressable>
               ) : null}
             </View>

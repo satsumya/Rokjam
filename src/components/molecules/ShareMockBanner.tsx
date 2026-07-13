@@ -1,12 +1,13 @@
-import { Text } from 'react-native';
-
 import { Card } from '../atoms/Card';
+import { Text } from '../atoms/Text';
 
 export function ShareMockBanner({ visible }: { visible: boolean }) {
   if (!visible) return null;
   return (
     <Card>
-      <Text style={{ fontWeight: '700' }}>Share link copied (prototype mock)</Text>
+      <Text variant="body" weight="bold">
+        Share link copied (prototype mock)
+      </Text>
     </Card>
   );
 }

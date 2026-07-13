@@ -11,6 +11,8 @@ import {
   CircleIcon,
   DotsSixVertical,
   HouseLine,
+  PencilSimple,
+  RadioButton,
   Sparkle,
   Square,
   VideoCamera,
@@ -46,6 +48,9 @@ const ICONS = {
   close: X,
   dragHandle: DotsSixVertical,
   house: HouseLine,
+  pencil: PencilSimple,
+  radioSelected: RadioButton,
+  radioUnselected: CircleIcon,
   sparkle: Sparkle,
   video: VideoCamera,
 } satisfies Record<string, PhosphorIcon>;

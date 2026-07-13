@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -10,6 +10,7 @@ import {
   Screen,
   Section,
   SessionRow,
+  Text,
 } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import {
@@ -46,7 +47,7 @@ export default function SessionsListScreen() {
     >
       {completed.length === 0 ? (
         <Card>
-          <Text>No completed sessions yet.</Text>
+          <Text variant="body">No completed sessions yet.</Text>
           <PrototypeOnly>
             <Button label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
           </PrototypeOnly>
@@ -80,8 +81,10 @@ export default function SessionsListScreen() {
             .map((session) => (
               <Pressable key={session.id} onPress={() => router.push(`/sessions/${session.id}/active`)}>
                 <Card>
-                  <Text style={{ fontWeight: '700' }}>In progress — {session.date}</Text>
-                  <Text>Tap to continue logging climbs</Text>
+                  <Text variant="body" weight="bold">
+                    In progress — {session.date}
+                  </Text>
+                  <Text variant="body">Tap to continue logging climbs</Text>
                 </Card>
               </Pressable>
             ))}

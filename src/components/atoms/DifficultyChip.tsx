@@ -1,6 +1,7 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable } from 'react-native';
 
 import { LevelDot } from './LevelDot';
+import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
@@ -38,7 +39,7 @@ export function DifficultyChip({
       ]}
     >
       <LevelDot color={color} size={10} />
-      <Text>{name}</Text>
+      <Text variant="body">{name}</Text>
     </Pressable>
   );
 }

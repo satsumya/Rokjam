@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Button } from '../atoms/Button';
+import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { Modal } from '../molecules/Modal';
 import { AddressSearch } from '../molecules/AddressSearch';
@@ -83,7 +84,7 @@ export function AddLocationSheet({
         </>
       }
     >
-      <Text style={{ color: ui.textMuted, lineHeight: 20 }}>
+      <Text variant="body" color={ui.textMuted}>
         Search for your gym or crag, then set up difficulty levels for this location.
       </Text>
 
@@ -101,8 +102,10 @@ export function AddLocationSheet({
               gap: 4,
             }}
           >
-            <Text style={{ fontWeight: '700' }}>Selected location</Text>
-            <Text>{address}</Text>
+            <Text variant="body" weight="bold">
+              Selected location
+            </Text>
+            <Text variant="body">{address}</Text>
             <Button
               label="Change location"
               variant="ghost"
@@ -120,8 +123,10 @@ export function AddLocationSheet({
             placeholder="e.g. Home gym"
           />
 
-          <Text style={{ fontWeight: '700' }}>Difficulty levels</Text>
-          <Text style={{ color: ui.textMuted, fontSize: 13, lineHeight: 18 }}>
+          <Text variant="body" weight="bold">
+            Difficulty levels
+          </Text>
+          <Text variant="bodySmall" color={ui.textMuted}>
             Add the colour grades used at this location. You need at least one level.
           </Text>
 
@@ -173,7 +178,11 @@ export function AddLocationSheet({
         </View>
       )}
 
-      {error && address ? <Text style={{ color: ui.danger }}>{error}</Text> : null}
+      {error && address ? (
+        <Text variant="body" color={ui.danger}>
+          {error}
+        </Text>
+      ) : null}
     </Modal>
   );
 }

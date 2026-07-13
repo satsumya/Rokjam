@@ -5,14 +5,15 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
 import { Icon } from '../atoms/Icon';
+import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
+import { fontFamilies } from '../../theme/typography';
 
 export type DropdownOption = {
   value: string;
@@ -46,6 +47,7 @@ function WebSelect({
         width: '100%',
         appearance: 'auto',
         WebkitAppearance: 'menulist',
+        fontFamily: fontFamilies.bodyRegular,
         fontSize: 16,
         color: ui.text,
         cursor: 'pointer',
@@ -109,7 +111,7 @@ function NativeDropdownMenu({
                   interactionStyle(state),
                 ]}
               >
-                <Text style={option.value === value ? styles.menuItemTextSelected : undefined}>
+                <Text variant="body" weight={option.value === value ? 'bold' : 'regular'}>
                   {option.label}
                 </Text>
               </Pressable>
@@ -153,7 +155,9 @@ export function Dropdown({
 
   return (
     <View style={{ gap: 6 }}>
-      <Text style={{ fontWeight: '600', fontSize: 14 }}>{label}</Text>
+      <Text variant="body" weight="bold">
+        {label}
+      </Text>
 
       {Platform.OS === 'web' ? (
         <WebSelect value={value} options={options} onChange={onChange} />
@@ -173,7 +177,7 @@ export function Dropdown({
               interactionStyle(state),
             ]}
           >
-            <Text style={{ fontSize: 16, color: ui.text }}>{displayLabel}</Text>
+            <Text variant="body">{displayLabel}</Text>
             <Icon name="caretDown" size="xs" color={ui.textMuted} />
           </Pressable>
           <NativeDropdownMenu
@@ -231,8 +235,5 @@ const styles = StyleSheet.create({
   },
   menuItemSelected: {
     backgroundColor: ui.surfaceMuted,
-  },
-  menuItemTextSelected: {
-    fontWeight: '700',
   },
 });

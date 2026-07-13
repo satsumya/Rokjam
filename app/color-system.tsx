@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 
 import {
@@ -8,6 +8,7 @@ import {
   type ColorSystemFilter,
   Screen,
   Section,
+  Text,
 } from '../src/components';
 import { colors } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
@@ -37,7 +38,7 @@ function FilterChip({
         interactionStyle(state),
       ]}
     >
-      <Text style={{ fontWeight: active ? '700' : '400', fontSize: 14, color: colors.neutral[900] }}>
+      <Text variant="body" weight={active ? 'bold' : 'regular'} color={colors.neutral[900]}>
         {label}
       </Text>
     </Pressable>
@@ -60,14 +61,16 @@ export default function ColorSystemPage() {
       }
     >
       <Section title="How to use">
-        <Text style={{ color: colors.neutral[600], lineHeight: 22 }}>
+        <Text variant="body" color={colors.neutral[600]}>
           Live reference for design tokens in `src/theme/colors.ts`. Brand colours match climbing difficulty
           levels; neutral and semantic scales support UI surfaces and feedback. Token names map to the CSS-style
           convention in DesignSystem.md (e.g. `brand.blue.main`, `neutral.100`). Adjust tokens in the theme
           file — WCAG AA pass/fail recalculates automatically when this page reloads (hot reload in dev, or
           refresh the browser). No separate recheck step.
         </Text>
-        <Text style={{ color: colors.neutral[500], fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
+        <Text variant="bodySmall" color={colors.neutral[500]} style={{ marginTop: 8 }}>
+          {scenarioWebLink('/color-system')}
+        </Text>
       </Section>
 
       <Section title="Filter">
