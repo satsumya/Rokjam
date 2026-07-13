@@ -2,13 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react-native';
 import { fn } from 'storybook/test';
 
 import { Link } from './Link';
-import { Padded } from '../storybook.helpers';
+import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
 
 const meta = {
   title: 'Atoms/Link',
   component: Link,
   decorators: [Padded],
   args: { label: 'Back to dashboard', onPress: fn() },
+  argTypes: { previewState: previewStateArgType },
 } satisfies Meta<typeof Link>;
 
 export default meta;
@@ -16,3 +17,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const States: Story = {
+  render: (args) => (
+    <StatesGallery>
+      {(state) => <Link {...args} previewState={state} />}
+    </StatesGallery>
+  ),
+};

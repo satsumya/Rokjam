@@ -9,28 +9,41 @@
 import { useState } from 'react';
 import { Platform, type PressableStateCallbackType, type ViewStyle } from 'react-native';
 
-import { colors } from './colors';
-
-/** Accessible focus-ring colour — a blue accent distinct from brand fills. */
-export const FOCUS_RING_COLOR = colors.brand.blue.accent;
+import { focus } from './colors';
 
 const HOVER_OPACITY = 0.92;
 const PRESS_OPACITY = 0.8;
 
 /**
- * Visible keyboard-focus ring. Uses the CSS outline on web (no layout shift);
- * falls back to recolouring the border on native.
+ * Builds a keyboard-focus ring from the theme `focus` tokens. Uses the CSS
+ * outline on web (no layout shift); falls back to recolouring the border on
+ * native. Pass `inverse` for controls that sit on a dark surface.
  */
-export const focusRing = (
-  Platform.OS === 'web'
-    ? {
-        outlineWidth: 2,
-        outlineStyle: 'solid',
-        outlineColor: FOCUS_RING_COLOR,
-        outlineOffset: 2,
-      }
-    : { borderColor: FOCUS_RING_COLOR }
-) as ViewStyle;
+function buildFocusRing(inverse = false): ViewStyle {
+  const color = inverse ? focus.ringInverse : focus.ring;
+  return (
+    Platform.OS === 'web'
+      ? {
+          outlineWidth: focus.width,
+          outlineStyle: 'solid',
+          outlineColor: color,
+          outlineOffset: focus.offset,
+        }
+      : { borderColor: color, borderWidth: focus.width }
+  ) as ViewStyle;
+}
+
+/** Focus ring for controls on light surfaces (the default). */
+export const focusRing = buildFocusRing(false);
+
+/** Focus ring for controls on dark surfaces. */
+export const focusRingInverse = buildFocusRing(true);
+
+/**
+ * A forced interaction state, used for previews and Storybook controls so a
+ * static render can show hover / press / focus without real user interaction.
+ */
+export type PreviewState = 'default' | 'hover' | 'pressed' | 'focused';
 
 type PressableInteractionState = PressableStateCallbackType & {
   hovered?: boolean;
@@ -50,13 +63,36 @@ export function interactionFlags(state: PressableStateCallbackType) {
 /**
  * Consistent hover/press/focus styling for any Pressable. Spread the result into
  * the component's style array from within its `style={(state) => [...]}` callback.
+ * Pass `{ inverse: true }` for controls rendered on a dark surface.
  */
-export function interactionStyle(state: PressableStateCallbackType): ViewStyle {
+export function interactionStyle(
+  state: PressableStateCallbackType,
+  options?: { inverse?: boolean },
+): ViewStyle {
   const { pressed, hovered, focused } = interactionFlags(state);
   return {
     opacity: pressed ? PRESS_OPACITY : hovered ? HOVER_OPACITY : 1,
-    ...(focused ? focusRing : null),
+    ...(focused ? (options?.inverse ? focusRingInverse : focusRing) : null),
   };
+}
+
+/**
+ * Style for a forced preview state — returns the same result `interactionStyle`
+ * would produce if that state were active. Returns an empty style for
+ * `'default'`/undefined, so it can be spread unconditionally into a style array
+ * (a real state wins unless a preview state is set).
+ */
+export function previewInteractionStyle(
+  preview?: PreviewState,
+  options?: { inverse?: boolean },
+): ViewStyle {
+  if (!preview || preview === 'default') return {};
+  const state = {
+    pressed: preview === 'pressed',
+    hovered: preview === 'hover',
+    focused: preview === 'focused',
+  } as PressableInteractionState;
+  return interactionStyle(state, options);
 }
 
 /**

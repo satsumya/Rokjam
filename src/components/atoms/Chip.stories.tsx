@@ -3,13 +3,14 @@ import { View } from 'react-native';
 import { fn } from 'storybook/test';
 
 import { Chip, RemovableChip } from './Chip';
-import { Padded } from '../storybook.helpers';
+import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
 
 const meta = {
   title: 'Atoms/Chip',
   component: Chip,
   decorators: [Padded],
   args: { label: 'dyno', onPress: fn() },
+  argTypes: { previewState: previewStateArgType },
 } satisfies Meta<typeof Chip>;
 
 export default meta;
@@ -26,5 +27,13 @@ export const Removable: Story = {
       <RemovableChip label="dyno" onPress={fn()} />
       <RemovableChip label="slab" onPress={fn()} />
     </View>
+  ),
+};
+
+export const States: Story = {
+  render: (args) => (
+    <StatesGallery>
+      {(state) => <Chip {...args} previewState={state} />}
+    </StatesGallery>
   ),
 };

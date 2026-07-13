@@ -1,11 +1,36 @@
 import type { Decorator } from '@storybook/react-native';
-import { ScrollView } from 'react-native';
+import type { ReactNode } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 
 import { PrototypeProvider } from '../context/PrototypeContext';
 import type { Location } from '../context/PrototypeContext';
 import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
 import type { ClimbingSession, SessionClimb } from '../types/climbingSession';
 import { ui } from '../theme/colors';
+import type { PreviewState } from '../theme/interaction';
+
+/** The interaction states demoable via the `previewState` prop / control. */
+export const PREVIEW_STATES: PreviewState[] = ['default', 'hover', 'pressed', 'focused'];
+
+/** Shared Storybook control for forcing a component's interaction state. */
+export const previewStateArgType = {
+  control: { type: 'select' as const },
+  options: PREVIEW_STATES,
+};
+
+/** Renders a labelled column of the four interaction states for a component. */
+export function StatesGallery({ children }: { children: (state: PreviewState) => ReactNode }) {
+  return (
+    <View style={{ gap: 12, alignItems: 'flex-start' }}>
+      {PREVIEW_STATES.map((state) => (
+        <View key={state} style={{ gap: 4, alignItems: 'flex-start' }}>
+          <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textMuted }}>{state}</Text>
+          {children(state)}
+        </View>
+      ))}
+    </View>
+  );
+}
 
 /** Pads stories and gives them the app background so components sit on-brand. */
 export const Padded: Decorator = (Story) => (

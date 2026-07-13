@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { fn } from 'storybook/test';
 
 import { TextField } from './TextField';
-import { Padded } from '../storybook.helpers';
+import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
 
 const meta = {
   title: 'Atoms/TextField',
   component: TextField,
   decorators: [Padded],
   args: { label: 'Email', value: '', onChangeText: fn() },
+  argTypes: { previewState: previewStateArgType },
 } satisfies Meta<typeof TextField>;
 
 export default meta;
@@ -34,4 +35,14 @@ export const Interactive: Story = {
     const [value, setValue] = useState('');
     return <TextField {...args} value={value} onChangeText={setValue} />;
   },
+};
+
+// Inputs have no press state; hover and focus apply.
+export const States: Story = {
+  args: { label: 'Email', placeholder: 'you@example.com' },
+  render: (args) => (
+    <StatesGallery>
+      {(state) => <TextField {...args} previewState={state} />}
+    </StatesGallery>
+  ),
 };

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { ui } from '../../theme/colors';
-import { focusRing, useHoverFocus } from '../../theme/interaction';
+import { focusRing, useHoverFocus, type PreviewState } from '../../theme/interaction';
 
 export function TextField({
   label,
@@ -14,6 +14,7 @@ export function TextField({
   hint,
   keyboardType,
   maxLength,
+  previewState,
 }: {
   label: string;
   value: string;
@@ -25,8 +26,12 @@ export function TextField({
   hint?: string;
   keyboardType?: 'default' | 'email-address' | 'number-pad';
   maxLength?: number;
+  /** Preview/Storybook only: force a hover/focus visual state. */
+  previewState?: PreviewState;
 }) {
   const { hovered, focused, bind } = useHoverFocus();
+  const hoverActive = hovered || previewState === 'hover';
+  const focusActive = focused || previewState === 'focused';
 
   return (
     <View style={styles.field}>
@@ -45,9 +50,9 @@ export function TextField({
         {...(bind as object)}
         style={[
           styles.input,
-          hovered ? styles.inputHover : null,
+          hoverActive ? styles.inputHover : null,
           error ? styles.inputError : null,
-          focused ? focusRing : null,
+          focusActive ? focusRing : null,
         ]}
       />
       {hint && !error ? <Text style={styles.hint}>{hint}</Text> : null}

@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { fn } from 'storybook/test';
 
 import { ToggleChip } from './ToggleChip';
-import { Padded } from '../storybook.helpers';
+import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
 
 const meta = {
   title: 'Atoms/ToggleChip',
   component: ToggleChip,
   decorators: [Padded],
   args: { label: 'overhang', selected: false, onPress: fn() },
+  argTypes: { previewState: previewStateArgType },
 } satisfies Meta<typeof ToggleChip>;
 
 export default meta;
@@ -25,4 +26,12 @@ export const Interactive: Story = {
     const [on, setOn] = useState(false);
     return <ToggleChip {...args} selected={on} onPress={() => setOn((v) => !v)} />;
   },
+};
+
+export const States: Story = {
+  render: (args) => (
+    <StatesGallery>
+      {(state) => <ToggleChip {...args} previewState={state} />}
+    </StatesGallery>
+  ),
 };

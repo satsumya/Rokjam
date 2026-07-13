@@ -225,6 +225,19 @@ export const ui = {
 
 export type UiColorToken = keyof typeof ui;
 
+/**
+ * Focus-state tokens for the shared keyboard focus ring (see theme/interaction).
+ * `ring` is tuned for light surfaces; `ringInverse` stays legible on dark ones.
+ * `width` maps to the web outline width / native border width, `offset` to the
+ * web outline offset (the gap between the element and the ring).
+ */
+export const focus = {
+  ring: colors.semantic.discovery.accent,
+  ringInverse: colors.semantic.discovery.mainContrast,
+  width: 2,
+  offset: 4,
+} as const;
+
 export const BRAND_COLOR_ORDER: BrandColorId[] = [
   'yellow',
   'blue',

@@ -2,7 +2,7 @@ import { Pressable, Text } from 'react-native';
 
 import { colors } from '../../theme/colors';
 import { mixHex } from '../../theme/colorUtils';
-import { focusRing, interactionFlags } from '../../theme/interaction';
+import { focusRing, interactionFlags, type PreviewState } from '../../theme/interaction';
 
 export type FlowMapActionVariant = 'download' | 'update';
 
@@ -30,12 +30,15 @@ export function FlowMapActionButton({
   accessibilityLabel,
   variant = 'download',
   disabled,
+  previewState,
 }: {
   label: string;
   onPress: () => void;
   accessibilityLabel: string;
   variant?: FlowMapActionVariant;
   disabled?: boolean;
+  /** Preview/Storybook only: force a hover/press/focus visual state. */
+  previewState?: PreviewState;
 }) {
   const palette = variant === 'update' ? FLOW_STATUS.update : FLOW_STATUS.download;
   const borderColor = palette.border;
@@ -47,7 +50,10 @@ export function FlowMapActionButton({
       disabled={disabled}
       accessibilityLabel={accessibilityLabel}
       style={(state) => {
-        const { pressed, hovered, focused } = interactionFlags(state);
+        const flags = interactionFlags(state);
+        const pressed = flags.pressed || previewState === 'pressed';
+        const hovered = flags.hovered || previewState === 'hover';
+        const focused = flags.focused || previewState === 'focused';
         return {
           borderWidth: 1,
           borderColor,

@@ -1,11 +1,23 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
+import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
-export function Link({ label, onPress }: { label: string; onPress: () => void }) {
+export function Link({
+  label,
+  onPress,
+  previewState,
+}: {
+  label: string;
+  onPress: () => void;
+  /** Preview/Storybook only: force a hover/press/focus visual state. */
+  previewState?: PreviewState;
+}) {
   return (
-    <Pressable onPress={onPress} style={interactionStyle}>
+    <Pressable
+      onPress={onPress}
+      style={(state) => [interactionStyle(state), previewInteractionStyle(previewState)]}
+    >
       <Text style={styles.link}>{label}</Text>
     </Pressable>
   );

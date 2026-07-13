@@ -1,17 +1,20 @@
 import { Pressable, Text } from 'react-native';
 
 import { ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
+import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
 /** Rounded pill used for tags and suggestions. */
 export function Chip({
   label,
   onPress,
   selected = false,
+  previewState,
 }: {
   label: string;
   onPress: () => void;
   selected?: boolean;
+  /** Preview/Storybook only: force a hover/press/focus visual state. */
+  previewState?: PreviewState;
 }) {
   return (
     <Pressable
@@ -26,6 +29,7 @@ export function Chip({
           backgroundColor: selected ? ui.surfaceMuted : undefined,
         },
         interactionStyle(state),
+        previewInteractionStyle(previewState),
       ]}
     >
       <Text>{label}</Text>
@@ -34,7 +38,16 @@ export function Chip({
 }
 
 /** Selected tag pill with a remove affordance. */
-export function RemovableChip({ label, onPress }: { label: string; onPress: () => void }) {
+export function RemovableChip({
+  label,
+  onPress,
+  previewState,
+}: {
+  label: string;
+  onPress: () => void;
+  /** Preview/Storybook only: force a hover/press/focus visual state. */
+  previewState?: PreviewState;
+}) {
   return (
     <Pressable
       onPress={onPress}
@@ -51,6 +64,7 @@ export function RemovableChip({ label, onPress }: { label: string; onPress: () =
           backgroundColor: ui.surfaceMuted,
         },
         interactionStyle(state),
+        previewInteractionStyle(previewState),
       ]}
     >
       <Text>{label}</Text>

@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { fn } from 'storybook/test';
 
 import { CheckboxRow } from './CheckboxRow';
-import { Padded } from '../storybook.helpers';
+import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
 
 const meta = {
   title: 'Atoms/CheckboxRow',
   component: CheckboxRow,
   decorators: [Padded],
   args: { label: 'Hide warm-up climbs', checked: false, onPress: fn() },
+  argTypes: { previewState: previewStateArgType },
 } satisfies Meta<typeof CheckboxRow>;
 
 export default meta;
@@ -24,4 +25,12 @@ export const Interactive: Story = {
     const [checked, setChecked] = useState(false);
     return <CheckboxRow {...args} checked={checked} onPress={() => setChecked((v) => !v)} />;
   },
+};
+
+export const States: Story = {
+  render: (args) => (
+    <StatesGallery>
+      {(state) => <CheckboxRow {...args} previewState={state} />}
+    </StatesGallery>
+  ),
 };

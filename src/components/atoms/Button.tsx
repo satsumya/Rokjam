@@ -1,18 +1,21 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
+import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
 
 export function Button({
   label,
   onPress,
   variant = 'primary',
   disabled,
+  previewState,
 }: {
   label: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary' | 'ghost';
   disabled?: boolean;
+  /** Preview/Storybook only: force a hover/press/focus visual state. */
+  previewState?: PreviewState;
 }) {
   return (
     <Pressable
@@ -23,6 +26,7 @@ export function Button({
         variant === 'secondary' && styles.buttonSecondary,
         variant === 'ghost' && styles.buttonGhost,
         disabled ? styles.buttonDisabled : interactionStyle(state),
+        !disabled && previewInteractionStyle(previewState),
       ]}
     >
       <Text
