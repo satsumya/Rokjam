@@ -1,7 +1,7 @@
 import { Pressable, Text } from 'react-native';
 import { router } from 'expo-router';
 
-import { WireframeButton, WireframeScreen } from '../src/components/Wireframe';
+import { Button, Screen } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 
@@ -14,7 +14,7 @@ export default function PostSignUpWelcomeScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Welcome"
       headerRight={
         <Pressable onPress={skipToDashboard}>
@@ -23,14 +23,14 @@ export default function PostSignUpWelcomeScreen() {
       }
       footer={
         <>
-          <WireframeButton label="Create member profile" onPress={() => router.push('/profile/setup')} />
-          <WireframeButton label="Skip for now" variant="ghost" onPress={skipToDashboard} />
+          <Button label="Create member profile" onPress={() => router.push('/profile/setup')} />
+          <Button label="Skip for now" variant="ghost" onPress={skipToDashboard} />
         </>
       }
     >
       <Text style={{ color: ui.textMuted, lineHeight: 22 }}>
         Your account is ready. Set up your member profile to personalise your climbing experience.
       </Text>
-    </WireframeScreen>
+    </Screen>
   );
 }

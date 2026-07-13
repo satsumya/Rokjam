@@ -1,13 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import {
-  WireframeButton,
-  WireframeField,
-  WireframeHintList,
-  WireframeLink,
-  WireframeScreen,
-} from '../../src/components/Wireframe';
+import { Button, HintList, Link, Screen, TextField } from '../../src/components';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { getEmailError, isPasswordValid } from '../../src/utils/validation';
@@ -59,16 +53,16 @@ export default function SignUpScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Sign up"
       footer={
         <>
-          <WireframeButton label="Create account" onPress={handleSignUp} />
-          <WireframeLink label="Already have an account? Log in" onPress={() => router.replace('/auth/login')} />
+          <Button label="Create account" onPress={handleSignUp} />
+          <Link label="Already have an account? Log in" onPress={() => router.replace('/auth/login')} />
         </>
       }
     >
-      <WireframeField
+      <TextField
         label="Email"
         required
         value={email}
@@ -77,7 +71,7 @@ export default function SignUpScreen() {
         keyboardType="email-address"
         error={emailError}
       />
-      <WireframeField
+      <TextField
         label="Password"
         required
         value={password}
@@ -85,13 +79,13 @@ export default function SignUpScreen() {
         secureTextEntry
         error={passwordError}
       />
-      <WireframeHintList
+      <HintList
         items={[
           { label: 'At least 8 characters', met: password.length >= 8 },
           { label: 'At least one number', met: /[0-9]/.test(password) },
           { label: 'At least one symbol', met: /[^A-Za-z0-9]/.test(password) },
         ]}
       />
-    </WireframeScreen>
+    </Screen>
   );
 }

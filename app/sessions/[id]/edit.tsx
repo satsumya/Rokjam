@@ -2,18 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { ClimbEditor } from '../../../src/components/SessionClimb';
-import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
-import { SessionTimeDropdown } from '../../../src/components/SessionTimeDropdown';
 import {
-  WireframeBox,
-  WireframeBottomSheet,
-  WireframeButton,
-  WireframeField,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-} from '../../../src/components/Wireframe';
+  BottomSheet,
+  Button,
+  Card,
+  ClimbEditor,
+  Link,
+  Screen,
+  Section,
+  SessionClimbsList,
+  SessionTimeDropdown,
+  TextField,
+} from '../../../src/components';
 import { usePrototype } from '../../../src/context/PrototypeContext';
 import { ui } from '../../../src/theme/colors';
 import type { SessionClimb } from '../../../src/types/climbingSession';
@@ -54,14 +54,14 @@ export default function EditSessionScreen() {
 
   if (!session || session.status !== 'completed') {
     return (
-      <WireframeScreen
+      <Screen
         title="Cannot edit"
-        footer={<WireframeLink label="Back" onPress={() => router.back()} />}
+        footer={<Link label="Back" onPress={() => router.back()} />}
       >
-        <WireframeBox>
+        <Card>
           <Text>Only completed sessions can be edited here.</Text>
-        </WireframeBox>
-      </WireframeScreen>
+        </Card>
+      </Screen>
     );
   }
 
@@ -106,16 +106,16 @@ export default function EditSessionScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Edit session"
       footer={
         <>
-          <WireframeButton label="Save changes" onPress={saveSession} />
-          <WireframeLink label="Cancel" onPress={() => router.back()} />
+          <Button label="Save changes" onPress={saveSession} />
+          <Link label="Cancel" onPress={() => router.back()} />
         </>
       }
       overlay={
-        <WireframeBottomSheet
+        <BottomSheet
           visible={Boolean(removeTarget)}
           title="Remove climb?"
           onClose={() => setRemoveTarget(null)}
@@ -125,14 +125,14 @@ export default function EditSessionScreen() {
               ? `"${removeTarget.name}" has details that will be lost.`
               : 'This climb has details that will be lost.'}
           </Text>
-          <WireframeButton label="Remove climb" onPress={confirmRemoveClimb} />
-          <WireframeButton label="Cancel" variant="ghost" onPress={() => setRemoveTarget(null)} />
-        </WireframeBottomSheet>
+          <Button label="Remove climb" onPress={confirmRemoveClimb} />
+          <Button label="Cancel" variant="ghost" onPress={() => setRemoveTarget(null)} />
+        </BottomSheet>
       }
     >
-      <WireframeSection title="Session">
+      <Section title="Session">
         <Text style={{ fontWeight: '600' }}>{formatSessionDate(session.date)}</Text>
-        <WireframeField
+        <TextField
           label="Date"
           value={session.date}
           onChangeText={(date) => updateSession(session.id, { date })}
@@ -156,11 +156,11 @@ export default function EditSessionScreen() {
           </Pressable>
         </View>
         {publicError ? <Text style={{ color: ui.danger }}>{publicError}</Text> : null}
-      </WireframeSection>
+      </Section>
 
-      <WireframeSection title="Climbs">
+      <Section title="Climbs">
         {!draftClimb ? (
-          <WireframeButton
+          <Button
             label="Add climb"
             variant="secondary"
             onPress={() => {
@@ -175,8 +175,8 @@ export default function EditSessionScreen() {
               location={location}
               onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
             />
-            <WireframeButton label="Save climb" onPress={saveClimb} />
-            <WireframeButton
+            <Button label="Save climb" onPress={saveClimb} />
+            <Button
               label="Cancel"
               variant="ghost"
               onPress={() => {
@@ -205,7 +205,7 @@ export default function EditSessionScreen() {
             }
           />
         ) : null}
-      </WireframeSection>
-    </WireframeScreen>
+      </Section>
+    </Screen>
   );
 }

@@ -2,12 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import {
-  WireframeButton,
-  WireframeField,
-  WireframeLink,
-  WireframeScreen,
-} from '../../src/components/Wireframe';
+import { Button, Link, Screen, TextField } from '../../src/components';
 import { ui } from '../../src/theme/colors';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
@@ -71,16 +66,16 @@ export default function LoginScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Log in"
       footer={
         <>
-          <WireframeButton label="Log in" onPress={handleLogin} />
-          <WireframeLink
+          <Button label="Log in" onPress={handleLogin} />
+          <Link
             label="Forgot password?"
             onPress={() => router.push('/auth/forgot-password')}
           />
-          <WireframeLink label="Need an account? Sign up" onPress={() => router.replace('/auth/signup')} />
+          <Link label="Need an account? Sign up" onPress={() => router.replace('/auth/signup')} />
         </>
       }
     >
@@ -89,7 +84,7 @@ export default function LoginScreen() {
           An account already exists for this email. Log in instead.
         </Text>
       ) : null}
-      <WireframeField
+      <TextField
         label="Email or username"
         required
         value={identifier}
@@ -100,7 +95,7 @@ export default function LoginScreen() {
         placeholder="you@example.com or username"
         error={identifierError}
       />
-      <WireframeField
+      <TextField
         label="Password"
         required
         value={password}
@@ -111,6 +106,6 @@ export default function LoginScreen() {
         secureTextEntry
         error={passwordError}
       />
-    </WireframeScreen>
+    </Screen>
   );
 }

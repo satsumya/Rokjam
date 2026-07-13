@@ -2,12 +2,7 @@ import { useMemo, useState } from 'react';
 import { Linking, Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
-import {
-  WireframeBox,
-  WireframeButton,
-  WireframeScreen,
-  WireframeSection,
-} from '../src/components/Wireframe';
+import { Button, Card, Screen, Section } from '../src/components';
 import { ui } from '../src/theme/colors';
 import {
   MOCK_TEST_VALUES,
@@ -74,7 +69,7 @@ function ScenarioCard({
   const setup = resolveScenarioSetup(scenario, userFilter);
 
   return (
-    <WireframeBox>
+    <Card>
       <Text style={{ fontWeight: '700' }}>
         [{scenario.type}] {scenario.title}
       </Text>
@@ -84,8 +79,8 @@ function ScenarioCard({
       </Text>
       <Text>{scenario.steps}</Text>
       <Text style={{ color: ui.textMuted, fontSize: 13 }}>{scenarioWebLink(scenario.path)}</Text>
-      <WireframeButton label="Run scenario" onPress={() => onRun(scenario)} />
-    </WireframeBox>
+      <Button label="Run scenario" onPress={() => onRun(scenario)} />
+    </Card>
   );
 }
 
@@ -121,45 +116,45 @@ export default function ScenariosScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Scenario tester"
       footer={
-        <WireframeButton label="Back to welcome" variant="secondary" onPress={() => router.replace('/')} />
+        <Button label="Back to welcome" variant="secondary" onPress={() => router.replace('/')} />
       }
     >
-      <WireframeSection title="Flow map">
-        <WireframeBox>
+      <Section title="Flow map">
+        <Card>
           <Text style={{ lineHeight: 22 }}>
             See how screens connect across each flow. Tap any screen to jump to that point in the journey with
             the right app state.
           </Text>
-          <WireframeButton label="Open flow map" onPress={() => router.push('/flow-map')} />
+          <Button label="Open flow map" onPress={() => router.push('/flow-map')} />
           <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/flow-map')}</Text>
-        </WireframeBox>
-      </WireframeSection>
+        </Card>
+      </Section>
 
-      <WireframeSection title="Colour system">
-        <WireframeBox>
+      <Section title="Colour system">
+        <Card>
           <Text style={{ lineHeight: 22 }}>
             Preview brand, neutral, and semantic colour tokens — including contrast and alpha variants.
           </Text>
-          <WireframeButton label="Open colour system" onPress={() => router.push('/color-system')} />
+          <Button label="Open colour system" onPress={() => router.push('/color-system')} />
           <Text style={{ color: ui.textMuted, fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
-        </WireframeBox>
-      </WireframeSection>
+        </Card>
+      </Section>
 
-      <WireframeSection title="Mock test values">
-        <WireframeBox>
+      <Section title="Mock test values">
+        <Card>
           <Text>Returning email: {MOCK_TEST_VALUES.returningEmail}</Text>
           <Text>Returning username: {MOCK_TEST_VALUES.returningUsername}</Text>
           <Text>Password: {MOCK_TEST_VALUES.password}</Text>
           <Text>Taken username: {MOCK_TEST_VALUES.takenUsername}</Text>
           <Text>Invalid verify code: {MOCK_TEST_VALUES.invalidVerifyCode}</Text>
           <Text>Address search: type “{MOCK_TEST_VALUES.addressSearchHint}”</Text>
-        </WireframeBox>
-      </WireframeSection>
+        </Card>
+      </Section>
 
-      <WireframeSection title="Filter scenarios">
+      <Section title="Filter scenarios">
         <Text style={{ fontWeight: '600', marginBottom: 6 }}>Flow</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
           <FilterChip label="All flows" active={flowFilter === 'all'} onPress={() => setFlowFilter('all')} />
@@ -201,42 +196,42 @@ export default function ScenariosScreen() {
             onPress={() => setTypeFilter('Error path')}
           />
         </View>
-      </WireframeSection>
+      </Section>
 
       {grouped.length === 0 ? (
-        <WireframeBox>
+        <Card>
           <Text>No scenarios match the current filters.</Text>
-        </WireframeBox>
+        </Card>
       ) : (
         grouped.map((group) => (
-          <WireframeSection key={group.id} title={group.doc}>
+          <Section key={group.id} title={group.doc}>
             {group.scenarios.map((scenario) => (
               <ScenarioCard key={scenario.id} scenario={scenario} userFilter={userFilter} onRun={handleRun} />
             ))}
-          </WireframeSection>
+          </Section>
         ))
       )}
 
-      <WireframeSection title="Local web entry">
-        <WireframeBox>
+      <Section title="Local web entry">
+        <Card>
           <Text>App home: {scenarioWebLink('/')}</Text>
           <Text>This page: {scenarioWebLink('/scenarios')}</Text>
-          <WireframeButton
+          <Button
             label="Open home in browser"
             variant="secondary"
             onPress={() => Linking.openURL(scenarioWebLink('/'))}
           />
-        </WireframeBox>
-      </WireframeSection>
+        </Card>
+      </Section>
 
-      <WireframeSection title="Expo Go (device)">
-        <WireframeBox>
+      <Section title="Expo Go (device)">
+        <Card>
           <Text>1. Run npm start in the Rokjam repo</Text>
           <Text>2. Scan the QR code with Expo Go</Text>
           <Text>3. Open Scenario tester from the welcome screen</Text>
           <Text>Base URL varies by machine — use the Metro URL shown in terminal.</Text>
-        </WireframeBox>
-      </WireframeSection>
-    </WireframeScreen>
+        </Card>
+      </Section>
+    </Screen>
   );
 }

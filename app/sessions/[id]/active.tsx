@@ -2,20 +2,20 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { ClimbEditor } from '../../../src/components/SessionClimb';
-import { SessionClimbsList } from '../../../src/components/SessionClimbsList';
-import { SessionLocationPanel } from '../../../src/components/SessionLocationPanel';
-import { SessionTimeDropdown } from '../../../src/components/SessionTimeDropdown';
-import { WireframeDropdown } from '../../../src/components/WireframeDropdown';
 import {
-  WireframeBox,
-  WireframeBottomSheet,
-  WireframeButton,
-  WireframeField,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-} from '../../../src/components/Wireframe';
+  BottomSheet,
+  Button,
+  Card,
+  ClimbEditor,
+  Dropdown,
+  Link,
+  Screen,
+  Section,
+  SessionClimbsList,
+  SessionLocationPanel,
+  SessionTimeDropdown,
+  TextField,
+} from '../../../src/components';
 import { ui } from '../../../src/theme/colors';
 import { TAKEN_USERNAMES } from '../../../src/constants/mockData';
 import { FLOW_DEMO_SESSION_ID, type FlowDemoPreset } from '../../../src/constants/flowDemoSessions';
@@ -147,14 +147,14 @@ export default function ActiveSessionScreen() {
 
   if (!session) {
     return (
-      <WireframeScreen
+      <Screen
         title="Session not found"
-        footer={<WireframeLink label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
+        footer={<Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
       >
-        <WireframeBox>
+        <Card>
           <Text>This session could not be found.</Text>
-        </WireframeBox>
-      </WireframeScreen>
+        </Card>
+      </Screen>
     );
   }
 
@@ -222,7 +222,7 @@ export default function ActiveSessionScreen() {
   const isEditingClimb = Boolean(draftClimb && editingClimbId);
 
   return (
-    <WireframeScreen
+    <Screen
       title="Climbing session"
       headerRight={
         <Pressable onPress={() => router.replace('/dashboard')}>
@@ -233,13 +233,13 @@ export default function ActiveSessionScreen() {
         <>
           {isEditingClimb ? (
             <>
-              <WireframeButton label="Save climb" onPress={saveClimb} />
-              <WireframeButton label="Cancel" variant="secondary" onPress={cancelClimbEdit} />
+              <Button label="Save climb" onPress={saveClimb} />
+              <Button label="Cancel" variant="secondary" onPress={cancelClimbEdit} />
             </>
           ) : (
-            <WireframeButton label="Add climb" onPress={startAdd} />
+            <Button label="Add climb" onPress={startAdd} />
           )}
-          <WireframeButton
+          <Button
             label="Save / end session"
             variant="secondary"
             onPress={openEndSheet}
@@ -248,7 +248,7 @@ export default function ActiveSessionScreen() {
       }
       overlay={
         <>
-        <WireframeBottomSheet
+        <BottomSheet
           visible={showEndSheet}
           title="Save / end session"
           onClose={() => setShowEndSheet(false)}
@@ -263,7 +263,7 @@ export default function ActiveSessionScreen() {
           </View>
 
           {isPublic && !username.trim() ? (
-            <WireframeField
+            <TextField
               label="Username"
               required
               value={usernameInput}
@@ -287,7 +287,7 @@ export default function ActiveSessionScreen() {
             }}
           />
 
-          <WireframeDropdown
+          <Dropdown
             label="Duration"
             value={durationMinutes != null ? String(durationMinutes) : ''}
             options={durationOptions}
@@ -306,11 +306,11 @@ export default function ActiveSessionScreen() {
             customPlaceholder="Minutes"
           />
 
-          <WireframeButton label="Confirm and save session" onPress={endSession} />
-          <WireframeButton label="Cancel" variant="ghost" onPress={() => setShowEndSheet(false)} />
-        </WireframeBottomSheet>
+          <Button label="Confirm and save session" onPress={endSession} />
+          <Button label="Cancel" variant="ghost" onPress={() => setShowEndSheet(false)} />
+        </BottomSheet>
 
-        <WireframeBottomSheet
+        <BottomSheet
           visible={Boolean(removeTarget)}
           title="Remove climb?"
           onClose={() => setRemoveTarget(null)}
@@ -320,30 +320,30 @@ export default function ActiveSessionScreen() {
               ? `"${removeTarget.name}" has details that will be lost.`
               : 'This climb has details that will be lost.'}
           </Text>
-          <WireframeButton label="Remove climb" onPress={confirmRemoveClimb} />
-          <WireframeButton label="Cancel" variant="ghost" onPress={() => setRemoveTarget(null)} />
-        </WireframeBottomSheet>
+          <Button label="Remove climb" onPress={confirmRemoveClimb} />
+          <Button label="Cancel" variant="ghost" onPress={() => setRemoveTarget(null)} />
+        </BottomSheet>
         </>
       }
     >
       {needsProfile ? (
-        <WireframeBox>
+        <Card>
           <Text style={{ fontWeight: '700' }}>Profile not complete</Text>
           <Text>
             You can keep logging this session. Tap Add location to search for your gym and set up
             difficulty levels.
           </Text>
-        </WireframeBox>
+        </Card>
       ) : null}
 
       {climbPrompt ? (
-        <WireframeBox>
+        <Card>
           <Text style={{ color: ui.danger }}>{climbPrompt}</Text>
-        </WireframeBox>
+        </Card>
       ) : null}
 
-      <WireframeSection title="Session details">
-        <WireframeField
+      <Section title="Session details">
+        <TextField
           label="Date"
           value={formatSessionDate(session.date)}
           onChangeText={(display) => {
@@ -363,7 +363,7 @@ export default function ActiveSessionScreen() {
           value={session.startTime}
           onChange={(startTime) => updateSession(session.id, { startTime })}
         />
-      </WireframeSection>
+      </Section>
 
       {draftClimb && editingClimbId ? (
         <ClimbEditor
@@ -387,6 +387,6 @@ export default function ActiveSessionScreen() {
         />
       )}
 
-    </WireframeScreen>
+    </Screen>
   );
 }

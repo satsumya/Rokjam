@@ -2,15 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { ClimbAtGlance, ShareMockBanner } from '../../src/components/SessionClimb';
 import {
-  WireframeBox,
-  WireframeBottomSheet,
-  WireframeButton,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-} from '../../src/components/Wireframe';
+  BottomSheet,
+  Button,
+  Card,
+  ClimbCard,
+  Link,
+  Screen,
+  Section,
+  ShareMockBanner,
+} from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { computeDurationMinutes, formatDuration, formatSessionDate } from '../../src/utils/sessionUtils';
 
@@ -32,14 +33,14 @@ export default function SessionDetailScreen() {
 
   if (!session) {
     return (
-      <WireframeScreen
+      <Screen
         title="Session not found"
-        footer={<WireframeLink label="Back to sessions" onPress={() => router.replace('/sessions')} />}
+        footer={<Link label="Back to sessions" onPress={() => router.replace('/sessions')} />}
       >
-        <WireframeBox>
+        <Card>
           <Text>This session could not be found.</Text>
-        </WireframeBox>
-      </WireframeScreen>
+        </Card>
+      </Screen>
     );
   }
 
@@ -49,53 +50,53 @@ export default function SessionDetailScreen() {
   const isCompleted = session.status === 'completed';
 
   return (
-    <WireframeScreen
+    <Screen
       title="Session details"
       footer={
         <>
           {session.status === 'active' ? (
-            <WireframeButton
+            <Button
               label="Continue session"
               onPress={() => router.push(`/sessions/${session.id}/active`)}
             />
           ) : (
-            <WireframeButton
+            <Button
               label="Edit session"
               onPress={() => router.push(`/sessions/${session.id}/edit`)}
             />
           )}
           {isCompleted ? (
-            <WireframeButton label="Share session" variant="secondary" onPress={() => setShareVisible(true)} />
+            <Button label="Share session" variant="secondary" onPress={() => setShareVisible(true)} />
           ) : null}
-          <WireframeButton
+          <Button
             label="Delete session"
             variant="ghost"
             onPress={() => setShowDeleteSheet(true)}
           />
-          <WireframeLink label="Back to sessions" onPress={() => router.replace('/sessions')} />
+          <Link label="Back to sessions" onPress={() => router.replace('/sessions')} />
         </>
       }
       overlay={
-        <WireframeBottomSheet
+        <BottomSheet
           visible={showDeleteSheet}
           title="Delete session?"
           onClose={() => setShowDeleteSheet(false)}
         >
           <Text>This will permanently remove this session and all climbs in it.</Text>
-          <WireframeButton
+          <Button
             label="Delete session"
             onPress={() => {
               deleteSession(session.id);
               router.replace('/sessions');
             }}
           />
-          <WireframeButton label="Cancel" variant="ghost" onPress={() => setShowDeleteSheet(false)} />
-        </WireframeBottomSheet>
+          <Button label="Cancel" variant="ghost" onPress={() => setShowDeleteSheet(false)} />
+        </BottomSheet>
       }
     >
       <ShareMockBanner visible={shareVisible} />
 
-      <WireframeBox>
+      <Card>
         <Text style={{ fontWeight: '700' }}>{formatSessionDate(session.date)}</Text>
         <Text>{session.locationName || 'No location set'}</Text>
         <Text>
@@ -106,24 +107,24 @@ export default function SessionDetailScreen() {
           {session.climbs.length} climb{session.climbs.length === 1 ? '' : 's'} ·{' '}
           {session.isPublic ? 'Public' : 'Private'}
         </Text>
-      </WireframeBox>
+      </Card>
 
-      <WireframeSection title="Climbs">
+      <Section title="Climbs">
         {session.climbs.length === 0 ? (
-          <WireframeBox>
+          <Card>
             <Text>No climbs logged in this session.</Text>
-          </WireframeBox>
+          </Card>
         ) : (
           session.climbs.map((climb) => (
-            <ClimbAtGlance
+            <ClimbCard
               key={climb.id}
               climb={climb}
               onShare={isCompleted ? () => setShareVisible(true) : undefined}
             />
           ))
         )}
-      </WireframeSection>
+      </Section>
 
-    </WireframeScreen>
+    </Screen>
   );
 }

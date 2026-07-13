@@ -2,15 +2,15 @@ import { useEffect, useRef } from 'react';
 import { Pressable, Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { SessionRow } from '../../src/components/SessionClimb';
-import { PrototypeOnly } from '../../src/components/PrototypeOnly';
 import {
-  WireframeBox,
-  WireframeButton,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-} from '../../src/components/Wireframe';
+  Button,
+  Card,
+  Link,
+  PrototypeOnly,
+  Screen,
+  Section,
+  SessionRow,
+} from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import {
   computeDurationMinutes,
@@ -35,24 +35,24 @@ export default function SessionsListScreen() {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <WireframeScreen
+    <Screen
       title="All climbing sessions"
       footer={
         <>
-          <WireframeButton label="Start new session" onPress={() => router.push('/sessions/create')} />
-          <WireframeLink label="Back to dashboard" onPress={() => router.replace('/dashboard')} />
+          <Button label="Start new session" onPress={() => router.push('/sessions/create')} />
+          <Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />
         </>
       }
     >
       {completed.length === 0 ? (
-        <WireframeBox>
+        <Card>
           <Text>No completed sessions yet.</Text>
           <PrototypeOnly>
-            <WireframeButton label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
+            <Button label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
           </PrototypeOnly>
-        </WireframeBox>
+        </Card>
       ) : (
-        <WireframeSection title={`${completed.length} session${completed.length === 1 ? '' : 's'}`}>
+        <Section title={`${completed.length} session${completed.length === 1 ? '' : 's'}`}>
           {completed.map((session) => {
             const loc = locations.find((l) => l.id === session.locationId);
             const duration = formatDuration(
@@ -70,23 +70,23 @@ export default function SessionsListScreen() {
               />
             );
           })}
-        </WireframeSection>
+        </Section>
       )}
 
       {sessions.some((s) => s.status === 'active') ? (
-        <WireframeSection title="Active session">
+        <Section title="Active session">
           {sessions
             .filter((s) => s.status === 'active')
             .map((session) => (
               <Pressable key={session.id} onPress={() => router.push(`/sessions/${session.id}/active`)}>
-                <WireframeBox>
+                <Card>
                   <Text style={{ fontWeight: '700' }}>In progress — {session.date}</Text>
                   <Text>Tap to continue logging climbs</Text>
-                </WireframeBox>
+                </Card>
               </Pressable>
             ))}
-        </WireframeSection>
+        </Section>
       ) : null}
-    </WireframeScreen>
+    </Screen>
   );
 }

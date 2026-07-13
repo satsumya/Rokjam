@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
-import { FlowMapDiagram } from '../src/components/FlowMapDiagram';
 import { SCENARIO_FLOWS } from '../src/constants/scenarios';
 import type { ScenarioFlow } from '../src/constants/scenarios';
-import { WireframeButton, WireframeScreen, WireframeSection } from '../src/components/Wireframe';
+import { Button, FlowMapDiagram, Screen, Section } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 
@@ -52,20 +51,20 @@ export default function FlowMapPage() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Flow map"
       footer={
         <>
-          <WireframeButton
+          <Button
             label="Scenario tester"
             variant="secondary"
             onPress={() => router.push('/scenarios')}
           />
-          <WireframeButton label="Back to welcome" variant="ghost" onPress={() => router.replace('/')} />
+          <Button label="Back to welcome" variant="ghost" onPress={() => router.replace('/')} />
         </>
       }
     >
-      <WireframeSection title="How to use">
+      <Section title="How to use">
         <Text style={{ color: ui.textMuted, lineHeight: 22 }}>
           Journeys read left to right. The first screen in each column shares the same top edge so the main path
           is easy to scan; alternate paths stack below. Scroll horizontally within a journey when the diagram
@@ -76,9 +75,9 @@ export default function FlowMapPage() {
           Use Download for PNG exports — filenames follow the screen naming convention in Standards (label, optional descriptors, version).
           Expand **Version info** on a flow section to see version numbers and last-updated timestamps.
         </Text>
-      </WireframeSection>
+      </Section>
 
-      <WireframeSection title="Filter by flow">
+      <Section title="Filter by flow">
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           <FilterChip label="All flows" active={flowFilter === 'all'} onPress={() => setFlowFilter('all')} />
           {SCENARIO_FLOWS.map((flow) => (
@@ -90,9 +89,9 @@ export default function FlowMapPage() {
             />
           ))}
         </View>
-      </WireframeSection>
+      </Section>
 
       <FlowMapDiagram navigateCtx={navigateCtx} journeyFilter={flowFilter} />
-    </WireframeScreen>
+    </Screen>
   );
 }

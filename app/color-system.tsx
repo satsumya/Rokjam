@@ -2,8 +2,13 @@ import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
-import { ColorSystemDiagram, type ColorSystemFilter } from '../src/components/ColorSystemDiagram';
-import { WireframeButton, WireframeScreen, WireframeSection } from '../src/components/Wireframe';
+import {
+  Button,
+  ColorSystemDiagram,
+  type ColorSystemFilter,
+  Screen,
+  Section,
+} from '../src/components';
 import { colors } from '../src/theme/colors';
 import { scenarioWebLink } from '../src/constants/scenarios';
 
@@ -39,16 +44,16 @@ export default function ColorSystemPage() {
   const [filter, setFilter] = useState<ColorSystemFilter>('all');
 
   return (
-    <WireframeScreen
+    <Screen
       title="Colour system"
       footer={
         <>
-          <WireframeButton label="Flow map" variant="secondary" onPress={() => router.push('/flow-map')} />
-          <WireframeButton label="Back to welcome" variant="ghost" onPress={() => router.replace('/')} />
+          <Button label="Flow map" variant="secondary" onPress={() => router.push('/flow-map')} />
+          <Button label="Back to welcome" variant="ghost" onPress={() => router.replace('/')} />
         </>
       }
     >
-      <WireframeSection title="How to use">
+      <Section title="How to use">
         <Text style={{ color: colors.neutral[600], lineHeight: 22 }}>
           Live reference for design tokens in `src/theme/colors.ts`. Brand colours match climbing difficulty
           levels; neutral and semantic scales support UI surfaces and feedback. Token names map to the CSS-style
@@ -57,18 +62,18 @@ export default function ColorSystemPage() {
           refresh the browser). No separate recheck step.
         </Text>
         <Text style={{ color: colors.neutral[500], fontSize: 13, marginTop: 8 }}>{scenarioWebLink('/color-system')}</Text>
-      </WireframeSection>
+      </Section>
 
-      <WireframeSection title="Filter">
+      <Section title="Filter">
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           <FilterChip label="All" active={filter === 'all'} onPress={() => setFilter('all')} />
           <FilterChip label="Brand" active={filter === 'brand'} onPress={() => setFilter('brand')} />
           <FilterChip label="Neutral" active={filter === 'neutral'} onPress={() => setFilter('neutral')} />
           <FilterChip label="Semantic" active={filter === 'semantic'} onPress={() => setFilter('semantic')} />
         </View>
-      </WireframeSection>
+      </Section>
 
       <ColorSystemDiagram filter={filter} />
-    </WireframeScreen>
+    </Screen>
   );
 }

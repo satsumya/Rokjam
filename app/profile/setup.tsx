@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { AddressSearch } from '../../src/components/AddressSearch';
-import { LevelRow } from '../../src/components/LevelRow';
-import { TagInput } from '../../src/components/TagInput';
 import {
-  WireframeButton,
-  WireframeField,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-  WireframeBox,
-} from '../../src/components/Wireframe';
+  AddressSearch,
+  Button,
+  Card,
+  LevelRow,
+  Link,
+  Screen,
+  Section,
+  TagInput,
+  TextField,
+} from '../../src/components';
 import { ui } from '../../src/theme/colors';
 import {
   IMPROVEMENT_TAG_SUGGESTIONS,
@@ -118,7 +118,7 @@ export default function ProfileSetupScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Member profile"
       headerRight={
         <Pressable onPress={handleExit}>
@@ -127,17 +127,17 @@ export default function ProfileSetupScreen() {
       }
       footer={
         <>
-          <WireframeButton
+          <Button
             label={isEditingCompleteProfile ? 'Save changes' : 'Complete profile'}
             onPress={handleComplete}
           />
           {!isEditingCompleteProfile ? (
-            <WireframeLink label="Skip for now" onPress={handleExit} />
+            <Link label="Skip for now" onPress={handleExit} />
           ) : null}
         </>
       }
     >
-      <WireframeSection title="Profile pic">
+      <Section title="Profile pic">
         <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
           {PET_ROCK_AVATARS.map((rock) => (
             <Pressable
@@ -156,10 +156,10 @@ export default function ProfileSetupScreen() {
             </Pressable>
           ))}
         </View>
-      </WireframeSection>
+      </Section>
 
-      <WireframeSection title="Username">
-        <WireframeField
+      <Section title="Username">
+        <TextField
           label="Username"
           value={username}
           onChangeText={(value) => {
@@ -169,9 +169,9 @@ export default function ProfileSetupScreen() {
           placeholder="Choose a username"
           error={usernameError}
         />
-      </WireframeSection>
+      </Section>
 
-      <WireframeSection title="Locations">
+      <Section title="Locations">
         <AddressSearch onSelect={handleAddLocation} error={locationError} />
 
         {locations.map((location) => {
@@ -205,19 +205,19 @@ export default function ProfileSetupScreen() {
                 <View style={{ padding: 12, gap: 12, backgroundColor: ui.surface }}>
                   {editingLocationId === location.id ? (
                     <View style={{ gap: 8 }}>
-                      <WireframeField
+                      <TextField
                         label="Location"
                         required
                         value={editName}
                         onChangeText={setEditName}
                       />
-                      <WireframeField
+                      <TextField
                         label="Nickname"
                         value={editNickname}
                         onChangeText={setEditNickname}
                         placeholder="e.g. Home wall"
                       />
-                      <WireframeButton
+                      <Button
                         label="Save location"
                         variant="secondary"
                         onPress={() => saveEditLocation(location.id)}
@@ -227,7 +227,7 @@ export default function ProfileSetupScreen() {
                     <View style={{ gap: 8 }}>
                       {location.nickname ? <Text>Nickname: {location.nickname}</Text> : null}
                       <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-                        <WireframeButton
+                        <Button
                           label="Edit location"
                           variant="secondary"
                           onPress={() =>
@@ -235,7 +235,7 @@ export default function ProfileSetupScreen() {
                           }
                         />
                         {!location.isHome ? (
-                          <WireframeButton
+                          <Button
                             label="Set as home"
                             variant="secondary"
                             onPress={() => setHomeLocation(location.id)}
@@ -247,7 +247,7 @@ export default function ProfileSetupScreen() {
 
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text style={{ fontWeight: '700' }}>Difficulty levels</Text>
-                    <WireframeButton
+                    <Button
                       label={location.levelSort === 'easy-hard' ? 'Easy → Hard' : 'Hard → Easy'}
                       variant="ghost"
                       onPress={() => toggleLevelSort(location.id)}
@@ -255,13 +255,13 @@ export default function ProfileSetupScreen() {
                   </View>
 
                   {levelsNudgeLocationId === location.id ? (
-                    <WireframeBox>
+                    <Card>
                       <Text style={{ fontWeight: '600' }}>Add difficulty levels for this location</Text>
                       <Text>
                         Levels help when logging climbs. Adjust the default level or add more to match your
                         gym&apos;s grading.
                       </Text>
-                    </WireframeBox>
+                    </Card>
                   ) : null}
 
                   {location.levels.map((level, index) => (
@@ -285,7 +285,7 @@ export default function ProfileSetupScreen() {
                     />
                   ))}
 
-                  <WireframeButton
+                  <Button
                     label="Add level"
                     variant="secondary"
                     onPress={() => {
@@ -298,7 +298,7 @@ export default function ProfileSetupScreen() {
             </View>
           );
         })}
-      </WireframeSection>
+      </Section>
 
       <TagInput
         label="Strengths"
@@ -315,6 +315,6 @@ export default function ProfileSetupScreen() {
         onAdd={addImprovementTag}
         onRemove={removeImprovementTag}
       />
-    </WireframeScreen>
+    </Screen>
   );
 }

@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { router } from 'expo-router';
 
-import {
-  WireframeButton,
-  WireframeField,
-  WireframeLink,
-  WireframeScreen,
-} from '../../src/components/Wireframe';
+import { Button, Link, Screen, TextField } from '../../src/components';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { getEmailError } from '../../src/utils/validation';
 
@@ -28,16 +23,16 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Forgot password"
       footer={
         <>
-          <WireframeButton label="Send reset link" onPress={handleSend} />
-          <WireframeLink label="Back to log in" onPress={() => router.replace('/auth/login')} />
+          <Button label="Send reset link" onPress={handleSend} />
+          <Link label="Back to log in" onPress={() => router.replace('/auth/login')} />
         </>
       }
     >
-      <WireframeField
+      <TextField
         label="Email"
         required
         value={email}
@@ -50,6 +45,6 @@ export default function ForgotPasswordScreen() {
         error={emailError}
       />
       {sent ? <></> : null}
-    </WireframeScreen>
+    </Screen>
   );
 }

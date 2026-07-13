@@ -2,15 +2,15 @@ import { useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
-import { SessionRow } from '../../src/components/SessionClimb';
-import { CommunityTrends } from '../../src/components/TrendSummary';
 import {
-  WireframeBox,
-  WireframeButton,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-} from '../../src/components/Wireframe';
+  Button,
+  Card,
+  CommunityTrends,
+  Link,
+  Screen,
+  Section,
+  SessionRow,
+} from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { ui } from '../../src/theme/colors';
 import {
@@ -49,9 +49,9 @@ export default function CommunityScreen() {
   }, [allPublic, tab, followedUsers, homeLocation]);
 
   return (
-    <WireframeScreen
+    <Screen
       title="Community"
-      footer={<WireframeLink label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
+      footer={<Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
     >
       <View style={{ flexDirection: 'row', gap: 16 }}>
         {(
@@ -69,21 +69,21 @@ export default function CommunityScreen() {
 
       <CommunityTrends sessions={allPublic} />
 
-      <WireframeSection title="Public sessions">
+      <Section title="Public sessions">
         {feed.length === 0 ? (
-          <WireframeBox>
+          <Card>
             <Text>No public sessions to show.</Text>
-          </WireframeBox>
+          </Card>
         ) : (
           feed.map((session) => (
-            <WireframeBox key={session.id}>
+            <Card key={session.id}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                 <Text style={{ fontSize: 24 }}>{session.ownerAvatar}</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontWeight: '700' }}>{session.ownerUsername}</Text>
                   <Text style={{ color: ui.textMuted, fontSize: 13 }}>{session.date}</Text>
                 </View>
-                <WireframeButton
+                <Button
                   label={followedUsers.includes(session.ownerUsername) ? 'Following' : 'Follow'}
                   variant="secondary"
                   onPress={() => toggleFollowUser(session.ownerUsername)}
@@ -110,10 +110,10 @@ export default function CommunityScreen() {
                   {climb.attempts[climb.attempts.length - 1]?.progress.join(', ') ?? '—'}
                 </Text>
               ))}
-            </WireframeBox>
+            </Card>
           ))
         )}
-      </WireframeSection>
-    </WireframeScreen>
+      </Section>
+    </Screen>
   );
 }

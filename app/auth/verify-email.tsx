@@ -2,12 +2,7 @@ import { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import {
-  WireframeButton,
-  WireframeField,
-  WireframeLink,
-  WireframeScreen,
-} from '../../src/components/Wireframe';
+import { Button, Link, Screen, TextField } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { ui } from '../../src/theme/colors';
 import { getVerificationCodeError } from '../../src/utils/validation';
@@ -34,13 +29,13 @@ export default function VerifyEmailScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Verify email"
       footer={
         <>
-          <WireframeButton label="Verify" onPress={handleVerify} />
-          <WireframeLink label="Resend code" onPress={() => setResent(true)} />
-          <WireframeLink
+          <Button label="Verify" onPress={handleVerify} />
+          <Link label="Resend code" onPress={() => setResent(true)} />
+          <Link
             label="Change email"
             onPress={() => router.replace('/auth/signup')}
           />
@@ -51,7 +46,7 @@ export default function VerifyEmailScreen() {
         Enter the 6-digit code sent to {email || 'your email'}.
       </Text>
       {resent ? <Text style={{ color: ui.success }}>A new code has been sent.</Text> : null}
-      <WireframeField
+      <TextField
         label="Verification code"
         required
         value={code}
@@ -64,6 +59,6 @@ export default function VerifyEmailScreen() {
         maxLength={6}
         error={codeError}
       />
-    </WireframeScreen>
+    </Screen>
   );
 }

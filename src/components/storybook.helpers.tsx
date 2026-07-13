@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native';
 import { PrototypeProvider } from '../context/PrototypeContext';
 import type { Location } from '../context/PrototypeContext';
 import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
-import type { SessionClimb } from '../types/climbingSession';
+import type { ClimbingSession, SessionClimb } from '../types/climbingSession';
 import { ui } from '../theme/colors';
 
 /** Pads stories and gives them the app background so components sit on-brand. */
@@ -87,5 +87,36 @@ export const demoClimbs: SessionClimb[] = [
     isRepeat: false,
     isProject: false,
     attempts: [{ id: 'demo-attempt-4', progress: ['flash'] }],
+  },
+];
+
+export const demoSessions: ClimbingSession[] = [
+  {
+    id: 'demo-session-1',
+    status: 'completed',
+    date: '2026-07-01',
+    startTime: '5:30 PM',
+    endTime: '7:00 PM',
+    durationMinutes: 90,
+    locationId: demoLocation.id,
+    locationName: demoLocation.name,
+    climbs: demoClimbs,
+    isPublic: true,
+    ownerUsername: 'demo_climber',
+    ownerAvatar: '🪨',
+  },
+  {
+    id: 'demo-session-2',
+    status: 'completed',
+    date: '2026-06-27',
+    startTime: '6:00 PM',
+    endTime: '7:15 PM',
+    durationMinutes: 75,
+    locationId: demoLocation.id,
+    locationName: demoLocation.name,
+    climbs: [demoClimb],
+    isPublic: true,
+    ownerUsername: 'demo_climber',
+    ownerAvatar: '🪨',
   },
 ];

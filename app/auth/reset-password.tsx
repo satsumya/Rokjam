@@ -2,13 +2,7 @@ import { useState } from 'react';
 import { Text } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import {
-  WireframeButton,
-  WireframeField,
-  WireframeHintList,
-  WireframeLink,
-  WireframeScreen,
-} from '../../src/components/Wireframe';
+import { Button, HintList, Link, Screen, TextField } from '../../src/components';
 import { ui } from '../../src/theme/colors';
 import { isPasswordValid } from '../../src/utils/validation';
 
@@ -29,17 +23,17 @@ export default function ResetPasswordScreen() {
   };
 
   return (
-    <WireframeScreen
+    <Screen
       title="Reset password"
       footer={
         <>
-          <WireframeButton label="Update password" onPress={handleReset} />
-          <WireframeLink label="Back to log in" onPress={() => router.replace('/auth/login')} />
+          <Button label="Update password" onPress={handleReset} />
+          <Link label="Back to log in" onPress={() => router.replace('/auth/login')} />
         </>
       }
     >
       <Text style={{ color: ui.textMuted }}>Set a new password for {email || 'your account'}.</Text>
-      <WireframeField
+      <TextField
         label="New password"
         required
         value={password}
@@ -50,14 +44,14 @@ export default function ResetPasswordScreen() {
         secureTextEntry
         error={passwordInvalid ? 'Password does not meet requirements' : undefined}
       />
-      <WireframeHintList
+      <HintList
         items={[
           { label: 'At least 8 characters', met: password.length >= 8 },
           { label: 'At least one number', met: /[0-9]/.test(password) },
           { label: 'At least one symbol', met: /[^A-Za-z0-9]/.test(password) },
         ]}
       />
-      <WireframeField
+      <TextField
         label="Confirm password"
         required
         value={confirm}
@@ -68,6 +62,6 @@ export default function ResetPasswordScreen() {
         secureTextEntry
         error={confirmError}
       />
-    </WireframeScreen>
+    </Screen>
   );
 }

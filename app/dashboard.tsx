@@ -2,15 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { SessionRow } from '../src/components/SessionClimb';
-import { DashboardTrends } from '../src/components/TrendSummary';
 import {
-  WireframeBox,
-  WireframeButton,
-  WireframeLink,
-  WireframeScreen,
-  WireframeSection,
-} from '../src/components/Wireframe';
+  Button,
+  Card,
+  DashboardTrends,
+  Link,
+  Screen,
+  Section,
+  SessionRow,
+} from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 import type { TrendTimeframe } from '../src/types/climbingSession';
@@ -84,7 +84,7 @@ export default function DashboardScreen() {
   ]);
 
   return (
-    <WireframeScreen
+    <Screen
       title="Dashboard"
       headerRight={
         <Pressable
@@ -102,11 +102,11 @@ export default function DashboardScreen() {
       }
       footer={
         <>
-          <WireframeButton
+          <Button
             label="Start climbing session"
             onPress={() => router.push('/sessions/create')}
           />
-          <WireframeButton
+          <Button
             label="Community"
             variant="secondary"
             onPress={() => router.push('/community')}
@@ -115,18 +115,18 @@ export default function DashboardScreen() {
       }
     >
       {needsProfile ? (
-        <WireframeBox>
+        <Card>
           <Text style={{ fontWeight: '700' }}>Complete your profile</Text>
           <Text>Add your climbing locations and difficulty levels to unlock trends and filters.</Text>
-          <WireframeButton
+          <Button
             label="Set up profile"
             variant="secondary"
             onPress={() => router.push('/profile/setup')}
           />
-        </WireframeBox>
+        </Card>
       ) : null}
 
-      <WireframeBox>
+      <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
           <Text style={{ fontSize: 32 }}>{avatar}</Text>
           <View style={{ flex: 1, gap: 2 }}>
@@ -144,32 +144,32 @@ export default function DashboardScreen() {
             <Text style={{ fontSize: 15, color: ui.text, textDecorationLine: 'underline' }}>Edit</Text>
           </Pressable>
         </View>
-      </WireframeBox>
+      </Card>
 
       {needsProfile || activeSessions.length > 0 ? (
-        <WireframeSection title="Climbing">
+        <Section title="Climbing">
           {needsProfile ? (
             <Text style={{ color: ui.textMuted, lineHeight: 20, marginBottom: 4 }}>
               Profile incomplete — you can still start a session and add a location during it.
             </Text>
           ) : null}
           {activeSessions.map((session) => (
-            <WireframeBox key={session.id}>
+            <Card key={session.id}>
               <Text style={{ fontWeight: '700' }}>
                 Session in progress{activeSessions.length > 1 ? ` — ${session.date}` : ''}
               </Text>
-              <WireframeButton
+              <Button
                 label="Continue session"
                 onPress={() => router.push(`/sessions/${session.id}/active`)}
               />
-            </WireframeBox>
+            </Card>
           ))}
-        </WireframeSection>
+        </Section>
       ) : null}
 
       {!needsProfile ? (
         <>
-          <WireframeSection title="Recent sessions">
+          <Section title="Recent sessions">
             <View style={{ flexDirection: 'row', gap: 12, marginBottom: 4 }}>
               <Pressable onPress={() => setShowAllSessions(false)}>
                 <Text style={{ fontWeight: !showAllSessions ? '700' : '400' }}>Recent</Text>
@@ -177,12 +177,12 @@ export default function DashboardScreen() {
               <Pressable onPress={() => setShowAllSessions(true)}>
                 <Text style={{ fontWeight: showAllSessions ? '700' : '400' }}>All</Text>
               </Pressable>
-              <WireframeLink label="Full list" onPress={() => router.push('/sessions')} />
+              <Link label="Full list" onPress={() => router.push('/sessions')} />
             </View>
             {recentSessions.length === 0 ? (
-              <WireframeBox>
+              <Card>
                 <Text>No sessions yet.</Text>
-              </WireframeBox>
+              </Card>
             ) : (
               recentSessions.map((session) => {
                 const loc = locations.find((l) => l.id === session.locationId);
@@ -205,7 +205,7 @@ export default function DashboardScreen() {
                 );
               })
             )}
-          </WireframeSection>
+          </Section>
 
           <DashboardTrends
             sessions={completedSessions}
@@ -215,8 +215,8 @@ export default function DashboardScreen() {
         </>
       ) : null}
 
-      <WireframeSection title="Profile summary">
-        <WireframeBox>
+      <Section title="Profile summary">
+        <Card>
           <ViewRow label="Home location" value={homeLocation?.name ?? 'Not set'} home={homeLocation?.isHome} />
           {homeLocation?.nickname ? <Text>Nickname: {homeLocation.nickname}</Text> : null}
           {homeLocation?.levels.length ? (
@@ -252,9 +252,9 @@ export default function DashboardScreen() {
           )}
           {strengthTags.length ? <Text>Strengths: {strengthTags.join(', ')}</Text> : null}
           {improvementTags.length ? <Text>Areas to improve: {improvementTags.join(', ')}</Text> : null}
-        </WireframeBox>
-      </WireframeSection>
-    </WireframeScreen>
+        </Card>
+      </Section>
+    </Screen>
   );
 }
 
