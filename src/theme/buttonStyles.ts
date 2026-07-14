@@ -38,7 +38,7 @@ const BRAND_STYLES: Record<'style1' | 'style2', ButtonStyleTokens> = {
   style1: {
     fill: colors.brand.blue.light,
     stroke: colors.brand.green.main,
-    shadow: colors.brand.purple.light,
+    shadow: colors.brand.purple.main,
     text: ui.text,
   },
   // Pastel multi-brand combo matching the Style 2 primary examples.
@@ -61,8 +61,8 @@ function difficultyStyle(id: BrandColorId): ButtonStyleTokens {
 
   return {
     fill: palette.main,
-    stroke: onMain,
-    shadow,
+    stroke: palette.accent,
+    shadow: palette.accent,
     text: onMain,
   };
 }

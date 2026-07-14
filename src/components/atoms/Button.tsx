@@ -149,8 +149,8 @@ function StyledColorButton({
               borderWidth: strokeWidth,
               borderColor: tokens.stroke,
               borderRadius,
-              paddingVertical: size === 'small' ? 8 : 14,
-              paddingHorizontal: size === 'small' ? 12 : 16,
+              paddingVertical: size === 'small' ? 4 : 6,
+              paddingHorizontal: size === 'small' ? 16 : 16,
               alignItems: 'center' as const,
               // Sink the face into the shadow band when pressed.
               transform: [{ translateY: pressed ? shadowOffsetY : 0 }],
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonSmall: {
-    paddingVertical: 8,
+    paddingVertical: 6,
     paddingHorizontal: 12,
   },
   buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
