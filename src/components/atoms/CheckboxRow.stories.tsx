@@ -29,8 +29,15 @@ export const Interactive: Story = {
 
 export const States: Story = {
   render: (args) => (
-    <StatesGallery>
-      {(state) => <CheckboxRow {...args} previewState={state} />}
+    <StatesGallery
+      variants={[
+        { id: 'unchecked', label: 'unchecked' },
+        { id: 'checked', label: 'checked' },
+      ]}
+    >
+      {(state, variantId) => (
+        <CheckboxRow {...args} checked={variantId === 'checked'} previewState={state} />
+      )}
     </StatesGallery>
   ),
 };

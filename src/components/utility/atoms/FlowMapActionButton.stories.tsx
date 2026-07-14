@@ -25,8 +25,25 @@ export const Disabled: Story = { args: { label: 'Updating…', variant: 'update'
 
 export const States: Story = {
   render: (args) => (
-    <StatesGallery>
-      {(state) => <FlowMapActionButton {...args} previewState={state} />}
+    <StatesGallery
+      variants={[
+        { id: 'download', label: 'download' },
+        { id: 'update', label: 'update' },
+        { id: 'disabled', label: 'disabled' },
+      ]}
+    >
+      {(state, variantId) => (
+        <FlowMapActionButton
+          {...args}
+          label={variantId === 'download' ? 'Download' : variantId === 'disabled' ? 'Updating…' : 'Update'}
+          variant={variantId === 'download' ? 'download' : 'update'}
+          disabled={variantId === 'disabled'}
+          accessibilityLabel={
+            variantId === 'download' ? 'Download screenshot' : variantId === 'disabled' ? 'Updating' : 'Update screenshot'
+          }
+          previewState={state}
+        />
+      )}
     </StatesGallery>
   ),
 };

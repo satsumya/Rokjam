@@ -22,8 +22,15 @@ export const Selected: Story = { args: { selected: true } };
 
 export const States: Story = {
   render: (args) => (
-    <StatesGallery>
-      {(state) => <DifficultyChip {...args} previewState={state} />}
+    <StatesGallery
+      variants={[
+        { id: 'unselected', label: 'unselected' },
+        { id: 'selected', label: 'selected' },
+      ]}
+    >
+      {(state, variantId) => (
+        <DifficultyChip {...args} selected={variantId === 'selected'} previewState={state} />
+      )}
     </StatesGallery>
   ),
 };

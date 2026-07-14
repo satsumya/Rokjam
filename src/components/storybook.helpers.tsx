@@ -18,14 +18,40 @@ export const previewStateArgType = {
   options: PREVIEW_STATES,
 };
 
-/** Renders a labelled column of the four interaction states for a component. */
-export function StatesGallery({ children }: { children: (state: PreviewState) => ReactNode }) {
+export type StatesGalleryVariant = {
+  id: string;
+  label: string;
+};
+
+/**
+ * Renders interaction states for a component. Pass `variants` to show a labelled
+ * section per visual variant (e.g. primary / secondary / disabled), each with
+ * default · hover · pressed · focused.
+ */
+export function StatesGallery({
+  variants,
+  children,
+}: {
+  variants?: readonly StatesGalleryVariant[];
+  children: (state: PreviewState, variantId: string) => ReactNode;
+}) {
+  const sections: readonly StatesGalleryVariant[] = variants?.length
+    ? variants
+    : [{ id: 'default', label: '' }];
+
   return (
-    <View style={{ gap: 12, alignItems: 'flex-start' }}>
-      {PREVIEW_STATES.map((state) => (
-        <View key={state} style={{ gap: 4, alignItems: 'flex-start' }}>
-          <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textMuted }}>{state}</Text>
-          {children(state)}
+    <View style={{ gap: 20, alignItems: 'flex-start' }}>
+      {sections.map((section) => (
+        <View key={section.id} style={{ gap: 12, alignItems: 'flex-start' }}>
+          {section.label ? (
+            <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>{section.label}</Text>
+          ) : null}
+          {PREVIEW_STATES.map((state) => (
+            <View key={state} style={{ gap: 4, alignItems: 'flex-start' }}>
+              <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textMuted }}>{state}</Text>
+              {children(state, section.id)}
+            </View>
+          ))}
         </View>
       ))}
     </View>

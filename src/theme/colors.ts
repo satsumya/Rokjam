@@ -62,7 +62,7 @@ const BRAND_PALETTES: Record<BrandColorId, BrandPaletteDefinition> = {
     main: '#FFD95C',
     light: '#FEEFB3',
     dark: '#563809',
-    accent: '#FCD32C',
+    accent: '#F6B80D',
     mainContrast: { alt: '#332c25', tonal: { from: 'dark'} },
   },
   blue: {
@@ -97,11 +97,11 @@ const BRAND_PALETTES: Record<BrandColorId, BrandPaletteDefinition> = {
     main: '#CF3232',
     light: '#FFE1E1',
     dark: '#980A0A',
-    accent: '#D34040',
+    accent: '#BF2323',
     mainContrast: { alt: '#ffffff', tonal: { from: 'light', mix: 0.44 } },
   },
   black: {
-    main: '#2A2A2A',
+    main: '#333333',
     light: '#D3D2D2',
     dark: '#2A2A2A',
     accent: '#000000',
@@ -118,7 +118,7 @@ const BRAND_PALETTES: Record<BrandColorId, BrandPaletteDefinition> = {
     main: '#FF78A2',
     light: '#FFD2E1',
     dark: '#700738',
-    accent: '#FF78A2',
+    accent: '#F75185',
     mainContrast: { alt: '#332c25', tonal: { from: 'dark'} },
   },
 };

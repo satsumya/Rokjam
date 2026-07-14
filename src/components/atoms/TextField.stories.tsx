@@ -41,8 +41,19 @@ export const Interactive: Story = {
 export const States: Story = {
   args: { label: 'Email', placeholder: 'you@example.com' },
   render: (args) => (
-    <StatesGallery>
-      {(state) => <TextField {...args} previewState={state} />}
+    <StatesGallery
+      variants={[
+        { id: 'default', label: 'default' },
+        { id: 'error', label: 'error' },
+      ]}
+    >
+      {(state, variantId) => (
+        <TextField
+          {...args}
+          error={variantId === 'error' ? 'Enter a valid email' : undefined}
+          previewState={state}
+        />
+      )}
     </StatesGallery>
   ),
 };

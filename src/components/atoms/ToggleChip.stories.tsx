@@ -30,8 +30,15 @@ export const Interactive: Story = {
 
 export const States: Story = {
   render: (args) => (
-    <StatesGallery>
-      {(state) => <ToggleChip {...args} previewState={state} />}
+    <StatesGallery
+      variants={[
+        { id: 'unselected', label: 'unselected' },
+        { id: 'selected', label: 'selected' },
+      ]}
+    >
+      {(state, variantId) => (
+        <ToggleChip {...args} selected={variantId === 'selected'} previewState={state} />
+      )}
     </StatesGallery>
   ),
 };

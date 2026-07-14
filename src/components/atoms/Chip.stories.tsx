@@ -32,8 +32,15 @@ export const Removable: Story = {
 
 export const States: Story = {
   render: (args) => (
-    <StatesGallery>
-      {(state) => <Chip {...args} previewState={state} />}
+    <StatesGallery
+      variants={[
+        { id: 'suggestion', label: 'suggestion' },
+        { id: 'selected', label: 'selected' },
+      ]}
+    >
+      {(state, variantId) => (
+        <Chip {...args} selected={variantId === 'selected'} previewState={state} />
+      )}
     </StatesGallery>
   ),
 };

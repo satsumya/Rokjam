@@ -17,6 +17,7 @@ import {
   type UiColorToken,
 } from './colors';
 import { parseHex } from './colorUtils';
+import { BUTTON_COLOR_STYLE_ORDER, buttonStyleTokens } from './buttonStyles';
 
 export type DtcgColorToken = {
   $type: 'color';
@@ -102,6 +103,23 @@ function uiGroup(): DtcgNode {
   );
 }
 
+function buttonStylesGroup(): DtcgNode {
+  return Object.fromEntries(
+    BUTTON_COLOR_STYLE_ORDER.map((id) => {
+      const tokens = buttonStyleTokens(id);
+      return [
+        id,
+        {
+          fill: colorToken(tokens.fill),
+          stroke: colorToken(tokens.stroke),
+          shadow: colorToken(tokens.shadow),
+          text: colorToken(tokens.text),
+        },
+      ];
+    }),
+  );
+}
+
 /** Nested DTCG document ready to stringify / download. */
 export function buildFigmaColorTokensDocument(): DtcgNode {
   return {
@@ -111,6 +129,10 @@ export function buildFigmaColorTokensDocument(): DtcgNode {
     neutral: neutralGroup(),
     semantic: Object.fromEntries(SEMANTIC_COLOR_ORDER.map((id) => [id, semanticGroup(id)])),
     ui: uiGroup(),
+    button: {
+      $description: 'Button colour styles — fill, 2px stroke, y4 shadow, and text per style.',
+      ...buttonStylesGroup(),
+    },
   };
 }
 
