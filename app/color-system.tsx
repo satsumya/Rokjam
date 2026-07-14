@@ -5,8 +5,13 @@ import { router } from 'expo-router';
 import { Button, Screen, Section, Text } from '../src/components';
 import { ColorSystemDiagram, type ColorSystemFilter } from '../src/components/utility';
 import { colors } from '../src/theme/colors';
+import {
+  FIGMA_COLOR_TOKENS_FILENAME,
+  stringifyFigmaColorTokens,
+} from '../src/theme/exportFigmaColorTokens';
 import { interactionStyle } from '../src/theme/interaction';
 import { scenarioWebLink } from '../src/constants/scenarios';
+import { downloadTextFile } from '../src/utils/downloadTextFile';
 
 function FilterChip({
   label,
@@ -65,6 +70,21 @@ export default function ColorSystemPage() {
         <Text variant="bodySmall" color={colors.neutral[500]} style={{ marginTop: 8 }}>
           {scenarioWebLink('/color-system')}
         </Text>
+      </Section>
+
+      <Section title="Export for Figma">
+        <Text variant="body" color={colors.neutral[600]}>
+          {`Downloads a W3C Design Tokens (DTCG) JSON file of brand, neutral, semantic, and UI colours. In Figma, open a variables import plugin that accepts DTCG JSON (e.g. Variables JSON Import, Tokens Brücke, or tokenHaus) and upload ${FIGMA_COLOR_TOKENS_FILENAME}.`}
+        </Text>
+        <View style={{ marginTop: 12, alignItems: 'flex-start' }}>
+          <Button
+            label="Export colour tokens"
+            variant="secondary"
+            onPress={() => {
+              void downloadTextFile(stringifyFigmaColorTokens(), FIGMA_COLOR_TOKENS_FILENAME);
+            }}
+          />
+        </View>
       </Section>
 
       <Section title="Filter">

@@ -77,13 +77,13 @@ export function buildScale(main: string, lightTarget = '#FFFFFF', darkTarget = '
     50: mixHex(main, lightTarget, 0.88),
     100: mixHex(main, lightTarget, 0.64),
     200: mixHex(main, lightTarget, 0.46),
-    300: mixHex(main, lightTarget, 0.24),
-    400: main,
-    500: mixHex(main, darkTarget, 0.1),
-    600: mixHex(main, darkTarget, 0.3),
-    700: mixHex(main, darkTarget, 0.65),
-    800: mixHex(main, darkTarget, 0.82),
-    900: mixHex(main, darkTarget, 0.9),
+    300: main,
+    400: mixHex(main, darkTarget, 0.1),
+    500: mixHex(main, darkTarget, 0.48),
+    600: mixHex(main, darkTarget, 0.72),
+    700: mixHex(main, darkTarget, 0.86),
+    800: mixHex(main, darkTarget, 0.95),
+    900: mixHex(main, darkTarget, 1),
   } as const;
 }
 
