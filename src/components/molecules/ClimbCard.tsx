@@ -11,6 +11,7 @@ import type { SessionClimb } from '../../types/climbingSession';
 import { bestAttemptProgress } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 type DifficultyLevel = Location['levels'][number];
 
@@ -42,12 +43,12 @@ export function ClimbCard({
   const showDifficultyPicker = Boolean(location?.levels.length && onDifficultyChange);
 
   const heading = (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
       {climb.levelColor ? <LevelDot color={climb.levelColor} /> : null}
       <Text variant="body" weight="bold" style={{ flex: 1 }}>
         {climb.name || 'Unnamed climb'}
       </Text>
-      <View style={{ flexDirection: 'row', gap: 4 }}>
+      <View style={{ flexDirection: 'row', gap: space[4] }}>
         {climb.hasImage ? <Icon name="camera" size="xs" color={ui.textMuted} title="Photo" /> : null}
         {climb.hasVideo ? <Icon name="video" size="xs" color={ui.textMuted} title="Video" /> : null}
       </View>
@@ -56,7 +57,7 @@ export function ClimbCard({
 
   return (
     <Card>
-      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[8] }}>
         {onPress ? (
           <Pressable
             style={(state) => [{ flex: 1, borderRadius: 4 }, interactionStyle(state)]}

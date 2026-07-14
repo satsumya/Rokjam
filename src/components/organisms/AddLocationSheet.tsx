@@ -11,6 +11,7 @@ import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import type { DifficultyLevel } from '../../context/PrototypeContext';
 import { usePrototype } from '../../context/PrototypeContext';
 import { colors, ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 function createDraftLevel(index: number): DifficultyLevel {
   const preset = DEFAULT_LEVEL_COLORS[index];
@@ -91,15 +92,15 @@ export function AddLocationSheet({
       {!address ? (
         <AddressSearch onSelect={handleSelectAddress} error={error} required />
       ) : (
-        <View style={{ gap: 12 }}>
+        <View style={{ gap: space[12] }}>
           <View
             style={{
               borderWidth: 1,
               borderColor: ui.border,
               borderRadius: 8,
-              padding: 12,
+              padding: space[12],
               backgroundColor: ui.surfaceMuted,
-              gap: 4,
+              gap: space[4],
             }}
           >
             <Text variant="body" weight="bold">
@@ -130,7 +131,7 @@ export function AddLocationSheet({
             Add the colour grades used at this location. You need at least one level.
           </Text>
 
-          <View style={{ gap: 8 }}>
+          <View style={{ gap: space[8] }}>
             {levels.map((level, index) => (
               <LevelRow
                 key={level.id}

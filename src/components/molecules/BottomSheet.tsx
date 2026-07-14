@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 export function BottomSheet({
   visible,
@@ -37,8 +38,8 @@ export function BottomSheet({
           borderTopWidth: 1,
           borderTopColor: ui.border,
           backgroundColor: ui.surface,
-          padding: 20,
-          gap: 12,
+          padding: space[24],
+          gap: space[12],
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
         }}

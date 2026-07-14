@@ -15,6 +15,7 @@ import { Section } from '../../atoms/Section';
 import { Text } from '../../atoms/Text';
 import { ShadeSwatch, Swatch, WcagAaCheck } from '../atoms/ColorSwatch';
 import { PaletteRow } from '../molecules/PaletteRow';
+import { space } from '../../../theme/spacing';
 
 export type ColorSystemFilter = 'all' | 'brand' | 'neutral' | 'semantic';
 
@@ -118,13 +119,13 @@ function SemanticPaletteSection({ id }: { id: SemanticColorId }) {
 
 function AlphaPreview({ title, baseToken, baseColor }: { title: string; baseToken: string; baseColor: string }) {
   return (
-    <View style={{ gap: 10 }}>
+    <View style={{ gap: space[12] }}>
       <Text variant="body" weight="bold" color={colors.neutral[900]}>
         {title}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
         {ALPHA_STEPS.map((alpha) => (
-          <View key={alpha} style={{ width: 120, gap: 6 }}>
+          <View key={alpha} style={{ width: 120, gap: space[6] }}>
             <View
               style={{
                 height: 64,
@@ -153,12 +154,12 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
     <>
       {showBrand ? (
         <Section title="Brand colours">
-          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 8 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: space[8] }}>
             Used for climbing difficulty levels and brand accents. Contrast colours are for text on their
             related shade — e.g. text on `brand.yellow.main` uses `main.contrast.alt` or `main.contrast.tonal`.
             Each contrast shows WCAG AA pass/fail (normal text 4.5:1, large text 3:1).
           </Text>
-          <View style={{ gap: 20 }}>
+          <View style={{ gap: space[24] }}>
             {BRAND_COLOR_ORDER.map((id) => (
               <BrandPaletteSection key={id} id={id} />
             ))}
@@ -168,11 +169,11 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {showNeutral ? (
         <Section title="Neutral (sandy)">
-          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 8 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: space[8] }}>
             50–100 for backgrounds; 800–900 for text.
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator nestedScrollEnabled>
-            <View style={{ flexDirection: 'row', gap: 12, paddingBottom: 4 }}>
+            <View style={{ flexDirection: 'row', gap: space[12], paddingBottom: space[4] }}>
               {NEUTRAL_SHADES.map((shade) => (
                 <Swatch key={shade} token={`neutral.${shade}`} value={colors.neutral[shade]} />
               ))}
@@ -183,10 +184,10 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {showSemantic ? (
         <Section title="Semantic colours">
-          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 8 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: space[8] }}>
             Negative, attention, positive, info, and discovery states.
           </Text>
-          <View style={{ gap: 20 }}>
+          <View style={{ gap: space[24] }}>
             {SEMANTIC_COLOR_ORDER.map((id) => (
               <SemanticPaletteSection key={id} id={id} />
             ))}
@@ -196,10 +197,10 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {filter === 'all' ? (
         <Section title="Alpha previews">
-          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 12 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: space[12] }}>
             Main shades with alpha blending — useful for overlays and subtle fills.
           </Text>
-          <View style={{ gap: 20 }}>
+          <View style={{ gap: space[24] }}>
             <AlphaPreview title="Brand blue" baseToken="brand.blue.main" baseColor={colors.brand.blue.main} />
             <AlphaPreview
               title="Semantic negative"
@@ -213,20 +214,20 @@ export function ColorSystemDiagram({ filter = 'all' }: { filter?: ColorSystemFil
 
       {filter === 'all' ? (
         <Section title="Climbing difficulty chips">
-          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: 12 }}>
+          <Text variant="body" color={colors.neutral[600]} style={{ marginBottom: space[12] }}>
             How brand colours appear on level labels in the app.
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
             {BRAND_COLOR_ORDER.map((id) => {
               const token = colors.brand[id];
               const text = token.mainContrast.tonal;
               return (
-                <View key={id} style={{ gap: 4, maxWidth: 160 }}>
+                <View key={id} style={{ gap: space[4], maxWidth: 160 }}>
                   <View
                     style={{
                       borderRadius: 999,
-                      paddingHorizontal: 14,
-                      paddingVertical: 8,
+                      paddingHorizontal: space[12],
+                      paddingVertical: space[8],
                       backgroundColor: token.main,
                       borderWidth: 1,
                       borderColor: colors.neutral[300],

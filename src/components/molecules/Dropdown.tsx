@@ -14,6 +14,7 @@ import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import { fontFamilies } from '../../theme/typography';
+import { space } from '../../theme/spacing';
 
 export type DropdownOption = {
   value: string;
@@ -24,8 +25,8 @@ const fieldStyle = {
   borderWidth: 1,
   borderColor: ui.border,
   borderRadius: 8,
-  paddingHorizontal: 12,
-  paddingVertical: 12,
+  paddingHorizontal: space[12],
+  paddingVertical: space[12],
   backgroundColor: ui.surface,
 } as const;
 
@@ -154,7 +155,7 @@ export function Dropdown({
   };
 
   return (
-    <View style={{ gap: 6 }}>
+    <View style={{ gap: space[6] }}>
       <Text variant="body" weight="bold">
         {label}
       </Text>
@@ -225,8 +226,8 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   menuItem: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingHorizontal: space[12],
+    paddingVertical: space[12],
     backgroundColor: ui.surface,
   },
   menuItemBorder: {

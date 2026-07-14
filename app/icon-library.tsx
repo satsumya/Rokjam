@@ -4,11 +4,13 @@ import { Button, Screen, Section, Text } from '../src/components';
 import { IconLibraryDiagram } from '../src/components/utility';
 import { colors } from '../src/theme/colors';
 import { scenarioWebLink } from '../src/constants/scenarios';
+import { space } from '../src/theme/spacing';
 
 export default function IconLibraryPage() {
   return (
     <Screen
       title="Icon library"
+      wide
       footer={
         <>
           <Button label="Colour system" variant="secondary" onPress={() => router.push('/color-system')} />
@@ -25,7 +27,7 @@ export default function IconLibraryPage() {
           (`src/theme/icon.ts`), and weight follows size automatically. Use the controls in the All icons
           section to preview the whole set at any size and weight.
         </Text>
-        <Text variant="bodySmall" color={colors.neutral[500]} style={{ marginTop: 8 }}>
+        <Text variant="bodySmall" color={colors.neutral[500]} style={{ marginTop: space[8] }}>
           {scenarioWebLink('/icon-library')}
         </Text>
       </Section>

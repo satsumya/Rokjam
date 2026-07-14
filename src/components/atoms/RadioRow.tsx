@@ -4,6 +4,7 @@ import { Icon } from './Icon';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 /**
  * Inline radio row: a radio icon followed by its label. Use within a group where
@@ -32,7 +33,7 @@ export function RadioRow({
         previewInteractionStyle(previewState),
       ]}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
         <Icon
           name={selected ? 'radioSelected' : 'radioUnselected'}
           size="sm"

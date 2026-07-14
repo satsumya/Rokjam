@@ -2,6 +2,7 @@ import { View } from 'react-native';
 
 import { DifficultyChip } from '../atoms/DifficultyChip';
 import { Text } from '../atoms/Text';
+import { space } from '../../theme/spacing';
 
 type Level = { id: string; name: string; color: string };
 
@@ -24,7 +25,7 @@ export function DifficultyPicker<L extends Level>({
       <Text variant={compact ? 'bodySmall' : 'body'} weight="bold">
         {title}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
         {levels.map((level) => (
           <DifficultyChip
             key={level.id}

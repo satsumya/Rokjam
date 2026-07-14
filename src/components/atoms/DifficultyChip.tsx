@@ -4,6 +4,7 @@ import { LevelDot } from './LevelDot';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 /** Selectable difficulty pill: colour dot + level name. */
 export function DifficultyChip({
@@ -28,11 +29,11 @@ export function DifficultyChip({
           borderWidth: 1,
           borderColor: selected ? ui.borderStrong : ui.border,
           borderRadius: 12,
-          paddingHorizontal: 10,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 4,
+          gap: space[4],
         },
         interactionStyle(state),
         previewInteractionStyle(previewState),

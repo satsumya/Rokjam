@@ -7,6 +7,7 @@ import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { focusRing, useHoverFocus } from '../../theme/interaction';
 import { bodySizes, fontFamilies } from '../../theme/typography';
+import { space } from '../../theme/spacing';
 
 export function TagInput({
   label,
@@ -31,16 +32,16 @@ export function TagInput({
   };
 
   return (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: space[8] }}>
       <Text variant="body" weight="bold">
         {label}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
         {tags.map((tag) => (
           <RemovableChip key={tag} label={tag} onPress={() => onRemove(tag)} />
         ))}
       </View>
-      <View style={{ flexDirection: 'row', gap: 8 }}>
+      <View style={{ flexDirection: 'row', gap: space[8] }}>
         <TextInput
           value={draft}
           onChangeText={setDraft}
@@ -52,8 +53,8 @@ export function TagInput({
               borderWidth: 1,
               borderColor: hovered ? ui.borderStrong : ui.border,
               borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 10,
+              paddingHorizontal: space[12],
+              paddingVertical: space[12],
               fontFamily: fontFamilies.bodyRegular,
               fontSize: bodySizes.base,
               color: ui.text,
@@ -63,7 +64,7 @@ export function TagInput({
         />
         <Button label="Add" variant="secondary" onPress={handleAdd} />
       </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
         {suggestions
           .filter((item) => !tags.includes(item))
           .map((item) => (

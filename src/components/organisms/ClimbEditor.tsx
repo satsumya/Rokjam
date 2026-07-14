@@ -21,6 +21,7 @@ import {
 } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
 import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 type ClimbEditorProps = {
   climb: SessionClimb;
@@ -90,7 +91,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             Add a location with levels to pick difficulty.
           </Text>
         )}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           <CheckboxRow label="Warm-up" checked={climb.isWarmUp} onPress={() => onChange({ isWarmUp: !climb.isWarmUp })} />
           <CheckboxRow label="Repeat" checked={climb.isRepeat} onPress={() => onChange({ isRepeat: !climb.isRepeat })} />
           <CheckboxRow label="Project" checked={climb.isProject} onPress={() => onChange({ isProject: !climb.isProject })} />
@@ -101,7 +102,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
           onChangeText={(notes) => onChange({ notes })}
           placeholder="Optional notes"
         />
-        <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={{ flexDirection: 'row', gap: space[8] }}>
           <Button
             label={climb.hasImage ? 'Replace image' : 'Add image'}
             variant="secondary"
@@ -116,7 +117,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
       </Section>
 
       <Section title="Tags">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
           {CLIMB_TAG_SUGGESTIONS.map((tag) => (
             <ToggleChip
               key={tag}
@@ -126,7 +127,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             />
           ))}
         </View>
-        <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
+        <View style={{ flexDirection: 'row', gap: space[8], marginTop: space[8] }}>
           <TextInput
             value={customTag}
             onChangeText={setCustomTag}
@@ -138,8 +139,8 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                 borderWidth: 1,
                 borderColor: customTagField.hovered ? ui.borderStrong : ui.border,
                 borderRadius: 8,
-                paddingHorizontal: 12,
-                paddingVertical: 10,
+                paddingHorizontal: space[12],
+                paddingVertical: space[12],
                 fontFamily: fontFamilies.bodyRegular,
                 fontSize: bodySizes.base,
                 color: ui.text,
@@ -150,13 +151,13 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
           <Button label="Add tag" variant="secondary" onPress={addCustomTag} />
         </View>
         {climb.tags.length ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[8] }}>
             {climb.tags.map((tag) => (
               <Pressable
                 key={tag}
                 onPress={() => toggleTag(tag)}
                 style={(state) => [
-                  { borderRadius: 4, flexDirection: 'row', alignItems: 'center', gap: 4 },
+                  { borderRadius: 4, flexDirection: 'row', alignItems: 'center', gap: space[4] },
                   interactionStyle(state),
                 ]}
               >
@@ -172,8 +173,8 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
 
       <Section title="Attempts">
         {climb.attempts.map((attempt, index) => (
-          <View key={attempt.id} style={{ gap: 4, marginBottom: 8 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View key={attempt.id} style={{ gap: space[4], marginBottom: space[8] }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
               <Text variant="body" weight="bold" style={{ flex: 1 }}>
                 Attempt {index + 1}
               </Text>
@@ -188,14 +189,14 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                 </Pressable>
               ) : null}
             </View>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
               {attemptProgressOptionsForIndex(index).map((opt) => (
                 <ToggleChip
                   key={opt.value}
                   label={opt.label}
                   selected={attempt.progress.includes(opt.value)}
                   onPress={() => toggleProgress(attempt.id, opt.value)}
-                  paddingHorizontal={8}
+                  paddingHorizontal={space[8]}
                   fontSize={13}
                 />
               ))}

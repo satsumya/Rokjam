@@ -13,6 +13,7 @@ import {
 } from '../../../theme/typography';
 import { Section } from '../../atoms/Section';
 import { Text } from '../../atoms/Text';
+import { space } from '../../../theme/spacing';
 
 const isHeading = (variant: TextVariant) => /^h[1-6]$/.test(variant);
 
@@ -51,8 +52,8 @@ function SelectChip({
           borderWidth: 1,
           borderColor: active ? colors.neutral[900] : colors.neutral[300],
           borderRadius: 16,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: active ? colors.neutral[100] : colors.neutral[50],
         },
         interactionStyle(state),
@@ -76,14 +77,14 @@ function SpecimenRow({
 }) {
   const style = textStyle(variant, weight);
   return (
-    <View style={{ gap: 6, paddingVertical: 14, borderTopWidth: 1, borderTopColor: ui.borderSubtle }}>
+    <View style={{ gap: space[6], paddingVertical: space[12], borderTopWidth: 1, borderTopColor: ui.borderSubtle }}>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'baseline',
           flexWrap: 'wrap',
-          gap: 8,
+          gap: space[8],
         }}
       >
         <Text variant="bodySmall" weight="bold">
@@ -117,27 +118,27 @@ export function TypographyDiagram({
   return (
     <>
       <Section title="Controls">
-        <View style={{ gap: 6 }}>
+        <View style={{ gap: space[6] }}>
           <Text variant="bodySmall" weight="bold" color={ui.textMuted}>
             Weight
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             <SelectChip label="Regular" active={weight === 'regular'} onPress={() => setWeight('regular')} />
             <SelectChip label="Bold" active={weight === 'bold'} onPress={() => setWeight('bold')} />
           </View>
         </View>
 
-        <View style={{ gap: 6, marginTop: 14 }}>
+        <View style={{ gap: space[6], marginTop: space[12] }}>
           <Text variant="bodySmall" weight="bold" color={ui.textMuted}>
             Specimen
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             <SelectChip label="Short line" active={specimen === 'short'} onPress={() => setSpecimen('short')} />
             <SelectChip label="Full poem" active={specimen === 'poem'} onPress={() => setSpecimen('poem')} />
           </View>
         </View>
 
-        <View style={{ gap: 6, marginTop: 14 }}>
+        <View style={{ gap: space[6], marginTop: space[12] }}>
           <Text variant="bodySmall" weight="bold" color={ui.textMuted}>
             Custom text (overrides specimen)
           </Text>
@@ -152,8 +153,8 @@ export function TypographyDiagram({
               borderWidth: 1,
               borderColor: ui.border,
               borderRadius: 10,
-              paddingHorizontal: 12,
-              paddingVertical: 10,
+              paddingHorizontal: space[12],
+              paddingVertical: space[12],
               color: ui.text,
               ...textStyle('body'),
             }}
@@ -162,7 +163,7 @@ export function TypographyDiagram({
       </Section>
 
       <Section title="Headings — Fira Sans">
-        <Text variant="bodySmall" color={ui.textMuted} style={{ marginBottom: 4 }}>
+        <Text variant="bodySmall" color={ui.textMuted} style={{ marginBottom: space[4] }}>
           Six sizes from the modular scale (base {FONT_BASE}px · ratio {FONT_RATIO}, perfect fourth). Headings
           default to bold.
         </Text>
@@ -172,7 +173,7 @@ export function TypographyDiagram({
       </Section>
 
       <Section title="Body — Saira">
-        <Text variant="bodySmall" color={ui.textMuted} style={{ marginBottom: 4 }}>
+        <Text variant="bodySmall" color={ui.textMuted} style={{ marginBottom: space[4] }}>
           Three sizes: one step above the base, the 16px base, and one below. Body defaults to regular.
         </Text>
         {BODY_VARIANTS.map((variant) => (

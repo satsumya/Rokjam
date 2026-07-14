@@ -35,6 +35,7 @@ export {
   type ButtonStyleTokens,
 } from '../theme/buttonStyles';
 export { space, SPACING_SCALE, type Space } from '../theme/spacing';
+export { layout } from '../theme/layout';
 export { TextField } from './atoms/TextField';
 export { Card } from './atoms/Card';
 export { Link } from './atoms/Link';

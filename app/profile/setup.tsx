@@ -25,6 +25,7 @@ import {
 import { PET_ROCK_AVATARS } from '../../src/constants/difficultyLevels';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { getUsernameError } from '../../src/utils/validation';
+import { space } from '../../src/theme/spacing';
 
 export default function ProfileSetupScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
@@ -144,7 +145,7 @@ export default function ProfileSetupScreen() {
       }
     >
       <Section title="Profile pic">
-        <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
+        <View style={{ flexDirection: 'row', gap: space[12], flexWrap: 'wrap' }}>
           {PET_ROCK_AVATARS.map((rock) => (
             <Pressable
               key={rock}
@@ -153,7 +154,7 @@ export default function ProfileSetupScreen() {
                 borderWidth: 1,
                 borderColor: avatar === rock ? ui.borderStrong : ui.border,
                 borderRadius: 8,
-                padding: 12,
+                padding: space[12],
                 minWidth: 56,
                 alignItems: 'center',
               }}
@@ -197,9 +198,9 @@ export default function ProfileSetupScreen() {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  padding: 12,
+                  padding: space[12],
                   backgroundColor: ui.surfaceMuted,
-                  gap: 8,
+                  gap: space[8],
                 }}
               >
                 {location.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
@@ -210,9 +211,9 @@ export default function ProfileSetupScreen() {
               </Pressable>
 
               {isOpen ? (
-                <View style={{ padding: 12, gap: 12, backgroundColor: ui.surface }}>
+                <View style={{ padding: space[12], gap: space[12], backgroundColor: ui.surface }}>
                   {editingLocationId === location.id ? (
-                    <View style={{ gap: 8 }}>
+                    <View style={{ gap: space[8] }}>
                       <TextField
                         label="Location"
                         required
@@ -232,11 +233,11 @@ export default function ProfileSetupScreen() {
                       />
                     </View>
                   ) : (
-                    <View style={{ gap: 8 }}>
+                    <View style={{ gap: space[8] }}>
                       {location.nickname ? (
                         <Text variant="body">Nickname: {location.nickname}</Text>
                       ) : null}
-                      <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+                      <View style={{ flexDirection: 'row', gap: space[8], flexWrap: 'wrap' }}>
                         <Button
                           label="Edit location"
                           variant="secondary"

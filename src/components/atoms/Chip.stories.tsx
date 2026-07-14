@@ -4,6 +4,7 @@ import { fn } from 'storybook/test';
 
 import { Chip, RemovableChip } from './Chip';
 import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
+import { space } from '../../theme/spacing';
 
 const meta = {
   title: 'Atoms/Chip',
@@ -23,7 +24,7 @@ export const Selected: Story = { args: { label: 'crimpy', selected: true } };
 
 export const Removable: Story = {
   render: () => (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
       <RemovableChip label="dyno" onPress={fn()} />
       <RemovableChip label="slab" onPress={fn()} />
     </View>

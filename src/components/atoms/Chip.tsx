@@ -4,6 +4,7 @@ import { Icon } from './Icon';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 /** Rounded pill used for tags and suggestions. */
 export function Chip({
@@ -26,8 +27,8 @@ export function Chip({
           borderWidth: 1,
           borderColor: selected ? ui.borderStrong : ui.border,
           borderRadius: 16,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: selected ? ui.surfaceMuted : undefined,
         },
         interactionStyle(state),
@@ -57,12 +58,12 @@ export function RemovableChip({
         {
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 6,
+          gap: space[6],
           borderWidth: 1,
           borderColor: ui.borderStrong,
           borderRadius: 16,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: ui.surfaceMuted,
         },
         interactionStyle(state),

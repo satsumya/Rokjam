@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { Text } from '../../atoms/Text';
 import { colors } from '../../../theme/colors';
+import { space } from '../../../theme/spacing';
 
 /** Titled, horizontally scrolling row of colour swatches. */
 export function PaletteRow({
@@ -15,19 +16,19 @@ export function PaletteRow({
   children: ReactNode;
 }) {
   return (
-    <View style={{ gap: 10 }}>
+    <View style={{ gap: space[12] }}>
       <View>
         <Text variant="body" weight="bold" color={colors.neutral[900]}>
           {title}
         </Text>
         {description ? (
-          <Text variant="bodySmall" color={colors.neutral[600]} style={{ marginTop: 2 }}>
+          <Text variant="bodySmall" color={colors.neutral[600]} style={{ marginTop: space[4] }}>
             {description}
           </Text>
         ) : null}
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator nestedScrollEnabled>
-        <View style={{ flexDirection: 'row', gap: 12, paddingBottom: 4 }}>{children}</View>
+        <View style={{ flexDirection: 'row', gap: space[12], paddingBottom: space[4] }}>{children}</View>
       </ScrollView>
     </View>
   );

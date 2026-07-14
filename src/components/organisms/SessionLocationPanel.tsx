@@ -9,6 +9,7 @@ import { Text } from '../atoms/Text';
 import { AddLocationSheet } from './AddLocationSheet';
 import { usePrototype } from '../../context/PrototypeContext';
 import { ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 export function SessionLocationPanel({
   sessionLocationId,
@@ -39,7 +40,7 @@ export function SessionLocationPanel({
 
   if (locations.length === 0) {
     return (
-      <View style={{ gap: 8 }}>
+      <View style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Location
         </Text>
@@ -57,7 +58,7 @@ export function SessionLocationPanel({
 
   if (!sessionLoc || changingLocation) {
     return (
-      <View style={{ gap: 8 }}>
+      <View style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Location
         </Text>
@@ -65,7 +66,7 @@ export function SessionLocationPanel({
           <Text variant="body">
             {sessionLoc ? 'Choose a different location' : 'Select a location for this session'}
           </Text>
-          <View style={{ gap: 6 }}>
+          <View style={{ gap: space[6] }}>
             {locations.map((loc) => (
               <Pressable
                 key={loc.id}
@@ -74,7 +75,7 @@ export function SessionLocationPanel({
                   setChangingLocation(false);
                 }}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
                   {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
                   <Text variant="body" weight={sessionLocationId === loc.id ? 'bold' : 'regular'}>
                     {loc.nickname ? `${loc.nickname} — ` : ''}
@@ -99,12 +100,12 @@ export function SessionLocationPanel({
   }
 
   return (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: space[8] }}>
       <Text variant="body" weight="bold">
         Location
       </Text>
       <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
           {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
           <Text variant="body">
             {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}

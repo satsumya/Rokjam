@@ -9,6 +9,7 @@ import { FlowMapDiagram } from '../src/components/utility';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
+import { space } from '../src/theme/spacing';
 
 type FlowFilter = ScenarioFlow | 'all';
 
@@ -29,8 +30,8 @@ function FilterChip({
           borderWidth: 1,
           borderColor: active ? ui.borderStrong : ui.border,
           borderRadius: 16,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: active ? ui.surfaceMuted : ui.surface,
         },
         interactionStyle(state),
@@ -60,6 +61,7 @@ export default function FlowMapPage() {
   return (
     <Screen
       title="Flow map"
+      wide
       footer={
         <>
           <Button
@@ -85,7 +87,7 @@ export default function FlowMapPage() {
       </Section>
 
       <Section title="Filter by flow">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           <FilterChip label="All flows" active={flowFilter === 'all'} onPress={() => setFlowFilter('all')} />
           {SCENARIO_FLOWS.map((flow) => (
             <FilterChip

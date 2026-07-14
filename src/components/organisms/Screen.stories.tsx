@@ -20,6 +20,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Wide: Story = {
+  args: {
+    wide: true,
+    title: 'Colour system',
+    children: <Text>Utility screens use wide layout with no max width.</Text>,
+  },
+};
+
 export const WithFooter: Story = {
   args: {
     footer: (

@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { LevelDot } from './LevelDot';
 import { demoLevels, Padded } from '../storybook.helpers';
+import { space } from '../../theme/spacing';
 
 const meta = {
   title: 'Atoms/LevelDot',
@@ -19,7 +20,7 @@ export const Default: Story = {};
 
 export const Sizes: Story = {
   render: () => (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
       {demoLevels.map((level, index) => (
         <LevelDot key={level.id} color={level.color} size={8 + index * 4} />
       ))}

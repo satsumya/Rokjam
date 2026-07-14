@@ -31,6 +31,7 @@ import { Text } from '../../atoms/Text';
 import { FlowMapVersionAccordion } from '../molecules/FlowMapVersionAccordion';
 import { colors, ui } from '../../../theme/colors';
 import { focusRing, interactionFlags } from '../../../theme/interaction';
+import { space } from '../../../theme/spacing';
 
 const ARROW = colors.brand.blue.dark;
 const ARROW_FILL = colors.brand.blue.light;
@@ -309,11 +310,11 @@ function FlowScreenNode({
 
       <View
         style={{
-          marginTop: 10,
+          marginTop: space[12],
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 8,
+          gap: space[8],
           flexWrap: 'wrap',
         }}
       >
@@ -344,7 +345,7 @@ function FlowScreenNode({
         <Text
           variant="bodySmall"
           color={ui.textMuted}
-          style={{ marginTop: 2, fontSize: 11, textAlign: 'center' }}
+          style={{ marginTop: space[4], fontSize: 11, textAlign: 'center' }}
         >
           {subtitle}
         </Text>
@@ -417,7 +418,7 @@ function FlowJourneyCanvas({
       title={journey.title}
       headerAction={
         canBulkDownload || canUpdate ? (
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          <View style={{ flexDirection: 'row', gap: space[8], flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             {canUpdate ? (
               <FlowMapActionButton
                 label={flowBusy ? 'Updating…' : 'Update all'}
@@ -441,7 +442,7 @@ function FlowJourneyCanvas({
       }
     >
       <FlowMapVersionAccordion items={versionItems} />
-      <Text variant="body" color={ui.textMuted} style={{ marginBottom: 16 }}>
+      <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[16] }}>
         {journey.description}
       </Text>
       <ScrollView
@@ -523,8 +524,8 @@ export function FlowMapDiagram({
             borderColor: colors.brand.yellow.accent,
             backgroundColor: colors.brand.yellow.light,
             borderRadius: 8,
-            padding: 12,
-            marginBottom: 12,
+            padding: space[12],
+            marginBottom: space[12],
           }}
         >
           <Text variant="body" color={colors.brand.yellow.dark}>
@@ -543,8 +544,8 @@ export function FlowMapDiagram({
             borderColor: colors.brand.red.accent,
             backgroundColor: colors.brand.red.light,
             borderRadius: 8,
-            padding: 12,
-            marginBottom: 12,
+            padding: space[12],
+            marginBottom: space[12],
           }}
         >
           <Text variant="body" color={colors.brand.red.dark}>
@@ -559,8 +560,8 @@ export function FlowMapDiagram({
             borderColor: colors.brand.green.accent,
             backgroundColor: colors.brand.green.light,
             borderRadius: 8,
-            padding: 12,
-            marginBottom: 12,
+            padding: space[12],
+            marginBottom: space[12],
           }}
         >
           <Text variant="body" color={colors.brand.green.dark}>

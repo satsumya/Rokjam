@@ -4,6 +4,7 @@ import { fn } from 'storybook/test';
 
 import { ToggleChip } from './ToggleChip';
 import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
+import { space } from '../../theme/spacing';
 
 const meta = {
   title: 'Atoms/ToggleChip',
@@ -19,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Unselected: Story = {};
 export const Selected: Story = { args: { selected: true } };
-export const Dense: Story = { args: { label: 'flash', paddingHorizontal: 8, fontSize: 13, selected: true } };
+export const Dense: Story = { args: { label: 'flash', paddingHorizontal: space[8], fontSize: 13, selected: true } };
 
 export const Interactive: Story = {
   render: (args) => {

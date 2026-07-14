@@ -22,6 +22,7 @@ import {
   formatDuration,
   sessionDifficultyRange,
 } from '../src/utils/sessionUtils';
+import { space } from '../src/theme/spacing';
 
 export default function DashboardScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
@@ -98,7 +99,7 @@ export default function DashboardScreen() {
           accessibilityRole="button"
           accessibilityLabel="Log out"
           hitSlop={8}
-          style={{ padding: 4 }}
+          style={{ padding: space[4] }}
         >
           <Icon name="close" size="md" color={ui.textLabel} />
         </Pressable>
@@ -134,9 +135,9 @@ export default function DashboardScreen() {
       ) : null}
 
       <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[12] }}>
           <Avatar emoji={avatar} size="lg" />
-          <View style={{ flex: 1, gap: 2 }}>
+          <View style={{ flex: 1, gap: space[4] }}>
             <Text variant="bodyLarge" weight="bold">
               {username || 'Member'}
             </Text>
@@ -149,7 +150,7 @@ export default function DashboardScreen() {
             accessibilityRole="button"
             accessibilityLabel="Edit profile"
             hitSlop={8}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 4, padding: 4 }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: space[4], padding: space[4] }}
           >
             <Icon name="pencil" size="xs" color={ui.text} />
             <Text variant="body" style={{ textDecorationLine: 'underline' }}>
@@ -162,7 +163,7 @@ export default function DashboardScreen() {
       {needsProfile || activeSessions.length > 0 ? (
         <Section title="Climbing">
           {needsProfile ? (
-            <Text variant="body" color={ui.textMuted} style={{ marginBottom: 4 }}>
+            <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[4] }}>
               Profile incomplete — you can still start a session and add a location during it.
             </Text>
           ) : null}
@@ -183,7 +184,7 @@ export default function DashboardScreen() {
       {!needsProfile ? (
         <>
           <Section title="Recent sessions">
-            <View style={{ flexDirection: 'row', gap: 12, marginBottom: 4 }}>
+            <View style={{ flexDirection: 'row', gap: space[12], marginBottom: space[4] }}>
               <Pressable onPress={() => setShowAllSessions(false)}>
                 <Text variant="body" weight={!showAllSessions ? 'bold' : 'regular'}>
                   Recent
@@ -237,19 +238,19 @@ export default function DashboardScreen() {
           <ViewRow label="Home location" value={homeLocation?.name ?? 'Not set'} home={homeLocation?.isHome} />
           {homeLocation?.nickname ? <Text variant="body">Nickname: {homeLocation.nickname}</Text> : null}
           {homeLocation?.levels.length ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[4] }}>
               {homeLocation.levels.map((level) => (
                 <View
                   key={level.id}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    gap: 4,
+                    gap: space[4],
                     borderWidth: 1,
                     borderColor: ui.borderSubtle,
                     borderRadius: 12,
-                    paddingHorizontal: 8,
-                    paddingVertical: 4,
+                    paddingHorizontal: space[8],
+                    paddingVertical: space[4],
                   }}
                 >
                   <View
@@ -281,7 +282,7 @@ export default function DashboardScreen() {
 
 function ViewRow({ label, value, home }: { label: string; value: string; home?: boolean }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
       <Text variant="body">{label}: </Text>
       {home ? <Icon name="house" size="xs" color={ui.text} /> : null}
       <Text variant="body">{value}</Text>

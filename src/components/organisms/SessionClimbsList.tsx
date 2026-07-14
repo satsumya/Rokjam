@@ -10,6 +10,7 @@ import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb, SessionSort } from '../../types/climbingSession';
 import { filterClimbs, sortClimbs } from '../../utils/sessionUtils';
 import { interactionStyle } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 const SORT_OPTIONS: { value: SessionSort; label: string }[] = [
   { value: 'order', label: 'Newest first' },
@@ -77,8 +78,8 @@ export function SessionClimbsList({
   return (
     <Section title="Climbs">
       {showSortFilter ? (
-        <View style={{ gap: 8 }}>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <View style={{ gap: space[8] }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             <Text variant="body" weight="bold">
               Sort:
             </Text>
@@ -94,12 +95,12 @@ export function SessionClimbsList({
               </Pressable>
             ))}
           </View>
-          <View style={{ gap: 4 }}>
+          <View style={{ gap: space[4] }}>
             <Text variant="body" weight="bold">
               Filter
             </Text>
             {showDifficultyFilter ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
                 <Pressable
                   onPress={() => setFilterDifficulty('')}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
@@ -132,7 +133,7 @@ export function SessionClimbsList({
               onPress={() => setHideRepeat((v) => !v)}
             />
             {showTagFilter ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
                 <Pressable
                   onPress={() => setFilterTag('')}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}

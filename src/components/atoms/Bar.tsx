@@ -2,6 +2,7 @@ import { View } from 'react-native';
 
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 /** Single labelled horizontal bar for the mini bar charts. */
 export function Bar({
@@ -16,7 +17,7 @@ export function Bar({
   unit?: string;
 }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
       <Text variant="bodySmall" color={ui.textMuted} style={{ width: 36 }}>
         {label}
       </Text>

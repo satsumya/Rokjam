@@ -4,6 +4,7 @@ import { fn } from 'storybook/test';
 
 import { DifficultyChip } from './DifficultyChip';
 import { demoLevels, Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
+import { space } from '../../theme/spacing';
 
 const meta = {
   title: 'Atoms/DifficultyChip',
@@ -37,7 +38,7 @@ export const States: Story = {
 
 export const Row: Story = {
   render: () => (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
       {demoLevels.map((level, index) => (
         <DifficultyChip
           key={level.id}

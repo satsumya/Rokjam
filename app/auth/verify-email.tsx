@@ -5,6 +5,7 @@ import { Button, Link, Screen, Text, TextField } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { ui } from '../../src/theme/colors';
 import { getVerificationCodeError } from '../../src/utils/validation';
+import { space } from '../../src/theme/spacing';
 
 export default function VerifyEmailScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
@@ -41,7 +42,7 @@ export default function VerifyEmailScreen() {
         </>
       }
     >
-      <Text variant="body" color={ui.textMuted} style={{ marginBottom: 8 }}>
+      <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[8] }}>
         Enter the 6-digit code sent to {email || 'your email'}.
       </Text>
       {resent ? (

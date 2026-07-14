@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { ShadeSwatch, Swatch, WcagAaCheck } from './ColorSwatch';
 import { colors } from '../../../theme/colors';
 import { Padded } from '../../storybook.helpers';
+import { space } from '../../../theme/spacing';
 
 const meta = {
   title: 'Utility/Atoms/ColorSwatch',
@@ -33,7 +34,7 @@ export const BrandShade: Story = {
 
 export const ContrastCheck: Story = {
   render: () => (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: space[8] }}>
       <WcagAaCheck foreground={colors.neutral[900]} background={colors.neutral[50]} />
       <WcagAaCheck foreground={colors.neutral[400]} background={colors.neutral[50]} />
     </View>

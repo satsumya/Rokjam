@@ -7,6 +7,7 @@ import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import { ui } from '../../theme/colors';
 import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
 import { bodySizes, fontFamilies } from '../../theme/typography';
+import { space } from '../../theme/spacing';
 
 type Level = {
   id: string;
@@ -48,18 +49,18 @@ export function LevelRow({
         borderWidth: 1,
         borderColor: dragSourceId === level.id ? ui.borderStrong : ui.borderSubtle,
         borderRadius: 8,
-        padding: 8,
+        padding: space[8],
         backgroundColor: ui.surface,
-        gap: 6,
+        gap: space[6],
       }}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
         <Pressable
           onPress={() => (dragSourceId ? onDragTarget(level.id) : onDragStart(level.id))}
           style={(state) => [
             {
-              paddingHorizontal: 6,
-              paddingVertical: 4,
+              paddingHorizontal: space[6],
+              paddingVertical: space[4],
               borderWidth: 1,
               borderColor: ui.border,
               borderRadius: 4,
@@ -95,8 +96,8 @@ export function LevelRow({
               borderWidth: 1,
               borderColor: nameField.hovered ? ui.borderStrong : ui.border,
               borderRadius: 6,
-              paddingHorizontal: 10,
-              paddingVertical: 6,
+              paddingHorizontal: space[12],
+              paddingVertical: space[6],
               fontFamily: fontFamilies.bodyRegular,
               fontSize: bodySizes.base,
               color: ui.text,
@@ -131,7 +132,7 @@ export function LevelRow({
       </View>
 
       {showColors ? (
-        <View style={{ gap: 6, paddingLeft: 36 }}>
+        <View style={{ gap: space[6], paddingLeft: space[32] }}>
           {DEFAULT_LEVEL_COLORS.map((preset) => (
             <Pressable
               key={preset.color}
@@ -143,8 +144,8 @@ export function LevelRow({
                 {
                   flexDirection: 'row',
                   alignItems: 'center',
-                  gap: 8,
-                  padding: 6,
+                  gap: space[8],
+                  padding: space[6],
                   borderWidth: 1,
                   borderColor: ui.borderSubtle,
                   borderRadius: 6,
@@ -175,7 +176,7 @@ export function LevelRow({
                 borderWidth: 1,
                 borderColor: hexField.hovered ? ui.borderStrong : ui.border,
                 borderRadius: 8,
-                padding: 10,
+                padding: space[12],
                 fontFamily: fontFamilies.bodyRegular,
                 fontSize: bodySizes.base,
                 color: ui.text,
@@ -186,7 +187,7 @@ export function LevelRow({
         </View>
       ) : null}
       {colorError ? (
-        <Text variant="bodySmall" color={ui.danger} style={{ paddingLeft: 36 }}>
+        <Text variant="bodySmall" color={ui.danger} style={{ paddingLeft: space[32] }}>
           {colorError}
         </Text>
       ) : null}

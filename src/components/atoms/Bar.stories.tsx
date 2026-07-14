@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { Bar } from './Bar';
 import { Padded } from '../storybook.helpers';
+import { space } from '../../theme/spacing';
 
 const meta = {
   title: 'Atoms/Bar',
@@ -19,7 +20,7 @@ export const Default: Story = {};
 
 export const Stack: Story = {
   render: () => (
-    <View style={{ gap: 6 }}>
+    <View style={{ gap: space[6] }}>
       <Bar label="Mon" value={30} max={90} unit="m" />
       <Bar label="Wed" value={60} max={90} unit="m" />
       <Bar label="Fri" value={90} max={90} unit="m" />

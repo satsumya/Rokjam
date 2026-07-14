@@ -21,6 +21,7 @@ import {
   navigateScenarioPath,
   resolveScenarioSetup,
 } from '../src/utils/scenarioSetup';
+import { space } from '../src/theme/spacing';
 
 type PathFilter = ScenarioFlow | 'all';
 type UserFilter = ScenarioUserType | 'all';
@@ -43,8 +44,8 @@ function FilterChip({
           borderWidth: 1,
           borderColor: active ? ui.borderStrong : ui.border,
           borderRadius: 16,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: active ? ui.surfaceMuted : ui.surface,
         },
         interactionStyle(state),
@@ -126,6 +127,7 @@ export default function ScenariosScreen() {
   return (
     <Screen
       title="Scenario tester"
+      wide
       footer={
         <Button label="Back to welcome" variant="secondary" onPress={() => router.replace('/')} />
       }
@@ -137,7 +139,7 @@ export default function ScenariosScreen() {
             the right app state.
           </Text>
           <Button label="Open flow map" onPress={() => router.push('/flow-map')} />
-          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[8] }}>
             {scenarioWebLink('/flow-map')}
           </Text>
         </Card>
@@ -149,7 +151,7 @@ export default function ScenariosScreen() {
             Preview brand, neutral, and semantic colour tokens — including contrast and alpha variants.
           </Text>
           <Button label="Open colour system" onPress={() => router.push('/color-system')} />
-          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[8] }}>
             {scenarioWebLink('/color-system')}
           </Text>
         </Card>
@@ -162,7 +164,7 @@ export default function ScenariosScreen() {
             on regular or mixes bold, fill, and more.
           </Text>
           <Button label="Open icon library" onPress={() => router.push('/icon-library')} />
-          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[8] }}>
             {scenarioWebLink('/icon-library')}
           </Text>
         </Card>
@@ -175,7 +177,7 @@ export default function ScenariosScreen() {
             and view real copy in each style.
           </Text>
           <Button label="Open typography" onPress={() => router.push('/typography')} />
-          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 8 }}>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[8] }}>
             {scenarioWebLink('/typography')}
           </Text>
         </Card>
@@ -193,10 +195,10 @@ export default function ScenariosScreen() {
       </Section>
 
       <Section title="Filter scenarios">
-        <Text variant="body" weight="bold" style={{ marginBottom: 6 }}>
+        <Text variant="body" weight="bold" style={{ marginBottom: space[6] }}>
           Flow
         </Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], marginBottom: space[12] }}>
           <FilterChip label="All flows" active={flowFilter === 'all'} onPress={() => setFlowFilter('all')} />
           {SCENARIO_FLOWS.map((flow) => (
             <FilterChip
@@ -207,10 +209,10 @@ export default function ScenariosScreen() {
             />
           ))}
         </View>
-        <Text variant="body" weight="bold" style={{ marginBottom: 6 }}>
+        <Text variant="body" weight="bold" style={{ marginBottom: space[6] }}>
           User
         </Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], marginBottom: space[12] }}>
           <FilterChip label="All users" active={userFilter === 'all'} onPress={() => setUserFilter('all')} />
           <FilterChip label="New user" active={userFilter === 'new'} onPress={() => setUserFilter('new')} />
           <FilterChip
@@ -219,10 +221,10 @@ export default function ScenariosScreen() {
             onPress={() => setUserFilter('existing')}
           />
         </View>
-        <Text variant="body" weight="bold" style={{ marginBottom: 6 }}>
+        <Text variant="body" weight="bold" style={{ marginBottom: space[6] }}>
           Path type
         </Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           <FilterChip label="All paths" active={typeFilter === 'all'} onPress={() => setTypeFilter('all')} />
           <FilterChip
             label="Happy path"

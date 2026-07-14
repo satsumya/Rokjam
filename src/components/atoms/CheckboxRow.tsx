@@ -4,6 +4,7 @@ import { Icon } from './Icon';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 /** Inline checkbox row: a checkbox icon followed by its label. */
 export function CheckboxRow({
@@ -27,7 +28,7 @@ export function CheckboxRow({
         previewInteractionStyle(previewState),
       ]}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
         <Icon
           name={checked ? 'checkboxChecked' : 'checkboxUnchecked'}
           size="sm"

@@ -14,6 +14,7 @@ import {
   sessionsInTimeframe,
   warmUpTrend,
 } from '../../utils/sessionUtils';
+import { space } from '../../theme/spacing';
 
 export function DashboardTrends({
   sessions,
@@ -44,7 +45,7 @@ export function DashboardTrends({
   return (
     <Section title="Trends">
       <Card>
-        <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={{ flexDirection: 'row', gap: space[8] }}>
           {(['week', 'month', '3months'] as TrendTimeframe[]).map((t) => (
             <Pressable
               key={t}
@@ -93,7 +94,7 @@ export function DashboardTrends({
             Standout climbs
           </Text>
           {standouts.map((t) => (
-            <View key={t.label} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <View key={t.label} style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
               <Icon name="sparkle" size="xs" color={ui.text} />
               <Text variant="body">
                 {t.label}: {t.detail}

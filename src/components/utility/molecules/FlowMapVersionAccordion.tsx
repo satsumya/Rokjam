@@ -6,6 +6,7 @@ import { Text } from '../../atoms/Text';
 import { formatFlowMapVersionStatus } from '../../../utils/flowMapVersionFormat';
 import { ui } from '../../../theme/colors';
 import { interactionStyle } from '../../../theme/interaction';
+import { space } from '../../../theme/spacing';
 
 export type FlowMapVersionAccordionItem = {
   label: string;
@@ -19,7 +20,7 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
   if (items.length === 0) return null;
 
   return (
-    <View style={{ marginBottom: 12 }}>
+    <View style={{ marginBottom: space[12] }}>
       <Pressable
         onPress={() => setOpen((current) => !current)}
         accessibilityRole="button"
@@ -29,9 +30,9 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
           {
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 6,
+            gap: space[6],
             alignSelf: 'flex-start',
-            paddingVertical: 4,
+            paddingVertical: space[4],
             borderRadius: 4,
           },
           interactionStyle(state),
@@ -45,9 +46,9 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
       {open ? (
         <View
           style={{
-            marginTop: 6,
-            paddingLeft: 18,
-            gap: 4,
+            marginTop: space[6],
+            paddingLeft: space[16],
+            gap: space[4],
           }}
         >
           {items.map((item) => (

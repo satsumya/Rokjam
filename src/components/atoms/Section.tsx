@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 export function Section({
   title,
@@ -22,14 +23,14 @@ export function Section({
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          gap: 12,
+          gap: space[12],
           marginBottom: subtitle || headerAction ? 4 : 0,
         }}
       >
         <View style={{ flex: 1 }}>
           <Text variant="h6">{title}</Text>
           {subtitle ? (
-            <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: 4 }}>
+            <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[4] }}>
               {subtitle}
             </Text>
           ) : null}
@@ -42,5 +43,5 @@ export function Section({
 }
 
 const styles = {
-  section: { gap: 10 },
+  section: { gap: space[12] },
 } as const;

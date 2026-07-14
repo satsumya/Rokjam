@@ -4,6 +4,7 @@ import { Text } from '../../atoms/Text';
 import { colors } from '../../../theme/colors';
 import { mixHex } from '../../../theme/colorUtils';
 import { focusRing, interactionFlags, type PreviewState } from '../../../theme/interaction';
+import { space } from '../../../theme/spacing';
 
 export type FlowMapActionVariant = 'download' | 'update';
 
@@ -59,8 +60,8 @@ export function FlowMapActionButton({
           borderWidth: 1,
           borderColor,
           borderRadius: 12,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: pressed ? palette.pressedBg : hovered ? palette.hoverBg : palette.bg,
           opacity: disabled ? 0.5 : 1,
           ...(focused && !disabled ? focusRing : null),

@@ -20,6 +20,7 @@ import {
   formatDuration,
   sessionDifficultyRange,
 } from '../../src/utils/sessionUtils';
+import { space } from '../../src/theme/spacing';
 
 type Tab = 'all' | 'following' | 'nearby';
 
@@ -55,7 +56,7 @@ export default function CommunityScreen() {
       title="Community"
       footer={<Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
     >
-      <View style={{ flexDirection: 'row', gap: 16 }}>
+      <View style={{ flexDirection: 'row', gap: space[16] }}>
         {(
           [
             ['all', 'All'],
@@ -81,7 +82,7 @@ export default function CommunityScreen() {
         ) : (
           feed.map((session) => (
             <Card key={session.id}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
                 <Avatar emoji={session.ownerAvatar} size="md" />
                 <View style={{ flex: 1 }}>
                   <Text variant="body" weight="bold">

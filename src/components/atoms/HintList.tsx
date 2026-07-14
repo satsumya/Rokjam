@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Icon } from './Icon';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 export function HintList({ items }: { items: { label: string; met: boolean }[] }) {
   return (
@@ -25,6 +26,6 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
 }
 
 const styles = StyleSheet.create({
-  hintList: { gap: 4 },
-  hintItemRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  hintList: { gap: space[4] },
+  hintItemRow: { flexDirection: 'row', alignItems: 'center', gap: space[6] },
 });

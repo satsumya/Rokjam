@@ -9,6 +9,7 @@ import {
   buttonColorStyleLabel,
 } from '../../theme/buttonStyles';
 import { ui } from '../../theme/colors';
+import { space } from '../../theme/spacing';
 
 const BUTTON_STATE_VARIANTS = [
   { id: 'style1', label: 'style1 (default primary)' },
@@ -68,9 +69,9 @@ export const YellowDifficulty: Story = {
 /** All colour styles × both sizes (mirrors the design comps). */
 export const ColorStyles: Story = {
   render: (args) => (
-    <View style={{ gap: 20, alignItems: 'flex-start' }}>
+    <View style={{ gap: space[24], alignItems: 'flex-start' }}>
       {BUTTON_COLOR_STYLE_ORDER.map((colorStyle) => (
-        <View key={colorStyle} style={{ gap: 8, alignItems: 'flex-start' }}>
+        <View key={colorStyle} style={{ gap: space[8], alignItems: 'flex-start' }}>
           <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>
             {buttonColorStyleLabel(colorStyle)}
           </Text>
@@ -92,9 +93,9 @@ export const ColorStyles: Story = {
 
 export const States: Story = {
   render: (args) => (
-    <View style={{ gap: 28, alignItems: 'flex-start' }}>
+    <View style={{ gap: space[24], alignItems: 'flex-start' }}>
       {BUTTON_SIZES.map((size) => (
-        <View key={size.id} style={{ gap: 12, alignItems: 'flex-start' }}>
+        <View key={size.id} style={{ gap: space[12], alignItems: 'flex-start' }}>
           <Text style={{ fontSize: 14, fontWeight: '700', color: ui.text }}>{size.label}</Text>
           <StatesGallery variants={BUTTON_STATE_VARIANTS}>
             {(state, variantId) => {

@@ -6,6 +6,7 @@ import { ui } from '../../src/theme/colors';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { getLoginIdentifierError } from '../../src/utils/validation';
+import { space } from '../../src/theme/spacing';
 
 export default function LoginScreen() {
   const { demo, existing } = useLocalSearchParams<{ demo?: string; existing?: string }>();
@@ -79,7 +80,7 @@ export default function LoginScreen() {
       }
     >
       {existing === '1' ? (
-        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 8 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[8] }}>
           An account already exists for this email. Log in instead.
         </Text>
       ) : null}

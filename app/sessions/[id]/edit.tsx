@@ -20,6 +20,7 @@ import { usePrototype } from '../../../src/context/PrototypeContext';
 import { ui } from '../../../src/theme/colors';
 import type { SessionClimb } from '../../../src/types/climbingSession';
 import { climbHasDetails, formatSessionDate } from '../../../src/utils/sessionUtils';
+import { space } from '../../../src/theme/spacing';
 
 const emptyClimb = (): SessionClimb => ({
   id: 'draft',
@@ -151,7 +152,7 @@ export default function EditSessionScreen() {
           value={session.endTime ?? ''}
           onChange={(endTime) => updateSession(session.id, { endTime })}
         />
-        <View style={{ gap: 4 }}>
+        <View style={{ gap: space[4] }}>
           <RadioRow label="Private" selected={!isPublic} onPress={() => setIsPublic(false)} />
           <RadioRow label="Public" selected={isPublic} onPress={() => setIsPublic(true)} />
         </View>

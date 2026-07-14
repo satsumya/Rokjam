@@ -7,6 +7,7 @@ import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 export function AddressSearch({
   onSelect,
@@ -49,7 +50,7 @@ export function AddressSearch({
   };
 
   return (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: space[8] }}>
       <View style={{ zIndex: 2 }}>
         <TextField
           label="Location"
@@ -62,7 +63,7 @@ export function AddressSearch({
         {suggestions.length > 0 ? (
           <View
             style={{
-              marginTop: 4,
+              marginTop: space[4],
               maxHeight: 180,
               borderWidth: 1,
               borderColor: ui.border,
@@ -87,8 +88,8 @@ export function AddressSearch({
                   onPress={() => selectSuggestion(item)}
                   style={(state) => [
                     {
-                      paddingHorizontal: 12,
-                      paddingVertical: 12,
+                      paddingHorizontal: space[12],
+                      paddingVertical: space[12],
                       borderTopWidth: index === 0 ? 0 : 1,
                       borderTopColor: ui.borderSubtle,
                       backgroundColor: ui.surface,
@@ -111,7 +112,7 @@ export function AddressSearch({
       ) : null}
 
       {showAddAnyway ? (
-        <View style={{ gap: 8 }}>
+        <View style={{ gap: space[8] }}>
           <Text variant="bodySmall" color={ui.textMuted}>
             Address not found. You can add it anyway.
           </Text>

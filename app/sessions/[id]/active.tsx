@@ -32,6 +32,7 @@ import {
   parseSessionDateDisplay,
 } from '../../../src/utils/sessionUtils';
 import { getUsernameError } from '../../../src/utils/validation';
+import { space } from '../../../src/theme/spacing';
 
 const emptyClimb = (): SessionClimb => ({
   id: 'draft',
@@ -257,7 +258,7 @@ export default function ActiveSessionScreen() {
           title="Save / end session"
           onClose={() => setShowEndSheet(false)}
         >
-          <View style={{ gap: 4 }}>
+          <View style={{ gap: space[4] }}>
             <RadioRow label="Private" selected={!isPublic} onPress={() => setIsPublic(false)} />
             <RadioRow label="Public" selected={isPublic} onPress={() => setIsPublic(true)} />
           </View>

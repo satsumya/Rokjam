@@ -14,6 +14,7 @@ import {
   type IconWeight,
 } from '../../atoms/Icon';
 import { Section } from '../../atoms/Section';
+import { space } from '../../../theme/spacing';
 
 /** Size tokens that default to a given weight (derived from the size→weight map). */
 function sizesForWeight(weight: IconWeight) {
@@ -44,8 +45,8 @@ function SelectChip({
           borderWidth: 1,
           borderColor: active ? colors.neutral[900] : colors.neutral[300],
           borderRadius: 16,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
+          paddingHorizontal: space[12],
+          paddingVertical: space[6],
           backgroundColor: active ? colors.neutral[100] : colors.neutral[50],
         },
         interactionStyle(state),
@@ -63,8 +64,8 @@ function Badge({ label, muted }: { label: string; muted?: boolean }) {
     <View
       style={{
         borderRadius: 999,
-        paddingHorizontal: 8,
-        paddingVertical: 2,
+        paddingHorizontal: space[8],
+        paddingVertical: space[4],
         backgroundColor: muted ? 'transparent' : ui.surfaceMuted,
         borderWidth: 1,
         borderColor: muted ? ui.borderSubtle : ui.border,
@@ -92,7 +93,7 @@ export function IconLibraryDiagram({
   return (
     <>
       <Section title="Weights">
-        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 12 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[12] }}>
           We use four Phosphor weights (thin and light are disabled). Weight follows size automatically:{' '}
           <Text variant="body" weight="bold">
             xs/sm → fill
@@ -104,13 +105,13 @@ export function IconLibraryDiagram({
           . `regular` and `duotone` aren't mapped to a size (manual use only); `regular` is used for outline
           states like an unchecked checkbox or unmet hint.
         </Text>
-        <View style={{ gap: 14 }}>
+        <View style={{ gap: space[12] }}>
           {ICON_WEIGHTS.map((w) => {
             const sizes = sizesForWeight(w);
             const isDefault = sizes.length > 0;
             return (
-              <View key={w} style={{ gap: 8 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View key={w} style={{ gap: space[8] }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
                   <Text variant="body" weight="bold" style={{ minWidth: 72 }}>
                     {w}
                   </Text>
@@ -119,7 +120,7 @@ export function IconLibraryDiagram({
                     muted={!isDefault}
                   />
                 </View>
-                <View style={{ flexDirection: 'row', gap: 18, alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', gap: space[16], alignItems: 'center' }}>
                   {WEIGHT_SAMPLES.map((name) => (
                     <Icon key={name} name={name} weight={w} size="lg" color={ui.text} />
                   ))}
@@ -131,13 +132,13 @@ export function IconLibraryDiagram({
       </Section>
 
       <Section title="Sizes">
-        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 12 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[12] }}>
           Size tokens from `src/theme/icon.ts`, each shown at its automatic weight. Pass the token name to the
           Icon `size` prop instead of a raw pixel number.
         </Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 24, alignItems: 'flex-end' }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[24], alignItems: 'flex-end' }}>
           {ICON_SIZE_NAMES.map((token) => (
-            <View key={token} style={{ alignItems: 'center', gap: 6 }}>
+            <View key={token} style={{ alignItems: 'center', gap: space[6] }}>
               <Icon name="house" size={token} color={ui.text} />
               <Text variant="bodySmall" weight="bold">
                 {token}
@@ -151,16 +152,16 @@ export function IconLibraryDiagram({
       </Section>
 
       <Section title={`All icons (${ICON_NAMES.length})`}>
-        <Text variant="body" color={ui.textMuted} style={{ marginBottom: 12 }}>
+        <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[12] }}>
           Every icon in the registry, previewed at the size and weight you pick below. Reference icons by name
           via the Icon atom.
         </Text>
 
-        <View style={{ gap: 6, marginBottom: 10 }}>
+        <View style={{ gap: space[6], marginBottom: space[12] }}>
           <Text variant="bodySmall" weight="bold">
             Preview weight
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             {WEIGHT_OPTIONS.map((w) => (
               <SelectChip
                 key={w}
@@ -172,32 +173,32 @@ export function IconLibraryDiagram({
           </View>
         </View>
 
-        <View style={{ gap: 6, marginBottom: 16 }}>
+        <View style={{ gap: space[6], marginBottom: space[16] }}>
           <Text variant="bodySmall" weight="bold">
             Preview size
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             {ICON_SIZE_NAMES.map((s) => (
               <SelectChip key={s} label={s} active={size === s} onPress={() => setSize(s)} />
             ))}
           </View>
         </View>
 
-        <Text variant="bodySmall" color={ui.textSubtle} style={{ marginBottom: 12 }}>
+        <Text variant="bodySmall" color={ui.textSubtle} style={{ marginBottom: space[12] }}>
           Showing size {size} ({iconSizes[size]}px), weight{' '}
           {galleryWeight ?? `${DEFAULT_WEIGHT_FOR_SIZE[size]} (auto)`}.
         </Text>
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
           {ICON_NAMES.map((name) => (
             <View
               key={name}
               style={{
                 width: 96,
                 alignItems: 'center',
-                gap: 8,
-                paddingVertical: 14,
-                paddingHorizontal: 6,
+                gap: space[8],
+                paddingVertical: space[12],
+                paddingHorizontal: space[6],
                 borderRadius: 12,
                 borderWidth: 1,
                 borderColor: ui.borderSubtle,

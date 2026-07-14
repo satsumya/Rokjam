@@ -3,13 +3,14 @@ import { Pressable } from 'react-native';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle, previewInteractionStyle, type PreviewState } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 /** Compact outlined chip that toggles on/off (tags, attempt progress). */
 export function ToggleChip({
   label,
   selected,
   onPress,
-  paddingHorizontal = 10,
+  paddingHorizontal = space[12],
   fontSize,
   previewState,
 }: {
@@ -37,7 +38,7 @@ export function ToggleChip({
           borderColor: selected ? ui.borderStrong : ui.border,
           borderRadius: 12,
           paddingHorizontal,
-          paddingVertical: 4,
+          paddingVertical: space[4],
           ...(fontSize ? { fontSize } : null),
         }}
       >

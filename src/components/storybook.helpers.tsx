@@ -8,6 +8,7 @@ import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
 import type { ClimbingSession, SessionClimb } from '../types/climbingSession';
 import { ui } from '../theme/colors';
 import type { PreviewState } from '../theme/interaction';
+import { space } from '../theme/spacing';
 
 /** The interaction states demoable via the `previewState` prop / control. */
 export const PREVIEW_STATES: PreviewState[] = ['default', 'hover', 'pressed', 'focused'];
@@ -40,14 +41,14 @@ export function StatesGallery({
     : [{ id: 'default', label: '' }];
 
   return (
-    <View style={{ gap: 20, alignItems: 'flex-start' }}>
+    <View style={{ gap: space[24], alignItems: 'flex-start' }}>
       {sections.map((section) => (
-        <View key={section.id} style={{ gap: 12, alignItems: 'flex-start' }}>
+        <View key={section.id} style={{ gap: space[12], alignItems: 'flex-start' }}>
           {section.label ? (
             <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>{section.label}</Text>
           ) : null}
           {PREVIEW_STATES.map((state) => (
-            <View key={state} style={{ gap: 4, alignItems: 'flex-start' }}>
+            <View key={state} style={{ gap: space[4], alignItems: 'flex-start' }}>
               <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textMuted }}>{state}</Text>
               {children(state, section.id)}
             </View>
@@ -62,7 +63,7 @@ export function StatesGallery({
 export const Padded: Decorator = (Story) => (
   <ScrollView
     style={{ flex: 1, backgroundColor: ui.background }}
-    contentContainerStyle={{ padding: 16, gap: 12 }}
+    contentContainerStyle={{ padding: space[16], gap: space[12] }}
     keyboardShouldPersistTaps="handled"
   >
     <Story />

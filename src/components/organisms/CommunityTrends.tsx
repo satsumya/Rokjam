@@ -3,6 +3,7 @@ import { Section } from '../atoms/Section';
 import { Text } from '../atoms/Text';
 import { MiniBars } from '../molecules/MiniBars';
 import type { ClimbingSession } from '../../types/climbingSession';
+import { space } from '../../theme/spacing';
 
 export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
   const tagCounts = sessions.reduce<Record<string, number>>((acc, session) => {
@@ -32,7 +33,7 @@ export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
         <Text variant="body">Total flashes logged: {flashCount}</Text>
         {topTags.length ? (
           <>
-            <Text variant="body" weight="bold" style={{ marginTop: 4 }}>
+            <Text variant="body" weight="bold" style={{ marginTop: space[4] }}>
               Popular tags
             </Text>
             <MiniBars data={topTags} />

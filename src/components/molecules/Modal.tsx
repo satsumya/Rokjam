@@ -5,6 +5,7 @@ import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 
 export function Modal({
   visible,
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: space[24],
   },
   modalBackdrop: {
     ...StyleSheet.absoluteFill,
@@ -84,20 +85,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingHorizontal: space[24],
+    paddingVertical: space[16],
     borderBottomWidth: 1,
     borderBottomColor: ui.borderSubtle,
-    gap: 12,
+    gap: space[12],
   },
   modalTitle: { flex: 1 },
-  modalClose: { padding: 4 },
+  modalClose: { padding: space[4] },
   modalBody: { flexGrow: 0, flexShrink: 1 },
-  modalBodyContent: { padding: 20, gap: 12 },
+  modalBodyContent: { padding: space[24], gap: space[12] },
   modalFooter: {
-    padding: 20,
+    padding: space[24],
     paddingTop: 0,
-    gap: 12,
+    gap: space[12],
     borderTopWidth: 1,
     borderTopColor: ui.borderSubtle,
   },

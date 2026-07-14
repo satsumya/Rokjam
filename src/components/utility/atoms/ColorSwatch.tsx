@@ -4,6 +4,7 @@ import { Icon } from '../../atoms/Icon';
 import { Text } from '../../atoms/Text';
 import { colors } from '../../../theme/colors';
 import { contrastRatio, formatContrastRatio, wcagAaStatus } from '../../../theme/colorUtils';
+import { space } from '../../../theme/spacing';
 
 export type ContrastPreview = {
   label: string;
@@ -21,8 +22,8 @@ export function WcagAaCheck({
   const aa = wcagAaStatus(foreground, background);
 
   return (
-    <View style={{ gap: 2, marginTop: 2 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+    <View style={{ gap: space[4], marginTop: space[4] }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
         <Text
           variant="bodySmall"
           weight="bold"
@@ -37,7 +38,7 @@ export function WcagAaCheck({
           color={aa.passesNormalText ? colors.brand.green.dark : colors.brand.red.main}
         />
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
         <Text
           variant="bodySmall"
           color={aa.passesLargeText ? colors.brand.green.dark : colors.neutral[500]}
@@ -76,7 +77,7 @@ export function ShadeSwatch({
   const shadeBackground = accentBorder ? colors.neutral[50] : background;
 
   return (
-    <View style={{ width: 156, gap: 6 }}>
+    <View style={{ width: 156, gap: space[6] }}>
       <View
         style={{
           minHeight: 88,
@@ -85,13 +86,13 @@ export function ShadeSwatch({
           borderWidth: accentBorder ? 3 : 1,
           borderColor: accentBorder ?? colors.neutral[200],
           justifyContent: 'flex-end',
-          padding: 10,
-          gap: 4,
+          padding: space[12],
+          gap: space[4],
         }}
       >
         {contrasts.length ? (
           contrasts.map((contrast) => (
-            <View key={contrast.token} style={{ gap: 1 }}>
+            <View key={contrast.token} style={{ gap: space[4] }}>
               <Text variant="bodySmall" weight="bold" color={contrast.color} style={{ fontSize: 13 }}>
                 Aa
               </Text>
@@ -140,7 +141,7 @@ export function Swatch({ token, value }: { token: string; value: string }) {
       : colors.neutral[50];
 
   return (
-    <View style={{ width: 140, gap: 6 }}>
+    <View style={{ width: 140, gap: space[6] }}>
       <View
         style={{
           height: 72,
@@ -149,7 +150,7 @@ export function Swatch({ token, value }: { token: string; value: string }) {
           borderWidth: 1,
           borderColor: colors.neutral[200],
           justifyContent: 'flex-end',
-          padding: 8,
+          padding: space[8],
         }}
       >
         <Text variant="bodySmall" weight="bold" color={fg} style={{ fontSize: 11 }}>

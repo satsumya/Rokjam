@@ -4,6 +4,7 @@ import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { focusRing, useHoverFocus, type PreviewState } from '../../theme/interaction';
 import { bodySizes, fontFamilies } from '../../theme/typography';
+import { space } from '../../theme/spacing';
 
 export function TextField({
   label,
@@ -76,14 +77,14 @@ export function TextField({
 }
 
 const styles = StyleSheet.create({
-  field: { gap: 6 },
+  field: { gap: space[6] },
   label: { color: ui.textLabel },
   input: {
     borderWidth: 1,
     borderColor: ui.border,
     borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingHorizontal: space[12],
+    paddingVertical: space[12],
     fontFamily: fontFamilies.bodyRegular,
     fontSize: bodySizes.base,
     backgroundColor: ui.surface,
