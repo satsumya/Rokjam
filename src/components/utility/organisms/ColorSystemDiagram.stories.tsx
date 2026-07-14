@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 
 import { ColorSystemDiagram } from './ColorSystemDiagram';
-import { Padded } from '../storybook.helpers';
+import { Padded } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Organisms/ColorSystemDiagram',
+  title: 'Utility/Organisms/ColorSystemDiagram',
   component: ColorSystemDiagram,
   decorators: [Padded],
   args: { filter: 'all' },

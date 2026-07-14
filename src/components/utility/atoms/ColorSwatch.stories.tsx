@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-native';
 import { View } from 'react-native';
 
 import { ShadeSwatch, Swatch, WcagAaCheck } from './ColorSwatch';
-import { colors } from '../../theme/colors';
-import { Padded } from '../storybook.helpers';
+import { colors } from '../../../theme/colors';
+import { Padded } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Atoms/ColorSwatch',
+  title: 'Utility/Atoms/ColorSwatch',
   component: Swatch,
   decorators: [Padded],
   args: { token: 'neutral.500', value: colors.neutral[500] },

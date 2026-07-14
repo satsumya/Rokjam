@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 
 import { FlowMapVersionAccordion } from './FlowMapVersionAccordion';
-import { Padded } from '../storybook.helpers';
+import { Padded } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Molecules/FlowMapVersionAccordion',
+  title: 'Utility/Molecules/FlowMapVersionAccordion',
   component: FlowMapVersionAccordion,
   decorators: [Padded],
   args: {

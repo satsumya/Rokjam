@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-native';
 import { fn } from 'storybook/test';
 
 import { FlowMapDiagram } from './FlowMapDiagram';
-import type { FlowNavigateContext } from '../../constants/flowMap';
-import { Padded } from '../storybook.helpers';
+import type { FlowNavigateContext } from '../../../constants/flowMap';
+import { Padded } from '../../storybook.helpers';
 
 const navigateCtx: FlowNavigateContext = {
   resetSession: fn(),
@@ -16,7 +16,7 @@ const navigateCtx: FlowNavigateContext = {
 };
 
 const meta = {
-  title: 'Organisms/FlowMapDiagram',
+  title: 'Utility/Organisms/FlowMapDiagram',
   component: FlowMapDiagram,
   decorators: [Padded],
   args: { navigateCtx, journeyFilter: 'all' },

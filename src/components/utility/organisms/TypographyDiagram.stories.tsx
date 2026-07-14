@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 
 import { TypographyDiagram } from './TypographyDiagram';
-import { Padded } from '../storybook.helpers';
+import { Padded } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Organisms/TypographyDiagram',
+  title: 'Utility/Organisms/TypographyDiagram',
   component: TypographyDiagram,
   decorators: [Padded],
   args: { initialWeight: 'regular', initialSpecimen: 'short' },

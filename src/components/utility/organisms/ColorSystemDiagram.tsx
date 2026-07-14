@@ -9,10 +9,10 @@ import {
   semanticColorLabel,
   type BrandColorId,
   type SemanticColorId,
-} from '../../theme/colors';
-import { withAlpha } from '../../theme/colorUtils';
-import { Section } from '../atoms/Section';
-import { Text } from '../atoms/Text';
+} from '../../../theme/colors';
+import { withAlpha } from '../../../theme/colorUtils';
+import { Section } from '../../atoms/Section';
+import { Text } from '../../atoms/Text';
 import { ShadeSwatch, Swatch, WcagAaCheck } from '../atoms/ColorSwatch';
 import { PaletteRow } from '../molecules/PaletteRow';
 

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 
 import { IconLibraryDiagram } from './IconLibraryDiagram';
-import { ICON_SIZE_NAMES } from '../../theme/icon';
-import { Padded } from '../storybook.helpers';
+import { ICON_SIZE_NAMES } from '../../../theme/icon';
+import { Padded } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Organisms/IconLibraryDiagram',
+  title: 'Utility/Organisms/IconLibraryDiagram',
   component: IconLibraryDiagram,
   decorators: [Padded],
   args: { initialWeight: 'auto', initialSize: 'md' },

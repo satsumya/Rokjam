@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { Icon } from '../atoms/Icon';
-import { Text } from '../atoms/Text';
-import { formatFlowMapVersionStatus } from '../../utils/flowMapVersionFormat';
-import { ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
+import { Icon } from '../../atoms/Icon';
+import { Text } from '../../atoms/Text';
+import { formatFlowMapVersionStatus } from '../../../utils/flowMapVersionFormat';
+import { ui } from '../../../theme/colors';
+import { interactionStyle } from '../../../theme/interaction';
 
 export type FlowMapVersionAccordionItem = {
   label: string;

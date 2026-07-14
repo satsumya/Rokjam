@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 
-import { Button, IconLibraryDiagram, Screen, Section, Text } from '../src/components';
+import { Button, Screen, Section, Text } from '../src/components';
+import { IconLibraryDiagram } from '../src/components/utility';
 import { colors } from '../src/theme/colors';
 import { scenarioWebLink } from '../src/constants/scenarios';
 

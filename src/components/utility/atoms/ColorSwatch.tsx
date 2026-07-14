@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 
-import { Icon } from './Icon';
-import { Text } from './Text';
-import { colors } from '../../theme/colors';
-import { contrastRatio, formatContrastRatio, wcagAaStatus } from '../../theme/colorUtils';
+import { Icon } from '../../atoms/Icon';
+import { Text } from '../../atoms/Text';
+import { colors } from '../../../theme/colors';
+import { contrastRatio, formatContrastRatio, wcagAaStatus } from '../../../theme/colorUtils';
 
 export type ContrastPreview = {
   label: string;

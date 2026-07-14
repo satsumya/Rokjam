@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-native';
 
 import { PaletteRow } from './PaletteRow';
 import { Swatch } from '../atoms/ColorSwatch';
-import { colors, NEUTRAL_SHADES } from '../../theme/colors';
-import { Padded } from '../storybook.helpers';
+import { colors, NEUTRAL_SHADES } from '../../../theme/colors';
+import { Padded } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Molecules/PaletteRow',
+  title: 'Utility/Molecules/PaletteRow',
   component: PaletteRow,
   decorators: [Padded],
   args: {

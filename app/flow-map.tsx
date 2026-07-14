@@ -4,7 +4,8 @@ import { router } from 'expo-router';
 
 import { SCENARIO_FLOWS } from '../src/constants/scenarios';
 import type { ScenarioFlow } from '../src/constants/scenarios';
-import { Button, FlowMapDiagram, Screen, Section, Text } from '../src/components';
+import { Button, Screen, Section, Text } from '../src/components';
+import { FlowMapDiagram } from '../src/components/utility';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';

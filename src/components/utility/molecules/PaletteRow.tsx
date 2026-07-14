@@ -1,8 +1,8 @@
 import { ScrollView, View } from 'react-native';
 import type { ReactNode } from 'react';
 
-import { Text } from '../atoms/Text';
-import { colors } from '../../theme/colors';
+import { Text } from '../../atoms/Text';
+import { colors } from '../../../theme/colors';
 
 /** Titled, horizontally scrolling row of colour swatches. */
 export function PaletteRow({

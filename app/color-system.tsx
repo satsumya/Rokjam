@@ -2,14 +2,8 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 
-import {
-  Button,
-  ColorSystemDiagram,
-  type ColorSystemFilter,
-  Screen,
-  Section,
-  Text,
-} from '../src/components';
+import { Button, Screen, Section, Text } from '../src/components';
+import { ColorSystemDiagram, type ColorSystemFilter } from '../src/components/utility';
 import { colors } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
 import { scenarioWebLink } from '../src/constants/scenarios';

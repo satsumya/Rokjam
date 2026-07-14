@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react-native';
 import { fn } from 'storybook/test';
 
 import { FlowMapActionButton } from './FlowMapActionButton';
-import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
+import { Padded, StatesGallery, previewStateArgType } from '../../storybook.helpers';
 
 const meta = {
-  title: 'Atoms/FlowMapActionButton',
+  title: 'Utility/Atoms/FlowMapActionButton',
   component: FlowMapActionButton,
   decorators: [Padded],
   args: { label: 'Download', onPress: fn(), accessibilityLabel: 'Download screenshot' },

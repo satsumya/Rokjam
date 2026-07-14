@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { Text } from '../atoms/Text';
-import { colors, ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
-import { ICON_SIZE_NAMES, iconSizes, type IconSize } from '../../theme/icon';
+import { Text } from '../../atoms/Text';
+import { colors, ui } from '../../../theme/colors';
+import { interactionStyle } from '../../../theme/interaction';
+import { ICON_SIZE_NAMES, iconSizes, type IconSize } from '../../../theme/icon';
 import {
   Icon,
   ICON_NAMES,
@@ -12,8 +12,8 @@ import {
   DEFAULT_WEIGHT_FOR_SIZE,
   type IconName,
   type IconWeight,
-} from '../atoms/Icon';
-import { Section } from '../atoms/Section';
+} from '../../atoms/Icon';
+import { Section } from '../../atoms/Section';
 
 /** Size tokens that default to a given weight (derived from the size→weight map). */
 function sizesForWeight(weight: IconWeight) {

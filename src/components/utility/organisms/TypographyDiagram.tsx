@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 
-import { colors, ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
+import { colors, ui } from '../../../theme/colors';
+import { interactionStyle } from '../../../theme/interaction';
 import {
   FONT_BASE,
   FONT_RATIO,
@@ -10,9 +10,9 @@ import {
   textStyle,
   type FontWeightName,
   type TextVariant,
-} from '../../theme/typography';
-import { Section } from '../atoms/Section';
-import { Text } from '../atoms/Text';
+} from '../../../theme/typography';
+import { Section } from '../../atoms/Section';
+import { Text } from '../../atoms/Text';
 
 const isHeading = (variant: TextVariant) => /^h[1-6]$/.test(variant);
 

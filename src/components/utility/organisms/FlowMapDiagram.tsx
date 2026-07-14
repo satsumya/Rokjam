@@ -14,23 +14,23 @@ import {
   type FlowMapPlacement,
   type FlowMapScreen,
   type FlowNavigateContext,
-} from '../../constants/flowMap';
-import { getFlowManifest, getScreenManifest } from '../../constants/flowMapManifest';
-import { FLOW_SCREEN_IMAGES } from '../../constants/flowScreenImages';
-import { useFlowMapCapture } from '../../hooks/useFlowMapCapture';
-import { navigateFlowScreen } from '../../utils/flowMapNavigate';
-import { downloadFlowScreenCapture, downloadFlowScreensBulk } from '../../utils/flowScreenDownload';
-import type { FlowScreenDownloadInput } from '../../utils/flowScreenDownload';
-import { flowScreenPreviewSource } from '../../utils/flowScreenCaptureClient';
-import { formatFlowScreenDisplayName } from '../../utils/flowScreenNaming';
-import type { FlowMapVersionEntry } from '../../constants/flowMapManifest';
+} from '../../../constants/flowMap';
+import { getFlowManifest, getScreenManifest } from '../../../constants/flowMapManifest';
+import { FLOW_SCREEN_IMAGES } from '../../../constants/flowScreenImages';
+import { useFlowMapCapture } from '../../../hooks/useFlowMapCapture';
+import { navigateFlowScreen } from '../../../utils/flowMapNavigate';
+import { downloadFlowScreenCapture, downloadFlowScreensBulk } from '../../../utils/flowScreenDownload';
+import type { FlowScreenDownloadInput } from '../../../utils/flowScreenDownload';
+import { flowScreenPreviewSource } from '../../../utils/flowScreenCaptureClient';
+import { formatFlowScreenDisplayName } from '../../../utils/flowScreenNaming';
+import type { FlowMapVersionEntry } from '../../../constants/flowMapManifest';
 
 import { FlowMapActionButton } from '../atoms/FlowMapActionButton';
-import { Section } from '../atoms/Section';
-import { Text } from '../atoms/Text';
+import { Section } from '../../atoms/Section';
+import { Text } from '../../atoms/Text';
 import { FlowMapVersionAccordion } from '../molecules/FlowMapVersionAccordion';
-import { colors, ui } from '../../theme/colors';
-import { focusRing, interactionFlags } from '../../theme/interaction';
+import { colors, ui } from '../../../theme/colors';
+import { focusRing, interactionFlags } from '../../../theme/interaction';
 
 const ARROW = colors.brand.blue.dark;
 const ARROW_FILL = colors.brand.blue.light;

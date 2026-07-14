@@ -1,9 +1,9 @@
 import { Pressable } from 'react-native';
 
-import { Text } from './Text';
-import { colors } from '../../theme/colors';
-import { mixHex } from '../../theme/colorUtils';
-import { focusRing, interactionFlags, type PreviewState } from '../../theme/interaction';
+import { Text } from '../../atoms/Text';
+import { colors } from '../../../theme/colors';
+import { mixHex } from '../../../theme/colorUtils';
+import { focusRing, interactionFlags, type PreviewState } from '../../../theme/interaction';
 
 export type FlowMapActionVariant = 'download' | 'update';
 

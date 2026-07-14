@@ -11,8 +11,6 @@ export {
   type IconWeight,
 } from './atoms/Icon';
 export { iconSizes, ICON_SIZE_NAMES, type IconSize } from '../theme/icon';
-export { IconLibraryDiagram } from './organisms/IconLibraryDiagram';
-export { TypographyDiagram } from './organisms/TypographyDiagram';
 export { Text } from './atoms/Text';
 export {
   headingSizes,
@@ -42,8 +40,6 @@ export { CheckboxRow } from './atoms/CheckboxRow';
 export { RadioRow } from './atoms/RadioRow';
 export { Avatar } from './atoms/Avatar';
 export { Bar } from './atoms/Bar';
-export { Swatch, ShadeSwatch, WcagAaCheck, type ContrastPreview } from './atoms/ColorSwatch';
-export { FlowMapActionButton, type FlowMapActionVariant } from './atoms/FlowMapActionButton';
 export { PrototypeOnly } from './atoms/PrototypeOnly';
 
 // Molecules
@@ -59,8 +55,6 @@ export { MiniBars } from './molecules/MiniBars';
 export { SessionRow } from './molecules/SessionRow';
 export { ShareMockBanner } from './molecules/ShareMockBanner';
 export { ClimbCard } from './molecules/ClimbCard';
-export { FlowMapVersionAccordion, type FlowMapVersionAccordionItem } from './molecules/FlowMapVersionAccordion';
-export { PaletteRow } from './molecules/PaletteRow';
 
 // Organisms
 export { Screen } from './organisms/Screen';
@@ -68,7 +62,5 @@ export { ClimbEditor } from './organisms/ClimbEditor';
 export { SessionClimbsList } from './organisms/SessionClimbsList';
 export { DashboardTrends } from './organisms/DashboardTrends';
 export { CommunityTrends } from './organisms/CommunityTrends';
-export { ColorSystemDiagram, type ColorSystemFilter } from './organisms/ColorSystemDiagram';
 export { AddLocationSheet } from './organisms/AddLocationSheet';
 export { SessionLocationPanel } from './organisms/SessionLocationPanel';
-export { FlowMapDiagram } from './organisms/FlowMapDiagram';
