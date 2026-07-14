@@ -108,6 +108,7 @@ export default function DashboardScreen() {
         <>
           <Button
             label="Start climbing session"
+            colorStyle="style2"
             onPress={() => router.push('/sessions/create')}
           />
           <Button

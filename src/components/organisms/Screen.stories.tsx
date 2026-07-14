@@ -32,7 +32,7 @@ export const WithFooter: Story = {
   args: {
     footer: (
       <>
-        <Button label="Start climbing session" onPress={fn()} />
+        <Button label="Start climbing session" colorStyle="style2" onPress={fn()} />
         <Button label="Community" variant="secondary" onPress={fn()} />
       </>
     ),

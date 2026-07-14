@@ -135,7 +135,7 @@ export default function ProfileSetupScreen() {
         <>
           <Button
             label={isEditingCompleteProfile ? 'Save changes' : 'Complete profile'}
-            colorStyle="style2"
+            colorStyle="style1"
             onPress={handleComplete}
           />
           {!isEditingCompleteProfile ? (

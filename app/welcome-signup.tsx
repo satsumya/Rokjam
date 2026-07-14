@@ -23,7 +23,7 @@ export default function PostSignUpWelcomeScreen() {
       }
       footer={
         <>
-          <Button label="Create member profile" colorStyle="style2" onPress={() => router.push('/profile/setup')} />
+          <Button label="Create member profile" colorStyle="style1" onPress={() => router.push('/profile/setup')} />
           <Button label="Skip for now" variant="ghost" onPress={skipToDashboard} />
         </>
       }

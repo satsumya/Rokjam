@@ -40,7 +40,11 @@ export default function SessionsListScreen() {
       title="All climbing sessions"
       footer={
         <>
-          <Button label="Start new session" onPress={() => router.push('/sessions/create')} />
+          <Button
+            label="Start new session"
+            colorStyle="style2"
+            onPress={() => router.push('/sessions/create')}
+          />
           <Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />
         </>
       }
