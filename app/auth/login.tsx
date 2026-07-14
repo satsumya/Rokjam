@@ -69,7 +69,7 @@ export default function LoginScreen() {
       title="Log in"
       footer={
         <>
-          <Button label="Log in" onPress={handleLogin} />
+          <Button label="Log in" colorStyle="style1" onPress={handleLogin} />
           <Link
             label="Forgot password?"
             onPress={() => router.push('/auth/forgot-password')}

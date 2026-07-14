@@ -1,7 +1,7 @@
 /**
  * Button colour styles — two general brand presets + one per difficulty colour.
  * Every colour references theme tokens in `colors.ts` / `ui`; geometry (stroke,
- * shadow offset, radius) is shared so styles stay consistent.
+ * shadow offset, radius, padding) is shared so styles stay consistent.
  *
  * Visual: filled face, 2px stroke, solid shadow band offset on Y (no blur).
  */
@@ -12,12 +12,24 @@ import {
   ui,
   type BrandColorId,
 } from './colors';
+import { space } from './spacing';
 
-/** Shared geometry for styled (non-ghost) buttons. */
+/** Shared geometry & padding for all button variants (primary / secondary / ghost). */
 export const buttonGeometry = {
   strokeWidth: 2,
-  shadowOffsetY: 4,
+  shadowOffsetY: space[4],
   borderRadius: 10,
+  /** Single source for padding — change here to update every button variant. */
+  padding: {
+    large: {
+      paddingVertical: space[6],
+      paddingHorizontal: space[16],
+    },
+    small: {
+      paddingVertical: space[4],
+      paddingHorizontal: space[16],
+    },
+  },
 } as const;
 
 export type ButtonColorStyle = 'style1' | 'style2' | BrandColorId;

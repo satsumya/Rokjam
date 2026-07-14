@@ -26,7 +26,7 @@ export default function ResetPasswordScreen() {
       title="Reset password"
       footer={
         <>
-          <Button label="Update password" onPress={handleReset} />
+          <Button label="Update password" colorStyle="style1" onPress={handleReset} />
           <Link label="Back to log in" onPress={() => router.replace('/auth/login')} />
         </>
       }

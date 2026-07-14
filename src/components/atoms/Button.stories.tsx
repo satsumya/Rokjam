@@ -11,7 +11,8 @@ import {
 import { ui } from '../../theme/colors';
 
 const BUTTON_STATE_VARIANTS = [
-  { id: 'primary', label: 'primary' },
+  { id: 'style1', label: 'style1 (default primary)' },
+  { id: 'style2', label: 'style2' },
   { id: 'secondary', label: 'secondary' },
   { id: 'ghost', label: 'ghost' },
   { id: 'disabled', label: 'disabled' },
@@ -31,13 +32,13 @@ const meta = {
   title: 'Atoms/Button',
   component: Button,
   decorators: [Padded],
-  args: { label: 'Save session', onPress: fn(), size: 'large' },
+  args: { label: 'Save session', onPress: fn(), size: 'large', colorStyle: 'style1' },
   argTypes: {
-    variant: { control: 'select', options: ['primary', 'secondary', 'ghost'] },
+    variant: { control: 'select', options: [undefined, 'secondary', 'ghost'] },
     size: { control: 'select', options: ['large', 'small'] },
     colorStyle: {
       control: 'select',
-      options: [undefined, ...BUTTON_COLOR_STYLE_ORDER],
+      options: [...BUTTON_COLOR_STYLE_ORDER],
     },
     previewState: previewStateArgType,
   },
@@ -47,12 +48,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = { args: { variant: 'primary' } };
-export const Secondary: Story = { args: { variant: 'secondary' } };
-export const Ghost: Story = { args: { variant: 'ghost' } };
-export const Small: Story = { args: { variant: 'primary', size: 'small' } };
-export const Disabled: Story = { args: { disabled: true } };
-
 export const Style1: Story = {
   args: { label: 'Style 1', colorStyle: 'style1' },
 };
@@ -60,6 +55,11 @@ export const Style1: Story = {
 export const Style2: Story = {
   args: { label: 'Style 2', colorStyle: 'style2' },
 };
+
+export const Secondary: Story = { args: { variant: 'secondary' } };
+export const Ghost: Story = { args: { variant: 'ghost' } };
+export const Small: Story = { args: { colorStyle: 'style1', size: 'small' } };
+export const Disabled: Story = { args: { disabled: true } };
 
 export const YellowDifficulty: Story = {
   args: { label: 'Yellow difficulty', colorStyle: 'yellow' },
@@ -78,6 +78,7 @@ export const ColorStyles: Story = {
             <Button
               key={size.id}
               {...args}
+              variant={undefined}
               label={buttonColorStyleLabel(colorStyle)}
               size={size.id}
               colorStyle={colorStyle}
@@ -96,16 +97,29 @@ export const States: Story = {
         <View key={size.id} style={{ gap: 12, alignItems: 'flex-start' }}>
           <Text style={{ fontSize: 14, fontWeight: '700', color: ui.text }}>{size.label}</Text>
           <StatesGallery variants={BUTTON_STATE_VARIANTS}>
-            {(state, variantId) => (
-              <Button
-                {...args}
-                colorStyle={undefined}
-                size={size.id}
-                variant={variantId === 'disabled' ? 'primary' : (variantId as ButtonVariant)}
-                disabled={variantId === 'disabled'}
-                previewState={state}
-              />
-            )}
+            {(state, variantId) => {
+              if (variantId === 'secondary' || variantId === 'ghost') {
+                return (
+                  <Button
+                    {...args}
+                    size={size.id}
+                    variant={variantId as ButtonVariant}
+                    disabled={false}
+                    previewState={state}
+                  />
+                );
+              }
+              return (
+                <Button
+                  {...args}
+                  size={size.id}
+                  variant={undefined}
+                  colorStyle={variantId === 'disabled' ? 'style1' : (variantId as ButtonColorStyle)}
+                  disabled={variantId === 'disabled'}
+                  previewState={state}
+                />
+              );
+            }}
           </StatesGallery>
         </View>
       ))}
@@ -121,6 +135,7 @@ export const ColorStyleStates: Story = {
       {(state, variantId) => (
         <Button
           {...args}
+          variant={undefined}
           label={buttonColorStyleLabel(variantId as ButtonColorStyle)}
           colorStyle={variantId as ButtonColorStyle}
           previewState={state}

@@ -8,10 +8,10 @@ export default function WelcomeScreen() {
       title="Welcome"
       footer={
         <>
-          <Button label="Sign up" onPress={() => router.push('/auth/signup')} />
+          <Button label="Sign up" colorStyle="style2" onPress={() => router.push('/auth/signup')} />
           <Button
             label="Log in"
-            variant="secondary"
+            colorStyle="style1"
             onPress={() => router.push('/auth/login')}
           />
           <PrototypeOnly>

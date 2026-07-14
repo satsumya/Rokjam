@@ -16,7 +16,8 @@ import {
 } from '../../theme/interaction';
 import type { TextVariant } from '../../theme/typography';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+/** Secondary / ghost only — the filled primary is a `colorStyle` (default `style1`). */
+export type ButtonVariant = 'secondary' | 'ghost';
 export type ButtonSize = 'large' | 'small';
 export type { ButtonColorStyle };
 
@@ -25,67 +26,76 @@ const TEXT_VARIANT_FOR_SIZE: Record<ButtonSize, TextVariant> = {
   small: 'bodySmall',
 };
 
+function paddingForSize(size: ButtonSize) {
+  return buttonGeometry.padding[size];
+}
+
 export function Button({
   label,
   onPress,
-  variant = 'primary',
+  variant,
   size = 'large',
-  colorStyle,
+  colorStyle = 'style1',
   disabled,
   previewState,
 }: {
   label: string;
   onPress: () => void;
+  /** Omit for the filled primary (uses `colorStyle`). */
   variant?: ButtonVariant;
   /** `large` → bodyLarge bold · `small` → bodySmall bold */
   size?: ButtonSize;
   /**
-   * Colour style: two brand presets (`style1` / `style2`) or a difficulty colour.
-   * When set, uses tokenised fill / 2px stroke / y4 hard shadow (see `buttonStyles`).
+   * Colour style for the filled primary: brand presets (`style1` / `style2`) or a
+   * difficulty colour. Ignored when `variant` is `secondary` or `ghost`.
+   * Defaults to `style1`.
    */
   colorStyle?: ButtonColorStyle;
   disabled?: boolean;
   /** Preview/Storybook only: force a hover/press/focus visual state. */
   previewState?: PreviewState;
 }) {
-  if (colorStyle) {
+  const padding = paddingForSize(size);
+
+  if (variant === 'secondary' || variant === 'ghost') {
     return (
-      <StyledColorButton
-        label={label}
+      <Pressable
         onPress={onPress}
-        size={size}
-        colorStyle={colorStyle}
         disabled={disabled}
-        previewState={previewState}
-      />
+        style={(state) => [
+          styles.button,
+          padding,
+          variant === 'secondary' && styles.buttonSecondary,
+          variant === 'ghost' && styles.buttonGhost,
+          disabled ? styles.buttonDisabled : interactionStyle(state),
+          !disabled && previewInteractionStyle(previewState),
+        ]}
+      >
+        <Text
+          variant={TEXT_VARIANT_FOR_SIZE[size]}
+          weight="bold"
+          style={[
+            styles.buttonText,
+            variant === 'secondary' && styles.buttonTextSecondary,
+            variant === 'ghost' && styles.buttonTextGhost,
+          ]}
+        >
+          {label}
+        </Text>
+      </Pressable>
     );
   }
 
   return (
-    <Pressable
+    <StyledColorButton
+      label={label}
       onPress={onPress}
+      size={size}
+      padding={padding}
+      colorStyle={colorStyle}
       disabled={disabled}
-      style={(state) => [
-        styles.button,
-        size === 'small' && styles.buttonSmall,
-        variant === 'secondary' && styles.buttonSecondary,
-        variant === 'ghost' && styles.buttonGhost,
-        disabled ? styles.buttonDisabled : interactionStyle(state),
-        !disabled && previewInteractionStyle(previewState),
-      ]}
-    >
-      <Text
-        variant={TEXT_VARIANT_FOR_SIZE[size]}
-        weight="bold"
-        style={[
-          styles.buttonText,
-          variant === 'secondary' && styles.buttonTextSecondary,
-          variant === 'ghost' && styles.buttonTextGhost,
-        ]}
-      >
-        {label}
-      </Text>
-    </Pressable>
+      previewState={previewState}
+    />
   );
 }
 
@@ -93,6 +103,7 @@ function StyledColorButton({
   label,
   onPress,
   size,
+  padding,
   colorStyle,
   disabled,
   previewState,
@@ -100,6 +111,7 @@ function StyledColorButton({
   label: string;
   onPress: () => void;
   size: ButtonSize;
+  padding: (typeof buttonGeometry.padding)[ButtonSize];
   colorStyle: ButtonColorStyle;
   disabled?: boolean;
   previewState?: PreviewState;
@@ -149,8 +161,7 @@ function StyledColorButton({
               borderWidth: strokeWidth,
               borderColor: tokens.stroke,
               borderRadius,
-              paddingVertical: size === 'small' ? 4 : 6,
-              paddingHorizontal: size === 'small' ? 16 : 16,
+              ...padding,
               alignItems: 'center' as const,
               // Sink the face into the shadow band when pressed.
               transform: [{ translateY: pressed ? shadowOffsetY : 0 }],
@@ -173,17 +184,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: ui.primary,
     backgroundColor: ui.primary,
-    borderRadius: 8,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    borderRadius: buttonGeometry.borderRadius,
     alignItems: 'center',
   },
-  buttonSmall: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
   buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
-  buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent', paddingHorizontal: 0 },
+  buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent' },
   buttonDisabled: { opacity: 0.4 },
   buttonText: { color: ui.primaryText },
   buttonTextSecondary: { color: ui.primary },

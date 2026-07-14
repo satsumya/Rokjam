@@ -32,7 +32,7 @@ export default function VerifyEmailScreen() {
       title="Verify email"
       footer={
         <>
-          <Button label="Verify" onPress={handleVerify} />
+          <Button label="Verify" colorStyle="style2" onPress={handleVerify} />
           <Link label="Resend code" onPress={() => setResent(true)} />
           <Link
             label="Change email"

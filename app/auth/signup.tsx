@@ -57,7 +57,7 @@ export default function SignUpScreen() {
       title="Sign up"
       footer={
         <>
-          <Button label="Create account" onPress={handleSignUp} />
+          <Button label="Create account" colorStyle="style2" onPress={handleSignUp} />
           <Link label="Already have an account? Log in" onPress={() => router.replace('/auth/login')} />
         </>
       }

@@ -27,7 +27,7 @@ export default function ForgotPasswordScreen() {
       title="Forgot password"
       footer={
         <>
-          <Button label="Send reset link" onPress={handleSend} />
+          <Button label="Send reset link" colorStyle="style1" onPress={handleSend} />
           <Link label="Back to log in" onPress={() => router.replace('/auth/login')} />
         </>
       }
