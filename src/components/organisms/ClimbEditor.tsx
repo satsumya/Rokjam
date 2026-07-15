@@ -4,7 +4,7 @@ import { Pressable, TextInput, View } from 'react-native';
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
 import { CheckboxRow } from '../atoms/CheckboxRow';
-import { Icon } from '../atoms/Icon';
+import { Chip, RemovableChip } from '../atoms/Chip';
 import { Text } from '../atoms/Text';
 import { ToggleChip } from '../atoms/ToggleChip';
 import { Section } from '../atoms/Section';
@@ -40,6 +40,8 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
       : [...climb.tags, tag];
     onChange({ tags: next });
   };
+
+  const remainingSuggestions = CLIMB_TAG_SUGGESTIONS.filter((tag) => !climb.tags.includes(tag));
 
   const addCustomTag = () => {
     const trimmed = customTag.trim().toLowerCase();
@@ -117,16 +119,13 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
       </Section>
 
       <Section title="Tags">
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
-          {CLIMB_TAG_SUGGESTIONS.map((tag) => (
-            <ToggleChip
-              key={tag}
-              label={tag}
-              selected={climb.tags.includes(tag)}
-              onPress={() => toggleTag(tag)}
-            />
-          ))}
-        </View>
+        {remainingSuggestions.length ? (
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+            {remainingSuggestions.map((tag) => (
+              <Chip key={tag} label={`+ ${tag}`} onPress={() => toggleTag(tag)} />
+            ))}
+          </View>
+        ) : null}
         <View style={{ flexDirection: 'row', gap: space[8], marginTop: space[8] }}>
           <TextInput
             value={customTag}
@@ -153,19 +152,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
         {climb.tags.length ? (
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[8] }}>
             {climb.tags.map((tag) => (
-              <Pressable
-                key={tag}
-                onPress={() => toggleTag(tag)}
-                style={(state) => [
-                  { borderRadius: 4, flexDirection: 'row', alignItems: 'center', gap: space[4] },
-                  interactionStyle(state),
-                ]}
-              >
-                <Text variant="body" style={{ textDecorationLine: 'underline' }}>
-                  {tag}
-                </Text>
-                <Icon name="close" size="xs" color={ui.text} />
-              </Pressable>
+              <RemovableChip key={tag} label={tag} onPress={() => toggleTag(tag)} />
             ))}
           </View>
         ) : null}
