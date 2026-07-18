@@ -1,10 +1,24 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View, type ViewProps } from 'react-native';
 
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { focusRing, useHoverFocus, type PreviewState } from '../../theme/interaction';
 import { bodySizes, fontFamilies } from '../../theme/typography';
 import { space } from '../../theme/spacing';
+
+function TextFieldRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Required-field asterisk nested inside a label (RN coloured substring). */
+function RequiredAsterisk() {
+  return (
+    <Text variant="body" weight="bold" color={ui.danger}>
+      {' '}
+      *
+    </Text>
+  );
+}
 
 export function TextField({
   label,
@@ -51,15 +65,11 @@ export function TextField({
   const focusActive = focused || previewState === 'focused';
 
   return (
-    <View style={styles.field}>
+    <TextFieldRoot style={styles.field}>
       {label ? (
         <Text variant="body" weight="bold" style={styles.label}>
           {label}
-          {required ? (
-            <Text variant="body" weight="bold" color={ui.danger}>
-              {' '}*
-            </Text>
-          ) : null}
+          {required ? <RequiredAsterisk /> : null}
         </Text>
       ) : null}
       <TextInput
@@ -103,7 +113,7 @@ export function TextField({
           {hint}
         </Text>
       ) : null}
-    </View>
+    </TextFieldRoot>
   );
 }
 

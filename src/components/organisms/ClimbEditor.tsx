@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
@@ -27,6 +27,50 @@ type ClimbEditorProps = {
   onChange: (patch: Partial<SessionClimb>) => void;
   onShare?: () => void;
 };
+
+function ClimbEditorRoot({ style, children }: { style?: object; children: ReactNode }) {
+  return <View style={style}>{children}</View>;
+}
+
+function ClimbFlagRow({ children }: { children: ReactNode }) {
+  return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>{children}</View>;
+}
+
+function ClimbTagRow({ children }: { children: ReactNode }) {
+  return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>{children}</View>;
+}
+
+function ClimbTagComposer({ children }: { children: ReactNode }) {
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], alignItems: 'flex-end' }}>
+      {children}
+    </View>
+  );
+}
+
+function ClimbTagComposerField({ children }: { children: ReactNode }) {
+  return <View style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>{children}</View>;
+}
+
+function ClimbSuggestionRow({ children }: { children: ReactNode }) {
+  return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>{children}</View>;
+}
+
+function ClimbAttemptBlock({ children }: { children: ReactNode }) {
+  return <View style={{ gap: space[4], marginBottom: space[8] }}>{children}</View>;
+}
+
+function ClimbAttemptHeader({ children }: { children: ReactNode }) {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8], flexWrap: 'wrap' }}>
+      {children}
+    </View>
+  );
+}
+
+function ClimbProgressRow({ children }: { children: ReactNode }) {
+  return <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>{children}</View>;
+}
 
 export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorProps) {
   const [customTag, setCustomTag] = useState('');
@@ -68,7 +112,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
   };
 
   return (
-    <View style={{ gap: space[16] }}>
+    <ClimbEditorRoot style={{ gap: space[16] }}>
       <Section title="Climb details">
         <TextField
           label="Name or wall name"
@@ -90,18 +134,18 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             Add a location with levels to pick difficulty.
           </Text>
         )}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+        <ClimbFlagRow>
           <CheckboxRow label="Warm-up" checked={climb.isWarmUp} onPress={() => onChange({ isWarmUp: !climb.isWarmUp })} />
           <CheckboxRow label="Repeat" checked={climb.isRepeat} onPress={() => onChange({ isRepeat: !climb.isRepeat })} />
           <CheckboxRow label="Project" checked={climb.isProject} onPress={() => onChange({ isProject: !climb.isProject })} />
-        </View>
+        </ClimbFlagRow>
         <TextField
           label="Notes"
           value={climb.notes ?? ''}
           onChangeText={(notes) => onChange({ notes })}
           placeholder="Optional notes"
         />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+        <ClimbFlagRow>
           <Button
             label={climb.hasImage ? 'Replace image' : 'Add image'}
             variant="secondary"
@@ -112,41 +156,41 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             variant="secondary"
             onPress={() => onChange({ hasVideo: true })}
           />
-        </View>
+        </ClimbFlagRow>
       </Section>
 
       <Section title="Tags">
         {remainingSuggestions.length ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+          <ClimbSuggestionRow>
             {remainingSuggestions.map((tag) => (
               <Chip key={tag} label={`+ ${tag}`} onPress={() => toggleTag(tag)} />
             ))}
-          </View>
+          </ClimbSuggestionRow>
         ) : null}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], alignItems: 'flex-end' }}>
-          <View style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>
+        <ClimbTagComposer>
+          <ClimbTagComposerField>
             <TextField
               value={customTag}
               onChangeText={setCustomTag}
               placeholder="Custom tag"
               accessibilityLabel="Custom tag"
             />
-          </View>
+          </ClimbTagComposerField>
           <Button label="Add tag" variant="secondary" onPress={addCustomTag} />
-        </View>
+        </ClimbTagComposer>
         {climb.tags.length ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+          <ClimbTagRow>
             {climb.tags.map((tag) => (
               <RemovableChip key={tag} label={tag} onPress={() => toggleTag(tag)} />
             ))}
-          </View>
+          </ClimbTagRow>
         ) : null}
       </Section>
 
       <Section title="Attempts">
         {climb.attempts.map((attempt, index) => (
-          <View key={attempt.id} style={{ gap: space[4], marginBottom: space[8] }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8], flexWrap: 'wrap' }}>
+          <ClimbAttemptBlock key={attempt.id}>
+            <ClimbAttemptHeader>
               <Text variant="body" weight="bold" style={{ flex: 1, minWidth: 0 }}>
                 Attempt {index + 1}
               </Text>
@@ -160,8 +204,8 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                   </Text>
                 </Pressable>
               ) : null}
-            </View>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+            </ClimbAttemptHeader>
+            <ClimbProgressRow>
               {attemptProgressOptionsForIndex(index).map((opt) => (
                 <ToggleChip
                   key={opt.value}
@@ -171,13 +215,13 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                   paddingHorizontal={space[8]}
                 />
               ))}
-            </View>
-          </View>
+            </ClimbProgressRow>
+          </ClimbAttemptBlock>
         ))}
         <Button label="Add attempt" variant="secondary" onPress={addAttempt} />
       </Section>
 
       {onShare ? <Button label="Share climb" variant="ghost" onPress={onShare} /> : null}
-    </View>
+    </ClimbEditorRoot>
   );
 }

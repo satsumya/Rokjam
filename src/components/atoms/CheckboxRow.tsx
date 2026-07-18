@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { Icon } from './Icon';
 import { Text } from './Text';
@@ -23,20 +23,27 @@ export function CheckboxRow({
     <Pressable
       onPress={onPress}
       style={(state) => [
-        { borderRadius: 4 },
+        styles.row,
         interactionStyle(state),
         previewInteractionStyle(previewState),
       ]}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
-        <Icon
-          name={checked ? 'checkboxChecked' : 'checkboxUnchecked'}
-          size="sm"
-          color={checked ? ui.text : ui.textMuted}
-          weight={checked ? 'fill' : 'regular'}
-        />
-        <Text variant="body">{label}</Text>
-      </View>
+      <Icon
+        name={checked ? 'checkboxChecked' : 'checkboxUnchecked'}
+        size="sm"
+        color={checked ? ui.text : ui.textMuted}
+        weight={checked ? 'fill' : 'regular'}
+      />
+      <Text variant="body">{label}</Text>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space[6],
+    borderRadius: 4,
+  },
+});

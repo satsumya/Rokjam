@@ -4,7 +4,7 @@ import { fn } from 'storybook/test';
 
 import { Button, type ButtonColorStyle, type ButtonSize, type ButtonVariant } from './Button';
 import { ICON_NAMES, type IconName } from './Icon';
-import { Padded, StatesGallery, previewStateArgType } from '../storybook.helpers';
+import { Padded, StatesGallery, GALLERY_STATES_WITH_DISABLED, previewStateArgType } from '../storybook.helpers';
 import {
   BUTTON_COLOR_STYLE_ORDER,
   buttonColorStyleLabel,
@@ -17,7 +17,6 @@ const BUTTON_STATE_VARIANTS = [
   { id: 'style2', label: 'style2' },
   { id: 'secondary', label: 'secondary' },
   { id: 'ghost', label: 'ghost' },
-  { id: 'disabled', label: 'disabled' },
 ] as const;
 
 const BUTTON_SIZES: { id: ButtonSize; label: string }[] = [
@@ -25,11 +24,6 @@ const BUTTON_SIZES: { id: ButtonSize; label: string }[] = [
   { id: 'medium', label: 'medium · body bold' },
   { id: 'small', label: 'small · bodySmall bold' },
 ];
-
-const COLOR_STYLE_STATE_VARIANTS = BUTTON_COLOR_STYLE_ORDER.map((id) => ({
-  id,
-  label: buttonColorStyleLabel(id),
-}));
 
 /** Storybook controls — booleans toggle icons; selects pick glyphs (never `undefined`). */
 type ButtonStoryArgs = React.ComponentProps<typeof Button> & {
@@ -130,97 +124,66 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Style1: Story = {
-  args: { label: 'Style 1', variant: 'primary', colorStyle: 'style1' },
-};
-
-export const Style2: Story = {
-  args: { label: 'Style 2', variant: 'primary', colorStyle: 'style2' },
-};
-
-export const Secondary: Story = { args: { variant: 'secondary' } };
-export const Ghost: Story = { args: { variant: 'ghost' } };
-export const Medium: Story = { args: { variant: 'primary', colorStyle: 'style1', size: 'medium' } };
-export const Small: Story = { args: { variant: 'primary', colorStyle: 'style1', size: 'small' } };
-export const Disabled: Story = { args: { variant: 'primary', disabled: true } };
-
-export const WithIcons: Story = {
-  args: {
-    label: 'Continue',
-    showIconLeft: true,
-    showIconRight: true,
-    iconLeft: 'check',
-    iconRight: 'caretRight',
-  },
-};
-
-export const IconOnly: Story = {
-  args: {
-    label: 'Save session',
-    showIconOnly: true,
-    icon: 'signOut',
-    accessibilityLabel: 'Log out',
-    variant: 'primary',
-    colorStyle: 'style1',
-  },
-};
-
-export const IconOnlySecondary: Story = {
-  args: {
-    label: 'Edit',
-    showIconOnly: true,
-    icon: 'pencil',
-    accessibilityLabel: 'Edit',
-    variant: 'secondary',
-  },
-};
-
-export const YellowDifficulty: Story = {
-  args: { label: 'Yellow difficulty', variant: 'primary', colorStyle: 'yellow' },
-};
-
-/** All colour styles × both sizes (mirrors the design comps). */
+/** All colour styles × all sizes. Empty label uses each style’s name; typing a label overrides all. */
 export const ColorStyles: Story = {
-  render: (args) => (
-    <View style={{ gap: space[24], alignItems: 'flex-start' }}>
-      {BUTTON_COLOR_STYLE_ORDER.map((colorStyle) => (
-        <View key={colorStyle} style={{ gap: space[8], alignItems: 'flex-start' }}>
-          <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>
-            {buttonColorStyleLabel(colorStyle)}
-          </Text>
-          {BUTTON_SIZES.map((size) => (
-            <StoryButton
-              key={size.id}
-              {...args}
-              variant="primary"
-              label={buttonColorStyleLabel(colorStyle)}
-              size={size.id}
-              colorStyle={colorStyle}
-              accessibilityLabel={buttonColorStyleLabel(colorStyle)}
-            />
-          ))}
-        </View>
-      ))}
-    </View>
-  ),
+  args: { label: '' },
+  argTypes: {
+    // Gallery shows every colour style — per-button colorStyle control is unused.
+    colorStyle: { table: { disable: true } },
+    variant: { table: { disable: true } },
+    size: { table: { disable: true } },
+  },
+  render: (args) => {
+    const customLabel = args.label?.trim();
+    return (
+      <View style={{ gap: space[24], alignItems: 'flex-start' }}>
+        {BUTTON_COLOR_STYLE_ORDER.map((colorStyle) => {
+          const styleName = buttonColorStyleLabel(colorStyle);
+          const buttonLabel = customLabel || styleName;
+          return (
+            <View key={colorStyle} style={{ gap: space[8], alignItems: 'flex-start' }}>
+              <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>{styleName}</Text>
+              {BUTTON_SIZES.map((size) => (
+                <StoryButton
+                  key={size.id}
+                  {...args}
+                  variant="primary"
+                  label={buttonLabel}
+                  size={size.id}
+                  colorStyle={colorStyle}
+                  accessibilityLabel={buttonLabel}
+                />
+              ))}
+            </View>
+          );
+        })}
+      </View>
+    );
+  },
 };
 
 export const States: Story = {
+  argTypes: {
+    // Gallery owns size / variant / colorStyle per cell.
+    colorStyle: { table: { disable: true } },
+    variant: { table: { disable: true } },
+    size: { table: { disable: true } },
+  },
   render: (args) => (
     <View style={{ gap: space[24], alignItems: 'flex-start' }}>
       {BUTTON_SIZES.map((size) => (
         <View key={size.id} style={{ gap: space[12], alignItems: 'flex-start' }}>
           <Text style={{ fontSize: 14, fontWeight: '700', color: ui.text }}>{size.label}</Text>
-          <StatesGallery variants={BUTTON_STATE_VARIANTS}>
-            {(state, variantId) => {
+          <StatesGallery variants={BUTTON_STATE_VARIANTS} states={GALLERY_STATES_WITH_DISABLED}>
+            {(previewState, variantId, { disabled }) => {
               if (variantId === 'secondary' || variantId === 'ghost') {
                 return (
                   <StoryButton
                     {...args}
                     size={size.id}
                     variant={variantId as ButtonVariant}
-                    disabled={false}
-                    previewState={state}
+                    disabled={disabled}
+                    previewState={disabled ? undefined : previewState}
                     accessibilityLabel={args.label ?? variantId}
                   />
                 );
@@ -230,9 +193,9 @@ export const States: Story = {
                   {...args}
                   size={size.id}
                   variant="primary"
-                  colorStyle={variantId === 'disabled' ? 'style1' : (variantId as ButtonColorStyle)}
-                  disabled={variantId === 'disabled'}
-                  previewState={state}
+                  colorStyle={variantId as ButtonColorStyle}
+                  disabled={disabled}
+                  previewState={disabled ? undefined : previewState}
                   accessibilityLabel={args.label ?? variantId}
                 />
               );
@@ -241,24 +204,5 @@ export const States: Story = {
         </View>
       ))}
     </View>
-  ),
-};
-
-/** Interaction states for every colour style (large size). */
-export const ColorStyleStates: Story = {
-  args: { size: 'large' },
-  render: (args) => (
-    <StatesGallery variants={COLOR_STYLE_STATE_VARIANTS}>
-      {(state, variantId) => (
-        <StoryButton
-          {...args}
-          variant="primary"
-          label={buttonColorStyleLabel(variantId as ButtonColorStyle)}
-          colorStyle={variantId as ButtonColorStyle}
-          previewState={state}
-          accessibilityLabel={buttonColorStyleLabel(variantId as ButtonColorStyle)}
-        />
-      )}
-    </StatesGallery>
   ),
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Text } from '../atoms/Text';
@@ -12,6 +12,18 @@ import type { DifficultyLevel } from '../../context/PrototypeContext';
 import { usePrototype } from '../../context/PrototypeContext';
 import { colors, ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
+
+function AddLocationForm({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function AddLocationAddressBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function AddLocationLevelsList({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 function createDraftLevel(index: number): DifficultyLevel {
   const preset = DEFAULT_LEVEL_COLORS[index];
@@ -90,8 +102,8 @@ export function AddLocationSheet({
       {!address ? (
         <AddressSearch label={false} onSelect={handleSelectAddress} error={error} required />
       ) : (
-        <View style={{ gap: space[12] }}>
-          <View style={{ gap: space[4] }}>
+        <AddLocationForm style={{ gap: space[12] }}>
+          <AddLocationAddressBlock style={{ gap: space[4] }}>
             <Text variant="body" weight="bold">
               {address}
             </Text>
@@ -103,7 +115,7 @@ export function AddLocationSheet({
                 setError('');
               }}
             />
-          </View>
+          </AddLocationAddressBlock>
 
           <TextField
             label="Nickname"
@@ -119,7 +131,7 @@ export function AddLocationSheet({
             Add the colour grades used at this location. You need at least one level.
           </Text>
 
-          <View style={{ gap: space[8] }}>
+          <AddLocationLevelsList style={{ gap: space[8] }}>
             {levels.map((level, index) => (
               <LevelRow
                 key={level.id}
@@ -152,14 +164,14 @@ export function AddLocationSheet({
                 }}
               />
             ))}
-          </View>
+          </AddLocationLevelsList>
 
           <Button
             label="Add level"
             variant="secondary"
             onPress={() => setLevels((current) => [...current, createDraftLevel(current.length)])}
           />
-        </View>
+        </AddLocationForm>
       )}
 
       {error && address ? (

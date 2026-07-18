@@ -1,10 +1,14 @@
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 
 import { Section } from '../atoms/Section';
 import { Text } from '../atoms/Text';
 import { MiniBars } from '../molecules/MiniBars';
 import type { ClimbingSession } from '../../types/climbingSession';
 import { space } from '../../theme/spacing';
+
+function CommunityTagTrendBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
   const tagCounts = sessions.reduce<Record<string, number>>((acc, session) => {
@@ -32,12 +36,12 @@ export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
       <Text variant="body">Public sessions this week: {sessions.length}</Text>
       <Text variant="body">Total flashes logged: {flashCount}</Text>
       {topTags.length ? (
-        <View style={{ gap: space[8] }}>
+        <CommunityTagTrendBlock style={{ gap: space[8] }}>
           <Text variant="body" weight="bold">
             Popular tags
           </Text>
           <MiniBars data={topTags} />
-        </View>
+        </CommunityTagTrendBlock>
       ) : null}
     </Section>
   );

@@ -1,8 +1,20 @@
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
+
+function BarRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function BarTrack({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function BarFill({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 /** Single labelled horizontal bar for the mini bar charts. */
 export function Bar({
@@ -17,7 +29,7 @@ export function Bar({
   unit?: string;
 }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
+    <BarRow style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
       <Text
         variant="bodySmall"
         color={ui.textMuted}
@@ -26,7 +38,7 @@ export function Bar({
       >
         {label}
       </Text>
-      <View
+      <BarTrack
         style={{
           flex: 1,
           minWidth: 0,
@@ -36,18 +48,18 @@ export function Bar({
           overflow: 'hidden',
         }}
       >
-        <View
+        <BarFill
           style={{
             width: `${(value / max) * 100}%`,
             height: '100%',
             backgroundColor: ui.primary,
           }}
         />
-      </View>
+      </BarTrack>
       <Text variant="bodySmall" numberOfLines={1} style={{ minWidth: 36, flexShrink: 0, textAlign: 'right' }}>
         {value}
         {unit ?? ''}
       </Text>
-    </View>
+    </BarRow>
   );
 }

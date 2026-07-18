@@ -9,8 +9,10 @@ import { textStyle, type FontWeightName, type TextVariant } from '../../theme/ty
  * `<Text variant="h2">Sessions</Text>`. Every variant supports `weight`
  * (`regular` | `bold`); headings default to bold, body to regular. `color`
  * defaults to the primary text colour — pass a theme colour token to override.
+ *
+ * Implemented as `AppText` so DevTools distinguishes our atom from RN’s `Text`.
  */
-export function Text({
+function AppText({
   variant = 'body',
   weight,
   color = ui.text,
@@ -19,3 +21,5 @@ export function Text({
 }: { variant?: TextVariant; weight?: FontWeightName; color?: string } & TextProps) {
   return <RNText style={[textStyle(variant, weight), { color }, style]} {...rest} />;
 }
+
+export { AppText as Text };

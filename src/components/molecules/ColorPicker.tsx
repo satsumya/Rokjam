@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { LayoutChangeEvent, PanResponder, StyleSheet, View } from 'react-native';
+import { LayoutChangeEvent, PanResponder, StyleSheet, View, type ViewProps } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text } from '../atoms/Text';
@@ -28,6 +28,38 @@ const HUE_SPECTRUM = [
 
 const { svHeight: SV_HEIGHT, hueHeight: HUE_HEIGHT, thumb: THUMB, previewSize: PREVIEW } =
   colorPickerGeometry;
+
+function ColorPickerRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SvCanvas({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SvThumb({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function HueSlider({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function HueThumb({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function HexPreviewRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function HexFieldSlot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ColorPreviewSwatch({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 function clamp01(value: number) {
   return Math.min(1, Math.max(0, value));
@@ -145,12 +177,12 @@ export function ColorPicker({
   const hueThumbLeft = hueWidth > 0 ? (hsv.h / 360) * hueWidth - THUMB / 2 : 0;
 
   return (
-    <View style={{ gap: space[8] }}>
+    <ColorPickerRoot style={{ gap: space[8] }}>
       <Text variant="body" weight="bold">
         Custom colour
       </Text>
 
-      <View
+      <SvCanvas
         onLayout={onSvLayout}
         {...svPan.panHandlers}
         style={{
@@ -173,7 +205,7 @@ export function ColorPicker({
           end={{ x: 0.5, y: 1 }}
           style={StyleSheet.absoluteFill}
         />
-        <View
+        <SvThumb
           pointerEvents="none"
           style={{
             position: 'absolute',
@@ -191,9 +223,9 @@ export function ColorPicker({
             shadowOffset: { width: 0, height: 1 },
           }}
         />
-      </View>
+      </SvCanvas>
 
-      <View
+      <HueSlider
         onLayout={onHueLayout}
         {...huePan.panHandlers}
         style={{
@@ -211,7 +243,7 @@ export function ColorPicker({
           end={{ x: 1, y: 0.5 }}
           style={StyleSheet.absoluteFill}
         />
-        <View
+        <HueThumb
           pointerEvents="none"
           style={{
             position: 'absolute',
@@ -228,13 +260,13 @@ export function ColorPicker({
             shadowOffset: { width: 0, height: 1 },
           }}
         />
-      </View>
+      </HueSlider>
 
-      <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: space[8] }}>
-        <View style={{ flex: 1, minWidth: 0 }}>
+      <HexPreviewRow style={{ flexDirection: 'row', alignItems: 'flex-end', gap: space[8] }}>
+        <HexFieldSlot style={{ flex: 1, minWidth: 0 }}>
           <TextField label="Hex" value={hexDraft} onChangeText={handleHexChange} placeholder="#RRGGBB" />
-        </View>
-        <View
+        </HexFieldSlot>
+        <ColorPreviewSwatch
           accessibilityLabel="Selected colour preview"
           style={{
             width: PREVIEW,
@@ -247,7 +279,7 @@ export function ColorPicker({
             marginBottom: 1,
           }}
         />
-      </View>
-    </View>
+      </HexPreviewRow>
+    </ColorPickerRoot>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, View } from 'react-native';
+import { Platform, Pressable, ScrollView, View, type ViewProps } from 'react-native';
+import type { ComponentProps } from 'react';
 
 import { ADDRESS_SUGGESTIONS } from '../../constants/mockData';
 import {
@@ -12,6 +13,31 @@ import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import { space } from '../../theme/spacing';
 
+function AddressSearchRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function AddressSuggestionPanel({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function AddressSuggestionList(props: ComponentProps<typeof ScrollView>) {
+  return <ScrollView {...props} />;
+}
+
+function AddressEmptyState({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Query match bolded inside an address suggestion label. */
+function AddressHighlight({ children }: { children: string }) {
+  return (
+    <Text variant="body" weight="bold">
+      {children}
+    </Text>
+  );
+}
+
 function HighlightedAddress({ text, query }: { text: string; query: string }) {
   const range = findAddressHighlightRange(text, query);
   if (!range) return <Text variant="body">{text}</Text>;
@@ -19,9 +45,7 @@ function HighlightedAddress({ text, query }: { text: string; query: string }) {
   return (
     <Text variant="body">
       {text.slice(0, range.start)}
-      <Text variant="body" weight="bold">
-        {text.slice(range.start, range.end)}
-      </Text>
+      <AddressHighlight>{text.slice(range.start, range.end)}</AddressHighlight>
       {text.slice(range.end)}
     </Text>
   );
@@ -119,7 +143,7 @@ export function AddressSearch({
   };
 
   return (
-    <View style={{ gap: space[8], zIndex: 2 }}>
+    <AddressSearchRoot style={{ gap: space[8], zIndex: 2 }}>
       <TextField
         label={label === false ? undefined : label}
         required={label === false ? false : required}
@@ -134,7 +158,7 @@ export function AddressSearch({
       />
 
       {showSuggestions ? (
-        <View
+        <AddressSuggestionPanel
           style={{
             maxHeight: 220,
             borderWidth: 1,
@@ -153,7 +177,7 @@ export function AddressSearch({
                 }),
           }}
         >
-          <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+          <AddressSuggestionList keyboardShouldPersistTaps="handled" nestedScrollEnabled>
             {suggestions.map((item, index) => (
               <Pressable
                 key={item}
@@ -175,11 +199,11 @@ export function AddressSearch({
             ))}
 
             {suggestions.length === 0 ? (
-              <View style={{ paddingHorizontal: space[12], paddingVertical: space[12] }}>
+              <AddressEmptyState style={{ paddingHorizontal: space[12], paddingVertical: space[12] }}>
                 <Text variant="bodySmall" color={ui.textMuted}>
                   No matches found.
                 </Text>
-              </View>
+              </AddressEmptyState>
             ) : null}
 
             <Pressable
@@ -198,9 +222,9 @@ export function AddressSearch({
             >
               <Text variant="body">Can&apos;t find the address? Add it anyway</Text>
             </Pressable>
-          </ScrollView>
-        </View>
+          </AddressSuggestionList>
+        </AddressSuggestionPanel>
       ) : null}
-    </View>
+    </AddressSearchRoot>
   );
 }

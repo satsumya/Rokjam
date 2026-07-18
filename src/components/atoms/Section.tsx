@@ -1,9 +1,35 @@
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 import type { ReactNode } from 'react';
 
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
+
+function SectionRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SectionHeader({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SectionTitleBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SectionHeaderAction({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Required-field asterisk nested inside a title (RN coloured substring). */
+function RequiredAsterisk({ variant }: { variant: 'h5' | 'body' }) {
+  return (
+    <Text variant={variant} weight={variant === 'body' ? 'bold' : undefined} color={ui.danger}>
+      {' '}
+      *
+    </Text>
+  );
+}
 
 export function Section({
   title,
@@ -20,8 +46,8 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <View style={styles.section}>
-      <View
+    <SectionRoot style={styles.section}>
+      <SectionHeader
         style={{
           flexDirection: 'row',
           flexWrap: 'wrap',
@@ -31,25 +57,23 @@ export function Section({
           marginBottom: subtitle || headerAction ? 4 : 0,
         }}
       >
-        <View style={{ flex: 1, minWidth: 0 }}>
+        <SectionTitleBlock style={{ flex: 1, minWidth: 0 }}>
           <Text variant="h5">
             {title}
-            {required ? (
-              <Text variant="h5" color={ui.danger}>
-                {' '}*
-              </Text>
-            ) : null}
+            {required ? <RequiredAsterisk variant="h5" /> : null}
           </Text>
           {subtitle ? (
             <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[4] }}>
               {subtitle}
             </Text>
           ) : null}
-        </View>
-        {headerAction ? <View style={{ flexShrink: 0, maxWidth: '100%' }}>{headerAction}</View> : null}
-      </View>
+        </SectionTitleBlock>
+        {headerAction ? (
+          <SectionHeaderAction style={{ flexShrink: 0, maxWidth: '100%' }}>{headerAction}</SectionHeaderAction>
+        ) : null}
+      </SectionHeader>
       {children}
-    </View>
+    </SectionRoot>
   );
 }
 

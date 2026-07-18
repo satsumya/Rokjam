@@ -1,10 +1,18 @@
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 
 import { DifficultyChip } from '../atoms/DifficultyChip';
 import { Text } from '../atoms/Text';
 import { space } from '../../theme/spacing';
 
 type Level = { id: string; name: string; color: string };
+
+function DifficultyPickerRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function DifficultyChipRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 /** Wrapping row of selectable difficulty chips with a heading. */
 export function DifficultyPicker<L extends Level>({
@@ -21,11 +29,11 @@ export function DifficultyPicker<L extends Level>({
   compact?: boolean;
 }) {
   return (
-    <View style={{ gap: compact ? 4 : 6 }}>
+    <DifficultyPickerRoot style={{ gap: compact ? 4 : 6 }}>
       <Text variant={compact ? 'bodySmall' : 'body'} weight="bold">
         {title}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+      <DifficultyChipRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
         {levels.map((level) => (
           <DifficultyChip
             key={level.id}
@@ -35,7 +43,7 @@ export function DifficultyPicker<L extends Level>({
             onPress={() => onSelect(level)}
           />
         ))}
-      </View>
-    </View>
+      </DifficultyChipRow>
+    </DifficultyPickerRoot>
   );
 }

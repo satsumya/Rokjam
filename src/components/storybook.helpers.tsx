@@ -13,6 +13,11 @@ import { space } from '../theme/spacing';
 /** The interaction states demoable via the `previewState` prop / control. */
 export const PREVIEW_STATES: PreviewState[] = ['default', 'hover', 'pressed', 'focused'];
 
+/** Gallery rows: interaction previews plus optional disabled under each variant. */
+export type GalleryState = PreviewState | 'disabled';
+
+export const GALLERY_STATES_WITH_DISABLED: GalleryState[] = [...PREVIEW_STATES, 'disabled'];
+
 /** Shared Storybook control for forcing a component's interaction state. */
 export const previewStateArgType = {
   control: { type: 'select' as const },
@@ -26,15 +31,24 @@ export type StatesGalleryVariant = {
 
 /**
  * Renders interaction states for a component. Pass `variants` to show a labelled
- * section per visual variant (e.g. primary / secondary / disabled), each with
- * default · hover · pressed · focused.
+ * section per visual variant (e.g. primary / secondary), each with
+ * default · hover · pressed · focused (and optionally disabled via `states`).
+ *
+ * For a `disabled` row, `previewState` is `'default'` and `options.disabled` is `true`.
  */
 export function StatesGallery({
   variants,
+  states = PREVIEW_STATES,
   children,
 }: {
   variants?: readonly StatesGalleryVariant[];
-  children: (state: PreviewState, variantId: string) => ReactNode;
+  /** Rows under each variant. Defaults to interaction previews only. */
+  states?: readonly GalleryState[];
+  children: (
+    previewState: PreviewState,
+    variantId: string,
+    options: { disabled: boolean },
+  ) => ReactNode;
 }) {
   const sections: readonly StatesGalleryVariant[] = variants?.length
     ? variants
@@ -47,12 +61,16 @@ export function StatesGallery({
           {section.label ? (
             <Text style={{ fontSize: 13, fontWeight: '700', color: ui.text }}>{section.label}</Text>
           ) : null}
-          {PREVIEW_STATES.map((state) => (
-            <View key={state} style={{ gap: space[4], alignItems: 'flex-start' }}>
-              <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textMuted }}>{state}</Text>
-              {children(state, section.id)}
-            </View>
-          ))}
+          {states.map((state) => {
+            const disabled = state === 'disabled';
+            const previewState: PreviewState = disabled ? 'default' : state;
+            return (
+              <View key={state} style={{ gap: space[4], alignItems: 'flex-start' }}>
+                <Text style={{ fontSize: 12, fontWeight: '600', color: ui.textMuted }}>{state}</Text>
+                {children(previewState, section.id, { disabled })}
+              </View>
+            );
+          })}
         </View>
       ))}
     </View>

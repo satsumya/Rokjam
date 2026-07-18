@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
@@ -9,6 +9,34 @@ import { AddLocationSheet } from './AddLocationSheet';
 import { usePrototype } from '../../context/PrototypeContext';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
+
+function SessionLocationEmpty({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SessionLocationPicker({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SessionLocationList({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SessionLocationOption({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SessionLocationSummary({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SessionLocationNameRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function SessionLocationActions({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function SessionLocationPanel({
   sessionLocationId,
@@ -39,24 +67,24 @@ export function SessionLocationPanel({
 
   if (locations.length === 0) {
     return (
-      <View style={{ gap: space[8] }}>
+      <SessionLocationEmpty style={{ gap: space[8] }}>
         <Text variant="body">No location linked to this session yet.</Text>
         <Text variant="bodySmall" color={ui.textMuted}>
           Search for your gym or crag and set up difficulty levels.
         </Text>
         <Button label="Add location" onPress={() => setShowAddSheet(true)} />
         {addSheet}
-      </View>
+      </SessionLocationEmpty>
     );
   }
 
   if (!sessionLoc || changingLocation) {
     return (
-      <View style={{ gap: space[8] }}>
+      <SessionLocationPicker style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           {sessionLoc ? 'Choose a different location' : 'Select a location for this session'}
         </Text>
-        <View style={{ gap: space[6] }}>
+        <SessionLocationList style={{ gap: space[6] }}>
           {locations.map((loc) => (
             <Pressable
               key={loc.id}
@@ -65,7 +93,7 @@ export function SessionLocationPanel({
                 setChangingLocation(false);
               }}
             >
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
+              <SessionLocationOption style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
                 {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
                 <Text
                   variant="body"
@@ -75,10 +103,10 @@ export function SessionLocationPanel({
                   {loc.nickname ? `${loc.nickname} — ` : ''}
                   {loc.name}
                 </Text>
-              </View>
+              </SessionLocationOption>
             </Pressable>
           ))}
-        </View>
+        </SessionLocationList>
         {sessionLoc ? <Link label="Cancel" onPress={() => setChangingLocation(false)} /> : null}
         <Pressable onPress={() => setShowAddSheet(true)}>
           <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
@@ -86,20 +114,20 @@ export function SessionLocationPanel({
           </Text>
         </Pressable>
         {addSheet}
-      </View>
+      </SessionLocationPicker>
     );
   }
 
   return (
-    <View style={{ gap: space[6] }}>
-      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[4] }}>
+    <SessionLocationSummary style={{ gap: space[6] }}>
+      <SessionLocationNameRow style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[4] }}>
         {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
         <Text variant="body" style={{ flex: 1, minWidth: 0 }}>
           {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
           {sessionLoc.name}
         </Text>
-      </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
+      </SessionLocationNameRow>
+      <SessionLocationActions style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
         {locations.length > 1 ? (
           <Link label="Change location" onPress={() => setChangingLocation(true)} />
         ) : null}
@@ -108,8 +136,8 @@ export function SessionLocationPanel({
             Add new location
           </Text>
         </Pressable>
-      </View>
+      </SessionLocationActions>
       {addSheet}
-    </View>
+    </SessionLocationSummary>
   );
 }

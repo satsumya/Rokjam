@@ -6,7 +6,9 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  type ViewProps,
 } from 'react-native';
+import type { ComponentProps } from 'react';
 
 import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Text';
@@ -29,6 +31,22 @@ const fieldStyle = {
   paddingVertical: space[12],
   backgroundColor: ui.surface,
 } as const;
+
+function DropdownField({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function DropdownMenuBackdrop({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function DropdownMenuList({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function DropdownMenuScroll(props: ComponentProps<typeof ScrollView>) {
+  return <ScrollView {...props} />;
+}
 
 function WebSelect({
   value,
@@ -85,9 +103,9 @@ function NativeDropdownMenu({
 }) {
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={styles.menuBackdrop}>
+      <DropdownMenuBackdrop style={styles.menuBackdrop}>
         <Pressable style={StyleSheet.absoluteFill} onPress={onClose} />
-        <View
+        <DropdownMenuList
           style={[
             styles.menuList,
             {
@@ -97,7 +115,7 @@ function NativeDropdownMenu({
             },
           ]}
         >
-          <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+          <DropdownMenuScroll keyboardShouldPersistTaps="handled" nestedScrollEnabled>
             {options.map((option, index) => (
               <Pressable
                 key={option.value}
@@ -117,9 +135,9 @@ function NativeDropdownMenu({
                 </Text>
               </Pressable>
             ))}
-          </ScrollView>
-        </View>
-      </View>
+          </DropdownMenuScroll>
+        </DropdownMenuList>
+      </DropdownMenuBackdrop>
     </Modal>
   );
 }
@@ -155,7 +173,7 @@ export function Dropdown({
   };
 
   return (
-    <View style={{ gap: space[6] }}>
+    <DropdownField style={{ gap: space[6] }}>
       <Text variant="body" weight="bold">
         {label}
       </Text>
@@ -205,7 +223,7 @@ export function Dropdown({
           placeholder={customPlaceholder ?? 'Type a custom value'}
         />
       ) : null}
-    </View>
+    </DropdownField>
   );
 }
 

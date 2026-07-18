@@ -61,6 +61,12 @@ export type IconName = keyof typeof ICONS;
 
 export const ICON_NAMES = Object.keys(ICONS) as IconName[];
 
+// Give Phosphor glyphs readable DevTools names (they ship as anonymous factories).
+for (const name of ICON_NAMES) {
+  const Glyph = ICONS[name] as PhosphorIcon & { displayName?: string };
+  Glyph.displayName = `Icon.${name}`;
+}
+
 /** Allowed Phosphor weights, in increasing visual heaviness. */
 export const ICON_WEIGHTS = ['regular', 'bold', 'fill', 'duotone'] as const;
 

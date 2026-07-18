@@ -14,13 +14,21 @@ export type FlowMapVersionAccordionItem = {
   updatedAt: string;
 };
 
+function FlowMapVersionAccordionRoot({ style, children }: { style?: object; children: React.ReactNode }) {
+  return <View style={style}>{children}</View>;
+}
+
+function FlowMapVersionList({ style, children }: { style?: object; children: React.ReactNode }) {
+  return <View style={style}>{children}</View>;
+}
+
 export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccordionItem[] }) {
   const [open, setOpen] = useState(false);
 
   if (items.length === 0) return null;
 
   return (
-    <View style={{ marginBottom: space[12] }}>
+    <FlowMapVersionAccordionRoot style={{ marginBottom: space[12] }}>
       <Pressable
         onPress={() => setOpen((current) => !current)}
         accessibilityRole="button"
@@ -44,7 +52,7 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
         </Text>
       </Pressable>
       {open ? (
-        <View
+        <FlowMapVersionList
           style={{
             marginTop: space[6],
             paddingLeft: space[16],
@@ -61,8 +69,8 @@ export function FlowMapVersionAccordion({ items }: { items: FlowMapVersionAccord
               </Text>
             </View>
           ))}
-        </View>
+        </FlowMapVersionList>
       ) : null}
-    </View>
+    </FlowMapVersionAccordionRoot>
   );
 }

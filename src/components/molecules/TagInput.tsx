@@ -1,11 +1,27 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Chip, RemovableChip } from '../atoms/Chip';
 import { Section } from '../atoms/Section';
 import { TextField } from '../atoms/TextField';
 import { space } from '../../theme/spacing';
+
+function TagChipRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function TagComposerRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function TagComposerField({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function TagSuggestionRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function TagInput({
   label,
@@ -31,30 +47,30 @@ export function TagInput({
   return (
     <Section title={label}>
       {tags.length ? (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+        <TagChipRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           {tags.map((tag) => (
             <RemovableChip key={tag} label={tag} onPress={() => onRemove(tag)} />
           ))}
-        </View>
+        </TagChipRow>
       ) : null}
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], alignItems: 'flex-end' }}>
-        <View style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>
+      <TagComposerRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], alignItems: 'flex-end' }}>
+        <TagComposerField style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>
           <TextField
             value={draft}
             onChangeText={setDraft}
             placeholder="Add a tag"
             accessibilityLabel={`Add ${label.toLowerCase()} tag`}
           />
-        </View>
+        </TagComposerField>
         <Button label="Add" variant="secondary" onPress={handleAdd} />
-      </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+      </TagComposerRow>
+      <TagSuggestionRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
         {suggestions
           .filter((item) => !tags.includes(item))
           .map((item) => (
             <Chip key={item} label={`+ ${item}`} onPress={() => onAdd(item)} />
           ))}
-      </View>
+      </TagSuggestionRow>
     </Section>
   );
 }

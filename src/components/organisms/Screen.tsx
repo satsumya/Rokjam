@@ -5,15 +5,66 @@ import {
   StyleSheet,
   useWindowDimensions,
   View,
+  type ViewProps,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { Text } from '../atoms/Text';
 import { useFlowCapture } from '../../hooks/useFlowCapture';
 import { ui } from '../../theme/colors';
 import { layout, pageGutter } from '../../theme/layout';
 import { space } from '../../theme/spacing';
+
+/** Safe-area root for every screen. */
+function ScreenSafeArea({ style, ...rest }: ViewProps) {
+  return <SafeAreaView style={style} {...rest} />;
+}
+
+/** Keyboard avoidance shell around scroll + footer. */
+function ScreenKeyboard({ style, ...rest }: ComponentProps<typeof KeyboardAvoidingView>) {
+  return <KeyboardAvoidingView style={style} {...rest} />;
+}
+
+/** Main scrollable column (disabled during flow-map capture). */
+function ScreenScroll(props: ComponentProps<typeof ScrollView>) {
+  return <ScrollView {...props} />;
+}
+
+/** Capture-mode column that freezes layout instead of scrolling. */
+function ScreenCaptureColumn({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Title row + optional header actions. */
+function ScreenHeader({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Slot for header-right actions (e.g. logout, close). */
+function ScreenHeaderActions({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Padded content column that holds header + body. */
+function ScreenContent({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Main screen body stack (children). */
+function ScreenBody({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Sticky footer chrome (border + muted surface). */
+function ScreenFooter({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+/** Padded footer actions column. */
+function ScreenFooterActions({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function Screen({
   title,
@@ -42,51 +93,51 @@ export function Screen({
   const footerPadded = { padding: gutter, gap: space[12] };
 
   const header = (
-    <View style={styles.headerRow}>
+    <ScreenHeader style={styles.headerRow}>
       <Text variant="h4" style={styles.title}>
         {title}
       </Text>
-      {headerRight ? <View style={styles.headerRight}>{headerRight}</View> : null}
-    </View>
+      {headerRight ? <ScreenHeaderActions style={styles.headerRight}>{headerRight}</ScreenHeaderActions> : null}
+    </ScreenHeader>
   );
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <KeyboardAvoidingView
+    <ScreenSafeArea style={styles.screen}>
+      <ScreenKeyboard
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.flex}
       >
         {flowCapture ? (
-          <View style={[styles.flex, { justifyContent: 'space-between' }]}>
-            <View style={[styles.content, padded, columnStyle]}>
+          <ScreenCaptureColumn style={[styles.flex, { justifyContent: 'space-between' }]}>
+            <ScreenContent style={[styles.content, padded, columnStyle]}>
               {header}
-              <View style={styles.body}>{children}</View>
-            </View>
+              <ScreenBody style={styles.body}>{children}</ScreenBody>
+            </ScreenContent>
             {footer ? (
-              <View style={styles.footer}>
-                <View style={[footerPadded, columnStyle]}>{footer}</View>
-              </View>
+              <ScreenFooter style={styles.footer}>
+                <ScreenFooterActions style={[footerPadded, columnStyle]}>{footer}</ScreenFooterActions>
+              </ScreenFooter>
             ) : null}
-          </View>
+          </ScreenCaptureColumn>
         ) : (
           <>
-            <ScrollView
+            <ScreenScroll
               contentContainerStyle={[styles.content, padded, columnStyle]}
               keyboardShouldPersistTaps="handled"
             >
               {header}
-              <View style={styles.body}>{children}</View>
-            </ScrollView>
+              <ScreenBody style={styles.body}>{children}</ScreenBody>
+            </ScreenScroll>
             {footer ? (
-              <View style={styles.footer}>
-                <View style={[footerPadded, columnStyle]}>{footer}</View>
-              </View>
+              <ScreenFooter style={styles.footer}>
+                <ScreenFooterActions style={[footerPadded, columnStyle]}>{footer}</ScreenFooterActions>
+              </ScreenFooter>
             ) : null}
           </>
         )}
-      </KeyboardAvoidingView>
+      </ScreenKeyboard>
       {overlay}
-    </SafeAreaView>
+    </ScreenSafeArea>
   );
 }
 

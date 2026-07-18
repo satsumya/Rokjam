@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 
 import { Button } from '../atoms/Button';
 import { Card } from '../atoms/Card';
@@ -14,6 +14,22 @@ import { interactionStyle } from '../../theme/interaction';
 import { space } from '../../theme/spacing';
 
 type DifficultyLevel = Location['levels'][number];
+
+function ClimbCardHeading({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ClimbCardMediaBadges({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ClimbCardTopRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ClimbCardHeadingSlot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 /** Condensed read-only view of a climb, used in session lists. */
 export function ClimbCard({
@@ -43,21 +59,21 @@ export function ClimbCard({
   const showDifficultyPicker = Boolean(location?.levels.length && onDifficultyChange);
 
   const heading = (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
+    <ClimbCardHeading style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
       {climb.levelColor ? <LevelDot color={climb.levelColor} /> : null}
       <Text variant="body" weight="bold" style={{ flex: 1, minWidth: 0 }}>
         {climb.name || 'Unnamed climb'}
       </Text>
-      <View style={{ flexDirection: 'row', gap: space[4], flexShrink: 0 }}>
+      <ClimbCardMediaBadges style={{ flexDirection: 'row', gap: space[4], flexShrink: 0 }}>
         {climb.hasImage ? <Icon name="camera" size="xs" color={ui.textMuted} title="Photo" /> : null}
         {climb.hasVideo ? <Icon name="video" size="xs" color={ui.textMuted} title="Video" /> : null}
-      </View>
-    </View>
+      </ClimbCardMediaBadges>
+    </ClimbCardHeading>
   );
 
   return (
     <Card>
-      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[8], flexWrap: 'wrap' }}>
+      <ClimbCardTopRow style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[8], flexWrap: 'wrap' }}>
         {onPress ? (
           <Pressable
             style={(state) => [{ flex: 1, minWidth: 0, borderRadius: 4 }, interactionStyle(state)]}
@@ -66,7 +82,7 @@ export function ClimbCard({
             {heading}
           </Pressable>
         ) : (
-          <View style={{ flex: 1, minWidth: 0 }}>{heading}</View>
+          <ClimbCardHeadingSlot style={{ flex: 1, minWidth: 0 }}>{heading}</ClimbCardHeadingSlot>
         )}
         {onRemove ? (
           <Pressable
@@ -79,7 +95,7 @@ export function ClimbCard({
             </Text>
           </Pressable>
         ) : null}
-      </View>
+      </ClimbCardTopRow>
 
       {showDifficultyPicker ? (
         <DifficultyPicker

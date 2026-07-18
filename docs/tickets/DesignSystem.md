@@ -54,8 +54,8 @@ The `Button` atom (`src/components/atoms/Button.tsx`) shares geometry from `butt
 
 - **Variants:** `primary` (filled; colour via `colorStyle`), `secondary`, `ghost`
 - **Sizes:** `large` (bodyLarge) · `medium` (body) · `small` (bodySmall) — labels are always bold
-- **Icons:** optional `iconLeft` / `iconRight` (`IconName` from the Icon atom). Icon-only: set `icon` and omit `label` (requires `accessibilityLabel`); same variants and colour styles apply
-- Storybook: Atoms/Button — pick icons from the `ICON_NAMES` select controls; use boolean toggles to enable icons
+- **Icons:** optional `iconLeft` / `iconRight` (`IconName` from the Icon atom). Icon-only: set `icon` and omit `label` (requires `accessibilityLabel`); same variants and colour styles apply. Icon-only size maps 1:1 to the icon scale (`small`→`sm`, `medium`→`md`, `large`→`lg`); icons beside a label stay one step smaller so they sit with the text.
+- Storybook: Atoms/Button — **Color Styles** and **States** galleries only; pick icons from the `ICON_NAMES` selects and use boolean toggles to enable them. On Color Styles, typing a label overrides the default Style 1 / Style 2 / difficulty names on every button.
 
 ## Colour system
 

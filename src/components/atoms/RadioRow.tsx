@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { Icon } from './Icon';
 import { Text } from './Text';
@@ -28,20 +28,27 @@ export function RadioRow({
       accessibilityRole="radio"
       accessibilityState={{ selected }}
       style={(state) => [
-        { borderRadius: 4 },
+        styles.row,
         interactionStyle(state),
         previewInteractionStyle(previewState),
       ]}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
-        <Icon
-          name={selected ? 'radioSelected' : 'radioUnselected'}
-          size="sm"
-          color={selected ? ui.text : ui.textMuted}
-          weight={selected ? 'fill' : 'regular'}
-        />
-        <Text variant="body">{label}</Text>
-      </View>
+      <Icon
+        name={selected ? 'radioSelected' : 'radioUnselected'}
+        size="sm"
+        color={selected ? ui.text : ui.textMuted}
+        weight={selected ? 'fill' : 'regular'}
+      />
+      <Text variant="body">{label}</Text>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space[6],
+    borderRadius: 4,
+  },
+});

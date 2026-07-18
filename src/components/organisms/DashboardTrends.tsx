@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 
 import { Icon } from '../atoms/Icon';
 import { Section } from '../atoms/Section';
@@ -14,6 +14,22 @@ import {
   warmUpTrend,
 } from '../../utils/sessionUtils';
 import { space } from '../../theme/spacing';
+
+function TrendTimeframeBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function TrendTimeframeRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function TrendChartBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function StandoutClimbRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function DashboardTrends({
   sessions,
@@ -43,8 +59,8 @@ export function DashboardTrends({
 
   return (
     <Section title="Trends">
-      <View style={{ gap: space[4] }}>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+      <TrendTimeframeBlock style={{ gap: space[4] }}>
+        <TrendTimeframeRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           {(['week', 'month', '3months'] as TrendTimeframe[]).map((t) => (
             <Pressable
               key={t}
@@ -60,47 +76,47 @@ export function DashboardTrends({
               </Text>
             </Pressable>
           ))}
-        </View>
+        </TrendTimeframeRow>
         <Text variant="bodySmall" color={ui.textMuted}>
           Showing {timeframeLabel.toLowerCase()} view
         </Text>
-      </View>
+      </TrendTimeframeBlock>
 
-      <View style={{ gap: space[8] }}>
+      <TrendChartBlock style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Session duration
         </Text>
         <MiniBars data={durationData} unit="m" />
-      </View>
+      </TrendChartBlock>
 
-      <View style={{ gap: space[8] }}>
+      <TrendChartBlock style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Difficulty trend
         </Text>
         <MiniBars data={difficultyData} />
-      </View>
+      </TrendChartBlock>
 
-      <View style={{ gap: space[8] }}>
+      <TrendChartBlock style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Warm-up climb count
         </Text>
         <MiniBars data={warmUpData} />
-      </View>
+      </TrendChartBlock>
 
       {standouts.length ? (
-        <View style={{ gap: space[8] }}>
+        <TrendChartBlock style={{ gap: space[8] }}>
           <Text variant="body" weight="bold">
             Standout climbs
           </Text>
           {standouts.map((t) => (
-            <View key={t.label} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[6] }}>
+            <StandoutClimbRow key={t.label} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[6] }}>
               <Icon name="sparkle" size="xs" color={ui.text} />
               <Text variant="body" style={{ flex: 1, minWidth: 0 }}>
                 {t.label}: {t.detail}
               </Text>
-            </View>
+            </StandoutClimbRow>
           ))}
-        </View>
+        </TrendChartBlock>
       ) : null}
     </Section>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import {
   Animated,
   Modal as RNModal,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   View,
+  type ViewProps,
 } from 'react-native';
 
 import { Text } from '../atoms/Text';
@@ -15,6 +16,22 @@ import { space } from '../../theme/spacing';
 
 const OPEN_MS = 280;
 const CLOSE_MS = 220;
+
+function BottomSheetRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function BottomSheetOverlay(props: ComponentProps<typeof Animated.View>) {
+  return <Animated.View {...props} />;
+}
+
+function BottomSheetPanel(props: ComponentProps<typeof Animated.View>) {
+  return <Animated.View {...props} />;
+}
+
+function BottomSheetContent({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function BottomSheet({
   visible,
@@ -70,28 +87,28 @@ export function BottomSheet({
 
   return (
     <RNModal visible={rendered} transparent animationType="none" onRequestClose={onClose}>
-      <View style={styles.root} pointerEvents="box-none">
-        <Animated.View style={[styles.overlay, { opacity: overlayOpacity }]}>
+      <BottomSheetRoot style={styles.root} pointerEvents="box-none">
+        <BottomSheetOverlay style={[styles.overlay, { opacity: overlayOpacity }]}>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Dismiss"
             onPress={onClose}
             style={StyleSheet.absoluteFill}
           />
-        </Animated.View>
+        </BottomSheetOverlay>
 
-        <Animated.View
+        <BottomSheetPanel
           onLayout={(event) => {
             sheetHeight.current = Math.max(event.nativeEvent.layout.height, 1);
           }}
           style={[styles.sheet, { transform: [{ translateY: sheetTranslateY }] }]}
         >
-          <View style={[styles.sheetInner, { padding: gutter }]}>
+          <BottomSheetContent style={[styles.sheetInner, { padding: gutter }]}>
             <Text variant="h5">{title}</Text>
             {children}
-          </View>
-        </Animated.View>
-      </View>
+          </BottomSheetContent>
+        </BottomSheetPanel>
+      </BottomSheetRoot>
     </RNModal>
   );
 }

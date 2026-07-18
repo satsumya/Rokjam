@@ -5,14 +5,35 @@ import {
   StyleSheet,
   useWindowDimensions,
   View,
+  type ViewProps,
 } from 'react-native';
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { Button } from '../atoms/Button';
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { pageGutter, layout } from '../../theme/layout';
 import { space } from '../../theme/spacing';
+
+function ModalRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ModalCard({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ModalHeader({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ModalBody(props: ComponentProps<typeof ScrollView>) {
+  return <ScrollView {...props} />;
+}
+
+function ModalFooter({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function Modal({
   visible,
@@ -32,15 +53,15 @@ export function Modal({
 
   return (
     <RNModal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={[styles.modalRoot, { padding: gutter }]}>
+      <ModalRoot style={[styles.modalRoot, { padding: gutter }]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Close dialog"
           onPress={onClose}
           style={styles.modalBackdrop}
         />
-        <View style={styles.modalCard}>
-          <View style={[styles.modalHeader, { paddingHorizontal: gutter }]}>
+        <ModalCard style={styles.modalCard}>
+          <ModalHeader style={[styles.modalHeader, { paddingHorizontal: gutter }]}>
             <Text variant="h5" style={styles.modalTitle}>
               {title}
             </Text>
@@ -51,22 +72,22 @@ export function Modal({
               accessibilityLabel="Close"
               onPress={onClose}
             />
-          </View>
-          <ScrollView
+          </ModalHeader>
+          <ModalBody
             style={styles.modalBody}
             contentContainerStyle={[styles.modalBodyContent, { padding: gutter }]}
             keyboardShouldPersistTaps="handled"
             nestedScrollEnabled
           >
             {children}
-          </ScrollView>
+          </ModalBody>
           {footer ? (
-            <View style={[styles.modalFooter, { paddingHorizontal: gutter, paddingBottom: gutter }]}>
+            <ModalFooter style={[styles.modalFooter, { paddingHorizontal: gutter, paddingBottom: gutter }]}>
               {footer}
-            </View>
+            </ModalFooter>
           ) : null}
-        </View>
-      </View>
+        </ModalCard>
+      </ModalRoot>
     </RNModal>
   );
 }

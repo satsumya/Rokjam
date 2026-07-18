@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View, type PressableStateCallbackType } from 'react-native';
+import { Pressable, StyleSheet, View, type PressableStateCallbackType, type ViewProps } from 'react-native';
 
 import { Icon, type IconName } from './Icon';
 import { Text } from './Text';
@@ -31,14 +31,30 @@ const TEXT_VARIANT_FOR_SIZE: Record<ButtonSize, TextVariant> = {
   small: 'bodySmall',
 };
 
-const ICON_SIZE_FOR_BUTTON: Record<ButtonSize, IconSize> = {
+/** Icon beside a label — sized to sit with the text scale. */
+const ICON_SIZE_WITH_LABEL: Record<ButtonSize, IconSize> = {
   large: 'md',
   medium: 'sm',
   small: 'xs',
 };
 
+/** Icon-only — button size maps 1:1 to icon size (small→sm · medium→md · large→lg). */
+const ICON_SIZE_ICON_ONLY: Record<ButtonSize, IconSize> = {
+  large: 'lg',
+  medium: 'md',
+  small: 'sm',
+};
+
 function paddingForSize(size: ButtonSize, iconOnly: boolean) {
   return iconOnly ? buttonGeometry.iconOnlyPadding[size] : buttonGeometry.padding[size];
+}
+
+function ButtonLabelRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ButtonShadow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
 }
 
 function ButtonContent({
@@ -58,14 +74,15 @@ function ButtonContent({
   color: string;
   ghostUnderline?: boolean;
 }) {
-  const iconSize = ICON_SIZE_FOR_BUTTON[size];
+  const iconOnly = Boolean(icon) && !label;
+  const iconSize = iconOnly ? ICON_SIZE_ICON_ONLY[size] : ICON_SIZE_WITH_LABEL[size];
 
-  if (icon && !label) {
-    return <Icon name={icon} size={iconSize} color={color} />;
+  if (iconOnly) {
+    return <Icon name={icon!} size={iconSize} color={color} />;
   }
 
   return (
-    <View style={styles.contentRow}>
+    <ButtonLabelRow style={styles.contentRow}>
       {iconLeft ? <Icon name={iconLeft} size={iconSize} color={color} /> : null}
       {label ? (
         <Text
@@ -77,7 +94,7 @@ function ButtonContent({
         </Text>
       ) : null}
       {iconRight ? <Icon name={iconRight} size={iconSize} color={color} /> : null}
-    </View>
+    </ButtonLabelRow>
   );
 }
 
@@ -168,7 +185,7 @@ export function Button({
   }
 
   return (
-    <StyledColorButton
+    <PrimaryButton
       label={label}
       icon={icon}
       iconLeft={iconLeft}
@@ -185,7 +202,7 @@ export function Button({
   );
 }
 
-function StyledColorButton({
+function PrimaryButton({
   label,
   icon,
   iconLeft,
@@ -234,7 +251,7 @@ function StyledColorButton({
   };
 
   return (
-    <View
+    <ButtonShadow
       style={[
         {
           backgroundColor: tokens.shadow,
@@ -281,7 +298,7 @@ function StyledColorButton({
           color={tokens.text}
         />
       </Pressable>
-    </View>
+    </ButtonShadow>
   );
 }
 

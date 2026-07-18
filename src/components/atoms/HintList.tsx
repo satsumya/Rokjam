@@ -1,15 +1,23 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { Icon } from './Icon';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
 
+function HintListRoot({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function HintItem({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
 export function HintList({ items }: { items: { label: string; met: boolean }[] }) {
   return (
-    <View style={styles.hintList}>
+    <HintListRoot style={styles.hintList}>
       {items.map((item) => (
-        <View key={item.label} style={styles.hintItemRow}>
+        <HintItem key={item.label} style={styles.hintItemRow}>
           <Icon
             name={item.met ? 'checkCircle' : 'circle'}
             size="xs"
@@ -19,9 +27,9 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
           <Text variant="bodySmall" color={item.met ? ui.success : ui.textSubtle} style={{ flex: 1, minWidth: 0 }}>
             {item.label}
           </Text>
-        </View>
+        </HintItem>
       ))}
-    </View>
+    </HintListRoot>
   );
 }
 

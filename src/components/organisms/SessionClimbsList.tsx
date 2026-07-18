@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type ViewProps } from 'react-native';
 
 import { CheckboxRow } from '../atoms/CheckboxRow';
 import { Section } from '../atoms/Section';
@@ -20,6 +20,22 @@ const SORT_OPTIONS: { value: SessionSort; label: string }[] = [
   { value: 'name', label: 'Name A–Z' },
   { value: 'name-desc', label: 'Name Z–A' },
 ];
+
+function ClimbsSortFilterBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ClimbsSortRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ClimbsFilterBlock({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function ClimbsFilterChipRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 export function SessionClimbsList({
   climbs,
@@ -78,8 +94,8 @@ export function SessionClimbsList({
   return (
     <Section title="Climbs">
       {showSortFilter ? (
-        <View style={{ gap: space[8] }}>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+        <ClimbsSortFilterBlock style={{ gap: space[8] }}>
+          <ClimbsSortRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             <Text variant="body" weight="bold">
               Sort:
             </Text>
@@ -94,13 +110,13 @@ export function SessionClimbsList({
                 </Text>
               </Pressable>
             ))}
-          </View>
-          <View style={{ gap: space[4] }}>
+          </ClimbsSortRow>
+          <ClimbsFilterBlock style={{ gap: space[4] }}>
             <Text variant="body" weight="bold">
               Filter
             </Text>
             {showDifficultyFilter ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+              <ClimbsFilterChipRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
                 <Pressable
                   onPress={() => setFilterDifficulty('')}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
@@ -120,7 +136,7 @@ export function SessionClimbsList({
                     </Text>
                   </Pressable>
                 ))}
-              </View>
+              </ClimbsFilterChipRow>
             ) : null}
             <CheckboxRow
               label="Hide warm-up climbs"
@@ -133,7 +149,7 @@ export function SessionClimbsList({
               onPress={() => setHideRepeat((v) => !v)}
             />
             {showTagFilter ? (
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
+              <ClimbsFilterChipRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
                 <Pressable
                   onPress={() => setFilterTag('')}
                   style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
@@ -153,10 +169,10 @@ export function SessionClimbsList({
                     </Text>
                   </Pressable>
                 ))}
-              </View>
+              </ClimbsFilterChipRow>
             ) : null}
-          </View>
-        </View>
+          </ClimbsFilterBlock>
+        </ClimbsSortFilterBlock>
       ) : null}
 
       {filteredClimbs.length === 0 ? (

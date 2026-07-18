@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View, type ViewProps } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import type { ComponentProps } from 'react';
 
 import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
@@ -23,6 +24,30 @@ type Level = {
 };
 
 const ROW_DRAG_STEP = 56;
+
+function LevelRowShell(props: ComponentProps<typeof Animated.View>) {
+  return <Animated.View {...props} />;
+}
+
+function LevelRowControls({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function LevelDragHandle(props: ComponentProps<typeof Animated.View>) {
+  return <Animated.View {...props} />;
+}
+
+function LevelColorSwatch({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function LevelReorderColumn({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
+function LevelPresetRow({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
 
 function normalizeColor(value: string) {
   return value.trim().toLowerCase();
@@ -127,7 +152,7 @@ export function LevelRow({
 
   return (
     <>
-      <Animated.View
+      <LevelRowShell
         style={[
           {
             borderWidth: 1,
@@ -140,9 +165,9 @@ export function LevelRow({
           animatedStyle,
         ]}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
+        <LevelRowControls style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
           <GestureDetector gesture={pan}>
-            <Animated.View
+            <LevelDragHandle
               accessibilityRole="button"
               accessibilityLabel="Drag to reorder level"
               style={{
@@ -155,7 +180,7 @@ export function LevelRow({
               }}
             >
               <Icon name="dragHandle" size="sm" color={ui.textMuted} />
-            </Animated.View>
+            </LevelDragHandle>
           </GestureDetector>
 
           <Pressable
@@ -164,7 +189,7 @@ export function LevelRow({
             accessibilityLabel="Change level colour"
             style={(state) => [{ flexShrink: 0, borderRadius: 4 }, interactionStyle(state)]}
           >
-            <View
+            <LevelColorSwatch
               style={{
                 width: colorPickerGeometry.rowSwatch,
                 height: colorPickerGeometry.rowSwatch,
@@ -198,7 +223,7 @@ export function LevelRow({
             ]}
           />
 
-          <View style={{ flexShrink: 0, gap: 2 }}>
+          <LevelReorderColumn style={{ flexShrink: 0, gap: 2 }}>
             <Pressable
               onPress={onMoveUp}
               disabled={index === 0}
@@ -220,7 +245,7 @@ export function LevelRow({
                 style={{ opacity: index === total - 1 ? 0.3 : 1 }}
               />
             </Pressable>
-          </View>
+          </LevelReorderColumn>
           {total > 1 ? (
             <Pressable
               onPress={onRemove}
@@ -230,14 +255,14 @@ export function LevelRow({
               <Icon name="close" size="xs" color={ui.danger} />
             </Pressable>
           ) : null}
-        </View>
+        </LevelRowControls>
 
         {colorError ? (
           <Text variant="bodySmall" color={ui.danger} style={{ paddingLeft: space[32] }}>
             {colorError}
           </Text>
         ) : null}
-      </Animated.View>
+      </LevelRowShell>
 
       <BottomSheet
         visible={colorSheetOpen}
@@ -253,7 +278,7 @@ export function LevelRow({
             All preset colours are in use. Mix a custom colour below.
           </Text>
         ) : (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+          <LevelPresetRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
             {availablePresets.map((preset) => {
               const selected = normalizeColor(preset.color) === normalizeColor(draftColor);
               return (
@@ -276,7 +301,7 @@ export function LevelRow({
                 />
               );
             })}
-          </View>
+          </LevelPresetRow>
         )}
 
         <ColorPicker value={draftColor} onChange={setDraftColor} />
