@@ -23,6 +23,24 @@ function TagSuggestionRow({ style, ...rest }: ViewProps) {
   return <View style={style} {...rest} />;
 }
 
+/** Split a draft on commas into trimmed non-empty tag labels. */
+export function parseTagDraft(draft: string): string[] {
+  return draft
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function addTagsFromList(
+  parts: string[],
+  existing: string[],
+  onAdd: (tag: string) => void,
+) {
+  for (const tag of parts) {
+    if (!existing.includes(tag)) onAdd(tag);
+  }
+}
+
 export function TagInput({
   label,
   tags,
@@ -38,10 +56,21 @@ export function TagInput({
 }) {
   const [draft, setDraft] = useState('');
 
-  const handleAdd = () => {
-    if (!draft.trim()) return;
-    onAdd(draft.trim());
+  const commitDraft = (value: string) => {
+    addTagsFromList(parseTagDraft(value), tags, onAdd);
     setDraft('');
+  };
+
+  const handleChange = (value: string) => {
+    // Comma commits completed segments immediately; keep the trailing fragment as draft.
+    if (!value.includes(',')) {
+      setDraft(value);
+      return;
+    }
+    const parts = value.split(',');
+    const complete = parts.slice(0, -1).map((part) => part.trim()).filter(Boolean);
+    addTagsFromList(complete, tags, onAdd);
+    setDraft(parts[parts.length - 1] ?? '');
   };
 
   return (
@@ -57,12 +86,20 @@ export function TagInput({
         <TagComposerField style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>
           <TextField
             value={draft}
-            onChangeText={setDraft}
+            onChangeText={handleChange}
             placeholder="Add a tag"
             accessibilityLabel={`Add ${label.toLowerCase()} tag`}
+            returnKeyType="done"
+            onSubmitEditing={() => commitDraft(draft)}
           />
         </TagComposerField>
-        <Button label="Add" variant="secondary" onPress={handleAdd} />
+        <Button
+          icon="plus"
+          variant="secondary"
+          size="medium"
+          accessibilityLabel="Add tag"
+          onPress={() => commitDraft(draft)}
+        />
       </TagComposerRow>
       <TagSuggestionRow style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
         {suggestions

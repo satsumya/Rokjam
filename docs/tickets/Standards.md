@@ -69,7 +69,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 ## Tags
 
-- [x] Tag input pattern — Show added tags as removable chips; offer recommended tags to tap; typing is secondary
+- [x] Tag input pattern — Show added tags as removable chips; offer recommended tags to tap; typing is secondary. Commas split into separate tags; commit with the plus control or keyboard done.
 
 ## Actions & navigation
 

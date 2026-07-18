@@ -9,6 +9,7 @@ import { ToggleChip } from '../atoms/ToggleChip';
 import { Section } from '../atoms/Section';
 import { TextField } from '../atoms/TextField';
 import { DifficultyPicker } from '../molecules/DifficultyPicker';
+import { parseTagDraft } from '../molecules/TagInput';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb } from '../../types/climbingSession';
 import {
@@ -85,10 +86,34 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
   const remainingSuggestions = CLIMB_TAG_SUGGESTIONS.filter((tag) => !climb.tags.includes(tag));
 
   const addCustomTag = () => {
-    const trimmed = customTag.trim().toLowerCase();
-    if (!trimmed || climb.tags.includes(trimmed)) return;
-    onChange({ tags: [...climb.tags, trimmed] });
+    const next = parseTagDraft(customTag).map((tag) => tag.toLowerCase());
+    if (!next.length) return;
+    const merged = [...climb.tags];
+    for (const tag of next) {
+      if (!merged.includes(tag)) merged.push(tag);
+    }
+    onChange({ tags: merged });
     setCustomTag('');
+  };
+
+  const handleCustomTagChange = (value: string) => {
+    if (!value.includes(',')) {
+      setCustomTag(value);
+      return;
+    }
+    const parts = value.split(',');
+    const complete = parts
+      .slice(0, -1)
+      .map((part) => part.trim().toLowerCase())
+      .filter(Boolean);
+    if (complete.length) {
+      const merged = [...climb.tags];
+      for (const tag of complete) {
+        if (!merged.includes(tag)) merged.push(tag);
+      }
+      onChange({ tags: merged });
+    }
+    setCustomTag(parts[parts.length - 1] ?? '');
   };
 
   const toggleProgress = (attemptId: string, value: (typeof ATTEMPT_PROGRESS_OPTIONS)[number]['value']) => {
@@ -171,12 +196,20 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
           <ClimbTagComposerField>
             <TextField
               value={customTag}
-              onChangeText={setCustomTag}
+              onChangeText={handleCustomTagChange}
               placeholder="Custom tag"
               accessibilityLabel="Custom tag"
+              returnKeyType="done"
+              onSubmitEditing={addCustomTag}
             />
           </ClimbTagComposerField>
-          <Button label="Add tag" variant="secondary" onPress={addCustomTag} />
+          <Button
+            icon="plus"
+            variant="secondary"
+            size="medium"
+            accessibilityLabel="Add tag"
+            onPress={addCustomTag}
+          />
         </ClimbTagComposer>
         {climb.tags.length ? (
           <ClimbTagRow>
