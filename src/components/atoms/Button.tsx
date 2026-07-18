@@ -21,17 +21,20 @@ import type { TextVariant } from '../../theme/typography';
 
 /** Filled primary uses `colorStyle`; secondary / ghost are outline / text styles. */
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-export type ButtonSize = 'large' | 'small';
+/** Maps to the body type scale: large → bodyLarge · medium → body · small → bodySmall. */
+export type ButtonSize = 'large' | 'medium' | 'small';
 export type { ButtonColorStyle };
 
 const TEXT_VARIANT_FOR_SIZE: Record<ButtonSize, TextVariant> = {
   large: 'bodyLarge',
+  medium: 'body',
   small: 'bodySmall',
 };
 
 const ICON_SIZE_FOR_BUTTON: Record<ButtonSize, IconSize> = {
   large: 'md',
-  small: 'sm',
+  medium: 'sm',
+  small: 'xs',
 };
 
 function paddingForSize(size: ButtonSize, iconOnly: boolean) {
@@ -108,7 +111,7 @@ export function Button({
    * (`style1` / `style2` / difficulty colours). `secondary` and `ghost` ignore `colorStyle`.
    */
   variant?: ButtonVariant;
-  /** `large` → bodyLarge bold · `small` → bodySmall bold */
+  /** `large` → bodyLarge bold · `medium` → body bold · `small` → bodySmall bold */
   size?: ButtonSize;
   /**
    * Colour style for the filled primary: brand presets (`style1` / `style2`) or a

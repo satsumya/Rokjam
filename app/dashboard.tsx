@@ -121,18 +121,16 @@ export default function DashboardScreen() {
     <Screen
       title="Dashboard"
       headerRight={
-        <Pressable
+        <Button
+          icon="signOut"
+          variant="ghost"
+          size="small"
+          accessibilityLabel="Log out"
           onPress={() => {
             resetSession();
             router.replace('/');
           }}
-          accessibilityRole="button"
-          accessibilityLabel="Log out"
-          hitSlop={8}
-          style={{ padding: space[4] }}
-        >
-          <Icon name="signOut" size="md" color={ui.textLabel} />
-        </Pressable>
+        />
       }
       footer={
         <>
@@ -211,18 +209,14 @@ export default function DashboardScreen() {
               </Text>
             ) : null}
           </View>
-          <Pressable
-            onPress={() => router.push('/profile/setup')}
-            accessibilityRole="button"
+          <Button
+            label="Edit"
+            iconLeft="pencil"
+            variant="ghost"
+            size="medium"
             accessibilityLabel="Edit profile"
-            hitSlop={8}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: space[4], padding: space[4], flexShrink: 0 }}
-          >
-            <Icon name="pencil" size="xs" color={ui.text} />
-            <Text variant="body" style={{ textDecorationLine: 'underline' }}>
-              Edit
-            </Text>
-          </Pressable>
+            onPress={() => router.push('/profile/setup')}
+          />
         </View>
       </Card>
 

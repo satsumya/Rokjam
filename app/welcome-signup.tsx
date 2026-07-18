@@ -1,7 +1,6 @@
-import { Pressable } from 'react-native';
 import { router } from 'expo-router';
 
-import { Button, Icon, Screen, Text } from '../src/components';
+import { Button, Screen, Text } from '../src/components';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 
@@ -17,9 +16,13 @@ export default function PostSignUpWelcomeScreen() {
     <Screen
       title="Welcome"
       headerRight={
-        <Pressable onPress={skipToDashboard} accessibilityRole="button" accessibilityLabel="Skip">
-          <Icon name="close" size="md" color={ui.textMuted} />
-        </Pressable>
+        <Button
+          icon="close"
+          variant="ghost"
+          size="small"
+          accessibilityLabel="Skip"
+          onPress={skipToDashboard}
+        />
       }
       footer={
         <>

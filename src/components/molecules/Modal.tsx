@@ -8,10 +8,9 @@ import {
 } from 'react-native';
 import type { ReactNode } from 'react';
 
-import { Icon } from '../atoms/Icon';
+import { Button } from '../atoms/Button';
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
-import { interactionStyle } from '../../theme/interaction';
 import { pageGutter, layout } from '../../theme/layout';
 import { space } from '../../theme/spacing';
 
@@ -45,15 +44,13 @@ export function Modal({
             <Text variant="h5" style={styles.modalTitle}>
               {title}
             </Text>
-            <Pressable
-              onPress={onClose}
-              accessibilityRole="button"
+            <Button
+              icon="close"
+              variant="ghost"
+              size="small"
               accessibilityLabel="Close"
-              hitSlop={8}
-              style={(state) => [styles.modalClose, interactionStyle(state)]}
-            >
-              <Icon name="close" size="md" color={ui.textMuted} />
-            </Pressable>
+              onPress={onClose}
+            />
           </View>
           <ScrollView
             style={styles.modalBody}
@@ -105,7 +102,6 @@ const styles = StyleSheet.create({
     gap: space[12],
   },
   modalTitle: { flex: 1, minWidth: 0 },
-  modalClose: { padding: space[4], flexShrink: 0 },
   modalBody: { flexGrow: 0, flexShrink: 1 },
   modalBodyContent: { gap: space[12] },
   modalFooter: {

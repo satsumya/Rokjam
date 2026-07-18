@@ -19,15 +19,22 @@ export const buttonGeometry = {
   strokeWidth: 2,
   shadowOffsetY: space[4],
   borderRadius: 10,
-  /** Single source for padding — change here to update every button variant. */
+  /**
+   * Single source for padding — change here to update every button variant.
+   * Sizes map to the body type scale: large → bodyLarge · medium → body · small → bodySmall.
+   */
   padding: {
     large: {
       paddingVertical: space[6],
       paddingHorizontal: space[16],
     },
+    medium: {
+      paddingVertical: space[4],
+      paddingHorizontal: space[12],
+    },
     small: {
       paddingVertical: space[4],
-      paddingHorizontal: space[16],
+      paddingHorizontal: space[8],
     },
   },
   /** Tighter square padding for icon-only buttons. */
@@ -35,6 +42,10 @@ export const buttonGeometry = {
     large: {
       paddingVertical: space[6],
       paddingHorizontal: space[6],
+    },
+    medium: {
+      paddingVertical: space[4],
+      paddingHorizontal: space[4],
     },
     small: {
       paddingVertical: space[4],

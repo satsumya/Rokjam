@@ -22,6 +22,7 @@ const BUTTON_STATE_VARIANTS = [
 
 const BUTTON_SIZES: { id: ButtonSize; label: string }[] = [
   { id: 'large', label: 'large · bodyLarge bold' },
+  { id: 'medium', label: 'medium · body bold' },
   { id: 'small', label: 'small · bodySmall bold' },
 ];
 
@@ -82,7 +83,7 @@ const meta = {
   },
   argTypes: {
     variant: { control: 'select', options: ['primary', 'secondary', 'ghost'] },
-    size: { control: 'select', options: ['large', 'small'] },
+    size: { control: 'select', options: ['large', 'medium', 'small'] },
     colorStyle: {
       control: 'select',
       options: [...BUTTON_COLOR_STYLE_ORDER],
@@ -139,6 +140,7 @@ export const Style2: Story = {
 
 export const Secondary: Story = { args: { variant: 'secondary' } };
 export const Ghost: Story = { args: { variant: 'ghost' } };
+export const Medium: Story = { args: { variant: 'primary', colorStyle: 'style1', size: 'medium' } };
 export const Small: Story = { args: { variant: 'primary', colorStyle: 'style1', size: 'small' } };
 export const Disabled: Story = { args: { variant: 'primary', disabled: true } };
 

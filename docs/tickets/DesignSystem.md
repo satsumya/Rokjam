@@ -53,7 +53,7 @@ The scale consolidates the old ad-hoc sizes: 13/14/15 → 16 body, 11 → 12 sma
 The `Button` atom (`src/components/atoms/Button.tsx`) shares geometry from `buttonGeometry` / colour styles from `buttonStyleTokens`.
 
 - **Variants:** `primary` (filled; colour via `colorStyle`), `secondary`, `ghost`
-- **Sizes:** `large` / `small`
+- **Sizes:** `large` (bodyLarge) · `medium` (body) · `small` (bodySmall) — labels are always bold
 - **Icons:** optional `iconLeft` / `iconRight` (`IconName` from the Icon atom). Icon-only: set `icon` and omit `label` (requires `accessibilityLabel`); same variants and colour styles apply
 - Storybook: Atoms/Button — pick icons from the `ICON_NAMES` select controls; use boolean toggles to enable icons
 
