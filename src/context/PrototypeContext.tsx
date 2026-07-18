@@ -393,19 +393,26 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
       },
       seedFlowDemo: (preset) => {
         const demoLocation = createDemoLocation();
-        setEmail('returning.user@example.com');
-        setAvatar(PET_ROCK_AVATARS[0]);
-        setUsername('alex_climber');
-        setStrengthTags(STRENGTH_TAG_SUGGESTIONS.slice(0, 2));
-        setImprovementTags(IMPROVEMENT_TAG_SUGGESTIONS.slice(0, 1));
 
         if (preset === 'profile-incomplete') {
+          // Post sign-up / skipped profile: account email only — no username, locations, or tags.
+          setEmail('new.climber@example.com');
+          setAvatar(PET_ROCK_AVATARS[0]);
+          setUsername('');
+          setStrengthTags([]);
+          setImprovementTags([]);
           setLocations([]);
           setProfileComplete(false);
           setProfileSkipped(true);
           setSessions([]);
           return;
         }
+
+        setEmail('returning.user@example.com');
+        setAvatar(PET_ROCK_AVATARS[0]);
+        setUsername('alex_climber');
+        setStrengthTags(STRENGTH_TAG_SUGGESTIONS.slice(0, 2));
+        setImprovementTags(IMPROVEMENT_TAG_SUGGESTIONS.slice(0, 1));
 
         if (preset === 'profile-ready') {
           setLocations([demoLocation]);
@@ -433,6 +440,10 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
 
         const incomplete = preset === 'active-empty-incomplete';
         if (incomplete) {
+          setEmail('new.climber@example.com');
+          setUsername('');
+          setStrengthTags([]);
+          setImprovementTags([]);
           setLocations([]);
           setProfileComplete(false);
           setProfileSkipped(true);

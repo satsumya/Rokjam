@@ -13,7 +13,9 @@ import {
   Section,
   SessionRow,
   Text,
+  TextField,
 } from '../src/components';
+import { TAKEN_USERNAMES } from '../src/constants/mockData';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
 import type { TrendTimeframe } from '../src/types/climbingSession';
@@ -22,13 +24,16 @@ import {
   formatDuration,
   sessionDifficultyRange,
 } from '../src/utils/sessionUtils';
+import { getUsernameError, isUsernameAvailable } from '../src/utils/validation';
 import { space } from '../src/theme/spacing';
+import { interactionStyle } from '../src/theme/interaction';
 
 export default function DashboardScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
   const {
     email,
     username,
+    setUsername,
     avatar,
     locations,
     strengthTags,
@@ -46,6 +51,31 @@ export default function DashboardScreen() {
   const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
   const [showAllSessions, setShowAllSessions] = useState(false);
   const [timeframe, setTimeframe] = useState<TrendTimeframe>('month');
+  const [addingUsername, setAddingUsername] = useState(false);
+  const [usernameDraft, setUsernameDraft] = useState('');
+  const [usernameTouched, setUsernameTouched] = useState(false);
+
+  const usernameError = usernameTouched ? getUsernameError(usernameDraft, TAKEN_USERNAMES) : undefined;
+  const usernameSuccess =
+    usernameTouched && isUsernameAvailable(usernameDraft, TAKEN_USERNAMES)
+      ? 'Username available'
+      : undefined;
+
+  const commitUsername = () => {
+    setUsernameTouched(true);
+    if (getUsernameError(usernameDraft, TAKEN_USERNAMES) || !usernameDraft.trim()) {
+      if (!usernameDraft.trim()) {
+        setAddingUsername(false);
+        setUsernameDraft('');
+        setUsernameTouched(false);
+      }
+      return;
+    }
+    setUsername(usernameDraft.trim());
+    setAddingUsername(false);
+    setUsernameDraft('');
+    setUsernameTouched(false);
+  };
 
   const completedSessions = sessions
     .filter((s) => s.status === 'completed')
@@ -101,7 +131,7 @@ export default function DashboardScreen() {
           hitSlop={8}
           style={{ padding: space[4] }}
         >
-          <Icon name="close" size="md" color={ui.textLabel} />
+          <Icon name="signOut" size="md" color={ui.textLabel} />
         </Pressable>
       }
       footer={
@@ -139,12 +169,47 @@ export default function DashboardScreen() {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[12] }}>
           <Avatar emoji={avatar} size="lg" />
           <View style={{ flex: 1, minWidth: 0, gap: space[4] }}>
-            <Text variant="bodyLarge" weight="bold">
-              {username || 'Member'}
-            </Text>
-            <Text variant="body" color={ui.textMuted}>
-              {email || 'member@example.com'}
-            </Text>
+            {username.trim() ? (
+              <Text variant="bodyLarge" weight="bold">
+                {username}
+              </Text>
+            ) : addingUsername ? (
+              <TextField
+                value={usernameDraft}
+                onChangeText={(value) => {
+                  setUsernameDraft(value);
+                  setUsernameTouched(true);
+                }}
+                placeholder="Username"
+                accessibilityLabel="Username"
+                error={usernameError}
+                success={usernameSuccess}
+                onSubmitEditing={commitUsername}
+                onBlur={commitUsername}
+                returnKeyType="done"
+                maxLength={20}
+              />
+            ) : (
+              <Pressable
+                onPress={() => {
+                  setAddingUsername(true);
+                  setUsernameDraft('');
+                  setUsernameTouched(false);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel="Add username"
+                style={(state) => [{ alignSelf: 'flex-start', borderRadius: 4 }, interactionStyle(state)]}
+              >
+                <Text variant="bodyLarge" weight="bold" style={{ textDecorationLine: 'underline' }}>
+                  Add username
+                </Text>
+              </Pressable>
+            )}
+            {email.trim() ? (
+              <Text variant="body" color={ui.textMuted}>
+                {email}
+              </Text>
+            ) : null}
           </View>
           <Pressable
             onPress={() => router.push('/profile/setup')}

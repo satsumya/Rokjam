@@ -13,6 +13,7 @@ import {
   HouseLine,
   PencilSimple,
   RadioButton,
+  SignOut,
   Sparkle,
   Square,
   VideoCamera,
@@ -51,6 +52,7 @@ const ICONS = {
   pencil: PencilSimple,
   radioSelected: RadioButton,
   radioUnselected: CircleIcon,
+  signOut: SignOut,
   sparkle: Sparkle,
   video: VideoCamera,
 } satisfies Record<string, PhosphorIcon>;

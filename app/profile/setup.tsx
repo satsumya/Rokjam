@@ -127,10 +127,14 @@ export default function ProfileSetupScreen() {
     <Screen
       title="Member profile"
       headerRight={
-        <Pressable onPress={handleExit}>
-          <Text variant="body" style={{ textDecorationLine: 'underline' }}>
-            Exit
-          </Text>
+        <Pressable
+          onPress={handleExit}
+          accessibilityRole="button"
+          accessibilityLabel="Exit"
+          hitSlop={8}
+          style={{ padding: space[4] }}
+        >
+          <Icon name="close" size="md" color={ui.textLabel} />
         </Pressable>
       }
       footer={

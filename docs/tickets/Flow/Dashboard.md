@@ -2,7 +2,7 @@
 
 Applies [Standards](../Standards.md) unless noted below.
 
-- [x] Default to month time frame
+- [x] Blank profile dashboard — Incomplete / skipped profile shows **Add username** (inline edit with availability checks), no strength/improve tags, and prompts to complete profile
 - [x] user can change the time frame
 - [x] Session duration trend
 - [x] Difficulty trend
