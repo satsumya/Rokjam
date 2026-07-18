@@ -13,13 +13,12 @@ const meta = {
     level: demoLevels[0],
     index: 0,
     total: 3,
-    dragSourceId: null,
+    takenColors: demoLevels.slice(1).map((level) => level.color),
     onUpdate: fn(),
     onMoveUp: fn(),
     onMoveDown: fn(),
     onRemove: fn(),
-    onDragStart: fn(),
-    onDragTarget: fn(),
+    onReorder: fn(),
   },
 } satisfies Meta<typeof LevelRow>;
 

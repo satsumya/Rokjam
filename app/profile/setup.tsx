@@ -42,7 +42,6 @@ export default function ProfileSetupScreen() {
     addLevel,
     removeLevel,
     moveLevel,
-    swapLevels,
     toggleLevelSort,
     updateLevel,
     strengthTags,
@@ -59,7 +58,6 @@ export default function ProfileSetupScreen() {
   const [openLocationId, setOpenLocationId] = useState<string | null>(null);
   const [locationError, setLocationError] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
-  const [dragSourceId, setDragSourceId] = useState<string | null>(null);
   const [levelsNudgeLocationId, setLevelsNudgeLocationId] = useState<string | null>(null);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const locationCountRef = useRef(locations.length);
@@ -287,17 +285,18 @@ export default function ProfileSetupScreen() {
                       level={level}
                       index={index}
                       total={location.levels.length}
-                      dragSourceId={dragSourceId}
+                      takenColors={location.levels
+                        .filter((item) => item.id !== level.id)
+                        .map((item) => item.color)}
                       onUpdate={(patch) => updateLevel(location.id, level.id, patch)}
                       onMoveUp={() => moveLevel(location.id, level.id, 'up')}
                       onMoveDown={() => moveLevel(location.id, level.id, 'down')}
                       onRemove={() => removeLevel(location.id, level.id)}
-                      onDragStart={(id) => setDragSourceId(id)}
-                      onDragTarget={(id) => {
-                        if (dragSourceId && dragSourceId !== id) {
-                          swapLevels(location.id, dragSourceId, id);
-                        }
-                        setDragSourceId(null);
+                      onReorder={(fromIndex, toIndex) => {
+                        const next = [...location.levels];
+                        const [moved] = next.splice(fromIndex, 1);
+                        next.splice(toIndex, 0, moved);
+                        updateLocation(location.id, { levels: next });
                       }}
                     />
                   ))}

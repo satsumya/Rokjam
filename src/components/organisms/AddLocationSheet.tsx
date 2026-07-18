@@ -35,7 +35,6 @@ export function AddLocationSheet({
   const [address, setAddress] = useState('');
   const [nickname, setNickname] = useState('');
   const [levels, setLevels] = useState<DifficultyLevel[]>([createDraftLevel(0)]);
-  const [dragSourceId, setDragSourceId] = useState<string | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export function AddLocationSheet({
     setAddress('');
     setNickname('');
     setLevels([createDraftLevel(0)]);
-    setDragSourceId(null);
     setError('');
   }, [visible]);
 
@@ -128,7 +126,7 @@ export function AddLocationSheet({
                 level={level}
                 index={index}
                 total={levels.length}
-                dragSourceId={dragSourceId}
+                takenColors={levels.filter((item) => item.id !== level.id).map((item) => item.color)}
                 onUpdate={(patch) => updateDraftLevel(level.id, patch)}
                 onMoveUp={() => {
                   if (index === 0) return;
@@ -146,16 +144,11 @@ export function AddLocationSheet({
                   if (levels.length <= 1) return;
                   setLevels((current) => current.filter((item) => item.id !== level.id));
                 }}
-                onDragStart={setDragSourceId}
-                onDragTarget={(targetId) => {
-                  if (!dragSourceId || dragSourceId === targetId) return;
-                  const fromIndex = levels.findIndex((item) => item.id === dragSourceId);
-                  const toIndex = levels.findIndex((item) => item.id === targetId);
-                  if (fromIndex < 0 || toIndex < 0) return;
+                onReorder={(fromIndex, toIndex) => {
                   const next = [...levels];
-                  [next[fromIndex], next[toIndex]] = [next[toIndex], next[fromIndex]];
+                  const [moved] = next.splice(fromIndex, 1);
+                  next.splice(toIndex, 0, moved);
                   setLevels(next);
-                  setDragSourceId(null);
                 }}
               />
             ))}

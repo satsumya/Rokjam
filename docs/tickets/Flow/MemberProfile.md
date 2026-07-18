@@ -28,9 +28,10 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Location edit — Address and nickname stay editable when a location is open; changing the address uses address search again; locations can be deleted (confirm in a bottom sheet)
 - [x] Difficulty levels sort — Clear easy-to-hard ordering with swap to hard-to-easy
 - [x] Remove level numbers — e.g. Level 1 name should just be “Level label”
-- [x] Changing level colours — Click colour for preset menu or custom hex
+- [x] Changing level colours — Colour swatch opens a bottom sheet with unused presets + custom hex
 - [x] Difficulty levels - removing — Remove levels when more than one exists
 - [x] Be concise when displaying levels — Show levels as a compact row
-- [x] Difficulty level rearranging — Drag or arrow reorder
+- [x] Difficulty level rearranging — Drag handle reorders levels; arrow controls remain as a backup
+- [x] Level colour picker — Opens in a bottom sheet (content capped to screen max width); unused presets + custom colour picker (SV panel, hue slider, hex)
 - [x] Locations added — Accordion; only one location open at a time
 - [x] Change home location — Set which location is home

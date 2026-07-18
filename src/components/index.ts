@@ -60,6 +60,7 @@ export { DifficultyPicker } from './molecules/DifficultyPicker';
 export { TagInput } from './molecules/TagInput';
 export { LevelRow } from './molecules/LevelRow';
 export { AddressSearch } from './molecules/AddressSearch';
+export { ColorPicker } from './molecules/ColorPicker';
 export { MiniBars } from './molecules/MiniBars';
 export { SessionRow } from './molecules/SessionRow';
 export { ShareMockBanner } from './molecules/ShareMockBanner';

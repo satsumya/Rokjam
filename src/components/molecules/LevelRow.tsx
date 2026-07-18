@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
+import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Text';
+import { BottomSheet } from './BottomSheet';
+import { ColorPicker } from './ColorPicker';
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import { ui } from '../../theme/colors';
 import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
 import { bodySizes, fontFamilies } from '../../theme/typography';
 import { space } from '../../theme/spacing';
+import { normalizeHex } from '../../utils/color';
 
 type Level = {
   id: string;
@@ -15,182 +21,257 @@ type Level = {
   color: string;
 };
 
+const ROW_DRAG_STEP = 56;
+
+function normalizeColor(value: string) {
+  return value.trim().toLowerCase();
+}
+
 export function LevelRow({
   level,
   index,
   total,
+  takenColors,
   onUpdate,
   onMoveUp,
   onMoveDown,
   onRemove,
-  onDragStart,
-  onDragTarget,
-  dragSourceId,
+  onReorder,
 }: {
   level: Level;
   index: number;
   total: number;
+  /** Colours already used by other levels at this location (exclude this row’s colour). */
+  takenColors: string[];
   onUpdate: (patch: Partial<Level>) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
   onRemove: () => void;
-  onDragStart: (id: string) => void;
-  onDragTarget: (id: string) => void;
-  dragSourceId: string | null;
+  onReorder: (fromIndex: number, toIndex: number) => void;
 }) {
-  const [showColors, setShowColors] = useState(false);
+  const [colorSheetOpen, setColorSheetOpen] = useState(false);
+  const [draftColor, setDraftColor] = useState(level.color);
   const nameField = useHoverFocus();
-  const hexField = useHoverFocus();
   const colorError = !level.color.trim() ? 'Colour is required' : undefined;
 
-  return (
-    <View
-      style={{
-        borderWidth: 1,
-        borderColor: dragSourceId === level.id ? ui.borderStrong : ui.borderSubtle,
-        borderRadius: 8,
-        padding: space[8],
-        backgroundColor: ui.surface,
-        gap: space[6],
-      }}
-    >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
-        <Pressable
-          onPress={() => (dragSourceId ? onDragTarget(level.id) : onDragStart(level.id))}
-          style={(state) => [
-            {
-              paddingHorizontal: space[6],
-              paddingVertical: space[4],
-              borderWidth: 1,
-              borderColor: ui.border,
-              borderRadius: 4,
-            },
-            interactionStyle(state),
-          ]}
-        >
-          <Icon name="dragHandle" size="sm" color={ui.textMuted} />
-        </Pressable>
-        <Pressable
-          onPress={() => setShowColors((current) => !current)}
-          style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
-        >
-          <View
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: 4,
-              backgroundColor: level.color || ui.borderSubtle,
-              borderWidth: 1,
-              borderColor: colorError ? ui.danger : ui.border,
-            }}
-          />
-        </Pressable>
-        <TextInput
-          value={level.name}
-          onChangeText={(name) => onUpdate({ name })}
-          placeholder="Level label"
-          {...(nameField.bind as object)}
-          style={[
-            {
-              flex: 1,
-              borderWidth: 1,
-              borderColor: nameField.hovered ? ui.borderStrong : ui.border,
-              borderRadius: 6,
-              paddingHorizontal: space[12],
-              paddingVertical: space[6],
-              fontFamily: fontFamilies.bodyRegular,
-              fontSize: bodySizes.base,
-              color: ui.text,
-            },
-            nameField.focused ? focusRing : null,
-          ]}
-        />
-        <Pressable
-          onPress={onMoveUp}
-          disabled={index === 0}
-          style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
-        >
-          <Icon name="arrowUp" size="xs" color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
-        </Pressable>
-        <Pressable
-          onPress={onMoveDown}
-          disabled={index === total - 1}
-          style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
-        >
-          <Icon
-            name="arrowDown"
-            size="xs"
-            color={ui.text}
-            style={{ opacity: index === total - 1 ? 0.3 : 1 }}
-          />
-        </Pressable>
-        {total > 1 ? (
-          <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
-            <Icon name="close" size="xs" color={ui.danger} />
-          </Pressable>
-        ) : null}
-      </View>
+  const taken = useMemo(
+    () => new Set(takenColors.map(normalizeColor).filter(Boolean)),
+    [takenColors],
+  );
 
-      {showColors ? (
-        <View style={{ gap: space[6], paddingLeft: space[32] }}>
-          {DEFAULT_LEVEL_COLORS.map((preset) => (
-            <Pressable
-              key={preset.color}
-              onPress={() => {
-                onUpdate({ name: level.name || preset.name, color: preset.color });
-                setShowColors(false);
+  const availablePresets = useMemo(() => {
+    const current = normalizeColor(level.color);
+    return DEFAULT_LEVEL_COLORS.filter((preset) => {
+      const value = normalizeColor(preset.color);
+      return value === current || !taken.has(value);
+    });
+  }, [level.color, taken]);
+
+  const translateY = useSharedValue(0);
+  const dragging = useSharedValue(false);
+
+  const applyReorder = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) return;
+    onReorder(fromIndex, toIndex);
+  };
+
+  const pan = Gesture.Pan()
+    .onBegin(() => {
+      dragging.value = true;
+    })
+    .onUpdate((event) => {
+      translateY.value = event.translationY;
+    })
+    .onEnd((event) => {
+      const delta = Math.round(event.translationY / ROW_DRAG_STEP);
+      const toIndex = Math.max(0, Math.min(total - 1, index + delta));
+      translateY.value = withSpring(0);
+      dragging.value = false;
+      if (toIndex !== index) {
+        runOnJS(applyReorder)(index, toIndex);
+      }
+    })
+    .onFinalize(() => {
+      translateY.value = withSpring(0);
+      dragging.value = false;
+    });
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    zIndex: dragging.value ? 20 : 1,
+    opacity: dragging.value ? 0.95 : 1,
+  }));
+
+  const openColorSheet = () => {
+    setDraftColor(level.color);
+    setColorSheetOpen(true);
+  };
+
+  const selectPreset = (preset: (typeof DEFAULT_LEVEL_COLORS)[number]) => {
+    const matchesPresetName = DEFAULT_LEVEL_COLORS.some((item) => item.name === level.name);
+    onUpdate({
+      color: preset.color,
+      ...(matchesPresetName || !level.name.trim() ? { name: preset.name } : null),
+    });
+    setDraftColor(preset.color);
+    setColorSheetOpen(false);
+  };
+
+  const applyCustomColor = () => {
+    const next = normalizeHex(draftColor) ?? draftColor.trim();
+    if (!next) return;
+    onUpdate({ color: next });
+    setColorSheetOpen(false);
+  };
+
+  return (
+    <>
+      <Animated.View
+        style={[
+          {
+            borderWidth: 1,
+            borderColor: ui.borderSubtle,
+            borderRadius: 8,
+            padding: space[8],
+            backgroundColor: ui.surface,
+            gap: space[6],
+          },
+          animatedStyle,
+        ]}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
+          <GestureDetector gesture={pan}>
+            <Animated.View
+              accessibilityRole="button"
+              accessibilityLabel="Drag to reorder level"
+              style={{
+                paddingHorizontal: space[6],
+                paddingVertical: space[4],
+                borderWidth: 1,
+                borderColor: ui.border,
+                borderRadius: 4,
               }}
-              style={(state) => [
-                {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: space[8],
-                  padding: space[6],
-                  borderWidth: 1,
-                  borderColor: ui.borderSubtle,
-                  borderRadius: 6,
-                },
-                interactionStyle(state),
-              ]}
             >
-              <View
-                style={{
-                  width: 16,
-                  height: 16,
-                  borderRadius: 4,
-                  backgroundColor: preset.color,
-                  borderWidth: 1,
-                  borderColor: ui.border,
-                }}
-              />
-              <Text variant="body">{preset.name}</Text>
-            </Pressable>
-          ))}
+              <Icon name="dragHandle" size="sm" color={ui.textMuted} />
+            </Animated.View>
+          </GestureDetector>
+
+          <Pressable
+            onPress={openColorSheet}
+            accessibilityRole="button"
+            accessibilityLabel="Change level colour"
+            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+          >
+            <View
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 4,
+                backgroundColor: level.color || ui.borderSubtle,
+                borderWidth: 1,
+                borderColor: colorError ? ui.danger : ui.border,
+              }}
+            />
+          </Pressable>
+
           <TextInput
-            value={level.color}
-            onChangeText={(color) => onUpdate({ color })}
-            placeholder="#HEX custom colour"
-            {...(hexField.bind as object)}
+            value={level.name}
+            onChangeText={(name) => onUpdate({ name })}
+            placeholder="Level label"
+            {...(nameField.bind as object)}
             style={[
               {
+                flex: 1,
                 borderWidth: 1,
-                borderColor: hexField.hovered ? ui.borderStrong : ui.border,
-                borderRadius: 8,
-                padding: space[12],
+                borderColor: nameField.hovered ? ui.borderStrong : ui.border,
+                borderRadius: 6,
+                paddingHorizontal: space[12],
+                paddingVertical: space[6],
                 fontFamily: fontFamilies.bodyRegular,
                 fontSize: bodySizes.base,
                 color: ui.text,
               },
-              hexField.focused ? focusRing : null,
+              nameField.focused ? focusRing : null,
             ]}
           />
+
+          <Pressable
+            onPress={onMoveUp}
+            disabled={index === 0}
+            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+          >
+            <Icon name="arrowUp" size="xs" color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
+          </Pressable>
+          <Pressable
+            onPress={onMoveDown}
+            disabled={index === total - 1}
+            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+          >
+            <Icon
+              name="arrowDown"
+              size="xs"
+              color={ui.text}
+              style={{ opacity: index === total - 1 ? 0.3 : 1 }}
+            />
+          </Pressable>
+          {total > 1 ? (
+            <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
+              <Icon name="close" size="xs" color={ui.danger} />
+            </Pressable>
+          ) : null}
         </View>
-      ) : null}
-      {colorError ? (
-        <Text variant="bodySmall" color={ui.danger} style={{ paddingLeft: space[32] }}>
-          {colorError}
+
+        {colorError ? (
+          <Text variant="bodySmall" color={ui.danger} style={{ paddingLeft: space[32] }}>
+            {colorError}
+          </Text>
+        ) : null}
+      </Animated.View>
+
+      <BottomSheet
+        visible={colorSheetOpen}
+        title="Level colour"
+        onClose={() => setColorSheetOpen(false)}
+      >
+        <Text variant="bodySmall" color={ui.textMuted}>
+          Only unused colours are listed. Pick a preset or mix a custom colour.
         </Text>
-      ) : null}
-    </View>
+
+        {availablePresets.length === 0 ? (
+          <Text variant="bodySmall" color={ui.textMuted}>
+            All preset colours are in use. Mix a custom colour below.
+          </Text>
+        ) : (
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
+            {availablePresets.map((preset) => {
+              const selected = normalizeColor(preset.color) === normalizeColor(draftColor);
+              return (
+                <Pressable
+                  key={preset.color}
+                  accessibilityRole="button"
+                  accessibilityLabel={preset.name}
+                  onPress={() => selectPreset(preset)}
+                  style={(state) => [
+                    {
+                      width: 36,
+                      height: 36,
+                      borderRadius: 8,
+                      backgroundColor: preset.color,
+                      borderWidth: selected ? 2 : 1,
+                      borderColor: selected ? ui.borderStrong : ui.border,
+                    },
+                    interactionStyle(state),
+                  ]}
+                />
+              );
+            })}
+          </View>
+        )}
+
+        <ColorPicker value={draftColor} onChange={setDraftColor} />
+        <Button label="Use custom colour" variant="secondary" onPress={applyCustomColor} />
+        <Button label="Cancel" variant="ghost" onPress={() => setColorSheetOpen(false)} />
+      </BottomSheet>
+    </>
   );
 }

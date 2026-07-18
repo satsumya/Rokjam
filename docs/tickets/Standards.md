@@ -59,6 +59,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 ## Difficulty levels
 
 - [x] Level colour required — Do not allow a level colour to be cleared without choosing a replacement
+- [x] Level colour picker — Choose colour in a bottom sheet (max content width); unused presets only; custom colour via saturation/brightness + hue controls (hex still available)
 
 ## Tags
 
