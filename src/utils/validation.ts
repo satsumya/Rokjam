@@ -43,3 +43,8 @@ export function getUsernameError(value: string, takenUsernames: string[]) {
   if (takenUsernames.includes(value.toLowerCase())) return 'Username is already taken';
   return undefined;
 }
+
+/** True when the username meets format rules and is not in the taken list. */
+export function isUsernameAvailable(value: string, takenUsernames: string[]) {
+  return Boolean(value.trim()) && !getUsernameError(value, takenUsernames);
+}

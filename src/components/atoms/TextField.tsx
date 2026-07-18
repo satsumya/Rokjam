@@ -13,12 +13,17 @@ export function TextField({
   placeholder,
   secureTextEntry,
   error,
+  success,
   required,
   hint,
   keyboardType,
   maxLength,
   previewState,
   accessibilityLabel,
+  onSubmitEditing,
+  returnKeyType,
+  onBlur,
+  onFocus,
 }: {
   /** Omit when a parent Section/Modal title already names this field. */
   label?: string;
@@ -27,6 +32,8 @@ export function TextField({
   placeholder?: string;
   secureTextEntry?: boolean;
   error?: string;
+  /** Positive validation message (e.g. username available). Hidden when `error` is set. */
+  success?: string;
   required?: boolean;
   hint?: string;
   keyboardType?: 'default' | 'email-address' | 'number-pad';
@@ -34,6 +41,10 @@ export function TextField({
   /** Preview/Storybook only: force a hover/focus visual state. */
   previewState?: PreviewState;
   accessibilityLabel?: string;
+  onSubmitEditing?: () => void;
+  returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
+  onBlur?: () => void;
+  onFocus?: () => void;
 }) {
   const { hovered, focused, bind } = useHoverFocus();
   const hoverActive = hovered || previewState === 'hover';
@@ -60,7 +71,18 @@ export function TextField({
         keyboardType={keyboardType}
         maxLength={maxLength}
         accessibilityLabel={accessibilityLabel ?? label ?? placeholder}
+        onSubmitEditing={onSubmitEditing}
+        returnKeyType={returnKeyType}
+        blurOnSubmit={Boolean(onSubmitEditing)}
         {...(bind as object)}
+        onFocus={() => {
+          bind.onFocus();
+          onFocus?.();
+        }}
+        onBlur={() => {
+          bind.onBlur();
+          onBlur?.();
+        }}
         style={[
           styles.input,
           hoverActive ? styles.inputHover : null,
@@ -68,14 +90,17 @@ export function TextField({
           focusActive ? focusRing : null,
         ]}
       />
-      {hint && !error ? (
-        <Text variant="bodySmall" color={ui.textMuted}>
-          {hint}
-        </Text>
-      ) : null}
       {error ? (
         <Text variant="bodySmall" color={ui.danger}>
           {error}
+        </Text>
+      ) : success ? (
+        <Text variant="bodySmall" color={ui.success}>
+          {success}
+        </Text>
+      ) : hint ? (
+        <Text variant="bodySmall" color={ui.textMuted}>
+          {hint}
         </Text>
       ) : null}
     </View>

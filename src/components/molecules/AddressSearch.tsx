@@ -1,13 +1,31 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, View } from 'react-native';
 
 import { ADDRESS_SUGGESTIONS } from '../../constants/mockData';
-import { Button } from '../atoms/Button';
+import {
+  addressMatchesQuery,
+  findAddressHighlightRange,
+} from '../../utils/addressSearch';
 import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import { space } from '../../theme/spacing';
+
+function HighlightedAddress({ text, query }: { text: string; query: string }) {
+  const range = findAddressHighlightRange(text, query);
+  if (!range) return <Text variant="body">{text}</Text>;
+
+  return (
+    <Text variant="body">
+      {text.slice(0, range.start)}
+      <Text variant="body" weight="bold">
+        {text.slice(range.start, range.end)}
+      </Text>
+      {text.slice(range.end)}
+    </Text>
+  );
+}
 
 export function AddressSearch({
   onSelect,
@@ -15,120 +33,174 @@ export function AddressSearch({
   required = true,
   /** Omit or pass `false` when a parent Section/Modal title already names this field. */
   label = 'Location',
+  /** Prefill when editing an existing location. */
+  initialValue,
+  /** Clear the field after selecting (default). Keep false when editing in place. */
+  clearOnSelect = true,
 }: {
   onSelect: (address: string) => void;
   error?: string;
   required?: boolean;
   label?: string | false;
+  initialValue?: string;
+  clearOnSelect?: boolean;
 }) {
-  const [query, setQuery] = useState('');
-  const [showAddAnyway, setShowAddAnyway] = useState(false);
+  const [query, setQuery] = useState(initialValue ?? '');
+  const [isSearching, setIsSearching] = useState(false);
+  const skipBlurCommit = useRef(false);
+  const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const stateRef = useRef({ query, isSearching, initialValue, clearOnSelect });
+  stateRef.current = { query, isSearching, initialValue, clearOnSelect };
+
+  useEffect(() => {
+    if (initialValue === undefined) return;
+    setQuery(initialValue);
+    setIsSearching(false);
+  }, [initialValue]);
+
+  useEffect(
+    () => () => {
+      if (blurTimer.current) clearTimeout(blurTimer.current);
+    },
+    [],
+  );
+
+  const trimmed = query.trim();
+  const showSuggestions = isSearching && trimmed.length >= 2;
 
   const suggestions = useMemo(() => {
-    const trimmed = query.trim().toLowerCase();
-    if (trimmed.length < 2) return [];
-    return ADDRESS_SUGGESTIONS.filter((item) => item.toLowerCase().includes(trimmed));
-  }, [query]);
+    if (!showSuggestions) return [];
+    return ADDRESS_SUGGESTIONS.filter((item) => addressMatchesQuery(item, trimmed));
+  }, [showSuggestions, trimmed]);
 
   const handleChange = (value: string) => {
     setQuery(value);
-    setShowAddAnyway(false);
-  };
-
-  const handleSubmit = () => {
-    if (!query.trim()) return;
-    if (suggestions.length > 0) {
-      onSelect(suggestions[0]);
-      setQuery('');
-      setShowAddAnyway(false);
-      return;
-    }
-    setShowAddAnyway(true);
+    setIsSearching(true);
   };
 
   const selectSuggestion = (item: string) => {
+    if (blurTimer.current) {
+      clearTimeout(blurTimer.current);
+      blurTimer.current = null;
+    }
+    skipBlurCommit.current = true;
     onSelect(item);
-    setQuery('');
-    setShowAddAnyway(false);
+    setQuery(clearOnSelect ? '' : item);
+    setIsSearching(false);
+  };
+
+  const enterManually = () => {
+    const value = stateRef.current.query.trim();
+    if (!value) return;
+    selectSuggestion(value);
+  };
+
+  const handleBlur = () => {
+    blurTimer.current = setTimeout(() => {
+      blurTimer.current = null;
+      if (skipBlurCommit.current) {
+        skipBlurCommit.current = false;
+        return;
+      }
+      const { query: currentQuery, isSearching: searching, initialValue: initial } = stateRef.current;
+      if (!searching) return;
+      const value = currentQuery.trim();
+      if (value) {
+        selectSuggestion(value);
+        return;
+      }
+      setIsSearching(false);
+      if (initial !== undefined) setQuery(initial);
+    }, 150);
+  };
+
+  const markPointerDown = () => {
+    skipBlurCommit.current = true;
   };
 
   return (
-    <View style={{ gap: space[8] }}>
-      <View style={{ zIndex: 2 }}>
-        <TextField
-          label={label === false ? undefined : label}
-          required={label === false ? false : required}
-          value={query}
-          onChangeText={handleChange}
-          placeholder="Search address or gym name"
-          error={error}
-          accessibilityLabel={label === false ? 'Location' : undefined}
-        />
-        {suggestions.length > 0 ? (
-          <View
-            style={{
-              marginTop: space[4],
-              maxHeight: 180,
-              borderWidth: 1,
-              borderColor: ui.border,
-              borderRadius: 8,
-              backgroundColor: ui.surface,
-              overflow: 'hidden',
-              ...(Platform.OS === 'web'
-                ? { boxShadow: `0 4px 12px ${ui.shadowSoft}` }
-                : {
-                    shadowColor: ui.shadow,
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 4,
-                    elevation: 4,
-                  }),
-            }}
-          >
-            <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
-              {suggestions.map((item, index) => (
-                <Pressable
-                  key={item}
-                  onPress={() => selectSuggestion(item)}
-                  style={(state) => [
-                    {
-                      paddingHorizontal: space[12],
-                      paddingVertical: space[12],
-                      borderTopWidth: index === 0 ? 0 : 1,
-                      borderTopColor: ui.borderSubtle,
-                      backgroundColor: ui.surface,
-                    },
-                    interactionStyle(state),
-                  ]}
-                >
-                  <Text variant="body">{item}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-          </View>
-        ) : null}
-      </View>
+    <View style={{ gap: space[8], zIndex: 2 }}>
+      <TextField
+        label={label === false ? undefined : label}
+        required={label === false ? false : required}
+        value={query}
+        onChangeText={handleChange}
+        placeholder="Search address or gym name"
+        error={error}
+        accessibilityLabel={label === false ? 'Location' : undefined}
+        returnKeyType="done"
+        onSubmitEditing={enterManually}
+        onBlur={handleBlur}
+      />
 
-      {query.trim().length >= 2 && suggestions.length === 0 && !showAddAnyway ? (
-        <Text variant="bodySmall" color={ui.textMuted}>
-          No matches found.
-        </Text>
-      ) : null}
+      {showSuggestions ? (
+        <View
+          style={{
+            maxHeight: 220,
+            borderWidth: 1,
+            borderColor: ui.border,
+            borderRadius: 8,
+            backgroundColor: ui.surface,
+            overflow: 'hidden',
+            ...(Platform.OS === 'web'
+              ? { boxShadow: `0 4px 12px ${ui.shadowSoft}` }
+              : {
+                  shadowColor: ui.shadow,
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 4,
+                  elevation: 4,
+                }),
+          }}
+        >
+          <ScrollView keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+            {suggestions.map((item, index) => (
+              <Pressable
+                key={item}
+                onPressIn={markPointerDown}
+                onPress={() => selectSuggestion(item)}
+                style={(state) => [
+                  {
+                    paddingHorizontal: space[12],
+                    paddingVertical: space[12],
+                    borderTopWidth: index === 0 ? 0 : 1,
+                    borderTopColor: ui.borderSubtle,
+                    backgroundColor: ui.surface,
+                  },
+                  interactionStyle(state),
+                ]}
+              >
+                <HighlightedAddress text={item} query={trimmed} />
+              </Pressable>
+            ))}
 
-      {showAddAnyway ? (
-        <View style={{ gap: space[8] }}>
-          <Text variant="bodySmall" color={ui.textMuted}>
-            Address not found. You can add it anyway.
-          </Text>
-          <Button
-            label={`Add "${query.trim()}" anyway`}
-            variant="secondary"
-            onPress={() => selectSuggestion(query.trim())}
-          />
+            {suggestions.length === 0 ? (
+              <View style={{ paddingHorizontal: space[12], paddingVertical: space[12] }}>
+                <Text variant="bodySmall" color={ui.textMuted}>
+                  No matches found.
+                </Text>
+              </View>
+            ) : null}
+
+            <Pressable
+              onPressIn={markPointerDown}
+              onPress={enterManually}
+              style={(state) => [
+                {
+                  paddingHorizontal: space[12],
+                  paddingVertical: space[12],
+                  borderTopWidth: 1,
+                  borderTopColor: ui.border,
+                  backgroundColor: ui.surface,
+                },
+                interactionStyle(state),
+              ]}
+            >
+              <Text variant="body">Can&apos;t find the address? Add it anyway</Text>
+            </Pressable>
+          </ScrollView>
         </View>
-      ) : (
-        <Button label="Search" variant="secondary" onPress={handleSubmit} />
-      )}
+      ) : null}
     </View>
   );
 }

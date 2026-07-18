@@ -31,7 +31,7 @@ import {
   nowTimeLabel,
   parseSessionDateDisplay,
 } from '../../../src/utils/sessionUtils';
-import { getUsernameError } from '../../../src/utils/validation';
+import { getUsernameError, isUsernameAvailable } from '../../../src/utils/validation';
 import { space } from '../../../src/theme/spacing';
 
 const emptyClimb = (): SessionClimb => ({
@@ -134,6 +134,14 @@ export default function ActiveSessionScreen() {
     if (!usernameInput.trim()) return 'Username is required for public sessions';
     return getUsernameError(usernameInput, TAKEN_USERNAMES);
   }, [isPublic, username, usernameInput, usernameTouched]);
+
+  const usernameSuccess =
+    isPublic &&
+    !username.trim() &&
+    usernameTouched &&
+    isUsernameAvailable(usernameInput, TAKEN_USERNAMES)
+      ? 'Username available'
+      : undefined;
 
   const durationOptions = useMemo(
     () => DURATION_PRESETS.map((preset) => ({ value: String(preset.minutes), label: preset.label })),
@@ -273,6 +281,7 @@ export default function ActiveSessionScreen() {
                 setUsernameTouched(true);
               }}
               error={usernameError}
+              success={usernameSuccess}
               placeholder="Required for public sessions"
             />
           ) : isPublic && username.trim() ? (

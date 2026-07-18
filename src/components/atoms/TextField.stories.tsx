@@ -29,6 +29,10 @@ export const WithError: Story = {
   args: { label: 'Email', value: 'not-an-email', error: 'Enter a valid email' },
 };
 
+export const WithSuccess: Story = {
+  args: { label: 'Username', value: 'alex_the_gecko', success: 'Username available' },
+};
+
 export const Interactive: Story = {
   args: { label: 'Username' },
   render: (args) => {

@@ -268,7 +268,7 @@ export const MOCK_TEST_VALUES = {
   password: 'Password1!',
   takenUsername: 'thegoat',
   invalidVerifyCode: '000000',
-  addressSearchHint: 'Kangaroo',
+  addressSearchHint: 'Montague',
 } as const;
 
 export const LOCAL_WEB_BASE = 'http://localhost:8081';

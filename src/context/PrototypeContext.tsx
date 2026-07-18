@@ -60,6 +60,7 @@ type PrototypeContextValue = {
     levels: DifficultyLevel[],
   ) => string;
   updateLocation: (id: string, patch: Partial<Location>) => void;
+  removeLocation: (id: string) => void;
   setHomeLocation: (id: string) => void;
   addLevel: (locationId: string) => void;
   removeLevel: (locationId: string, levelId: string) => void;
@@ -190,6 +191,15 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
       },
       updateLocation: (id, patch) => {
         setLocations((current) => current.map((loc) => (loc.id === id ? { ...loc, ...patch } : loc)));
+      },
+      removeLocation: (id) => {
+        setLocations((current) => {
+          const next = current.filter((loc) => loc.id !== id);
+          if (next.length > 0 && !next.some((loc) => loc.isHome)) {
+            return next.map((loc, index) => (index === 0 ? { ...loc, isHome: true } : loc));
+          }
+          return next;
+        });
       },
       setHomeLocation: (id) => {
         setLocations((current) => current.map((loc) => ({ ...loc, isHome: loc.id === id })));

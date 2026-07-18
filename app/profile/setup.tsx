@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
   AddressSearch,
   Avatar,
+  BottomSheet,
   Button,
   Icon,
   LevelRow,
@@ -23,7 +24,7 @@ import {
 } from '../../src/constants/mockData';
 import { PET_ROCK_AVATARS } from '../../src/constants/difficultyLevels';
 import { usePrototype } from '../../src/context/PrototypeContext';
-import { getUsernameError } from '../../src/utils/validation';
+import { getUsernameError, isUsernameAvailable } from '../../src/utils/validation';
 import { space } from '../../src/theme/spacing';
 
 export default function ProfileSetupScreen() {
@@ -36,6 +37,7 @@ export default function ProfileSetupScreen() {
     locations,
     addLocation,
     updateLocation,
+    removeLocation,
     setHomeLocation,
     addLevel,
     removeLevel,
@@ -55,13 +57,12 @@ export default function ProfileSetupScreen() {
   } = usePrototype();
 
   const [openLocationId, setOpenLocationId] = useState<string | null>(null);
-  const [editingLocationId, setEditingLocationId] = useState<string | null>(null);
   const [locationError, setLocationError] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [dragSourceId, setDragSourceId] = useState<string | null>(null);
-  const [editName, setEditName] = useState('');
-  const [editNickname, setEditNickname] = useState('');
   const [levelsNudgeLocationId, setLevelsNudgeLocationId] = useState<string | null>(null);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const locationCountRef = useRef(locations.length);
 
   useEffect(() => {
     if (demo === 'error-no-location') {
@@ -70,19 +71,26 @@ export default function ProfileSetupScreen() {
   }, [demo]);
 
   useEffect(() => {
-    if (locations.length === 1 && !openLocationId) {
+    const previousCount = locationCountRef.current;
+    locationCountRef.current = locations.length;
+    // Open the first location when it is newly added; don't force-reopen if the user closes it.
+    if (previousCount === 0 && locations.length === 1) {
       setOpenLocationId(locations[0].id);
     }
-  }, [locations, openLocationId]);
+  }, [locations]);
 
   const usernameError = usernameTouched ? getUsernameError(username, TAKEN_USERNAMES) : undefined;
+  const usernameSuccess =
+    usernameTouched && isUsernameAvailable(username, TAKEN_USERNAMES)
+      ? 'Username available'
+      : undefined;
   const isEditingCompleteProfile = profileComplete;
+  const deleteTarget = locations.find((loc) => loc.id === deleteTargetId);
 
   const handleAddLocation = (address: string) => {
     setLocationError('');
     const id = addLocation(address);
     setOpenLocationId(id);
-    setEditingLocationId(null);
     setLevelsNudgeLocationId(id);
   };
 
@@ -106,18 +114,15 @@ export default function ProfileSetupScreen() {
     router.replace('/dashboard');
   };
 
-  const startEditLocation = (id: string, name: string, nickname?: string) => {
-    setEditingLocationId(id);
-    setEditName(name);
-    setEditNickname(nickname ?? '');
-  };
-
-  const saveEditLocation = (id: string) => {
-    updateLocation(id, {
-      name: editName.trim() || locations.find((loc) => loc.id === id)?.name,
-      nickname: editNickname.trim() || undefined,
-    });
-    setEditingLocationId(null);
+  const confirmDeleteLocation = () => {
+    if (!deleteTargetId) return;
+    const remaining = locations.filter((loc) => loc.id !== deleteTargetId);
+    removeLocation(deleteTargetId);
+    setDeleteTargetId(null);
+    setOpenLocationId(remaining[0]?.id ?? null);
+    if (remaining.length === 0) {
+      setLocationError('');
+    }
   };
 
   return (
@@ -141,6 +146,21 @@ export default function ProfileSetupScreen() {
             <Link label="Skip for now" onPress={handleExit} />
           ) : null}
         </>
+      }
+      overlay={
+        <BottomSheet
+          visible={Boolean(deleteTarget)}
+          title="Delete location"
+          onClose={() => setDeleteTargetId(null)}
+        >
+          <Text variant="body">
+            {deleteTarget
+              ? `Remove “${deleteTarget.name}” and its difficulty levels?`
+              : 'Remove this location?'}
+          </Text>
+          <Button label="Delete location" onPress={confirmDeleteLocation} />
+          <Button label="Cancel" variant="ghost" onPress={() => setDeleteTargetId(null)} />
+        </BottomSheet>
       }
     >
       <Section title="Profile pic">
@@ -173,12 +193,11 @@ export default function ProfileSetupScreen() {
           }}
           placeholder="Choose a username"
           error={usernameError}
+          success={usernameSuccess}
         />
       </Section>
 
       <Section title="Locations" required>
-        <AddressSearch label={false} onSelect={handleAddLocation} error={locationError} />
-
         {locations.map((location) => {
           const isOpen = openLocationId === location.id;
           return (
@@ -188,7 +207,8 @@ export default function ProfileSetupScreen() {
                 borderWidth: 1,
                 borderColor: ui.border,
                 borderRadius: 8,
-                overflow: 'hidden',
+                overflow: isOpen ? 'visible' : 'hidden',
+                zIndex: isOpen ? 3 : 1,
               }}
             >
               <Pressable
@@ -199,60 +219,50 @@ export default function ProfileSetupScreen() {
                   padding: space[12],
                   backgroundColor: ui.surfaceMuted,
                   gap: space[8],
+                  borderTopLeftRadius: 8,
+                  borderTopRightRadius: 8,
+                  borderBottomLeftRadius: isOpen ? 0 : 8,
+                  borderBottomRightRadius: isOpen ? 0 : 8,
                 }}
               >
                 {location.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
                 <Text variant="body" weight="bold" style={{ flex: 1 }}>
-                  {location.name}
+                  {location.nickname?.trim() ? location.nickname.trim() : location.name}
                 </Text>
                 <Icon name={isOpen ? 'caretUp' : 'caretDown'} size="xs" color={ui.text} />
               </Pressable>
 
               {isOpen ? (
                 <View style={{ padding: space[12], gap: space[12], backgroundColor: ui.surface }}>
-                  {editingLocationId === location.id ? (
-                    <View style={{ gap: space[8] }}>
-                      <TextField
-                        label="Location"
-                        required
-                        value={editName}
-                        onChangeText={setEditName}
-                      />
-                      <TextField
-                        label="Nickname"
-                        value={editNickname}
-                        onChangeText={setEditNickname}
-                        placeholder="e.g. Home wall"
-                      />
+                  <AddressSearch
+                    initialValue={location.name}
+                    clearOnSelect={false}
+                    onSelect={(address) => updateLocation(location.id, { name: address })}
+                  />
+                  <TextField
+                    label="Nickname"
+                    value={location.nickname ?? ''}
+                    onChangeText={(nickname) =>
+                      updateLocation(location.id, {
+                        nickname: nickname.length === 0 ? undefined : nickname,
+                      })
+                    }
+                    placeholder="e.g. Home wall"
+                  />
+                  <View style={{ flexDirection: 'row', gap: space[8], flexWrap: 'wrap' }}>
+                    {!location.isHome ? (
                       <Button
-                        label="Save location"
+                        label="Set as home"
                         variant="secondary"
-                        onPress={() => saveEditLocation(location.id)}
+                        onPress={() => setHomeLocation(location.id)}
                       />
-                    </View>
-                  ) : (
-                    <View style={{ gap: space[8] }}>
-                      {location.nickname ? (
-                        <Text variant="body">Nickname: {location.nickname}</Text>
-                      ) : null}
-                      <View style={{ flexDirection: 'row', gap: space[8], flexWrap: 'wrap' }}>
-                        <Button
-                          label="Edit location"
-                          variant="secondary"
-                          onPress={() =>
-                            startEditLocation(location.id, location.name, location.nickname)
-                          }
-                        />
-                        {!location.isHome ? (
-                          <Button
-                            label="Set as home"
-                            variant="secondary"
-                            onPress={() => setHomeLocation(location.id)}
-                          />
-                        ) : null}
-                      </View>
-                    </View>
-                  )}
+                    ) : null}
+                    <Button
+                      label="Delete location"
+                      variant="ghost"
+                      onPress={() => setDeleteTargetId(location.id)}
+                    />
+                  </View>
 
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text variant="body" weight="bold">
@@ -305,6 +315,8 @@ export default function ProfileSetupScreen() {
             </View>
           );
         })}
+
+        <AddressSearch label={false} onSelect={handleAddLocation} error={locationError} />
       </Section>
 
       <TagInput

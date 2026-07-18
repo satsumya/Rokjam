@@ -3,7 +3,9 @@
 Applies [Standards](../Standards.md) unless noted below.
 
 - [x] Add a user name
+- [x] Username available confirmation — Show “Username available” when format rules are met and the name is free (`thegoat` is taken for testing)
 - [x] Required: Add a gym or climbing location/address name (could be an indoor gym or an outdoor spot)
+- [x] Address search — Live suggestions while typing (no Search button); match text highlighted; “Can't find the address? Add it anyway” in the list; Enter adds the typed value
 - [x] First location added defaults to home/base location
 - [x] Optional: add more locations (not strongly prompted)
 - [x] Optional: location nickname
@@ -23,7 +25,7 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Happy path, alternate paths, and error paths in scenario tester
 - [x] Need to be able to exit member profile — Exit or skip without completing required fields (skip only during initial setup; hidden when editing an already-complete profile)
 - [x] Location added - encourage user to add levels — When a location is added it needs to feel more seamless to move users onto adding difficulty levels
-- [x] Location edit — Edit location name and nickname after adding
+- [x] Location edit — Address and nickname stay editable when a location is open; changing the address uses address search again; locations can be deleted (confirm in a bottom sheet)
 - [x] Difficulty levels sort — Clear easy-to-hard ordering with swap to hard-to-easy
 - [x] Remove level numbers — e.g. Level 1 name should just be “Level label”
 - [x] Changing level colours — Click colour for preset menu or custom hex

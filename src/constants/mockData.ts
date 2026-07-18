@@ -7,8 +7,11 @@ export const MOCK_EXISTING_USER = {
 export const TAKEN_USERNAMES = ['thegoat'];
 
 export const ADDRESS_SUGGESTIONS = [
-  '12 Boulder Lane, Kangaroo Point QLD',
+  '1 Montague St, Cooma NSW 2630',
+  '8 Montague St, Cooma NSW 2630',
+  '6 Montague Ct, Epping VIC 3076',
   'Urban Climb West End, Montague Rd Brisbane',
+  '12 Boulder Lane, Kangaroo Point QLD',
   'Kangaroo Point Cliffs, River Terrace Brisbane',
   '9 Granite Street, Kangaroo Point QLD',
 ];

@@ -18,7 +18,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] Real-time input errors — Validate as the user types or on blur; do not wait until submit/continue
 - [x] Email validation — Invalid email (e.g. missing `@`) shows an inline error
 - [x] Password requirements — Enforce minimum standards (length, symbol, etc.) with inline feedback
-- [x] Username availability — Check username is available; use `thegoat` as the taken username for testing
+- [x] Username availability — Check username is available; use `thegoat` as the taken username for testing; show “Username available” when the name meets format rules and is free
 - [x] Do not label implied defaults — e.g. “Private”, not “Private (default)”
 
 ## Copy & UI text
@@ -53,7 +53,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 ## Locations
 
-- [x] Address search — Location fields use address search with suggestions as the user types; offer “add anyway” when no match is found; suggestions in a capped, scrollable list
+- [x] Address search — Show suggestions as the user types (no separate Search action); treat street-type abbreviations as equivalent (e.g. rd ↔ road, st ↔ street); highlight the matching text; keep “Can't find the address? Add it anyway” in the suggestion list (Enter in the field also adds the typed value); suggestions in a capped, scrollable list
 - [x] Home location symbol — Mark home/base location with the house icon (`<Icon name="house" />`), not the words “home” or “base”
 
 ## Difficulty levels
