@@ -66,6 +66,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] Level colour picker — Choose colour in a bottom sheet (max content width); unused presets only; custom colour via saturation/brightness + hue controls (hex still available)
 - [x] Preset order — Level colour presets follow `BRAND_COLOR_ORDER` / `DEFAULT_LEVEL_COLORS` (rainbow hue order, then black / white). Do not hardcode a parallel colour list or order in components; use `levelPreset(id)` when you need a single brand colour by id
 - [x] Picker geometry — SV panel, hue slider, thumbs, and swatch sizes come from `colorPickerGeometry` (`src/theme/colorPicker.ts`), not magic numbers in the picker UI
+- [x] Past-session impact — When a location already has climbs with difficulty levels, confirm in a modal before the first level edit that changes update those past sessions; suggest adding a new location if past sessions should stay unchanged
 
 ## Tags
 

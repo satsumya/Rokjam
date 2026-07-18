@@ -4,6 +4,7 @@ Applies [Standards](../Standards.md) unless noted below.
 
 - [x] Add a user name
 - [x] Username available confirmation — Show “Username available” when format rules are met and the name is free (`thegoat` is taken for testing)
+- [x] Username confirm to apply — Typing edits a draft only; confirm with the check control (or Complete profile on first setup). Exit without confirming keeps the previous username
 - [x] Required: Add a gym or climbing location/address name (could be an indoor gym or an outdoor spot)
 - [x] Address search — Live suggestions while typing (no Search button); match text highlighted; “Can't find the address? Add it anyway” in the list; Enter adds the typed value
 - [x] First location added defaults to home/base location
@@ -24,6 +25,8 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Completing profile is not required to start a climbing session
 - [x] Happy path, alternate paths, and error paths in scenario tester
 - [x] Need to be able to exit member profile — Exit or skip without completing required fields (skip only during initial setup; hidden when editing an already-complete profile)
+- [x] Live edits when profile already complete — Changes apply immediately (except username); no Save changes footer — leave via Exit
+- [x] Username is confirm-to-save — Draft while typing; check control commits so exploring availability cannot overwrite the previous username
 - [x] Location added - encourage user to add levels — When a location is added it needs to feel more seamless to move users onto adding difficulty levels
 - [x] Location edit — Address and nickname stay editable when a location is open; changing the address uses address search again; locations can be deleted (confirm in a bottom sheet)
 - [x] Difficulty levels sort — Clear easy-to-hard ordering with swap to hard-to-easy
@@ -35,3 +38,4 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Level colour picker — Opens in a bottom sheet (content capped to screen max width); unused presets + custom colour picker (SV panel, hue slider, hex)
 - [x] Locations added — Accordion; only one location open at a time
 - [x] Change home location — Set which location is home
+- [x] Edit levels with past sessions — If climbs at this location already have difficulty levels, confirm in a modal before the first edit that name/colour changes update those past sessions; suggest adding a new location instead if they should stay unchanged

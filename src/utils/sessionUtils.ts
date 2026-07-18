@@ -211,6 +211,18 @@ export function sessionDifficultyRange(climbs: SessionClimb[], levels: Difficult
   return `${low.name}–${high.name}`;
 }
 
+/** True when any climb at this location already has a difficulty level assigned. */
+export function locationHasGradedSessionClimbs(
+  sessions: ClimbingSession[],
+  locationId: string,
+): boolean {
+  return sessions.some(
+    (session) =>
+      session.locationId === locationId &&
+      session.climbs.some((climb) => Boolean(climb.levelId)),
+  );
+}
+
 export function climbSummary(climb: SessionClimb) {
   const parts: string[] = [];
   if (climb.levelName) parts.push(climb.levelName);

@@ -277,6 +277,27 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             };
           }),
         );
+        // Keep denormalised climb grades in sync with profile level edits.
+        if (patch.name !== undefined || patch.color !== undefined) {
+          setSessions((current) =>
+            current.map((session) => {
+              if (session.locationId !== locationId) return session;
+              let changed = false;
+              const climbs = session.climbs.map((climb) => {
+                if (climb.levelId !== levelId) return climb;
+                changed = true;
+                return {
+                  ...climb,
+                  ...(patch.name !== undefined ? { levelName: patch.name } : null),
+                  ...(patch.color !== undefined && patch.color.trim()
+                    ? { levelColor: patch.color }
+                    : null),
+                };
+              });
+              return changed ? { ...session, climbs } : session;
+            }),
+          );
+        }
       },
       startSession: () => {
         const home = locations.find((l) => l.isHome) ?? locations[0];

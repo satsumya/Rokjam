@@ -10,6 +10,7 @@ import {
   Icon,
   LevelRow,
   Link,
+  Modal,
   Screen,
   Section,
   TagInput,
@@ -25,6 +26,7 @@ import {
 import { PET_ROCK_AVATARS } from '../../src/constants/difficultyLevels';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { getUsernameError, isUsernameAvailable } from '../../src/utils/validation';
+import { locationHasGradedSessionClimbs } from '../../src/utils/sessionUtils';
 import { space } from '../../src/theme/spacing';
 
 export default function ProfileSetupScreen() {
@@ -53,14 +55,25 @@ export default function ProfileSetupScreen() {
     setProfileComplete,
     setProfileSkipped,
     profileComplete,
+    sessions,
   } = usePrototype();
 
   const [openLocationId, setOpenLocationId] = useState<string | null>(null);
   const [locationError, setLocationError] = useState('');
+  const [usernameDraft, setUsernameDraft] = useState(username);
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [levelsNudgeLocationId, setLevelsNudgeLocationId] = useState<string | null>(null);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [levelImpactPending, setLevelImpactPending] = useState<null | {
+    locationId: string;
+    action: () => void;
+  }>(null);
+  const [levelImpactAcknowledged, setLevelImpactAcknowledged] = useState<Record<string, true>>({});
   const locationCountRef = useRef(locations.length);
+
+  useEffect(() => {
+    setUsernameDraft(username);
+  }, [username]);
 
   useEffect(() => {
     if (demo === 'error-no-location') {
@@ -77,13 +90,21 @@ export default function ProfileSetupScreen() {
     }
   }, [locations]);
 
-  const usernameError = usernameTouched ? getUsernameError(username, TAKEN_USERNAMES) : undefined;
+  const usernameError = usernameTouched ? getUsernameError(usernameDraft, TAKEN_USERNAMES) : undefined;
   const usernameSuccess =
-    usernameTouched && isUsernameAvailable(username, TAKEN_USERNAMES)
+    usernameTouched && isUsernameAvailable(usernameDraft, TAKEN_USERNAMES)
       ? 'Username available'
       : undefined;
+  const usernameDirty = usernameDraft.trim() !== username.trim();
+  const canConfirmUsername = usernameDirty && !getUsernameError(usernameDraft, TAKEN_USERNAMES);
   const isEditingCompleteProfile = profileComplete;
   const deleteTarget = locations.find((loc) => loc.id === deleteTargetId);
+
+  const confirmUsername = () => {
+    if (!canConfirmUsername) return;
+    setUsername(usernameDraft.trim());
+    setUsernameTouched(false);
+  };
 
   const handleAddLocation = (address: string) => {
     setLocationError('');
@@ -97,7 +118,10 @@ export default function ProfileSetupScreen() {
       setLocationError('Add at least one gym or climbing location');
       return;
     }
-    if (usernameError) return;
+    setUsernameTouched(true);
+    if (getUsernameError(usernameDraft, TAKEN_USERNAMES)) return;
+    // Completing the profile confirms any pending username draft.
+    setUsername(usernameDraft.trim());
     setProfileComplete(true);
     setProfileSkipped(false);
     router.replace('/dashboard');
@@ -123,6 +147,25 @@ export default function ProfileSetupScreen() {
     }
   };
 
+  /** Gate level edits that would sync into past climbs — confirm once per location. */
+  const runLevelEdit = (locationId: string, action: () => void) => {
+    if (levelImpactAcknowledged[locationId] || !locationHasGradedSessionClimbs(sessions, locationId)) {
+      action();
+      return;
+    }
+    setLevelImpactPending({ locationId, action });
+  };
+
+  const confirmLevelImpact = () => {
+    if (!levelImpactPending) return;
+    const { locationId, action } = levelImpactPending;
+    setLevelImpactAcknowledged((current) => ({ ...current, [locationId]: true }));
+    setLevelImpactPending(null);
+    action();
+  };
+
+  const cancelLevelImpact = () => setLevelImpactPending(null);
+
   return (
     <Screen
       title="Member profile"
@@ -136,31 +179,45 @@ export default function ProfileSetupScreen() {
         />
       }
       footer={
-        <>
-          <Button
-            label={isEditingCompleteProfile ? 'Save changes' : 'Complete profile'}
-            colorStyle="style1"
-            onPress={handleComplete}
-          />
-          {!isEditingCompleteProfile ? (
+        isEditingCompleteProfile ? undefined : (
+          <>
+            <Button label="Complete profile" colorStyle="style1" onPress={handleComplete} />
             <Link label="Skip for now" onPress={handleExit} />
-          ) : null}
-        </>
+          </>
+        )
       }
       overlay={
-        <BottomSheet
-          visible={Boolean(deleteTarget)}
-          title="Delete location"
-          onClose={() => setDeleteTargetId(null)}
-        >
-          <Text variant="body">
-            {deleteTarget
-              ? `Remove “${deleteTarget.name}” and its difficulty levels?`
-              : 'Remove this location?'}
-          </Text>
-          <Button label="Delete location" onPress={confirmDeleteLocation} />
-          <Button label="Cancel" variant="ghost" onPress={() => setDeleteTargetId(null)} />
-        </BottomSheet>
+        <>
+          <BottomSheet
+            visible={Boolean(deleteTarget)}
+            title="Delete location"
+            onClose={() => setDeleteTargetId(null)}
+          >
+            <Text variant="body">
+              {deleteTarget
+                ? `Remove “${deleteTarget.name}” and its difficulty levels?`
+                : 'Remove this location?'}
+            </Text>
+            <Button label="Delete location" onPress={confirmDeleteLocation} />
+            <Button label="Cancel" variant="ghost" onPress={() => setDeleteTargetId(null)} />
+          </BottomSheet>
+          <Modal
+            visible={Boolean(levelImpactPending)}
+            title="Update past sessions?"
+            onClose={cancelLevelImpact}
+            footer={
+              <>
+                <Button label="Continue" colorStyle="style1" onPress={confirmLevelImpact} />
+                <Button label="Cancel" variant="ghost" onPress={cancelLevelImpact} />
+              </>
+            }
+          >
+            <Text variant="body">
+              Changing difficulty levels updates past climbing sessions at this location. If you
+              don’t want to change past sessions, cancel and add a new location instead.
+            </Text>
+          </Modal>
+        </>
       }
     >
       <Section title="Profile pic">
@@ -185,16 +242,39 @@ export default function ProfileSetupScreen() {
       </Section>
 
       <Section title="Username">
-        <TextField
-          value={username}
-          onChangeText={(value) => {
-            setUsername(value);
-            setUsernameTouched(true);
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'flex-end',
+            gap: space[8],
           }}
-          placeholder="Choose a username"
-          error={usernameError}
-          success={usernameSuccess}
-        />
+        >
+          <View style={{ flexGrow: 1, flexBasis: 160, minWidth: 0 }}>
+            <TextField
+              value={usernameDraft}
+              onChangeText={(value) => {
+                setUsernameDraft(value);
+                setUsernameTouched(true);
+              }}
+              placeholder="Choose a username"
+              error={usernameError}
+              success={usernameSuccess}
+              onSubmitEditing={confirmUsername}
+              returnKeyType="done"
+              maxLength={20}
+            />
+          </View>
+          {canConfirmUsername ? (
+            <Button
+              icon="check"
+              colorStyle="style1"
+              size="medium"
+              accessibilityLabel="Confirm username"
+              onPress={confirmUsername}
+            />
+          ) : null}
+        </View>
       </Section>
 
       <Section title="Locations" required>
@@ -279,7 +359,7 @@ export default function ProfileSetupScreen() {
                     <Button
                       label={location.levelSort === 'easy-hard' ? 'Easy → Hard' : 'Hard → Easy'}
                       variant="ghost"
-                      onPress={() => toggleLevelSort(location.id)}
+                      onPress={() => runLevelEdit(location.id, () => toggleLevelSort(location.id))}
                     />
                   </View>
 
@@ -298,15 +378,25 @@ export default function ProfileSetupScreen() {
                       takenColors={location.levels
                         .filter((item) => item.id !== level.id)
                         .map((item) => item.color)}
-                      onUpdate={(patch) => updateLevel(location.id, level.id, patch)}
-                      onMoveUp={() => moveLevel(location.id, level.id, 'up')}
-                      onMoveDown={() => moveLevel(location.id, level.id, 'down')}
-                      onRemove={() => removeLevel(location.id, level.id)}
+                      onUpdate={(patch) =>
+                        runLevelEdit(location.id, () => updateLevel(location.id, level.id, patch))
+                      }
+                      onMoveUp={() =>
+                        runLevelEdit(location.id, () => moveLevel(location.id, level.id, 'up'))
+                      }
+                      onMoveDown={() =>
+                        runLevelEdit(location.id, () => moveLevel(location.id, level.id, 'down'))
+                      }
+                      onRemove={() =>
+                        runLevelEdit(location.id, () => removeLevel(location.id, level.id))
+                      }
                       onReorder={(fromIndex, toIndex) => {
-                        const next = [...location.levels];
-                        const [moved] = next.splice(fromIndex, 1);
-                        next.splice(toIndex, 0, moved);
-                        updateLocation(location.id, { levels: next });
+                        runLevelEdit(location.id, () => {
+                          const next = [...location.levels];
+                          const [moved] = next.splice(fromIndex, 1);
+                          next.splice(toIndex, 0, moved);
+                          updateLocation(location.id, { levels: next });
+                        });
                       }}
                     />
                   ))}
@@ -315,8 +405,10 @@ export default function ProfileSetupScreen() {
                     label="Add level"
                     variant="secondary"
                     onPress={() => {
-                      addLevel(location.id);
-                      setLevelsNudgeLocationId(null);
+                      runLevelEdit(location.id, () => {
+                        addLevel(location.id);
+                        setLevelsNudgeLocationId(null);
+                      });
                     }}
                   />
                 </View>
