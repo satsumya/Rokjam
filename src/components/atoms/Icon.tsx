@@ -94,6 +94,12 @@ export function Icon({
   'size' | 'weight'
 >) {
   const Glyph = ICONS[name];
+  if (!Glyph) {
+    if (__DEV__) {
+      console.warn(`Icon: unknown name "${String(name)}"`);
+    }
+    return null;
+  }
   const px = typeof size === 'number' ? size : iconSizes[size];
   const resolvedWeight =
     weight ?? (typeof size === 'number' ? 'regular' : DEFAULT_WEIGHT_FOR_SIZE[size]);

@@ -30,6 +30,17 @@ export const buttonGeometry = {
       paddingHorizontal: space[16],
     },
   },
+  /** Tighter square padding for icon-only buttons. */
+  iconOnlyPadding: {
+    large: {
+      paddingVertical: space[6],
+      paddingHorizontal: space[6],
+    },
+    small: {
+      paddingVertical: space[4],
+      paddingHorizontal: space[4],
+    },
+  },
 } as const;
 
 export type ButtonColorStyle = 'style1' | 'style2' | BrandColorId;

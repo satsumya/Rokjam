@@ -48,6 +48,15 @@ The scale consolidates the old ad-hoc sizes: 13/14/15 → 16 body, 11 → 12 sma
 - [ ] App screens migrated from hardcoded `fontSize` to the `Text` atom
 - [ ] WCAG 1.4.12 text-spacing override verified on key screens
 
+## Buttons
+
+The `Button` atom (`src/components/atoms/Button.tsx`) shares geometry from `buttonGeometry` / colour styles from `buttonStyleTokens`.
+
+- **Variants:** `primary` (filled; colour via `colorStyle`), `secondary`, `ghost`
+- **Sizes:** `large` / `small`
+- **Icons:** optional `iconLeft` / `iconRight` (`IconName` from the Icon atom). Icon-only: set `icon` and omit `label` (requires `accessibilityLabel`); same variants and colour styles apply
+- Storybook: Atoms/Button — pick icons from the `ICON_NAMES` select controls; use boolean toggles to enable icons
+
 ## Colour system
 
 Visual reference: `/color-system` (also linked from Scenario tester). Tokens live in `src/theme/colors.ts`.

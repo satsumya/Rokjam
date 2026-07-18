@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, View, type PressableStateCallbackType } from 'react-native';
 
+import { Icon, type IconName } from './Icon';
 import { Text } from './Text';
 import { ui } from '../../theme/colors';
 import {
@@ -7,6 +8,7 @@ import {
   buttonStyleTokens,
   type ButtonColorStyle,
 } from '../../theme/buttonStyles';
+import type { IconSize } from '../../theme/icon';
 import {
   focusRing,
   interactionFlags,
@@ -14,10 +16,11 @@ import {
   previewInteractionStyle,
   type PreviewState,
 } from '../../theme/interaction';
+import { space } from '../../theme/spacing';
 import type { TextVariant } from '../../theme/typography';
 
-/** Secondary / ghost only — the filled primary is a `colorStyle` (default `style1`). */
-export type ButtonVariant = 'secondary' | 'ghost';
+/** Filled primary uses `colorStyle`; secondary / ghost are outline / text styles. */
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'large' | 'small';
 export type { ButtonColorStyle };
 
@@ -26,62 +29,137 @@ const TEXT_VARIANT_FOR_SIZE: Record<ButtonSize, TextVariant> = {
   small: 'bodySmall',
 };
 
-function paddingForSize(size: ButtonSize) {
-  return buttonGeometry.padding[size];
+const ICON_SIZE_FOR_BUTTON: Record<ButtonSize, IconSize> = {
+  large: 'md',
+  small: 'sm',
+};
+
+function paddingForSize(size: ButtonSize, iconOnly: boolean) {
+  return iconOnly ? buttonGeometry.iconOnlyPadding[size] : buttonGeometry.padding[size];
+}
+
+function ButtonContent({
+  label,
+  icon,
+  iconLeft,
+  iconRight,
+  size,
+  color,
+  ghostUnderline,
+}: {
+  label?: string;
+  icon?: IconName;
+  iconLeft?: IconName;
+  iconRight?: IconName;
+  size: ButtonSize;
+  color: string;
+  ghostUnderline?: boolean;
+}) {
+  const iconSize = ICON_SIZE_FOR_BUTTON[size];
+
+  if (icon && !label) {
+    return <Icon name={icon} size={iconSize} color={color} />;
+  }
+
+  return (
+    <View style={styles.contentRow}>
+      {iconLeft ? <Icon name={iconLeft} size={iconSize} color={color} /> : null}
+      {label ? (
+        <Text
+          variant={TEXT_VARIANT_FOR_SIZE[size]}
+          weight="bold"
+          style={[{ color, textAlign: 'center' }, ghostUnderline ? styles.ghostUnderline : null]}
+        >
+          {label}
+        </Text>
+      ) : null}
+      {iconRight ? <Icon name={iconRight} size={iconSize} color={color} /> : null}
+    </View>
+  );
 }
 
 export function Button({
   label,
+  icon,
+  iconLeft,
+  iconRight,
   onPress,
   variant,
   size = 'large',
   colorStyle = 'style1',
   disabled,
   previewState,
+  accessibilityLabel,
 }: {
-  label: string;
+  /** Button label. Omit when using `icon` for an icon-only control. */
+  label?: string;
+  /**
+   * Icon-only button — same styles as labelled buttons. Requires
+   * `accessibilityLabel` when `label` is omitted.
+   */
+  icon?: IconName;
+  /** Optional icon before the label. */
+  iconLeft?: IconName;
+  /** Optional icon after the label. */
+  iconRight?: IconName;
   onPress: () => void;
-  /** Omit for the filled primary (uses `colorStyle`). */
+  /**
+   * Visual style. `primary` (default) is the filled button and uses `colorStyle`
+   * (`style1` / `style2` / difficulty colours). `secondary` and `ghost` ignore `colorStyle`.
+   */
   variant?: ButtonVariant;
   /** `large` → bodyLarge bold · `small` → bodySmall bold */
   size?: ButtonSize;
   /**
    * Colour style for the filled primary: brand presets (`style1` / `style2`) or a
-   * difficulty colour. Ignored when `variant` is `secondary` or `ghost`.
+   * difficulty colour. Only applies when `variant` is `primary`.
    * Defaults to `style1`.
    */
   colorStyle?: ButtonColorStyle;
   disabled?: boolean;
   /** Preview/Storybook only: force a hover/press/focus visual state. */
   previewState?: PreviewState;
+  /** Required for icon-only buttons; optional otherwise (falls back to `label`). */
+  accessibilityLabel?: string;
 }) {
-  const padding = paddingForSize(size);
+  const resolvedVariant = variant ?? 'primary';
+  const iconOnly = Boolean(icon) && !label;
+  if (iconOnly && !accessibilityLabel) {
+    if (__DEV__) {
+      console.warn('Button: icon-only buttons require accessibilityLabel');
+    }
+  }
 
-  if (variant === 'secondary' || variant === 'ghost') {
+  const padding = paddingForSize(size, iconOnly);
+  const a11yLabel = accessibilityLabel ?? label;
+
+  if (resolvedVariant === 'secondary' || resolvedVariant === 'ghost') {
+    const textColor = ui.primary;
     return (
       <Pressable
         onPress={onPress}
         disabled={disabled}
+        accessibilityRole="button"
+        accessibilityLabel={a11yLabel}
         style={(state) => [
           styles.button,
           padding,
-          variant === 'secondary' && styles.buttonSecondary,
-          variant === 'ghost' && styles.buttonGhost,
+          iconOnly && styles.iconOnly,
+          resolvedVariant === 'secondary' && styles.buttonSecondary,
+          resolvedVariant === 'ghost' && styles.buttonGhost,
           disabled ? styles.buttonDisabled : interactionStyle(state),
           !disabled && previewInteractionStyle(previewState),
         ]}
       >
-        <Text
-          variant={TEXT_VARIANT_FOR_SIZE[size]}
-          weight="bold"
-          style={[
-            styles.buttonText,
-            variant === 'secondary' && styles.buttonTextSecondary,
-            variant === 'ghost' && styles.buttonTextGhost,
-          ]}
-        >
-          {label}
-        </Text>
+        <ButtonContent
+          label={label}
+          icon={icon}
+          iconLeft={iconLeft}
+          iconRight={iconRight}
+          size={size}
+          color={textColor}
+          ghostUnderline={resolvedVariant === 'ghost' && Boolean(label)}
+        />
       </Pressable>
     );
   }
@@ -89,32 +167,47 @@ export function Button({
   return (
     <StyledColorButton
       label={label}
+      icon={icon}
+      iconLeft={iconLeft}
+      iconRight={iconRight}
+      iconOnly={iconOnly}
       onPress={onPress}
       size={size}
       padding={padding}
       colorStyle={colorStyle}
       disabled={disabled}
       previewState={previewState}
+      accessibilityLabel={a11yLabel}
     />
   );
 }
 
 function StyledColorButton({
   label,
+  icon,
+  iconLeft,
+  iconRight,
+  iconOnly,
   onPress,
   size,
   padding,
   colorStyle,
   disabled,
   previewState,
+  accessibilityLabel,
 }: {
-  label: string;
+  label?: string;
+  icon?: IconName;
+  iconLeft?: IconName;
+  iconRight?: IconName;
+  iconOnly: boolean;
   onPress: () => void;
   size: ButtonSize;
-  padding: (typeof buttonGeometry.padding)[ButtonSize];
+  padding: { paddingVertical: number; paddingHorizontal: number };
   colorStyle: ButtonColorStyle;
   disabled?: boolean;
   previewState?: PreviewState;
+  accessibilityLabel?: string;
 }) {
   const tokens = buttonStyleTokens(colorStyle);
   const { strokeWidth, shadowOffsetY, borderRadius } = buttonGeometry;
@@ -145,6 +238,7 @@ function StyledColorButton({
           borderRadius,
           paddingBottom: shadowOffsetY,
           maxWidth: '100%',
+          alignSelf: iconOnly ? 'flex-start' : undefined,
         },
         disabled && styles.buttonDisabled,
       ]}
@@ -152,6 +246,8 @@ function StyledColorButton({
       <Pressable
         onPress={onPress}
         disabled={disabled}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
         style={(state) => {
           const pressed = isPressed(state);
           const hovered = isHovered(state);
@@ -164,6 +260,7 @@ function StyledColorButton({
               borderRadius,
               ...padding,
               alignItems: 'center' as const,
+              justifyContent: 'center' as const,
               // Sink the face into the shadow band when pressed.
               transform: [{ translateY: pressed ? shadowOffsetY : 0 }],
               opacity: !pressed && hovered ? 0.92 : 1,
@@ -172,9 +269,14 @@ function StyledColorButton({
           ];
         }}
       >
-        <Text variant={TEXT_VARIANT_FOR_SIZE[size]} weight="bold" style={{ color: tokens.text }}>
-          {label}
-        </Text>
+        <ButtonContent
+          label={label}
+          icon={icon}
+          iconLeft={iconLeft}
+          iconRight={iconRight}
+          size={size}
+          color={tokens.text}
+        />
       </Pressable>
     </View>
   );
@@ -187,12 +289,20 @@ const styles = StyleSheet.create({
     backgroundColor: ui.primary,
     borderRadius: buttonGeometry.borderRadius,
     alignItems: 'center',
+    justifyContent: 'center',
     maxWidth: '100%',
+  },
+  iconOnly: {
+    alignSelf: 'flex-start',
   },
   buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
   buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent' },
   buttonDisabled: { opacity: 0.4 },
-  buttonText: { color: ui.primaryText, textAlign: 'center' },
-  buttonTextSecondary: { color: ui.primary },
-  buttonTextGhost: { color: ui.primary, textDecorationLine: 'underline' },
+  contentRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space[6],
+  },
+  ghostUnderline: { textDecorationLine: 'underline' },
 });
