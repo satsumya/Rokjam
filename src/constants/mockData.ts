@@ -4,6 +4,9 @@ export const MOCK_EXISTING_USER = {
   password: 'Password1!',
 };
 
+/** Emails that already have an account (sign-up “already in use” checks). */
+export const TAKEN_EMAILS = [MOCK_EXISTING_USER.email];
+
 export const TAKEN_USERNAMES = ['thegoat'];
 
 export const ADDRESS_SUGGESTIONS = [

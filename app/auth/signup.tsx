@@ -2,30 +2,30 @@ import { useEffect, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { Button, HintList, Link, Screen, TextField } from '../../src/components';
-import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
+import { TAKEN_EMAILS } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
-import { getEmailError, isPasswordValid } from '../../src/utils/validation';
+import { getSignUpEmailError, isPasswordValid } from '../../src/utils/validation';
 
 export default function SignUpScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
   const { email, setEmail } = usePrototype();
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ email: false, password: false });
-  const clearedOnMount = useRef(false);
+  const initialized = useRef(false);
 
   useEffect(() => {
     if (demo === 'error-empty') {
       setTouched({ email: true, password: true });
       return;
     }
-    if (clearedOnMount.current) return;
-    setEmail('');
+    if (initialized.current) return;
+    // Keep shared email when switching from login; only reset password.
     setPassword('');
-    setTouched({ email: false, password: false });
-    clearedOnMount.current = true;
-  }, [demo, setEmail]);
+    setTouched({ email: Boolean(email.trim()), password: false });
+    initialized.current = true;
+  }, [demo, email]);
 
-  const emailError = touched.email ? getEmailError(email) : undefined;
+  const emailError = touched.email ? getSignUpEmailError(email, TAKEN_EMAILS) : undefined;
   const passwordError =
     touched.password && !isPasswordValid(password) ? 'Password does not meet requirements' : undefined;
 
@@ -41,14 +41,7 @@ export default function SignUpScreen() {
 
   const handleSignUp = () => {
     setTouched({ email: true, password: true });
-    const nextEmailError = getEmailError(email);
-    if (nextEmailError || !isPasswordValid(password)) return;
-
-    if (email.trim().toLowerCase() === MOCK_EXISTING_USER.email) {
-      router.replace('/auth/login?existing=1');
-      return;
-    }
-
+    if (getSignUpEmailError(email, TAKEN_EMAILS) || !isPasswordValid(password)) return;
     router.push('/auth/verify-email');
   };
 

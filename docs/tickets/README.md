@@ -49,7 +49,7 @@ For Expo Go: `npm start` and scan the QR code, then open **Scenario tester** fro
 | Valid verification code | Any other 6 digits (e.g. `123456`) |
 | Address search (profile / session location) | Type `Montague` or `Kangaroo` for suggestions |
 
-Login accepts **email or username**. Sign up with `returning.user@example.com` redirects to login (existing user).
+Login accepts **email or username**. Sign up with `returning.user@example.com` shows **Email already in use**; switch to log in and the email is kept.
 
 ## Direct links (local web)
 

@@ -66,7 +66,7 @@ export const SCENARIOS: Scenario[] = [
     type: 'Alternate path',
     userType: 'new',
     setup: 'fresh',
-    steps: 'Enter returning.user@example.com → Redirected to login',
+    steps: 'Enter returning.user@example.com → “Email already in use”; switch to Log in with email kept',
   },
   {
     id: 'verify-error',

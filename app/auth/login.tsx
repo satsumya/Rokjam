@@ -1,35 +1,39 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Button, Link, Screen, Text, TextField } from '../../src/components';
-import { ui } from '../../src/theme/colors';
+import { Button, Link, Screen, TextField } from '../../src/components';
 import { MOCK_EXISTING_USER } from '../../src/constants/mockData';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { getLoginIdentifierError } from '../../src/utils/validation';
-import { space } from '../../src/theme/spacing';
 
 export default function LoginScreen() {
-  const { demo, existing } = useLocalSearchParams<{ demo?: string; existing?: string }>();
-  const { seedReturningUser } = usePrototype();
-  const [identifier, setIdentifier] = useState('');
+  const { demo } = useLocalSearchParams<{ demo?: string }>();
+  const { email, setEmail, seedReturningUser } = usePrototype();
+  const [identifier, setIdentifier] = useState(email);
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ identifier: false, password: false });
+  const initialized = useRef(false);
 
   useEffect(() => {
-    if (existing === '1') {
-      setIdentifier(MOCK_EXISTING_USER.email);
-      setTouched({ identifier: true, password: false });
-    }
     if (demo === 'prefill') {
       setIdentifier(MOCK_EXISTING_USER.email);
+      setEmail(MOCK_EXISTING_USER.email);
       setPassword(MOCK_EXISTING_USER.password);
+      return;
     }
     if (demo === 'error-empty') {
       setIdentifier('');
       setPassword('');
       setTouched({ identifier: true, password: true });
+      return;
     }
-  }, [demo, existing]);
+    if (initialized.current) return;
+    // Carry email typed on sign up (shared via prototype context).
+    if (email.trim()) {
+      setIdentifier(email);
+    }
+    initialized.current = true;
+  }, [demo, email, setEmail]);
 
   const identifierError = touched.identifier ? getLoginIdentifierError(identifier) : undefined;
   const passwordRequiredError = touched.password && !password.trim() ? 'Password is required' : undefined;
@@ -49,6 +53,12 @@ export default function LoginScreen() {
       : undefined;
 
   const passwordError = passwordRequiredError || incorrectPasswordError;
+
+  const handleIdentifierChange = (value: string) => {
+    setIdentifier(value);
+    setEmail(value);
+    setTouched((current) => ({ ...current, identifier: true }));
+  };
 
   const handleLogin = () => {
     setTouched({ identifier: true, password: true });
@@ -79,19 +89,11 @@ export default function LoginScreen() {
         </>
       }
     >
-      {existing === '1' ? (
-        <Text variant="body" color={ui.textMuted} style={{ marginBottom: space[8] }}>
-          An account already exists for this email. Log in instead.
-        </Text>
-      ) : null}
       <TextField
         label="Email or username"
         required
         value={identifier}
-        onChangeText={(value) => {
-          setIdentifier(value);
-          setTouched((current) => ({ ...current, identifier: true }));
-        }}
+        onChangeText={handleIdentifierChange}
         placeholder="you@example.com or username"
         error={identifierError}
       />

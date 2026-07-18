@@ -9,6 +9,17 @@ export function getEmailError(value: string) {
   return undefined;
 }
 
+/** Sign-up email: format rules plus “already in use” for known accounts. */
+export function getSignUpEmailError(value: string, takenEmails: string[]) {
+  const formatError = getEmailError(value);
+  if (formatError) return formatError;
+  const normalized = value.trim().toLowerCase();
+  if (takenEmails.some((email) => email.toLowerCase() === normalized)) {
+    return 'Email already in use';
+  }
+  return undefined;
+}
+
 export function getPasswordErrors(value: string) {
   const errors: string[] = [];
   if (value.length < 8) errors.push('At least 8 characters');

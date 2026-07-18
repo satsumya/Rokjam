@@ -19,6 +19,8 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] New-user forms start blank — Fields that should be empty for a new user must not be prefilled (e.g. sign-up email/password)
 - [x] Real-time input errors — Validate as the user types or on blur; do not wait until submit/continue
 - [x] Email validation — Invalid email (e.g. missing `@`) shows an inline error
+- [x] Email already in use — Sign-up rejects known accounts with “Email already in use” (`returning.user@example.com` for testing); user can switch to log in
+- [x] Carry email between sign up and log in — Switching screens keeps a valid typed email so the user does not retype it
 - [x] Password requirements — Enforce minimum standards (length, symbol, etc.) with inline feedback
 - [x] Username availability — Check username is available; use `thegoat` as the taken username for testing; show “Username available” when the name meets format rules and is free
 - [x] Do not label implied defaults — e.g. “Private”, not “Private (default)”
