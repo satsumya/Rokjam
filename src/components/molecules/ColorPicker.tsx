@@ -230,7 +230,7 @@ export function ColorPicker({
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: space[8] }}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
           <TextField label="Hex" value={hexDraft} onChangeText={handleHexChange} placeholder="#RRGGBB" />
         </View>
         <View
@@ -238,6 +238,7 @@ export function ColorPicker({
           style={{
             width: 40,
             height: 40,
+            flexShrink: 0,
             borderRadius: 8,
             borderWidth: 1,
             borderColor: ui.border,

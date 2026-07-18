@@ -145,7 +145,8 @@ export function LevelRow({
               accessibilityRole="button"
               accessibilityLabel="Drag to reorder level"
               style={{
-                paddingHorizontal: space[6],
+                flexShrink: 0,
+                paddingHorizontal: space[4],
                 paddingVertical: space[4],
                 borderWidth: 1,
                 borderColor: ui.border,
@@ -160,7 +161,7 @@ export function LevelRow({
             onPress={openColorSheet}
             accessibilityRole="button"
             accessibilityLabel="Change level colour"
-            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+            style={(state) => [{ flexShrink: 0, borderRadius: 4 }, interactionStyle(state)]}
           >
             <View
               style={{
@@ -182,10 +183,11 @@ export function LevelRow({
             style={[
               {
                 flex: 1,
+                minWidth: 0,
                 borderWidth: 1,
                 borderColor: nameField.hovered ? ui.borderStrong : ui.border,
                 borderRadius: 6,
-                paddingHorizontal: space[12],
+                paddingHorizontal: space[8],
                 paddingVertical: space[6],
                 fontFamily: fontFamilies.bodyRegular,
                 fontSize: bodySizes.base,
@@ -195,27 +197,35 @@ export function LevelRow({
             ]}
           />
 
-          <Pressable
-            onPress={onMoveUp}
-            disabled={index === 0}
-            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
-          >
-            <Icon name="arrowUp" size="xs" color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
-          </Pressable>
-          <Pressable
-            onPress={onMoveDown}
-            disabled={index === total - 1}
-            style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
-          >
-            <Icon
-              name="arrowDown"
-              size="xs"
-              color={ui.text}
-              style={{ opacity: index === total - 1 ? 0.3 : 1 }}
-            />
-          </Pressable>
+          <View style={{ flexShrink: 0, gap: 2 }}>
+            <Pressable
+              onPress={onMoveUp}
+              disabled={index === 0}
+              hitSlop={4}
+              style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+            >
+              <Icon name="arrowUp" size="xs" color={ui.text} style={{ opacity: index === 0 ? 0.3 : 1 }} />
+            </Pressable>
+            <Pressable
+              onPress={onMoveDown}
+              disabled={index === total - 1}
+              hitSlop={4}
+              style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}
+            >
+              <Icon
+                name="arrowDown"
+                size="xs"
+                color={ui.text}
+                style={{ opacity: index === total - 1 ? 0.3 : 1 }}
+              />
+            </Pressable>
+          </View>
           {total > 1 ? (
-            <Pressable onPress={onRemove} style={(state) => [{ borderRadius: 4 }, interactionStyle(state)]}>
+            <Pressable
+              onPress={onRemove}
+              hitSlop={4}
+              style={(state) => [{ flexShrink: 0, borderRadius: 4 }, interactionStyle(state)]}
+            >
               <Icon name="close" size="xs" color={ui.danger} />
             </Pressable>
           ) : null}

@@ -16,7 +16,7 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
             color={item.met ? ui.success : ui.textSubtle}
             weight={item.met ? 'fill' : 'regular'}
           />
-          <Text variant="bodySmall" color={item.met ? ui.success : ui.textSubtle}>
+          <Text variant="bodySmall" color={item.met ? ui.success : ui.textSubtle} style={{ flex: 1, minWidth: 0 }}>
             {item.label}
           </Text>
         </View>
@@ -27,5 +27,5 @@ export function HintList({ items }: { items: { label: string; met: boolean }[] }
 
 const styles = StyleSheet.create({
   hintList: { gap: space[4] },
-  hintItemRow: { flexDirection: 'row', alignItems: 'center', gap: space[6] },
+  hintItemRow: { flexDirection: 'row', alignItems: 'flex-start', gap: space[6] },
 });

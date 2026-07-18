@@ -26,6 +26,7 @@ export function DifficultyChip({
       onPress={onPress}
       style={(state) => [
         {
+          maxWidth: '100%',
           borderWidth: 1,
           borderColor: selected ? ui.borderStrong : ui.border,
           borderRadius: 12,
@@ -40,7 +41,9 @@ export function DifficultyChip({
       ]}
     >
       <LevelDot color={color} size={10} />
-      <Text variant="body">{name}</Text>
+      <Text variant="body" style={{ flexShrink: 1 }}>
+        {name}
+      </Text>
     </Pressable>
   );
 }

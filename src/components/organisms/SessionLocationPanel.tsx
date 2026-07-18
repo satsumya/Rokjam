@@ -67,7 +67,11 @@ export function SessionLocationPanel({
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
                 {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-                <Text variant="body" weight={sessionLocationId === loc.id ? 'bold' : 'regular'}>
+                <Text
+                  variant="body"
+                  weight={sessionLocationId === loc.id ? 'bold' : 'regular'}
+                  style={{ flex: 1, minWidth: 0 }}
+                >
                   {loc.nickname ? `${loc.nickname} — ` : ''}
                   {loc.name}
                 </Text>
@@ -88,9 +92,9 @@ export function SessionLocationPanel({
 
   return (
     <View style={{ gap: space[6] }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
+      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[4] }}>
         {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-        <Text variant="body">
+        <Text variant="body" style={{ flex: 1, minWidth: 0 }}>
           {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
           {sessionLoc.name}
         </Text>

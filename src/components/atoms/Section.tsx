@@ -24,13 +24,14 @@ export function Section({
       <View
         style={{
           flexDirection: 'row',
+          flexWrap: 'wrap',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
           gap: space[12],
           marginBottom: subtitle || headerAction ? 4 : 0,
         }}
       >
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
           <Text variant="h5">
             {title}
             {required ? (
@@ -45,7 +46,7 @@ export function Section({
             </Text>
           ) : null}
         </View>
-        {headerAction}
+        {headerAction ? <View style={{ flexShrink: 0, maxWidth: '100%' }}>{headerAction}</View> : null}
       </View>
       {children}
     </View>

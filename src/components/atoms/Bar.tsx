@@ -18,12 +18,18 @@ export function Bar({
 }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
-      <Text variant="bodySmall" color={ui.textMuted} style={{ width: 36 }}>
+      <Text
+        variant="bodySmall"
+        color={ui.textMuted}
+        numberOfLines={1}
+        style={{ width: 56, flexShrink: 0 }}
+      >
         {label}
       </Text>
       <View
         style={{
           flex: 1,
+          minWidth: 0,
           height: 14,
           backgroundColor: ui.borderSubtle,
           borderRadius: 4,
@@ -38,7 +44,7 @@ export function Bar({
           }}
         />
       </View>
-      <Text variant="bodySmall" style={{ width: 40, textAlign: 'right' }}>
+      <Text variant="bodySmall" numberOfLines={1} style={{ minWidth: 36, flexShrink: 0, textAlign: 'right' }}>
         {value}
         {unit ?? ''}
       </Text>

@@ -24,6 +24,7 @@ export function Chip({
       onPress={onPress}
       style={(state) => [
         {
+          maxWidth: '100%',
           borderWidth: 1,
           borderColor: selected ? ui.borderStrong : ui.border,
           borderRadius: 16,
@@ -56,6 +57,7 @@ export function RemovableChip({
       onPress={onPress}
       style={(state) => [
         {
+          maxWidth: '100%',
           flexDirection: 'row',
           alignItems: 'center',
           gap: space[6],
@@ -70,7 +72,9 @@ export function RemovableChip({
         previewInteractionStyle(previewState),
       ]}
     >
-      <Text variant="body">{label}</Text>
+      <Text variant="body" style={{ flexShrink: 1 }}>
+        {label}
+      </Text>
       <Icon name="close" size="xs" color={ui.text} />
     </Pressable>
   );

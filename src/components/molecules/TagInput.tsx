@@ -37,8 +37,8 @@ export function TagInput({
           ))}
         </View>
       ) : null}
-      <View style={{ flexDirection: 'row', gap: space[8], alignItems: 'flex-end' }}>
-        <View style={{ flex: 1 }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], alignItems: 'flex-end' }}>
+        <View style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>
           <TextField
             value={draft}
             onChangeText={setDraft}

@@ -56,7 +56,7 @@ export default function CommunityScreen() {
       title="Community"
       footer={<Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
     >
-      <View style={{ flexDirection: 'row', gap: space[16] }}>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
         {(
           [
             ['all', 'All'],
@@ -82,9 +82,9 @@ export default function CommunityScreen() {
         ) : (
           feed.map((session) => (
             <Card key={session.id}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8], flexWrap: 'wrap' }}>
                 <Avatar emoji={session.ownerAvatar} size="md" />
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, minWidth: 100 }}>
                   <Text variant="body" weight="bold">
                     {session.ownerUsername}
                   </Text>
@@ -92,11 +92,13 @@ export default function CommunityScreen() {
                     {session.date}
                   </Text>
                 </View>
-                <Button
-                  label={followedUsers.includes(session.ownerUsername) ? 'Following' : 'Follow'}
-                  variant="secondary"
-                  onPress={() => toggleFollowUser(session.ownerUsername)}
-                />
+                <View style={{ flexShrink: 0 }}>
+                  <Button
+                    label={followedUsers.includes(session.ownerUsername) ? 'Following' : 'Follow'}
+                    variant="secondary"
+                    onPress={() => toggleFollowUser(session.ownerUsername)}
+                  />
+                </View>
               </View>
               <SessionRow
                 framed={false}

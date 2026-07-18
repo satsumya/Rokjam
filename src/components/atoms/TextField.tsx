@@ -108,7 +108,7 @@ export function TextField({
 }
 
 const styles = StyleSheet.create({
-  field: { gap: space[6] },
+  field: { gap: space[6], width: '100%' },
   label: { color: ui.textLabel },
   input: {
     borderWidth: 1,
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     fontSize: bodySizes.base,
     backgroundColor: ui.surface,
     color: ui.text,
+    width: '100%',
   },
   inputHover: { borderColor: ui.borderStrong },
   inputError: { borderColor: ui.danger },

@@ -138,7 +138,7 @@ export default function DashboardScreen() {
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[12] }}>
           <Avatar emoji={avatar} size="lg" />
-          <View style={{ flex: 1, gap: space[4] }}>
+          <View style={{ flex: 1, minWidth: 0, gap: space[4] }}>
             <Text variant="bodyLarge" weight="bold">
               {username || 'Member'}
             </Text>
@@ -151,7 +151,7 @@ export default function DashboardScreen() {
             accessibilityRole="button"
             accessibilityLabel="Edit profile"
             hitSlop={8}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: space[4], padding: space[4] }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: space[4], padding: space[4], flexShrink: 0 }}
           >
             <Icon name="pencil" size="xs" color={ui.text} />
             <Text variant="body" style={{ textDecorationLine: 'underline' }}>
@@ -185,7 +185,7 @@ export default function DashboardScreen() {
       {!needsProfile ? (
         <>
           <Section title="Recent sessions">
-            <View style={{ flexDirection: 'row', gap: space[12], marginBottom: space[4] }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12], marginBottom: space[4] }}>
               <Pressable onPress={() => setShowAllSessions(false)}>
                 <Text variant="body" weight={!showAllSessions ? 'bold' : 'regular'}>
                   Recent
@@ -281,10 +281,12 @@ export default function DashboardScreen() {
 
 function ViewRow({ label, value, home }: { label: string; value: string; home?: boolean }) {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap', gap: space[4] }}>
       <Text variant="body">{label}: </Text>
       {home ? <Icon name="house" size="xs" color={ui.text} /> : null}
-      <Text variant="body">{value}</Text>
+      <Text variant="body" style={{ flexShrink: 1, minWidth: 0 }}>
+        {value}
+      </Text>
     </View>
   );
 }

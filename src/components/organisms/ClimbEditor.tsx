@@ -101,7 +101,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
           onChangeText={(notes) => onChange({ notes })}
           placeholder="Optional notes"
         />
-        <View style={{ flexDirection: 'row', gap: space[8] }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           <Button
             label={climb.hasImage ? 'Replace image' : 'Add image'}
             variant="secondary"
@@ -123,8 +123,8 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             ))}
           </View>
         ) : null}
-        <View style={{ flexDirection: 'row', gap: space[8], alignItems: 'flex-end' }}>
-          <View style={{ flex: 1 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8], alignItems: 'flex-end' }}>
+          <View style={{ flexGrow: 1, flexBasis: 140, minWidth: 0 }}>
             <TextField
               value={customTag}
               onChangeText={setCustomTag}
@@ -146,8 +146,8 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
       <Section title="Attempts">
         {climb.attempts.map((attempt, index) => (
           <View key={attempt.id} style={{ gap: space[4], marginBottom: space[8] }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
-              <Text variant="body" weight="bold" style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[8], flexWrap: 'wrap' }}>
+              <Text variant="body" weight="bold" style={{ flex: 1, minWidth: 0 }}>
                 Attempt {index + 1}
               </Text>
               {climb.attempts.length > 1 ? (

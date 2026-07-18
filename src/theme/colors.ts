@@ -239,15 +239,15 @@ export const focus = {
 } as const;
 
 export const BRAND_COLOR_ORDER: BrandColorId[] = [
+  'red',
+  'orange',
   'yellow',
+  'green',
   'blue',
   'purple',
-  'green',
-  'orange',
-  'red',
+  'pink',
   'black',
   'white',
-  'pink',
 ];
 
 export const SEMANTIC_COLOR_ORDER: SemanticColorId[] = [

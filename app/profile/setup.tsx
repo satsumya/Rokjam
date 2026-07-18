@@ -224,7 +224,7 @@ export default function ProfileSetupScreen() {
                 }}
               >
                 {location.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-                <Text variant="body" weight="bold" style={{ flex: 1 }}>
+                <Text variant="body" weight="bold" style={{ flex: 1, minWidth: 0 }}>
                   {location.nickname?.trim() ? location.nickname.trim() : location.name}
                 </Text>
                 <Icon name={isOpen ? 'caretUp' : 'caretDown'} size="xs" color={ui.text} />
@@ -262,8 +262,16 @@ export default function ProfileSetupScreen() {
                     />
                   </View>
 
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text variant="body" weight="bold">
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: space[8],
+                    }}
+                  >
+                    <Text variant="body" weight="bold" style={{ flexShrink: 1, minWidth: 0 }}>
                       Difficulty levels
                     </Text>
                     <Button

@@ -1,10 +1,18 @@
-import { Modal as RNModal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  Modal as RNModal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import type { ReactNode } from 'react';
 
 import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
+import { pageGutter } from '../../theme/layout';
 import { space } from '../../theme/spacing';
 
 export function Modal({
@@ -20,9 +28,12 @@ export function Modal({
   footer?: ReactNode;
   onClose: () => void;
 }) {
+  const { width } = useWindowDimensions();
+  const gutter = pageGutter(width);
+
   return (
     <RNModal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View style={styles.modalRoot}>
+      <View style={[styles.modalRoot, { padding: gutter }]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Close dialog"
@@ -30,7 +41,7 @@ export function Modal({
           style={styles.modalBackdrop}
         />
         <View style={styles.modalCard}>
-          <View style={styles.modalHeader}>
+          <View style={[styles.modalHeader, { paddingHorizontal: gutter }]}>
             <Text variant="h5" style={styles.modalTitle}>
               {title}
             </Text>
@@ -46,13 +57,17 @@ export function Modal({
           </View>
           <ScrollView
             style={styles.modalBody}
-            contentContainerStyle={styles.modalBodyContent}
+            contentContainerStyle={[styles.modalBodyContent, { padding: gutter }]}
             keyboardShouldPersistTaps="handled"
             nestedScrollEnabled
           >
             {children}
           </ScrollView>
-          {footer ? <View style={styles.modalFooter}>{footer}</View> : null}
+          {footer ? (
+            <View style={[styles.modalFooter, { paddingHorizontal: gutter, paddingBottom: gutter }]}>
+              {footer}
+            </View>
+          ) : null}
         </View>
       </View>
     </RNModal>
@@ -64,7 +79,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: space[24],
   },
   modalBackdrop: {
     ...StyleSheet.absoluteFill,
@@ -85,18 +99,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: space[24],
     paddingVertical: space[16],
     borderBottomWidth: 1,
     borderBottomColor: ui.borderSubtle,
     gap: space[12],
   },
-  modalTitle: { flex: 1 },
-  modalClose: { padding: space[4] },
+  modalTitle: { flex: 1, minWidth: 0 },
+  modalClose: { padding: space[4], flexShrink: 0 },
   modalBody: { flexGrow: 0, flexShrink: 1 },
-  modalBodyContent: { padding: space[24], gap: space[12] },
+  modalBodyContent: { gap: space[12] },
   modalFooter: {
-    padding: space[24],
     paddingTop: 0,
     gap: space[12],
     borderTopWidth: 1,

@@ -144,6 +144,7 @@ function StyledColorButton({
           backgroundColor: tokens.shadow,
           borderRadius,
           paddingBottom: shadowOffsetY,
+          maxWidth: '100%',
         },
         disabled && styles.buttonDisabled,
       ]}
@@ -186,11 +187,12 @@ const styles = StyleSheet.create({
     backgroundColor: ui.primary,
     borderRadius: buttonGeometry.borderRadius,
     alignItems: 'center',
+    maxWidth: '100%',
   },
   buttonSecondary: { backgroundColor: ui.surface, borderColor: ui.primary },
   buttonGhost: { backgroundColor: 'transparent', borderColor: 'transparent' },
   buttonDisabled: { opacity: 0.4 },
-  buttonText: { color: ui.primaryText },
+  buttonText: { color: ui.primaryText, textAlign: 'center' },
   buttonTextSecondary: { color: ui.primary },
   buttonTextGhost: { color: ui.primary, textDecorationLine: 'underline' },
 });

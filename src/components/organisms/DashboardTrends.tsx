@@ -44,7 +44,7 @@ export function DashboardTrends({
   return (
     <Section title="Trends">
       <View style={{ gap: space[4] }}>
-        <View style={{ flexDirection: 'row', gap: space[8] }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[8] }}>
           {(['week', 'month', '3months'] as TrendTimeframe[]).map((t) => (
             <Pressable
               key={t}
@@ -93,9 +93,9 @@ export function DashboardTrends({
             Standout climbs
           </Text>
           {standouts.map((t) => (
-            <View key={t.label} style={{ flexDirection: 'row', alignItems: 'center', gap: space[6] }}>
+            <View key={t.label} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: space[6] }}>
               <Icon name="sparkle" size="xs" color={ui.text} />
-              <Text variant="body">
+              <Text variant="body" style={{ flex: 1, minWidth: 0 }}>
                 {t.label}: {t.detail}
               </Text>
             </View>

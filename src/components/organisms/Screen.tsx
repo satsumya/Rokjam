@@ -3,6 +3,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,7 +12,7 @@ import type { ReactNode } from 'react';
 import { Text } from '../atoms/Text';
 import { useFlowCapture } from '../../hooks/useFlowCapture';
 import { ui } from '../../theme/colors';
-import { layout } from '../../theme/layout';
+import { layout, pageGutter } from '../../theme/layout';
 import { space } from '../../theme/spacing';
 
 export function Screen({
@@ -34,14 +35,18 @@ export function Screen({
   wide?: boolean;
 }) {
   const flowCapture = useFlowCapture();
+  const { width } = useWindowDimensions();
+  const gutter = pageGutter(width);
   const columnStyle = wide ? undefined : styles.column;
+  const padded = { padding: gutter, paddingBottom: space[32] };
+  const footerPadded = { padding: gutter, gap: space[12] };
 
   const header = (
     <View style={styles.headerRow}>
       <Text variant="h4" style={styles.title}>
         {title}
       </Text>
-      {headerRight}
+      {headerRight ? <View style={styles.headerRight}>{headerRight}</View> : null}
     </View>
   );
 
@@ -53,20 +58,20 @@ export function Screen({
       >
         {flowCapture ? (
           <View style={[styles.flex, { justifyContent: 'space-between' }]}>
-            <View style={[styles.content, columnStyle]}>
+            <View style={[styles.content, padded, columnStyle]}>
               {header}
               <View style={styles.body}>{children}</View>
             </View>
             {footer ? (
               <View style={styles.footer}>
-                <View style={[styles.footerInner, columnStyle]}>{footer}</View>
+                <View style={[footerPadded, columnStyle]}>{footer}</View>
               </View>
             ) : null}
           </View>
         ) : (
           <>
             <ScrollView
-              contentContainerStyle={[styles.content, columnStyle]}
+              contentContainerStyle={[styles.content, padded, columnStyle]}
               keyboardShouldPersistTaps="handled"
             >
               {header}
@@ -74,7 +79,7 @@ export function Screen({
             </ScrollView>
             {footer ? (
               <View style={styles.footer}>
-                <View style={[styles.footerInner, columnStyle]}>{footer}</View>
+                <View style={[footerPadded, columnStyle]}>{footer}</View>
               </View>
             ) : null}
           </>
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
     maxWidth: layout.contentMaxWidth,
     alignSelf: 'center',
   },
-  content: { padding: space[24], paddingBottom: space[32] },
+  content: { width: '100%' },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -101,15 +106,12 @@ const styles = StyleSheet.create({
     marginBottom: space[24],
     gap: space[12],
   },
-  title: { flex: 1 },
+  title: { flex: 1, minWidth: 0 },
+  headerRight: { flexShrink: 0 },
   body: { gap: space[16] },
   footer: {
     borderTopWidth: 1,
     borderTopColor: ui.borderSubtle,
     backgroundColor: ui.surfaceMuted,
-  },
-  footerInner: {
-    padding: space[24],
-    gap: space[12],
   },
 });

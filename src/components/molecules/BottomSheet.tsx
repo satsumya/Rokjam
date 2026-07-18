@@ -4,12 +4,13 @@ import {
   Modal as RNModal,
   Pressable,
   StyleSheet,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
-import { layout } from '../../theme/layout';
+import { layout, pageGutter } from '../../theme/layout';
 import { space } from '../../theme/spacing';
 
 const OPEN_MS = 280;
@@ -29,6 +30,8 @@ export function BottomSheet({
   const [rendered, setRendered] = useState(false);
   const progress = useRef(new Animated.Value(0)).current;
   const sheetHeight = useRef(320);
+  const { width } = useWindowDimensions();
+  const gutter = pageGutter(width);
 
   useEffect(() => {
     if (visible) {
@@ -83,7 +86,7 @@ export function BottomSheet({
           }}
           style={[styles.sheet, { transform: [{ translateY: sheetTranslateY }] }]}
         >
-          <View style={styles.sheetInner}>
+          <View style={[styles.sheetInner, { padding: gutter }]}>
             <Text variant="h5">{title}</Text>
             {children}
           </View>
@@ -115,7 +118,6 @@ const styles = StyleSheet.create({
   sheetInner: {
     width: '100%',
     maxWidth: layout.contentMaxWidth,
-    padding: space[16],
     gap: space[12],
   },
 });

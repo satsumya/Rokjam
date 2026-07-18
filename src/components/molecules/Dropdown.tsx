@@ -174,11 +174,14 @@ export function Dropdown({
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                gap: space[8],
               },
               interactionStyle(state),
             ]}
           >
-            <Text variant="body">{displayLabel}</Text>
+            <Text variant="body" numberOfLines={1} style={{ flex: 1, minWidth: 0 }}>
+              {displayLabel}
+            </Text>
             <Icon name="caretDown" size="xs" color={ui.textMuted} />
           </Pressable>
           <NativeDropdownMenu

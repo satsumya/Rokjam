@@ -26,7 +26,7 @@ export function ToggleChip({
     <Pressable
       onPress={onPress}
       style={(state) => [
-        { borderRadius: 12 },
+        { borderRadius: 12, maxWidth: '100%' },
         interactionStyle(state),
         previewInteractionStyle(previewState),
       ]}
