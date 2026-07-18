@@ -79,7 +79,8 @@ export default function FlowMapPage() {
           is easy to scan; alternate paths stack below. Scroll horizontally within a journey when the diagram
           is wider than your screen. Tap a screen thumbnail to jump into the app at that point
           with the right test data loaded. Use **Update** (green) to refresh a screenshot after UI changes,
-          or **Update all** on a flow section — patch versions bump automatically when the image changed.
+          **Update all** on a flow section for that journey, or **Update all flows** at the top for every
+          screen across the map — patch versions bump automatically when the image changed.
           Requires `npm run flow-map-capture-server` in a second terminal.
           Use Download for PNG exports — filenames follow the screen naming convention in Standards (label, optional descriptors, version).
           Expand **Version info** on a flow section to see version numbers and last-updated timestamps.

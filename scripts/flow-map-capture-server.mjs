@@ -4,7 +4,7 @@
  * Run: npm run flow-map-capture-server
  */
 import http from 'http';
-import { captureFlowScreens, defaultAppBase, screenIdsForFlow } from './capture-flow-screen-lib.mjs';
+import { captureFlowScreens, defaultAppBase, loadScreenList, screenIdsForFlow } from './capture-flow-screen-lib.mjs';
 import { loadManifest } from './flow-map-manifest-utils.mjs';
 
 const PORT = Number(process.env.FLOW_MAP_CAPTURE_PORT ?? 9876);
@@ -86,6 +86,14 @@ const server = http.createServer(async (req, res) => {
       const result = await captureFlowScreens({ screenIds });
       const manifest = loadManifest();
       sendJson(res, 200, { ok: true, flowId, manifest, ...result });
+      return;
+    }
+
+    if (req.url === '/capture/all') {
+      const screenIds = loadScreenList().map((s) => s.id);
+      const result = await captureFlowScreens({ screenIds });
+      const manifest = loadManifest();
+      sendJson(res, 200, { ok: true, manifest, ...result });
       return;
     }
 

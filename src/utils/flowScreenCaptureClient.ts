@@ -73,6 +73,11 @@ export async function captureFlowMapFlow(flowId: string) {
   return postCapture('/capture/flow', { flowId });
 }
 
+/** Capture every flow-map screen (same as CLI `npm run capture-flow-screens`). */
+export async function captureFlowMapAll() {
+  return postCapture('/capture/all', {});
+}
+
 export async function fetchFlowMapManifest() {
   const response = await fetch(`${captureServerUrl()}/manifest`);
   const data = (await response.json()) as {

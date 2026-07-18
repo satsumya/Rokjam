@@ -537,6 +537,30 @@ export function FlowMapDiagram({
           </Text>
         </View>
       ) : null}
+      {canUpdate ? (
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: space[12],
+            marginBottom: space[12],
+          }}
+        >
+          <FlowMapActionButton
+            label={capture.busyKey === 'all' ? 'Updating all…' : 'Update all flows'}
+            variant="update"
+            disabled={Boolean(capture.busyKey)}
+            onPress={() => {
+              void capture.updateAll();
+            }}
+            accessibilityLabel="Update screenshots for every flow"
+          />
+          <Text variant="bodySmall" color={ui.textMuted} style={{ flex: 1, minWidth: 0 }}>
+            Recaptures every screen across all journeys. Prefer this after sweeping UI changes.
+          </Text>
+        </View>
+      ) : null}
       {capture.error ? (
         <View
           style={{

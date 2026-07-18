@@ -14,7 +14,7 @@ All agents (Cursor, Claude, Copilot, etc.) working in this repo **must** follow 
 2. Update the matching **docs/tickets/Flow/*.md** acceptance criteria if behaviour changed.
 3. Register new screens in the flow map (`flowMap.ts`, `flow-map-screens.json`, `flowScreenImages.ts` if needed) and run `npm run validate-flow-map:fix`.
 4. Wrap testing-only UI in `<PrototypeOnly>` so flow-map screenshots hide it.
-5. **Refresh screenshots from the flow map page** using **Update** / **Update all** (requires `npm run flow-map-capture-server` in a second terminal), or run `npm run capture-flow-screens` from the CLI.
+5. **Refresh screenshots from the flow map page** using **Update** / **Update all** / **Update all flows** (requires `npm run flow-map-capture-server` in a second terminal), or run `npm run capture-flow-screens` from the CLI.
 6. Run **`npm run check`** before finishing.
 
 ## Commands

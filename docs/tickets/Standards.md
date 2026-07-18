@@ -128,7 +128,7 @@ Use **MAJOR.MINOR.PATCH** semantics:
 | Minor functionality or feature update | MINOR | 0.0.1 → 0.1.0 |
 | Major functionality or feature update | MAJOR | 0.1.0 → 1.0.0 |
 
-**Automatic patch bumps** — **Update** / **Update all** on `/flow-map` (and `npm run capture-flow-screens`) compare each new PNG to the existing file. When the screenshot changed, the screen gets a **patch** bump and its **version-updated** timestamp updates; affected flow sections bump **patch** too. Unchanged screenshots leave version and timestamp as-is (timestamps reflect the last version change, not the last capture attempt). Restart `npm run flow-map-capture-server` after pulling capture-script changes.
+**Automatic patch bumps** — **Update** / **Update all** (per flow) / **Update all flows** on `/flow-map` (and `npm run capture-flow-screens`) compare each new PNG to the existing file. When the screenshot changed, the screen gets a **patch** bump and its **version-updated** timestamp updates; affected flow sections bump **patch** too. Unchanged screenshots leave version and timestamp as-is (timestamps reflect the last version change, not the last capture attempt). Restart `npm run flow-map-capture-server` after pulling capture-script changes.
 
 **Manual bumps** — Use when the change type is known but screenshots are unchanged, or for minor/major releases:
 
@@ -156,11 +156,11 @@ Wrap testing-only UI in `<PrototypeOnly>` (`flowCapture=1` during capture).
 
 | Command | Purpose |
 | --- | --- |
-| `npm run flow-map-capture-server` | Powers **Update** / **Update all** on the flow map page |
+| `npm run flow-map-capture-server` | Powers **Update** / **Update all** / **Update all flows** on the flow map page |
 | `npm run capture-flow-screens` | Regenerate every PNG from the CLI |
 | `npm run validate-flow-map` | Structural checks (manifest, screens list, flow specs) |
 | `npm run check` | Typecheck + validate-flow-map |
 
-Use **Update** buttons on `/flow-map` after UI changes (with the capture server and `npm run web` running). Patch versions bump automatically when the screenshot changed.
+Use **Update**, **Update all** (per flow), or **Update all flows** on `/flow-map` after UI changes (with the capture server and `npm run web` running). Patch versions bump automatically when the screenshot changed.
 
 Agents must follow [AGENTS.md](../../AGENTS.md) and `.cursor/rules/` — both reference this file.

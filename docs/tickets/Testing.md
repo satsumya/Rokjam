@@ -31,7 +31,7 @@ Each **Run scenario** button resets app state, applies the scenario setup, then 
 
 1. Terminal 1: `npm run web`
 2. Terminal 2: `npm run flow-map-capture-server`
-3. Open `/flow-map` → **Update** on a screen or **Update all** on a flow section. Patch versions bump automatically when the screenshot changed; unchanged screens keep their version.
+3. Open `/flow-map` → **Update** on a screen, **Update all** on a flow section, or **Update all flows** at the top for every journey. Patch versions bump automatically when the screenshot changed; unchanged screens keep their version.
 
 **CLI** (all screens at once):
 

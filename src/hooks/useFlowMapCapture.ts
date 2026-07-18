@@ -4,6 +4,7 @@ import type { FlowMapVersionEntry } from '../constants/flowMapManifest';
 import { FLOW_MAP_MANIFEST } from '../constants/flowMapManifest';
 import {
   applyCaptureResult,
+  captureFlowMapAll,
   captureFlowMapFlow,
   captureFlowMapScreens,
   checkFlowMapCaptureServer,
@@ -102,6 +103,20 @@ export function useFlowMapCapture() {
     [handleResult],
   );
 
+  const updateAll = useCallback(async () => {
+    setBusyKey('all');
+    setError(null);
+    setInfo(null);
+    try {
+      const result = await captureFlowMapAll();
+      handleResult(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setBusyKey(null);
+    }
+  }, [handleResult]);
+
   return {
     serverReady,
     busyKey,
@@ -113,5 +128,6 @@ export function useFlowMapCapture() {
     cacheKeys: state.cacheKeys,
     updateScreen,
     updateFlow,
+    updateAll,
   };
 }
