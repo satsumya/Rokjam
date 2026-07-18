@@ -13,6 +13,7 @@ import {
   Text,
 } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
+import { ui } from '../../src/theme/colors';
 import { computeDurationMinutes, formatDuration, formatSessionDate } from '../../src/utils/sessionUtils';
 
 export default function SessionDetailScreen() {
@@ -113,9 +114,9 @@ export default function SessionDetailScreen() {
 
       <Section title="Climbs">
         {session.climbs.length === 0 ? (
-          <Card>
-            <Text variant="body">No climbs logged in this session.</Text>
-          </Card>
+          <Text variant="body" color={ui.textMuted}>
+            No climbs logged in this session.
+          </Text>
         ) : (
           session.climbs.map((climb) => (
             <ClimbCard

@@ -199,9 +199,9 @@ export default function DashboardScreen() {
               <Link label="Full list" onPress={() => router.push('/sessions')} />
             </View>
             {recentSessions.length === 0 ? (
-              <Card>
-                <Text variant="body">No sessions yet.</Text>
-              </Card>
+              <Text variant="body" color={ui.textMuted}>
+                No sessions yet.
+              </Text>
             ) : (
               recentSessions.map((session) => {
                 const loc = locations.find((l) => l.id === session.locationId);
@@ -235,47 +235,45 @@ export default function DashboardScreen() {
       ) : null}
 
       <Section title="Profile summary">
-        <Card>
-          <ViewRow label="Home location" value={homeLocation?.name ?? 'Not set'} home={homeLocation?.isHome} />
-          {homeLocation?.nickname ? <Text variant="body">Nickname: {homeLocation.nickname}</Text> : null}
-          {homeLocation?.levels.length ? (
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[4] }}>
-              {homeLocation.levels.map((level) => (
+        <ViewRow label="Home location" value={homeLocation?.name ?? 'Not set'} home={homeLocation?.isHome} />
+        {homeLocation?.nickname ? <Text variant="body">Nickname: {homeLocation.nickname}</Text> : null}
+        {homeLocation?.levels.length ? (
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[4] }}>
+            {homeLocation.levels.map((level) => (
+              <View
+                key={level.id}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: space[4],
+                  borderWidth: 1,
+                  borderColor: ui.borderSubtle,
+                  borderRadius: 12,
+                  paddingHorizontal: space[8],
+                  paddingVertical: space[4],
+                }}
+              >
                 <View
-                  key={level.id}
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: space[4],
-                    borderWidth: 1,
-                    borderColor: ui.borderSubtle,
-                    borderRadius: 12,
-                    paddingHorizontal: space[8],
-                    paddingVertical: space[4],
+                    width: 10,
+                    height: 10,
+                    borderRadius: 2,
+                    backgroundColor: level.color,
                   }}
-                >
-                  <View
-                    style={{
-                      width: 10,
-                      height: 10,
-                      borderRadius: 2,
-                      backgroundColor: level.color,
-                    }}
-                  />
-                  <Text variant="body">{level.name}</Text>
-                </View>
-              ))}
-            </View>
-          ) : (
-            <Text variant="body">No levels set</Text>
-          )}
-          {strengthTags.length ? (
-            <Text variant="body">Strengths: {strengthTags.join(', ')}</Text>
-          ) : null}
-          {improvementTags.length ? (
-            <Text variant="body">Areas to improve: {improvementTags.join(', ')}</Text>
-          ) : null}
-        </Card>
+                />
+                <Text variant="body">{level.name}</Text>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Text variant="body">No levels set</Text>
+        )}
+        {strengthTags.length ? (
+          <Text variant="body">Strengths: {strengthTags.join(', ')}</Text>
+        ) : null}
+        {improvementTags.length ? (
+          <Text variant="body">Areas to improve: {improvementTags.join(', ')}</Text>
+        ) : null}
       </Section>
     </Screen>
   );

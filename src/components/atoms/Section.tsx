@@ -31,10 +31,10 @@ export function Section({
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text variant="h6">
+          <Text variant="h5">
             {title}
             {required ? (
-              <Text variant="h6" color={ui.danger}>
+              <Text variant="h5" color={ui.danger}>
                 {' '}*
               </Text>
             ) : null}

@@ -7,6 +7,7 @@ alwaysApply: true
 
 Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 
+- Prefer `Section` + spacing for grouping; use `Card` only for list rows, callouts, or clusters that need separation — never nest Card in Card, and don’t wrap whole forms already under Screen/Modal/BottomSheet
 - Required fields use `*` only; never label fields "optional"
 - No double headings — don't repeat a Section/Modal title as a field label; put `*` on the section title when the field label is omitted
 - New-user forms start blank; validate inline (not only on submit)

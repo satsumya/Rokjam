@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { Card } from '../atoms/Card';
 import { CheckboxRow } from '../atoms/CheckboxRow';
 import { Section } from '../atoms/Section';
 import { Text } from '../atoms/Text';
@@ -9,6 +8,7 @@ import { ClimbCard } from '../molecules/ClimbCard';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb, SessionSort } from '../../types/climbingSession';
 import { filterClimbs, sortClimbs } from '../../utils/sessionUtils';
+import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import { space } from '../../theme/spacing';
 
@@ -160,9 +160,9 @@ export function SessionClimbsList({
       ) : null}
 
       {filteredClimbs.length === 0 ? (
-        <Card>
-          <Text variant="body">No climbs yet. Tap Add climb to log your first climb.</Text>
-        </Card>
+        <Text variant="body" color={ui.textMuted}>
+          No climbs yet. Tap Add climb to log your first climb.
+        </Text>
       ) : (
         filteredClimbs.map((climb) => (
           <ClimbCard

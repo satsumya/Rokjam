@@ -6,7 +6,6 @@ import {
   AddressSearch,
   Avatar,
   Button,
-  Card,
   Icon,
   LevelRow,
   Link,
@@ -267,15 +266,9 @@ export default function ProfileSetupScreen() {
                   </View>
 
                   {levelsNudgeLocationId === location.id ? (
-                    <Card>
-                      <Text variant="body" weight="bold">
-                        Add difficulty levels for this location
-                      </Text>
-                      <Text variant="body">
-                        Levels help when logging climbs. Adjust the default level or add more to match your
-                        gym&apos;s grading.
-                      </Text>
-                    </Card>
+                    <Text variant="bodySmall" color={ui.textMuted}>
+                      Add colour grades for this location so you can log climbs against them.
+                    </Text>
                   ) : null}
 
                   {location.levels.map((level, index) => (

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
-import { Card } from '../atoms/Card';
 import { Icon } from '../atoms/Icon';
 import { Link } from '../atoms/Link';
 import { Text } from '../atoms/Text';
@@ -41,16 +40,11 @@ export function SessionLocationPanel({
   if (locations.length === 0) {
     return (
       <View style={{ gap: space[8] }}>
-        <Text variant="body" weight="bold">
-          Location
+        <Text variant="body">No location linked to this session yet.</Text>
+        <Text variant="bodySmall" color={ui.textMuted}>
+          Search for your gym or crag and set up difficulty levels.
         </Text>
-        <Card>
-          <Text variant="body">No location linked to this session yet.</Text>
-          <Text variant="bodySmall" color={ui.textMuted}>
-            Search for your gym or crag and set up difficulty levels.
-          </Text>
-          <Button label="Add location" onPress={() => setShowAddSheet(true)} />
-        </Card>
+        <Button label="Add location" onPress={() => setShowAddSheet(true)} />
         {addSheet}
       </View>
     );
@@ -60,35 +54,28 @@ export function SessionLocationPanel({
     return (
       <View style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
-          Location
+          {sessionLoc ? 'Choose a different location' : 'Select a location for this session'}
         </Text>
-        <Card>
-          <Text variant="body">
-            {sessionLoc ? 'Choose a different location' : 'Select a location for this session'}
-          </Text>
-          <View style={{ gap: space[6] }}>
-            {locations.map((loc) => (
-              <Pressable
-                key={loc.id}
-                onPress={() => {
-                  onLocationLinked(loc.id, loc.name);
-                  setChangingLocation(false);
-                }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
-                  {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-                  <Text variant="body" weight={sessionLocationId === loc.id ? 'bold' : 'regular'}>
-                    {loc.nickname ? `${loc.nickname} — ` : ''}
-                    {loc.name}
-                  </Text>
-                </View>
-              </Pressable>
-            ))}
-          </View>
-          {sessionLoc ? (
-            <Link label="Cancel" onPress={() => setChangingLocation(false)} />
-          ) : null}
-        </Card>
+        <View style={{ gap: space[6] }}>
+          {locations.map((loc) => (
+            <Pressable
+              key={loc.id}
+              onPress={() => {
+                onLocationLinked(loc.id, loc.name);
+                setChangingLocation(false);
+              }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
+                {loc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
+                <Text variant="body" weight={sessionLocationId === loc.id ? 'bold' : 'regular'}>
+                  {loc.nickname ? `${loc.nickname} — ` : ''}
+                  {loc.name}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </View>
+        {sessionLoc ? <Link label="Cancel" onPress={() => setChangingLocation(false)} /> : null}
         <Pressable onPress={() => setShowAddSheet(true)}>
           <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
             Add new location
@@ -100,27 +87,24 @@ export function SessionLocationPanel({
   }
 
   return (
-    <View style={{ gap: space[8] }}>
-      <Text variant="body" weight="bold">
-        Location
-      </Text>
-      <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
-          {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
-          <Text variant="body">
-            {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
-            {sessionLoc.name}
-          </Text>
-        </View>
+    <View style={{ gap: space[6] }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[4] }}>
+        {sessionLoc.isHome ? <Icon name="house" size="xs" color={ui.text} /> : null}
+        <Text variant="body">
+          {sessionLoc.nickname ? `${sessionLoc.nickname} — ` : ''}
+          {sessionLoc.name}
+        </Text>
+      </View>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
         {locations.length > 1 ? (
           <Link label="Change location" onPress={() => setChangingLocation(true)} />
         ) : null}
-      </Card>
-      <Pressable onPress={() => setShowAddSheet(true)}>
-        <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
-          Add new location
-        </Text>
-      </Pressable>
+        <Pressable onPress={() => setShowAddSheet(true)}>
+          <Text variant="bodySmall" color={ui.textMuted} style={{ textDecorationLine: 'underline' }}>
+            Add new location
+          </Text>
+        </Pressable>
+      </View>
       {addSheet}
     </View>
   );

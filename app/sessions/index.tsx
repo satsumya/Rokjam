@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -13,6 +13,8 @@ import {
   Text,
 } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
+import { ui } from '../../src/theme/colors';
+import { space } from '../../src/theme/spacing';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -50,12 +52,14 @@ export default function SessionsListScreen() {
       }
     >
       {completed.length === 0 ? (
-        <Card>
-          <Text variant="body">No completed sessions yet.</Text>
+        <View style={{ gap: space[8] }}>
+          <Text variant="body" color={ui.textMuted}>
+            No completed sessions yet.
+          </Text>
           <PrototypeOnly>
             <Button label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
           </PrototypeOnly>
-        </Card>
+        </View>
       ) : (
         <Section title={`${completed.length} session${completed.length === 1 ? '' : 's'}`}>
           {completed.map((session) => {

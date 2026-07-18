@@ -1,6 +1,5 @@
 import { Pressable, View } from 'react-native';
 
-import { Card } from '../atoms/Card';
 import { Icon } from '../atoms/Icon';
 import { Section } from '../atoms/Section';
 import { Text } from '../atoms/Text';
@@ -44,7 +43,7 @@ export function DashboardTrends({
 
   return (
     <Section title="Trends">
-      <Card>
+      <View style={{ gap: space[4] }}>
         <View style={{ flexDirection: 'row', gap: space[8] }}>
           {(['week', 'month', '3months'] as TrendTimeframe[]).map((t) => (
             <Pressable
@@ -65,31 +64,31 @@ export function DashboardTrends({
         <Text variant="bodySmall" color={ui.textMuted}>
           Showing {timeframeLabel.toLowerCase()} view
         </Text>
-      </Card>
+      </View>
 
-      <Card>
+      <View style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Session duration
         </Text>
         <MiniBars data={durationData} unit="m" />
-      </Card>
+      </View>
 
-      <Card>
+      <View style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Difficulty trend
         </Text>
         <MiniBars data={difficultyData} />
-      </Card>
+      </View>
 
-      <Card>
+      <View style={{ gap: space[8] }}>
         <Text variant="body" weight="bold">
           Warm-up climb count
         </Text>
         <MiniBars data={warmUpData} />
-      </Card>
+      </View>
 
       {standouts.length ? (
-        <Card>
+        <View style={{ gap: space[8] }}>
           <Text variant="body" weight="bold">
             Standout climbs
           </Text>
@@ -101,7 +100,7 @@ export function DashboardTrends({
               </Text>
             </View>
           ))}
-        </Card>
+        </View>
       ) : null}
     </Section>
   );

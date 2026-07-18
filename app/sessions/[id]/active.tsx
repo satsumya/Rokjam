@@ -340,11 +340,9 @@ export default function ActiveSessionScreen() {
       ) : null}
 
       {climbPrompt ? (
-        <Card>
-          <Text variant="body" color={ui.danger}>
-            {climbPrompt}
-          </Text>
-        </Card>
+        <Text variant="body" color={ui.danger}>
+          {climbPrompt}
+        </Text>
       ) : null}
 
       <Section title="Session details">

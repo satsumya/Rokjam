@@ -1,4 +1,5 @@
-import { Card } from '../atoms/Card';
+import { View } from 'react-native';
+
 import { Section } from '../atoms/Section';
 import { Text } from '../atoms/Text';
 import { MiniBars } from '../molecules/MiniBars';
@@ -28,18 +29,16 @@ export function CommunityTrends({ sessions }: { sessions: ClimbingSession[] }) {
 
   return (
     <Section title="Community trends">
-      <Card>
-        <Text variant="body">Public sessions this week: {sessions.length}</Text>
-        <Text variant="body">Total flashes logged: {flashCount}</Text>
-        {topTags.length ? (
-          <>
-            <Text variant="body" weight="bold" style={{ marginTop: space[4] }}>
-              Popular tags
-            </Text>
-            <MiniBars data={topTags} />
-          </>
-        ) : null}
-      </Card>
+      <Text variant="body">Public sessions this week: {sessions.length}</Text>
+      <Text variant="body">Total flashes logged: {flashCount}</Text>
+      {topTags.length ? (
+        <View style={{ gap: space[8] }}>
+          <Text variant="body" weight="bold">
+            Popular tags
+          </Text>
+          <MiniBars data={topTags} />
+        </View>
+      ) : null}
     </Section>
   );
 }

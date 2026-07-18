@@ -163,8 +163,8 @@ export default function EditSessionScreen() {
         ) : null}
       </Section>
 
-      <Section title="Climbs">
-        {!draftClimb ? (
+      {!draftClimb ? (
+        <>
           <Button
             label="Add climb"
             variant="secondary"
@@ -173,26 +173,6 @@ export default function EditSessionScreen() {
               setDraftClimb(emptyClimb());
             }}
           />
-        ) : (
-          <>
-            <ClimbEditor
-              climb={draftClimb}
-              location={location}
-              onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
-            />
-            <Button label="Save climb" onPress={saveClimb} />
-            <Button
-              label="Cancel"
-              variant="ghost"
-              onPress={() => {
-                setEditingClimbId(null);
-                setDraftClimb(null);
-              }}
-            />
-          </>
-        )}
-
-        {!draftClimb ? (
           <SessionClimbsList
             climbs={session.climbs}
             location={location}
@@ -209,8 +189,25 @@ export default function EditSessionScreen() {
               })
             }
           />
-        ) : null}
-      </Section>
+        </>
+      ) : (
+        <View style={{ gap: space[12] }}>
+          <ClimbEditor
+            climb={draftClimb}
+            location={location}
+            onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
+          />
+          <Button label="Save climb" onPress={saveClimb} />
+          <Button
+            label="Cancel"
+            variant="ghost"
+            onPress={() => {
+              setEditingClimbId(null);
+              setDraftClimb(null);
+            }}
+          />
+        </View>
+      )}
     </Screen>
   );
 }

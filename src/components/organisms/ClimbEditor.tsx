@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Button } from '../atoms/Button';
-import { Card } from '../atoms/Card';
 import { CheckboxRow } from '../atoms/CheckboxRow';
 import { Chip, RemovableChip } from '../atoms/Chip';
 import { Text } from '../atoms/Text';
@@ -10,7 +9,6 @@ import { ToggleChip } from '../atoms/ToggleChip';
 import { Section } from '../atoms/Section';
 import { TextField } from '../atoms/TextField';
 import { DifficultyPicker } from '../molecules/DifficultyPicker';
-import { bodySizes, fontFamilies } from '../../theme/typography';
 import type { Location } from '../../context/PrototypeContext';
 import type { SessionClimb } from '../../types/climbingSession';
 import {
@@ -20,7 +18,7 @@ import {
   nextAttemptProgress,
 } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
-import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
+import { interactionStyle } from '../../theme/interaction';
 import { space } from '../../theme/spacing';
 
 type ClimbEditorProps = {
@@ -32,7 +30,6 @@ type ClimbEditorProps = {
 
 export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorProps) {
   const [customTag, setCustomTag] = useState('');
-  const customTagField = useHoverFocus();
 
   const toggleTag = (tag: string) => {
     const next = climb.tags.includes(tag)
@@ -71,7 +68,7 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
   };
 
   return (
-    <Card>
+    <View style={{ gap: space[16] }}>
       <Section title="Climb details">
         <TextField
           label="Name or wall name"
@@ -126,31 +123,19 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
             ))}
           </View>
         ) : null}
-        <View style={{ flexDirection: 'row', gap: space[8], marginTop: space[8] }}>
-          <TextInput
-            value={customTag}
-            onChangeText={setCustomTag}
-            placeholder="Custom tag"
-            {...(customTagField.bind as object)}
-            style={[
-              {
-                flex: 1,
-                borderWidth: 1,
-                borderColor: customTagField.hovered ? ui.borderStrong : ui.border,
-                borderRadius: 8,
-                paddingHorizontal: space[12],
-                paddingVertical: space[12],
-                fontFamily: fontFamilies.bodyRegular,
-                fontSize: bodySizes.base,
-                color: ui.text,
-              },
-              customTagField.focused ? focusRing : null,
-            ]}
-          />
+        <View style={{ flexDirection: 'row', gap: space[8], alignItems: 'flex-end' }}>
+          <View style={{ flex: 1 }}>
+            <TextField
+              value={customTag}
+              onChangeText={setCustomTag}
+              placeholder="Custom tag"
+              accessibilityLabel="Custom tag"
+            />
+          </View>
           <Button label="Add tag" variant="secondary" onPress={addCustomTag} />
         </View>
         {climb.tags.length ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[8] }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6] }}>
             {climb.tags.map((tag) => (
               <RemovableChip key={tag} label={tag} onPress={() => toggleTag(tag)} />
             ))}
@@ -194,6 +179,6 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
       </Section>
 
       {onShare ? <Button label="Share climb" variant="ghost" onPress={onShare} /> : null}
-    </Card>
+    </View>
   );
 }

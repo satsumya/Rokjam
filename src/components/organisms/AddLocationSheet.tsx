@@ -93,20 +93,10 @@ export function AddLocationSheet({
         <AddressSearch label={false} onSelect={handleSelectAddress} error={error} required />
       ) : (
         <View style={{ gap: space[12] }}>
-          <View
-            style={{
-              borderWidth: 1,
-              borderColor: ui.border,
-              borderRadius: 8,
-              padding: space[12],
-              backgroundColor: ui.surfaceMuted,
-              gap: space[4],
-            }}
-          >
+          <View style={{ gap: space[4] }}>
             <Text variant="body" weight="bold">
-              Selected location
+              {address}
             </Text>
-            <Text variant="body">{address}</Text>
             <Button
               label="Change location"
               variant="ghost"

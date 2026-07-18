@@ -76,9 +76,9 @@ export default function CommunityScreen() {
 
       <Section title="Public sessions">
         {feed.length === 0 ? (
-          <Card>
-            <Text variant="body">No public sessions to show.</Text>
-          </Card>
+          <Text variant="body" color={ui.textMuted}>
+            No public sessions to show.
+          </Text>
         ) : (
           feed.map((session) => (
             <Card key={session.id}>
@@ -99,6 +99,7 @@ export default function CommunityScreen() {
                 />
               </View>
               <SessionRow
+                framed={false}
                 date={session.date}
                 duration={formatDuration(
                   computeDurationMinutes(

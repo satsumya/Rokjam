@@ -4,6 +4,12 @@ Cross-cutting rules for the Stage 1 prototype. Apply these in every flow unless 
 
 Referenced from flow specs in [`Flow/`](./Flow/).
 
+## Layout & surfaces
+
+- [x] Prefer Section + spacing for grouping — Use `Section` (title + gap) to structure screens; do not wrap every subsection in a bordered box
+- [x] Card usage — Use `Card` only for tappable list rows, status/callouts, or clusters that need clear separation from surrounding content. Never nest `Card` inside `Card`. Do not wrap a whole form in `Card` when it already sits under `Screen`, `Modal`, or `BottomSheet`
+- [x] No ad-hoc Card clones — Prefer the `Card` atom over copy-pasted `borderWidth` + `surfaceMuted` Views. Prefer plain text + spacing over a frame when the parent already provides structure
+
 ## Forms & validation
 
 - [x] Required and optional fields — Use `*` on required fields only; do not label fields as “optional”
