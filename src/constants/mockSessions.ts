@@ -1,6 +1,5 @@
-import { DEFAULT_LEVEL_COLORS } from './difficultyLevels';
+import { DEFAULT_LEVEL_COLORS, levelPreset } from './difficultyLevels';
 import type { ClimbingSession } from '../types/climbingSession';
-import { colors } from '../theme/colors';
 
 export function createDemoSessions(homeLocationId: string, homeLocationName: string): ClimbingSession[] {
   const levels = DEFAULT_LEVEL_COLORS.slice(0, 5);
@@ -120,6 +119,10 @@ export function createDemoSessions(homeLocationId: string, homeLocationName: str
   ];
 }
 
+const blue = levelPreset('blue');
+const purple = levelPreset('purple');
+const orange = levelPreset('orange');
+
 export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
   {
     id: 'public-1',
@@ -136,8 +139,8 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
     climbs: [
       {
         id: 'pc1',
-        levelName: 'Blue',
-        levelColor: colors.brand.blue.main,
+        levelName: blue.name,
+        levelColor: blue.color,
         name: 'Corner crack',
         tags: ['crimpy'],
         notes: '',
@@ -150,8 +153,8 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
       },
       {
         id: 'pc2',
-        levelName: 'Purple',
-        levelColor: colors.brand.purple.main,
+        levelName: purple.name,
+        levelColor: purple.color,
         name: 'Roof dyno',
         tags: ['dyno'],
         notes: '',
@@ -179,8 +182,8 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
     climbs: [
       {
         id: 'pc3',
-        levelName: 'Orange',
-        levelColor: colors.brand.orange.main,
+        levelName: orange.name,
+        levelColor: orange.color,
         name: 'River wall traverse',
         tags: ['slab', 'balance'],
         notes: '',
@@ -208,8 +211,8 @@ export const MOCK_PUBLIC_SESSIONS: ClimbingSession[] = [
     climbs: [
       {
         id: 'pc4',
-        levelName: 'Orange',
-        levelColor: colors.brand.orange.main,
+        levelName: orange.name,
+        levelColor: orange.color,
         name: 'Comp qualifier',
         tags: ['power', 'overhang'],
         notes: 'Still working the crux',

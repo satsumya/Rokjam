@@ -169,7 +169,6 @@ export function ClimbEditor({ climb, location, onChange, onShare }: ClimbEditorP
                   selected={attempt.progress.includes(opt.value)}
                   onPress={() => toggleProgress(attempt.id, opt.value)}
                   paddingHorizontal={space[8]}
-                  fontSize={13}
                 />
               ))}
             </View>

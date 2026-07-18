@@ -35,7 +35,10 @@ export {
   type ButtonStyleTokens,
 } from '../theme/buttonStyles';
 export { space, SPACING_SCALE, type Space } from '../theme/spacing';
-export { layout } from '../theme/layout';
+export { layout, pageGutter } from '../theme/layout';
+export { colorPickerGeometry } from '../theme/colorPicker';
+export { BRAND_COLOR_ORDER, brandColorLabel, type BrandColorId } from '../theme/colors';
+export { DEFAULT_LEVEL_COLORS, levelPreset, PET_ROCK_AVATARS } from '../constants/difficultyLevels';
 export { TextField } from './atoms/TextField';
 export { Card } from './atoms/Card';
 export { Link } from './atoms/Link';

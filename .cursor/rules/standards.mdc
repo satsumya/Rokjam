@@ -8,11 +8,13 @@ alwaysApply: true
 Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 
 - Prefer `Section` + spacing for grouping; use `Card` only for list rows, callouts, or clusters that need separation — never nest Card in Card, and don’t wrap whole forms already under Screen/Modal/BottomSheet
+- Product UI must work down to **320px**; use `pageGutter` / `layout` tokens — no overflow into margins
 - Required fields use `*` only; never label fields "optional"
 - No double headings — don't repeat a Section/Modal title as a field label; put `*` on the section title when the field label is omitted
 - New-user forms start blank; validate inline (not only on submit)
 - Dates: **Day DD Mmm YYYY**; time/duration: preset dropdown + custom value
 - Address search with live suggestions; rd/road-style aliases; match highlight; “Add it anyway” in the list (Enter adds typed value); home = house icon
+- Level colours: presets from `BRAND_COLOR_ORDER` / `DEFAULT_LEVEL_COLORS` (rainbow order); picker sizes from `colorPickerGeometry` — no parallel hardcoded lists
 - Tags as removable chips with suggestions; typing is secondary
 - Destructive/final actions use bottom sheets; share only after save/end
 - No developer-only copy in the UI

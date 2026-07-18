@@ -12,7 +12,7 @@ import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Text';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
-import { pageGutter } from '../../theme/layout';
+import { pageGutter, layout } from '../../theme/layout';
 import { space } from '../../theme/spacing';
 
 export function Modal({
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     width: '100%',
-    maxWidth: 480,
+    maxWidth: layout.modalMaxWidth,
     maxHeight: '90%',
     backgroundColor: ui.surface,
     borderRadius: 12,

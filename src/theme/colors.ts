@@ -238,6 +238,11 @@ export const focus = {
   offset: 4,
 } as const;
 
+/**
+ * Display order for brand colours across the app (colour system, level presets,
+ * button style gallery). Rainbow hue order, then black / white.
+ * Do not hardcode a competing order in components — map from this array.
+ */
 export const BRAND_COLOR_ORDER: BrandColorId[] = [
   'red',
   'orange',

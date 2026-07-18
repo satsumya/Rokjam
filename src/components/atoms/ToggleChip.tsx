@@ -11,14 +11,12 @@ export function ToggleChip({
   selected,
   onPress,
   paddingHorizontal = space[12],
-  fontSize,
   previewState,
 }: {
   label: string;
   selected: boolean;
   onPress: () => void;
   paddingHorizontal?: number;
-  fontSize?: number;
   /** Preview/Storybook only: force a hover/press/focus visual state. */
   previewState?: PreviewState;
 }) {
@@ -39,7 +37,6 @@ export function ToggleChip({
           borderRadius: 12,
           paddingHorizontal,
           paddingVertical: space[4],
-          ...(fontSize ? { fontSize } : null),
         }}
       >
         {label}

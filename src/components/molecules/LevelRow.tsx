@@ -10,6 +10,7 @@ import { BottomSheet } from './BottomSheet';
 import { ColorPicker } from './ColorPicker';
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
 import { ui } from '../../theme/colors';
+import { colorPickerGeometry } from '../../theme/colorPicker';
 import { focusRing, interactionStyle, useHoverFocus } from '../../theme/interaction';
 import { bodySizes, fontFamilies } from '../../theme/typography';
 import { space } from '../../theme/spacing';
@@ -165,8 +166,8 @@ export function LevelRow({
           >
             <View
               style={{
-                width: 24,
-                height: 24,
+                width: colorPickerGeometry.rowSwatch,
+                height: colorPickerGeometry.rowSwatch,
                 borderRadius: 4,
                 backgroundColor: level.color || ui.borderSubtle,
                 borderWidth: 1,
@@ -257,14 +258,14 @@ export function LevelRow({
               const selected = normalizeColor(preset.color) === normalizeColor(draftColor);
               return (
                 <Pressable
-                  key={preset.color}
+                  key={preset.id}
                   accessibilityRole="button"
                   accessibilityLabel={preset.name}
                   onPress={() => selectPreset(preset)}
                   style={(state) => [
                     {
-                      width: 36,
-                      height: 36,
+                      width: colorPickerGeometry.presetSwatch,
+                      height: colorPickerGeometry.presetSwatch,
                       borderRadius: 8,
                       backgroundColor: preset.color,
                       borderWidth: selected ? 2 : 1,

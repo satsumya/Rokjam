@@ -70,7 +70,11 @@ Example tokens for `brand.green`:
 - `brand.green.dark`
 - `brand.green.accent`
 
-Brand colours: yellow, blue, purple, green, orange, red, black, white, pink.
+Brand colours (display order = `BRAND_COLOR_ORDER` — rainbow, then black / white):
+
+`red → orange → yellow → green → blue → purple → pink → black → white`
+
+Level presets (`DEFAULT_LEVEL_COLORS`) and button colour-style galleries map from this array. Do not maintain a second hardcoded order in UI code.
 
 ### Semantic palettes
 
@@ -139,7 +143,11 @@ Semantic colours use their own contrast tokens (`main.contrast`, `accent.contras
 
 ### Implementation
 
-- [ ] Token source: `src/theme/colors.ts` (TypeScript — works on native and web)
+- [x] Token source: `src/theme/colors.ts` (TypeScript — works on native and web)
+- [x] Brand display order: `BRAND_COLOR_ORDER` (single source for colour system, level presets, button styles)
+- [x] Level presets: `DEFAULT_LEVEL_COLORS` / `levelPreset()` in `src/constants/difficultyLevels.ts`
+- [x] Colour picker geometry: `colorPickerGeometry` in `src/theme/colorPicker.ts`
+- [x] Layout: `layout` + `pageGutter` in `src/theme/layout.ts`
 - [ ] All prototype colours linked to theme tokens
 - [ ] Optional later: export CSS variables (`--brand-green-main`, etc.) from the same source
 

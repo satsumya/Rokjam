@@ -7,13 +7,15 @@ import { space } from './spacing';
 export const layout = {
   /** Max width for product screen content (not utility / scenario pages). */
   contentMaxWidth: 640,
+  /** Max width for centered dialogs (`Modal`). */
+  modalMaxWidth: 480,
   /** Narrowest phone width we support without clipping or margin overflow. */
   minViewportWidth: 320,
   /** Use compact gutters at or below this width. */
   compactBreakpoint: 360,
 } as const;
 
-/** Page gutter for Screen / Modal chrome — tighter on very narrow phones. */
+/** Page gutter for Screen / Modal / BottomSheet chrome — tighter on very narrow phones. */
 export function pageGutter(viewportWidth: number) {
   return viewportWidth <= layout.compactBreakpoint ? space[16] : space[24];
 }

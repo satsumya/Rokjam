@@ -6,7 +6,7 @@ Edit checkboxes in the ticket files as you implement or verify.
 
 ## Standards
 
-Cross-cutting rules (date format, required fields, validation, flow map upkeep, etc.) live in **[Standards.md](./Standards.md)**. Flow specs and **[AGENTS.md](../../AGENTS.md)** reference these by default.
+Cross-cutting rules (date format, required fields, validation, layout / 320px, flow map upkeep, etc.) live in **[Standards.md](./Standards.md)**. Colour tokens, brand order, typography, and layout variables are documented in **[DesignSystem.md](./DesignSystem.md)**. Flow specs and **[AGENTS.md](../../AGENTS.md)** reference these by default.
 
 ## Testing
 

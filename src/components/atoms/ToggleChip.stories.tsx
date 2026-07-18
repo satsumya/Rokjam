@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Unselected: Story = {};
 export const Selected: Story = { args: { selected: true } };
-export const Dense: Story = { args: { label: 'flash', paddingHorizontal: space[8], fontSize: 13, selected: true } };
+export const Dense: Story = { args: { label: 'flash', paddingHorizontal: space[8], selected: true } };
 
 export const Interactive: Story = {
   render: (args) => {

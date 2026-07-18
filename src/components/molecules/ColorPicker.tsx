@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { ui } from '../../theme/colors';
+import { colorPickerGeometry } from '../../theme/colorPicker';
 import { space } from '../../theme/spacing';
 import {
   hexToHsv,
@@ -14,10 +15,7 @@ import {
   type HsvColor,
 } from '../../utils/color';
 
-const SV_HEIGHT = 128;
-const HUE_HEIGHT = 22;
-const THUMB = 18;
-
+/** Pure HSV spectrum stops (physics), not brand order. */
 const HUE_SPECTRUM = [
   '#FF0000',
   '#FFFF00',
@@ -27,6 +25,9 @@ const HUE_SPECTRUM = [
   '#FF00FF',
   '#FF0000',
 ] as const;
+
+const { svHeight: SV_HEIGHT, hueHeight: HUE_HEIGHT, thumb: THUMB, previewSize: PREVIEW } =
+  colorPickerGeometry;
 
 function clamp01(value: number) {
   return Math.min(1, Math.max(0, value));
@@ -182,9 +183,9 @@ export function ColorPicker({
             height: THUMB,
             borderRadius: THUMB / 2,
             borderWidth: 2,
-            borderColor: '#FFFFFF',
+            borderColor: ui.surface,
             backgroundColor: selected,
-            shadowColor: '#000',
+            shadowColor: ui.shadow,
             shadowOpacity: 0.25,
             shadowRadius: 2,
             shadowOffset: { width: 0, height: 1 },
@@ -219,9 +220,9 @@ export function ColorPicker({
             height: THUMB,
             borderRadius: THUMB / 2,
             borderWidth: 2,
-            borderColor: '#FFFFFF',
+            borderColor: ui.surface,
             backgroundColor: pureHue,
-            shadowColor: '#000',
+            shadowColor: ui.shadow,
             shadowOpacity: 0.25,
             shadowRadius: 2,
             shadowOffset: { width: 0, height: 1 },
@@ -236,8 +237,8 @@ export function ColorPicker({
         <View
           accessibilityLabel="Selected colour preview"
           style={{
-            width: 40,
-            height: 40,
+            width: PREVIEW,
+            height: PREVIEW,
             flexShrink: 0,
             borderRadius: 8,
             borderWidth: 1,
