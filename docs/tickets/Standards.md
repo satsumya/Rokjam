@@ -7,6 +7,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 ## Forms & validation
 
 - [x] Required and optional fields — Use `*` on required fields only; do not label fields as “optional”
+- [x] No double headings — Do not repeat a Section/Modal/Screen title as a field label underneath (e.g. Section “Locations” + field “Location”). Keep the section/modal title; omit the field label. If the field is required, put the `*` on the section title instead
 - [x] New-user forms start blank — Fields that should be empty for a new user must not be prefilled (e.g. sign-up email/password)
 - [x] Real-time input errors — Validate as the user types or on blur; do not wait until submit/continue
 - [x] Email validation — Invalid email (e.g. missing `@`) shows an inline error

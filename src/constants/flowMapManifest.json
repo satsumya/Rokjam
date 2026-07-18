@@ -9,8 +9,8 @@
       "updatedAt": "2026-07-14T14:14:54.779Z"
     },
     "session-create": {
-      "version": "0.1.11",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.1.12",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     },
     "session-view-edit": {
       "version": "0.0.11",
@@ -111,28 +111,28 @@
       "updatedAt": "2026-07-14T14:15:36.745Z"
     },
     "active-session-empty": {
-      "version": "0.0.4",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.0.5",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     },
     "active-session-empty-incomplete": {
-      "version": "0.0.5",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.0.6",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     },
     "active-session-adding-climb": {
-      "version": "0.0.5",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.0.6",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     },
     "active-session-multi-climbs": {
-      "version": "0.0.5",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.0.6",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     },
     "active-session-end-sheet": {
-      "version": "0.0.5",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.0.6",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     },
     "active-session-end-sheet-filled": {
-      "version": "0.0.5",
-      "updatedAt": "2026-07-14T14:15:36.745Z"
+      "version": "0.0.6",
+      "updatedAt": "2026-07-15T02:53:26.851Z"
     }
   }
 }

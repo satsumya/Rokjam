@@ -13,10 +13,13 @@ export function AddressSearch({
   onSelect,
   error,
   required = true,
+  /** Omit or pass `false` when a parent Section/Modal title already names this field. */
+  label = 'Location',
 }: {
   onSelect: (address: string) => void;
   error?: string;
   required?: boolean;
+  label?: string | false;
 }) {
   const [query, setQuery] = useState('');
   const [showAddAnyway, setShowAddAnyway] = useState(false);
@@ -53,12 +56,13 @@ export function AddressSearch({
     <View style={{ gap: space[8] }}>
       <View style={{ zIndex: 2 }}>
         <TextField
-          label="Location"
-          required={required}
+          label={label === false ? undefined : label}
+          required={label === false ? false : required}
           value={query}
           onChangeText={handleChange}
           placeholder="Search address or gym name"
           error={error}
+          accessibilityLabel={label === false ? 'Location' : undefined}
         />
         {suggestions.length > 0 ? (
           <View

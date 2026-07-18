@@ -18,8 +18,10 @@ export function TextField({
   keyboardType,
   maxLength,
   previewState,
+  accessibilityLabel,
 }: {
-  label: string;
+  /** Omit when a parent Section/Modal title already names this field. */
+  label?: string;
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
@@ -31,6 +33,7 @@ export function TextField({
   maxLength?: number;
   /** Preview/Storybook only: force a hover/focus visual state. */
   previewState?: PreviewState;
+  accessibilityLabel?: string;
 }) {
   const { hovered, focused, bind } = useHoverFocus();
   const hoverActive = hovered || previewState === 'hover';
@@ -38,14 +41,16 @@ export function TextField({
 
   return (
     <View style={styles.field}>
-      <Text variant="body" weight="bold" style={styles.label}>
-        {label}
-        {required ? (
-          <Text variant="body" weight="bold" color={ui.danger}>
-            {' '}*
-          </Text>
-        ) : null}
-      </Text>
+      {label ? (
+        <Text variant="body" weight="bold" style={styles.label}>
+          {label}
+          {required ? (
+            <Text variant="body" weight="bold" color={ui.danger}>
+              {' '}*
+            </Text>
+          ) : null}
+        </Text>
+      ) : null}
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -54,6 +59,7 @@ export function TextField({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         maxLength={maxLength}
+        accessibilityLabel={accessibilityLabel ?? label ?? placeholder}
         {...(bind as object)}
         style={[
           styles.input,

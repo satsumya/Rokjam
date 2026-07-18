@@ -76,7 +76,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "active-session-adding-climb": {
     "width": 720,
-    "height": 2938
+    "height": 3066
   },
   "active-session-multi-climbs": {
     "width": 720,

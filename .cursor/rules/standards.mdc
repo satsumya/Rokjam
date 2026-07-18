@@ -8,6 +8,7 @@ alwaysApply: true
 Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 
 - Required fields use `*` only; never label fields "optional"
+- No double headings — don't repeat a Section/Modal title as a field label; put `*` on the section title when the field label is omitted
 - New-user forms start blank; validate inline (not only on submit)
 - Dates: **Day DD Mmm YYYY**; time/duration: preset dropdown + custom value
 - Address search with suggestions; "add anyway" when no match; home = house icon

@@ -167,7 +167,6 @@ export default function ProfileSetupScreen() {
 
       <Section title="Username">
         <TextField
-          label="Username"
           value={username}
           onChangeText={(value) => {
             setUsername(value);
@@ -178,8 +177,8 @@ export default function ProfileSetupScreen() {
         />
       </Section>
 
-      <Section title="Locations">
-        <AddressSearch onSelect={handleAddLocation} error={locationError} />
+      <Section title="Locations" required>
+        <AddressSearch label={false} onSelect={handleAddLocation} error={locationError} />
 
         {locations.map((location) => {
           const isOpen = openLocationId === location.id;

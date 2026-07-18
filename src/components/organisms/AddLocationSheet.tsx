@@ -90,7 +90,7 @@ export function AddLocationSheet({
       </Text>
 
       {!address ? (
-        <AddressSearch onSelect={handleSelectAddress} error={error} required />
+        <AddressSearch label={false} onSelect={handleSelectAddress} error={error} required />
       ) : (
         <View style={{ gap: space[12] }}>
           <View

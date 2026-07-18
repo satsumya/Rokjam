@@ -9,11 +9,14 @@ export function Section({
   title,
   subtitle,
   headerAction,
+  required,
   children,
 }: {
   title: string;
   subtitle?: string;
   headerAction?: ReactNode;
+  /** Show a required asterisk on the section title (e.g. when the field label is omitted). */
+  required?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -28,7 +31,14 @@ export function Section({
         }}
       >
         <View style={{ flex: 1 }}>
-          <Text variant="h6">{title}</Text>
+          <Text variant="h6">
+            {title}
+            {required ? (
+              <Text variant="h6" color={ui.danger}>
+                {' '}*
+              </Text>
+            ) : null}
+          </Text>
           {subtitle ? (
             <Text variant="bodySmall" color={ui.textMuted} style={{ marginTop: space[4] }}>
               {subtitle}
