@@ -17,7 +17,7 @@ import { layout, pageGutter } from '../../theme/layout';
 import { space } from '../../theme/spacing';
 
 /** Safe-area root for every screen. */
-function ScreenSafeArea({ style, ...rest }: ViewProps) {
+function ScreenSafeArea({ style, ...rest }: ComponentProps<typeof SafeAreaView>) {
   return <SafeAreaView style={style} {...rest} />;
 }
 
@@ -66,17 +66,25 @@ function ScreenFooterActions({ style, ...rest }: ViewProps) {
   return <View style={style} {...rest} />;
 }
 
+/** Bottom tab chrome (no muted surface — nav paints itself). */
+function ScreenBottomNav({ style, ...rest }: ViewProps) {
+  return <View style={style} {...rest} />;
+}
+
 export function Screen({
   title,
   children,
   footer,
+  bottomNav,
   headerRight,
   overlay,
   wide = false,
 }: {
-  title: string;
+  title?: string;
   children: ReactNode;
   footer?: ReactNode;
+  /** Primary tab bar — replaces sticky footer chrome on main destinations. */
+  bottomNav?: ReactNode;
   headerRight?: ReactNode;
   overlay?: ReactNode;
   /**
@@ -91,18 +99,31 @@ export function Screen({
   const columnStyle = wide ? undefined : styles.column;
   const padded = { padding: gutter, paddingBottom: space[32] };
   const footerPadded = { padding: gutter, gap: space[12] };
+  const showHeader = Boolean(title) || Boolean(headerRight);
 
-  const header = (
+  const header = showHeader ? (
     <ScreenHeader style={styles.headerRow}>
-      <Text variant="h4" style={styles.title}>
-        {title}
-      </Text>
+      {title ? (
+        <Text variant="h4" style={styles.title}>
+          {title}
+        </Text>
+      ) : (
+        <View style={styles.title} />
+      )}
       {headerRight ? <ScreenHeaderActions style={styles.headerRight}>{headerRight}</ScreenHeaderActions> : null}
     </ScreenHeader>
-  );
+  ) : null;
+
+  const chrome = bottomNav ? (
+    <ScreenBottomNav style={[styles.bottomNav, columnStyle]}>{bottomNav}</ScreenBottomNav>
+  ) : footer ? (
+    <ScreenFooter style={[styles.footer, columnStyle]}>
+      <ScreenFooterActions style={footerPadded}>{footer}</ScreenFooterActions>
+    </ScreenFooter>
+  ) : null;
 
   return (
-    <ScreenSafeArea style={styles.screen}>
+    <ScreenSafeArea style={styles.screen} edges={bottomNav ? ['top', 'left', 'right'] : undefined}>
       <ScreenKeyboard
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.flex}
@@ -113,11 +134,7 @@ export function Screen({
               {header}
               <ScreenBody style={styles.body}>{children}</ScreenBody>
             </ScreenContent>
-            {footer ? (
-              <ScreenFooter style={styles.footer}>
-                <ScreenFooterActions style={[footerPadded, columnStyle]}>{footer}</ScreenFooterActions>
-              </ScreenFooter>
-            ) : null}
+            {chrome}
           </ScreenCaptureColumn>
         ) : (
           <>
@@ -128,11 +145,7 @@ export function Screen({
               {header}
               <ScreenBody style={styles.body}>{children}</ScreenBody>
             </ScreenScroll>
-            {footer ? (
-              <ScreenFooter style={styles.footer}>
-                <ScreenFooterActions style={[footerPadded, columnStyle]}>{footer}</ScreenFooterActions>
-              </ScreenFooter>
-            ) : null}
+            {chrome}
           </>
         )}
       </ScreenKeyboard>
@@ -161,8 +174,15 @@ const styles = StyleSheet.create({
   headerRight: { flexShrink: 0 },
   body: { gap: space[16] },
   footer: {
+    width: '100%',
+    alignSelf: 'center',
     borderTopWidth: 1,
     borderTopColor: ui.borderSubtle,
     backgroundColor: ui.surfaceMuted,
+  },
+  bottomNav: {
+    width: '100%',
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
   },
 });

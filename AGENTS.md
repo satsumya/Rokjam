@@ -4,7 +4,7 @@ All agents (Cursor, Claude, Copilot, etc.) working in this repo **must** follow 
 
 ## Before writing code
 
-1. Read **Standards.md** — it is the source of truth for forms, dates, locations, tags, bottom sheets, flow map upkeep, and more.
+1. Read **Standards.md** — it is the source of truth for forms, dates, locations, tags, bottom sheets, flow map upkeep, and more. Pay special attention to **content max width** (`layout.contentMaxWidth`) — product UI must not stretch full-bleed on wide viewports.
 2. Read the relevant flow spec in **docs/tickets/Flow/** when changing a user journey.
 3. Read Expo v56 docs at https://docs.expo.dev/versions/v56.0.0/ before writing Expo or React Native code.
 

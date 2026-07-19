@@ -20,7 +20,7 @@ Scenario coverage requirements and how to use the scenario tester: **[Testing.md
 | [MemberProfile](./Flow/MemberProfile.md) | Member profile setup |
 | [ClimbingSessionCreate](./Flow/ClimbingSessionCreate.md) | Create climbing session |
 | [ClimbingSessionViewEdit](./Flow/ClimbingSessionViewEdit.md) | View and edit session |
-| [Dashboard](./Flow/Dashboard.md) | Dashboard trends |
+| [Dashboard](./Flow/Dashboard.md) | Dashboard home + Insights |
 | [Community](./Flow/Community.md) | Community feed |
 
 ## How to run
@@ -92,11 +92,12 @@ Base URL: **http://localhost:8081**
 | Dashboard with sessions | http://localhost:8081/dashboard?demo=session-ready |
 | All sessions list | http://localhost:8081/sessions?demo=seed |
 
-### ROKJ-18 — Dashboard trends
+### ROKJ-18 — Dashboard / Insights
 
 | Scenario | Link |
 | --- | --- |
-| Trends (seed sessions if empty) | http://localhost:8081/dashboard?demo=seed |
+| Dashboard (home) | http://localhost:8081/dashboard?demo=session-ready |
+| Insights / trends | http://localhost:8081/insights?demo=seed |
 
 ### ROKJ-22 — Community
 

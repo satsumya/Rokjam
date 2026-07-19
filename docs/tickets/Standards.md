@@ -6,11 +6,12 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 ## Layout & surfaces
 
+- [x] **Content max width (do not skip)** — Every product screen column — scroll body, sticky footer actions, and bottom nav — must stay within `layout.contentMaxWidth` (**640**) and center on wide viewports. Do not let cards, headers, or tab chrome stretch edge-to-edge past that width. Only utility pages that set `Screen` `wide` (scenarios, flow map, colour system, typography, icon library) may exceed it. Dialogs use `layout.modalMaxWidth` (**480**). Prefer these tokens over hardcoded max-width values
 - [x] Prefer Section + spacing for grouping — Use `Section` (title + gap) to structure screens; do not wrap every subsection in a bordered box
 - [x] Card usage — Use `Card` only for tappable list rows, status/callouts, or clusters that need clear separation from surrounding content. Never nest `Card` inside `Card`. Do not wrap a whole form in `Card` when it already sits under `Screen`, `Modal`, or `BottomSheet`
 - [x] No ad-hoc Card clones — Prefer the `Card` atom over copy-pasted `borderWidth` + `surfaceMuted` Views. Prefer plain text + spacing over a frame when the parent already provides structure
 - [x] Narrow phones (320px) — Product UI must stay fully usable down to **320px** wide: no clipping, no overflow into page margins. Use `pageGutter` / compact screen padding; give flex children `minWidth: 0`; wrap dense horizontal rows (`flexWrap`); keep chrome controls `flexShrink: 0`
-- [x] Layout tokens — Screen / Modal / BottomSheet gutters use `pageGutter(width)` from `src/theme/layout.ts`. Content column max width is `layout.contentMaxWidth`; dialogs use `layout.modalMaxWidth`. Prefer these over hardcoded padding or max-width values
+- [x] Layout gutters — Screen / Modal / BottomSheet gutters use `pageGutter(width)` from `src/theme/layout.ts` (alongside the content max-width rule above)
 
 ## Forms & validation
 

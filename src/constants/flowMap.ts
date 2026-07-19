@@ -185,9 +185,9 @@ export const FLOW_MAP_SCREENS: Record<string, FlowMapScreen> = {
   },
   'dashboard-trends': {
     id: 'dashboard-trends',
-    label: 'Dashboard',
+    label: 'Insights',
     descriptors: ['Trends'],
-    path: '/dashboard?demo=seed',
+    path: '/insights?demo=seed',
     setup: 'returning',
     beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('dashboard-many-sessions'),
   },
@@ -462,7 +462,7 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     id: 'dashboard',
     title: SCENARIO_FLOWS.find((f) => f.id === 'dashboard')!.doc,
     description:
-      'Two dashboard states at the same step — profile complete with no sessions yet, and trends after sessions are logged.',
+      'Home with a complete profile (no sessions yet), and Insights after sessions are logged.',
     steps: [
       {
         nodes: [

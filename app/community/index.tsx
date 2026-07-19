@@ -1,13 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { router } from 'expo-router';
 
 import {
   Avatar,
+  BottomNav,
   Button,
   Card,
   CommunityTrends,
-  Link,
   Screen,
   Section,
   SessionRow,
@@ -52,10 +51,7 @@ export default function CommunityScreen() {
   }, [allPublic, tab, followedUsers, homeLocation]);
 
   return (
-    <Screen
-      title="Community"
-      footer={<Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />}
-    >
+    <Screen title="Community" bottomNav={<BottomNav active="community" />}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12] }}>
         {(
           [

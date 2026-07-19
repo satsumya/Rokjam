@@ -3,9 +3,9 @@ import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
+  BottomNav,
   Button,
   Card,
-  Link,
   PrototypeOnly,
   Screen,
   Section,
@@ -38,19 +38,7 @@ export default function SessionsListScreen() {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <Screen
-      title="All climbing sessions"
-      footer={
-        <>
-          <Button
-            label="Start new session"
-            colorStyle="style2"
-            onPress={() => router.push('/sessions/create')}
-          />
-          <Link label="Back to dashboard" onPress={() => router.replace('/dashboard')} />
-        </>
-      }
-    >
+    <Screen title="Climbing sessions" bottomNav={<BottomNav active="sessions" />}>
       {completed.length === 0 ? (
         <View style={{ gap: space[8] }}>
           <Text variant="body" color={ui.textMuted}>

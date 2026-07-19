@@ -29,7 +29,7 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Share session (after session is saved/ended — see Standards)
 - [x] Incomplete profile — Can start session from dashboard even when profile is incomplete; show a prompt when something crucial is missing (Climbing section always visible)
 - [x] Return to dashboard mid-session without saving/ending
-- [x] In-progress session on dashboard — Continue existing session(s) and start a new session; both actions always available in the Climbing section
+- [x] In-progress session on dashboard — Continue existing session(s); start a new session via bottom-nav plus (both always available)
 - [x] One location per climbing session
 
 **For each climb:**
@@ -70,4 +70,4 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Happy path — User with full profile and existing sessions
 - [x] New user — No sessions logged yet
 - [x] Inline location add — Modal with address search and difficulty levels when no location on profile or session
-- [x] Mid-session dashboard — Active session shown with Continue session and Start climbing session both available
+- [x] Mid-session dashboard — Active session shown with Continue session; Start climbing session available via bottom-nav plus

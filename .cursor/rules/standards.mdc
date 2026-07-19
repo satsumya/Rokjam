@@ -7,6 +7,7 @@ alwaysApply: true
 
 Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 
+- **Content max width (required)** — Product UI (body, footers, bottom nav) stays within `layout.contentMaxWidth` (640), centered; never full-bleed past it on wide viewports. Only `Screen` `wide` utility pages may exceed it. Dialogs use `layout.modalMaxWidth`
 - Prefer `Section` + spacing for grouping; use `Card` only for list rows, callouts, or clusters that need separation — never nest Card in Card, and don’t wrap whole forms already under Screen/Modal/BottomSheet
 - Product UI must work down to **320px**; use `pageGutter` / `layout` tokens — no overflow into margins
 - Required fields use `*` only; never label fields "optional"

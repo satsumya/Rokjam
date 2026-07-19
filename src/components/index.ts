@@ -70,9 +70,12 @@ export { PieChart } from './molecules/PieChart';
 export { SessionRow } from './molecules/SessionRow';
 export { ShareMockBanner } from './molecules/ShareMockBanner';
 export { ClimbCard } from './molecules/ClimbCard';
+export { AccountMenu } from './molecules/AccountMenu';
 
 // Organisms
 export { Screen } from './organisms/Screen';
+export { BottomNav, type BottomNavTab } from './organisms/BottomNav';
+export { ProfileSummaryCard } from './organisms/ProfileSummaryCard';
 export { ClimbEditor } from './organisms/ClimbEditor';
 export { SessionClimbsList } from './organisms/SessionClimbsList';
 export { DashboardTrends } from './organisms/DashboardTrends';

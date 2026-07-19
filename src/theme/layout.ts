@@ -3,6 +3,10 @@ import { space } from './spacing';
 /**
  * Layout constraints for screens and content columns.
  * Product UI must remain usable down to {@link layout.minViewportWidth}.
+ *
+ * **Content max width is required** for every product screen column (scroll
+ * body, sticky footer actions, bottom nav). Only `Screen` `wide` utility pages
+ * may exceed {@link layout.contentMaxWidth}.
  */
 export const layout = {
   /** Max width for product screen content (not utility / scenario pages). */

@@ -156,7 +156,7 @@ Semantic colours use their own contrast tokens (`main.contrast`, `accent.contras
 - [x] Brand display order: `BRAND_COLOR_ORDER` (single source for colour system, level presets, button styles)
 - [x] Level presets: `DEFAULT_LEVEL_COLORS` / `levelPreset()` in `src/constants/difficultyLevels.ts`
 - [x] Colour picker geometry: `colorPickerGeometry` in `src/theme/colorPicker.ts`
-- [x] Layout: `layout` + `pageGutter` in `src/theme/layout.ts`
+- [x] Layout: `layout` + `pageGutter` in `src/theme/layout.ts` — **`layout.contentMaxWidth` (640) is required** for all product screen columns (body, footers, bottom nav); only `Screen` `wide` utility pages may exceed it; dialogs use `layout.modalMaxWidth` (480)
 - [ ] All prototype colours linked to theme tokens
 - [ ] Optional later: export CSS variables (`--brand-green-main`, etc.) from the same source
 

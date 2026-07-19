@@ -3,22 +3,20 @@ import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
-  Avatar,
+  AccountMenu,
+  BottomNav,
   Button,
   Card,
-  DashboardTrends,
-  Icon,
   Link,
+  ProfileSummaryCard,
   Screen,
   Section,
   SessionRow,
   Text,
-  TextField,
 } from '../src/components';
 import { TAKEN_USERNAMES } from '../src/constants/mockData';
 import { usePrototype } from '../src/context/PrototypeContext';
 import { ui } from '../src/theme/colors';
-import type { TrendTimeframe } from '../src/types/climbingSession';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -26,12 +24,10 @@ import {
 } from '../src/utils/sessionUtils';
 import { getUsernameError, isUsernameAvailable } from '../src/utils/validation';
 import { space } from '../src/theme/spacing';
-import { interactionStyle } from '../src/theme/interaction';
 
 export default function DashboardScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
   const {
-    email,
     username,
     setUsername,
     avatar,
@@ -49,7 +45,6 @@ export default function DashboardScreen() {
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
   const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
   const [showAllSessions, setShowAllSessions] = useState(false);
-  const [timeframe, setTimeframe] = useState<TrendTimeframe>('month');
   const [addingUsername, setAddingUsername] = useState(false);
   const [usernameDraft, setUsernameDraft] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
@@ -59,18 +54,19 @@ export default function DashboardScreen() {
     usernameTouched && isUsernameAvailable(usernameDraft, TAKEN_USERNAMES)
       ? 'Username available'
       : undefined;
+  const canConfirmUsername =
+    Boolean(usernameDraft.trim()) && !getUsernameError(usernameDraft, TAKEN_USERNAMES);
 
-  const commitUsername = () => {
+  const confirmUsername = () => {
     setUsernameTouched(true);
-    if (getUsernameError(usernameDraft, TAKEN_USERNAMES) || !usernameDraft.trim()) {
-      if (!usernameDraft.trim()) {
-        setAddingUsername(false);
-        setUsernameDraft('');
-        setUsernameTouched(false);
-      }
-      return;
-    }
+    if (!usernameDraft.trim() || getUsernameError(usernameDraft, TAKEN_USERNAMES)) return;
     setUsername(usernameDraft.trim());
+    setAddingUsername(false);
+    setUsernameDraft('');
+    setUsernameTouched(false);
+  };
+
+  const cancelUsername = () => {
     setAddingUsername(false);
     setUsernameDraft('');
     setUsernameTouched(false);
@@ -108,42 +104,19 @@ export default function DashboardScreen() {
       seedFlowDemo('dashboard-many-sessions');
       demoApplied.current = demo;
     }
-  }, [
-    demo,
-    seedDemoSessions,
-    seedDemoProfileOnly,
-    seedFlowDemo,
-  ]);
+  }, [demo, seedDemoSessions, seedDemoProfileOnly, seedFlowDemo]);
 
   return (
     <Screen
-      title="Dashboard"
       headerRight={
-        <Button
-          icon="signOut"
-          variant="ghost"
-          size="small"
-          accessibilityLabel="Log out"
-          onPress={() => {
+        <AccountMenu
+          onSignOut={() => {
             resetSession();
             router.replace('/');
           }}
         />
       }
-      footer={
-        <>
-          <Button
-            label="Start climbing session"
-            colorStyle="style2"
-            onPress={() => router.push('/sessions/create')}
-          />
-          <Button
-            label="Community"
-            variant="secondary"
-            onPress={() => router.push('/community')}
-          />
-        </>
-      }
+      bottomNav={<BottomNav active="home" />}
     >
       {needsProfile ? (
         <Card>
@@ -161,62 +134,30 @@ export default function DashboardScreen() {
         </Card>
       ) : null}
 
-      <Card>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: space[12] }}>
-          <Avatar emoji={avatar} size="lg" />
-          <View style={{ flex: 1, minWidth: 0, gap: space[4] }}>
-            {username.trim() ? (
-              <Text variant="bodyLarge" weight="bold">
-                {username}
-              </Text>
-            ) : addingUsername ? (
-              <TextField
-                value={usernameDraft}
-                onChangeText={(value) => {
-                  setUsernameDraft(value);
-                  setUsernameTouched(true);
-                }}
-                placeholder="Username"
-                accessibilityLabel="Username"
-                error={usernameError}
-                success={usernameSuccess}
-                onSubmitEditing={commitUsername}
-                onBlur={commitUsername}
-                returnKeyType="done"
-                maxLength={20}
-              />
-            ) : (
-              <Pressable
-                onPress={() => {
-                  setAddingUsername(true);
-                  setUsernameDraft('');
-                  setUsernameTouched(false);
-                }}
-                accessibilityRole="button"
-                accessibilityLabel="Add username"
-                style={(state) => [{ alignSelf: 'flex-start', borderRadius: 4 }, interactionStyle(state)]}
-              >
-                <Text variant="bodyLarge" weight="bold" style={{ textDecorationLine: 'underline' }}>
-                  Add username
-                </Text>
-              </Pressable>
-            )}
-            {email.trim() ? (
-              <Text variant="body" color={ui.textMuted}>
-                {email}
-              </Text>
-            ) : null}
-          </View>
-          <Button
-            label="Edit"
-            iconLeft="pencil"
-            variant="ghost"
-            size="medium"
-            accessibilityLabel="Edit profile"
-            onPress={() => router.push('/profile/setup')}
-          />
-        </View>
-      </Card>
+      <ProfileSummaryCard
+        avatar={avatar}
+        username={username}
+        locationNickname={homeLocation?.nickname}
+        locationName={homeLocation?.name}
+        strengthTags={strengthTags}
+        improvementTags={improvementTags}
+        addingUsername={addingUsername}
+        usernameDraft={usernameDraft}
+        usernameError={usernameError}
+        usernameSuccess={usernameSuccess}
+        canConfirmUsername={canConfirmUsername}
+        onUsernameChange={(value) => {
+          setUsernameDraft(value);
+          setUsernameTouched(true);
+        }}
+        onUsernameConfirm={confirmUsername}
+        onUsernameCancel={cancelUsername}
+        onStartAddUsername={() => {
+          setAddingUsername(true);
+          setUsernameDraft('');
+          setUsernameTouched(false);
+        }}
+      />
 
       {needsProfile || activeSessions.length > 0 ? (
         <Section title="Climbing">
@@ -240,111 +181,48 @@ export default function DashboardScreen() {
       ) : null}
 
       {!needsProfile ? (
-        <>
-          <Section title="Recent sessions">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12], marginBottom: space[4] }}>
-              <Pressable onPress={() => setShowAllSessions(false)}>
-                <Text variant="body" weight={!showAllSessions ? 'bold' : 'regular'}>
-                  Recent
-                </Text>
-              </Pressable>
-              <Pressable onPress={() => setShowAllSessions(true)}>
-                <Text variant="body" weight={showAllSessions ? 'bold' : 'regular'}>
-                  All
-                </Text>
-              </Pressable>
-              <Link label="Full list" onPress={() => router.push('/sessions')} />
-            </View>
-            {recentSessions.length === 0 ? (
-              <Text variant="body" color={ui.textMuted}>
-                No sessions yet.
+        <Section title="Recent sessions">
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[12], marginBottom: space[4] }}>
+            <Pressable onPress={() => setShowAllSessions(false)}>
+              <Text variant="body" weight={!showAllSessions ? 'bold' : 'regular'}>
+                Recent
               </Text>
-            ) : (
-              recentSessions.map((session) => {
-                const loc = locations.find((l) => l.id === session.locationId);
-                return (
-                  <SessionRow
-                    key={session.id}
-                    date={session.date}
-                    duration={formatDuration(
-                      computeDurationMinutes(
-                        session.startTime,
-                        session.endTime,
-                        session.durationMinutes,
-                      ),
-                    )}
-                    climbCount={session.climbs.length}
-                    difficultyRange={sessionDifficultyRange(session.climbs, loc?.levels ?? [])}
-                    location={session.locationName}
-                    onPress={() => router.push(`/sessions/${session.id}`)}
-                  />
-                );
-              })
-            )}
-          </Section>
-
-          <DashboardTrends
-            sessions={completedSessions}
-            locations={locations}
-            timeframe={timeframe}
-            onTimeframeChange={setTimeframe}
-          />
-        </>
-      ) : null}
-
-      <Section title="Profile summary">
-        <ViewRow label="Home location" value={homeLocation?.name ?? 'Not set'} home={homeLocation?.isHome} />
-        {homeLocation?.nickname ? <Text variant="body">Nickname: {homeLocation.nickname}</Text> : null}
-        {homeLocation?.levels.length ? (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space[6], marginTop: space[4] }}>
-            {homeLocation.levels.map((level) => (
-              <View
-                key={level.id}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: space[4],
-                  borderWidth: 1,
-                  borderColor: ui.borderSubtle,
-                  borderRadius: 12,
-                  paddingHorizontal: space[8],
-                  paddingVertical: space[4],
-                }}
-              >
-                <View
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 2,
-                    backgroundColor: level.color,
-                  }}
-                />
-                <Text variant="body">{level.name}</Text>
-              </View>
-            ))}
+            </Pressable>
+            <Pressable onPress={() => setShowAllSessions(true)}>
+              <Text variant="body" weight={showAllSessions ? 'bold' : 'regular'}>
+                All
+              </Text>
+            </Pressable>
+            <Link label="Full list" onPress={() => router.push('/sessions')} />
           </View>
-        ) : (
-          <Text variant="body">No levels set</Text>
-        )}
-        {strengthTags.length ? (
-          <Text variant="body">Strengths: {strengthTags.join(', ')}</Text>
-        ) : null}
-        {improvementTags.length ? (
-          <Text variant="body">Areas to improve: {improvementTags.join(', ')}</Text>
-        ) : null}
-      </Section>
+          {recentSessions.length === 0 ? (
+            <Text variant="body" color={ui.textMuted}>
+              No sessions yet.
+            </Text>
+          ) : (
+            recentSessions.map((session) => {
+              const loc = locations.find((l) => l.id === session.locationId);
+              return (
+                <SessionRow
+                  key={session.id}
+                  date={session.date}
+                  duration={formatDuration(
+                    computeDurationMinutes(
+                      session.startTime,
+                      session.endTime,
+                      session.durationMinutes,
+                    ),
+                  )}
+                  climbCount={session.climbs.length}
+                  difficultyRange={sessionDifficultyRange(session.climbs, loc?.levels ?? [])}
+                  location={session.locationName}
+                  onPress={() => router.push(`/sessions/${session.id}`)}
+                />
+              );
+            })
+          )}
+        </Section>
+      ) : null}
     </Screen>
-  );
-}
-
-function ViewRow({ label, value, home }: { label: string; value: string; home?: boolean }) {
-  return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap', gap: space[4] }}>
-      <Text variant="body">{label}: </Text>
-      {home ? <Icon name="house" size="xs" color={ui.text} /> : null}
-      <Text variant="body" style={{ flexShrink: 1, minWidth: 0 }}>
-        {value}
-      </Text>
-    </View>
   );
 }

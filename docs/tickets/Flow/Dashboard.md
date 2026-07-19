@@ -2,7 +2,14 @@
 
 Applies [Standards](../Standards.md) unless noted below.
 
+**Home (dashboard) tab:**
+- [x] Bottom nav — House = dashboard; Mountains = all sessions; Plus = start new session; Presentation = insights; Globe = community
+- [x] Profile summary card — Avatar, username (or inline Add username), home location nickname with map pin (or **Add location** opening the same add-location modal as sessions), strength chips, improve chips
+- [x] Account menu — Edit profile / Log out from the header control
 - [x] Blank profile dashboard — Incomplete / skipped profile shows **Add username** (inline edit with availability checks), no strength/improve tags, and prompts to complete profile
+- [x] Recent sessions on home (insights live on the Insights tab)
+
+**Insights tab** (`/insights`):
 - [x] user can change the time frame
 - [x] Session duration trend — contribution heatmap by day, total climbing time, hours and minutes
 - [x] Timeframe subtitle shows the date or month range (not a generic “month view” label)
