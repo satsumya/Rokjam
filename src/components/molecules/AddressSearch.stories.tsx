@@ -18,5 +18,5 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const WithError: Story = {
-  args: { error: 'Add at least one gym or climbing location' },
+  args: { error: 'Couldn’t find that address' },
 };

@@ -4,6 +4,7 @@ import { createDemoSessions, MOCK_PUBLIC_SESSIONS } from '../constants/mockSessi
 import {
   buildFlowDemoSession,
   createFlowManySessions,
+  createFlowSecondaryLocationLevels,
   FLOW_DEMO_SESSION_ID,
   type FlowDemoPreset,
 } from '../constants/flowDemoSessions';
@@ -107,6 +108,17 @@ function createDemoLocation(): Location {
       name: preset.name,
       color: preset.color,
     })),
+  };
+}
+
+function createSecondaryDemoLocation(): Location {
+  return {
+    id: 'demo-location-kp',
+    name: 'Kangaroo Point Cliffs, River Terrace Brisbane',
+    nickname: 'KP cliffs',
+    isHome: false,
+    levelSort: 'easy-hard',
+    levels: createFlowSecondaryLocationLevels(),
   };
 }
 
@@ -452,10 +464,24 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (preset === 'dashboard-many-sessions') {
-          setLocations([demoLocation]);
+          const secondary = createSecondaryDemoLocation();
+          setLocations([demoLocation, secondary]);
           setProfileComplete(true);
           setProfileSkipped(false);
-          setSessions(createFlowManySessions(demoLocation.id, demoLocation.name));
+          setSessions(
+            createFlowManySessions(
+              {
+                id: demoLocation.id,
+                name: demoLocation.name,
+                levels: demoLocation.levels,
+              },
+              {
+                id: secondary.id,
+                name: secondary.name,
+                levels: secondary.levels,
+              },
+            ),
+          );
           return;
         }
 

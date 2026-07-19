@@ -4,8 +4,8 @@ Applies [Standards](../Standards.md) unless noted below.
 
 - [x] Add a user name
 - [x] Username available confirmation — Show “Username available” when format rules are met and the name is free (`thegoat` is taken for testing)
-- [x] Username confirm to apply — Typing edits a draft only; confirm with the check control (or Complete profile on first setup). Exit without confirming keeps the previous username
-- [x] Required: Add a gym or climbing location/address name (could be an indoor gym or an outdoor spot)
+- [x] Username confirm to apply — Typing edits a draft only; confirm with the check control (or Go to dashboard on first setup). Exit without confirming keeps the previous username
+- [x] Locations are optional on profile — No required mark; users can add a gym/crag here or later when starting a climbing session
 - [x] Address search — Live suggestions while typing (no Search button); match text highlighted; “Can't find the address? Add it anyway” in the list; Enter adds the typed value
 - [x] First location added defaults to home/base location
 - [x] Optional: add more locations (not strongly prompted)
@@ -21,7 +21,7 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Option to add strengths
 - [x] Option to add areas to improve
 - [x] Profile pic
-- [x] After completing user goes to the dashboard
+- [x] After completing user goes to the dashboard — Primary action is “Go to dashboard” (location not required)
 - [x] Completing profile is not required to start a climbing session
 - [x] Happy path, alternate paths, and error paths in scenario tester
 - [x] Need to be able to exit member profile — Exit or skip without completing required fields (skip only during initial setup; hidden when editing an already-complete profile)

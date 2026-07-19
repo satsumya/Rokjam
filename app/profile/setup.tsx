@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 
 import {
   AddressSearch,
@@ -30,7 +30,6 @@ import { locationHasGradedSessionClimbs } from '../../src/utils/sessionUtils';
 import { space } from '../../src/theme/spacing';
 
 export default function ProfileSetupScreen() {
-  const { demo } = useLocalSearchParams<{ demo?: string }>();
   const {
     username,
     setUsername,
@@ -59,7 +58,6 @@ export default function ProfileSetupScreen() {
   } = usePrototype();
 
   const [openLocationId, setOpenLocationId] = useState<string | null>(null);
-  const [locationError, setLocationError] = useState('');
   const [usernameDraft, setUsernameDraft] = useState(username);
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [levelsNudgeLocationId, setLevelsNudgeLocationId] = useState<string | null>(null);
@@ -74,12 +72,6 @@ export default function ProfileSetupScreen() {
   useEffect(() => {
     setUsernameDraft(username);
   }, [username]);
-
-  useEffect(() => {
-    if (demo === 'error-no-location') {
-      setLocationError('Add at least one gym or climbing location');
-    }
-  }, [demo]);
 
   useEffect(() => {
     const previousCount = locationCountRef.current;
@@ -107,20 +99,15 @@ export default function ProfileSetupScreen() {
   };
 
   const handleAddLocation = (address: string) => {
-    setLocationError('');
     const id = addLocation(address);
     setOpenLocationId(id);
     setLevelsNudgeLocationId(id);
   };
 
-  const handleComplete = () => {
-    if (locations.length === 0) {
-      setLocationError('Add at least one gym or climbing location');
-      return;
-    }
+  const goToDashboard = () => {
     setUsernameTouched(true);
     if (getUsernameError(usernameDraft, TAKEN_USERNAMES)) return;
-    // Completing the profile confirms any pending username draft.
+    // Going to the dashboard confirms any pending username draft.
     setUsername(usernameDraft.trim());
     setProfileComplete(true);
     setProfileSkipped(false);
@@ -142,9 +129,6 @@ export default function ProfileSetupScreen() {
     removeLocation(deleteTargetId);
     setDeleteTargetId(null);
     setOpenLocationId(remaining[0]?.id ?? null);
-    if (remaining.length === 0) {
-      setLocationError('');
-    }
   };
 
   /** Gate level edits that would sync into past climbs — confirm once per location. */
@@ -181,7 +165,7 @@ export default function ProfileSetupScreen() {
       footer={
         isEditingCompleteProfile ? undefined : (
           <>
-            <Button label="Complete profile" colorStyle="style1" onPress={handleComplete} />
+            <Button label="Go to dashboard" colorStyle="style1" onPress={goToDashboard} />
             <Link label="Skip for now" onPress={handleExit} />
           </>
         )
@@ -267,7 +251,7 @@ export default function ProfileSetupScreen() {
           </View>
           {canConfirmUsername ? (
             <Button
-              icon="check"
+              icon="checkFat"
               colorStyle="style1"
               size="medium"
               accessibilityLabel="Confirm username"
@@ -277,7 +261,7 @@ export default function ProfileSetupScreen() {
         </View>
       </Section>
 
-      <Section title="Locations" required>
+      <Section title="Locations">
         {locations.map((location) => {
           const isOpen = openLocationId === location.id;
           return (
@@ -417,7 +401,7 @@ export default function ProfileSetupScreen() {
           );
         })}
 
-        <AddressSearch label={false} onSelect={handleAddLocation} error={locationError} />
+        <AddressSearch label={false} onSelect={handleAddLocation} />
       </Section>
 
       <TagInput

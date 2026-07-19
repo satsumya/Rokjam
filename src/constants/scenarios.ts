@@ -128,7 +128,7 @@ export const SCENARIOS: Scenario[] = [
     type: 'Happy path',
     userType: 'new',
     setup: 'fresh',
-    steps: 'Search location → Add levels → Tags → Complete profile',
+    steps: 'Optional location + levels → Tags → Go to dashboard',
   },
   {
     id: 'profile-exit',
@@ -141,14 +141,14 @@ export const SCENARIOS: Scenario[] = [
     steps: 'Tap Exit or Skip → Dashboard shows complete profile prompt',
   },
   {
-    id: 'profile-error',
+    id: 'profile-no-location',
     flow: 'member-profile',
-    title: 'Complete without location',
-    path: '/profile/setup?demo=error-no-location',
-    type: 'Error path',
+    title: 'Go to dashboard without location',
+    path: '/profile/setup',
+    type: 'Alternate path',
     userType: 'new',
     setup: 'fresh',
-    steps: 'Tap Complete profile without adding a location',
+    steps: 'Tap Go to dashboard without adding a location → can add location during a session',
   },
   {
     id: 'profile-username-taken',

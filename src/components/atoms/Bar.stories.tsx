@@ -3,13 +3,14 @@ import { View } from 'react-native';
 
 import { Bar } from './Bar';
 import { Padded } from '../storybook.helpers';
+import { formatDuration } from '../../utils/sessionUtils';
 import { space } from '../../theme/spacing';
 
 const meta = {
   title: 'Atoms/Bar',
   component: Bar,
   decorators: [Padded],
-  args: { label: 'Mon', value: 45, max: 90, unit: 'm' },
+  args: { label: 'Mon', value: 150, max: 180, formatValue: formatDuration },
 } satisfies Meta<typeof Bar>;
 
 export default meta;
@@ -21,9 +22,9 @@ export const Default: Story = {};
 export const Stack: Story = {
   render: () => (
     <View style={{ gap: space[6] }}>
-      <Bar label="Mon" value={30} max={90} unit="m" />
-      <Bar label="Wed" value={60} max={90} unit="m" />
-      <Bar label="Fri" value={90} max={90} unit="m" />
+      <Bar label="Mon" value={30} max={150} formatValue={formatDuration} />
+      <Bar label="Wed" value={60} max={150} formatValue={formatDuration} />
+      <Bar label="Fri" value={150} max={150} formatValue={formatDuration} />
     </View>
   ),
 };

@@ -189,6 +189,7 @@ export const FLOW_MAP_SCREENS: Record<string, FlowMapScreen> = {
     descriptors: ['Trends'],
     path: '/dashboard?demo=seed',
     setup: 'returning',
+    beforeNavigate: ({ seedFlowDemo }) => seedFlowDemo('dashboard-many-sessions'),
   },
   'dashboard-one-session': {
     id: 'dashboard-one-session',
@@ -364,7 +365,7 @@ export const FLOW_MAP_JOURNEYS: FlowMapJourney[] = [
     ],
     edges: [
       { from: 'from-welcome', to: 'profile', label: 'Create profile' },
-      { from: 'from-dash', to: 'profile', label: 'Complete profile' },
+      { from: 'from-dash', to: 'profile', label: 'Go to dashboard' },
       { from: 'profile', to: 'done', label: 'Save profile' },
     ],
   },

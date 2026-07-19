@@ -40,7 +40,7 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-profile-ready": {
     "width": 720,
-    "height": 2034
+    "height": 1998
   },
   "dashboard-returning": {
     "width": 720,

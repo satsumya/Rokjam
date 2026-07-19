@@ -22,12 +22,15 @@ export function Bar({
   value,
   max,
   unit,
+  formatValue,
 }: {
   label: string;
   value: number;
   max: number;
   unit?: string;
+  formatValue?: (value: number) => string;
 }) {
+  const display = formatValue ? formatValue(value) : `${value}${unit ?? ''}`;
   return (
     <BarRow style={{ flexDirection: 'row', alignItems: 'center', gap: space[8] }}>
       <Text
@@ -56,9 +59,12 @@ export function Bar({
           }}
         />
       </BarTrack>
-      <Text variant="bodySmall" numberOfLines={1} style={{ minWidth: 36, flexShrink: 0, textAlign: 'right' }}>
-        {value}
-        {unit ?? ''}
+      <Text
+        variant="bodySmall"
+        numberOfLines={1}
+        style={{ minWidth: formatValue ? 52 : 36, flexShrink: 0, textAlign: 'right' }}
+      >
+        {display}
       </Text>
     </BarRow>
   );

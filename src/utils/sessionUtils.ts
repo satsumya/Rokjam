@@ -6,6 +6,7 @@ import type {
   TrendTimeframe,
 } from '../types/climbingSession';
 import { bestAttemptProgress } from '../types/climbingSession';
+import { ui } from '../theme/colors';
 
 export function todayIso() {
   return new Date().toISOString().slice(0, 10);
@@ -246,12 +247,49 @@ export function climbHasDetails(climb: SessionClimb) {
 }
 
 export function sessionsInTimeframe(sessions: ClimbingSession[], timeframe: TrendTimeframe) {
-  const now = new Date();
-  const days = timeframe === 'week' ? 7 : timeframe === 'month' ? 30 : 90;
-  const cutoff = new Date(now);
-  cutoff.setDate(cutoff.getDate() - days);
-  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  const { cutoffStr } = timeframeWindow(timeframe);
   return sessions.filter((s) => s.status === 'completed' && s.date >= cutoffStr);
+}
+
+function isoFromDate(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+/** Inclusive calendar window used by trend filters (cutoff day → today). */
+export function timeframeWindow(timeframe: TrendTimeframe, now = new Date()) {
+  const days = timeframe === 'week' ? 7 : timeframe === 'month' ? 30 : 90;
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
+  const start = new Date(end);
+  start.setDate(start.getDate() - days);
+  return {
+    days,
+    start,
+    end,
+    cutoffStr: isoFromDate(start),
+    endStr: isoFromDate(end),
+  };
+}
+
+/** Human range under the timeframe tabs — e.g. "12 – 18 Jul", "Jun", "Apr – Jul". */
+export function timeframeRangeLabel(timeframe: TrendTimeframe, now = new Date()) {
+  const { start, end } = timeframeWindow(timeframe, now);
+  const startDay = start.getDate();
+  const endDay = end.getDate();
+  const startMonth = MONTH_NAMES[start.getMonth()];
+  const endMonth = MONTH_NAMES[end.getMonth()];
+  const sameMonth =
+    start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+
+  if (timeframe === 'week') {
+    if (sameMonth) return `${startDay} – ${endDay} ${endMonth}`;
+    return `${startDay} ${startMonth} – ${endDay} ${endMonth}`;
+  }
+
+  if (sameMonth) return startMonth;
+  return `${startMonth} – ${endMonth}`;
 }
 
 export type StandoutTrend = { label: string; detail: string };
@@ -291,12 +329,99 @@ export function computeStandoutTrends(
   return trends.slice(0, 4);
 }
 
-export function durationTrend(sessions: ClimbingSession[], timeframe: TrendTimeframe) {
-  const scoped = sessionsInTimeframe(sessions, timeframe);
-  return scoped.map((s) => ({
-    label: s.date.slice(5),
-    value: computeDurationMinutes(s.startTime, s.endTime, s.durationMinutes) ?? 0,
-  }));
+export type HeatmapLevel = 0 | 1 | 2 | 3 | 4;
+
+export type HeatmapDay = {
+  date: string;
+  minutes: number;
+  level: HeatmapLevel;
+  inRange: boolean;
+};
+
+export type DurationHeatmap = {
+  weeks: HeatmapDay[][];
+  monthLabels: { label: string; weekIndex: number }[];
+  totalMinutes: number;
+};
+
+function startOfWeekSunday(d: Date) {
+  const next = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0, 0);
+  next.setDate(next.getDate() - next.getDay());
+  return next;
+}
+
+function durationHeatLevel(minutes: number): HeatmapLevel {
+  if (minutes <= 0) return 0;
+  if (minutes < 60) return 1;
+  if (minutes < 120) return 2;
+  if (minutes < 180) return 3;
+  return 4;
+}
+
+/**
+ * GitHub-style week columns of climbing minutes (intensity by duration).
+ * Weeks start on Sunday; month labels sit above the week that contains the 1st.
+ */
+export function durationHeatmap(
+  sessions: ClimbingSession[],
+  timeframe: TrendTimeframe,
+  now = new Date(),
+): DurationHeatmap {
+  const { cutoffStr, endStr } = timeframeWindow(timeframe, now);
+  const scoped = sessions.filter(
+    (s) => s.status === 'completed' && s.date >= cutoffStr && s.date <= endStr,
+  );
+
+  const minutesByDate = new Map<string, number>();
+  let totalMinutes = 0;
+  for (const session of scoped) {
+    const minutes =
+      computeDurationMinutes(session.startTime, session.endTime, session.durationMinutes) ?? 0;
+    if (minutes <= 0) continue;
+    totalMinutes += minutes;
+    minutesByDate.set(session.date, (minutesByDate.get(session.date) ?? 0) + minutes);
+  }
+
+  const rangeStart = new Date(`${cutoffStr}T12:00:00`);
+  const rangeEnd = new Date(`${endStr}T12:00:00`);
+  const cursor = startOfWeekSunday(rangeStart);
+  const last = startOfWeekSunday(rangeEnd);
+  last.setDate(last.getDate() + 6);
+
+  const days: HeatmapDay[] = [];
+  const walk = new Date(cursor);
+  while (walk <= last) {
+    const date = isoFromDate(walk);
+    const inRange = date >= cutoffStr && date <= endStr;
+    const minutes = inRange ? (minutesByDate.get(date) ?? 0) : 0;
+    days.push({
+      date,
+      minutes,
+      level: inRange ? durationHeatLevel(minutes) : 0,
+      inRange,
+    });
+    walk.setDate(walk.getDate() + 1);
+  }
+
+  const weeks: HeatmapDay[][] = [];
+  for (let i = 0; i < days.length; i += 7) {
+    weeks.push(days.slice(i, i + 7));
+  }
+
+  const monthLabels: { label: string; weekIndex: number }[] = [];
+  let lastMonth = -1;
+  weeks.forEach((week, weekIndex) => {
+    const anchor =
+      week.find((day) => day.inRange && new Date(`${day.date}T12:00:00`).getDate() === 1) ??
+      (weekIndex === 0 ? week.find((day) => day.inRange) : undefined);
+    if (!anchor) return;
+    const month = new Date(`${anchor.date}T12:00:00`).getMonth();
+    if (month === lastMonth) return;
+    lastMonth = month;
+    monthLabels.push({ label: MONTH_NAMES[month], weekIndex });
+  });
+
+  return { weeks, monthLabels, totalMinutes };
 }
 
 export function warmUpTrend(sessions: ClimbingSession[], timeframe: TrendTimeframe) {
@@ -305,4 +430,151 @@ export function warmUpTrend(sessions: ClimbingSession[], timeframe: TrendTimefra
     label: s.date.slice(5),
     value: s.climbs.filter((c) => c.isWarmUp).length,
   }));
+}
+
+export type DifficultySlice = {
+  levelId: string;
+  name: string;
+  color: string;
+  value: number;
+};
+
+export type LocationDifficultyTrend = {
+  locationId: string;
+  label: string;
+  isHome: boolean;
+  slices: DifficultySlice[];
+};
+
+function locationTrendLabel(location: {
+  nickname?: string;
+  name: string;
+  isHome: boolean;
+}): string {
+  if (location.nickname?.trim()) return location.nickname.trim();
+  const short = location.name.split(',')[0]?.trim();
+  return short || location.name;
+}
+
+/**
+ * Difficulty climb counts per location for the timeframe, using each climb’s
+ * level colour. Locations with no graded climbs are omitted. Home is listed first.
+ */
+export function difficultyTrendByLocation(
+  sessions: ClimbingSession[],
+  timeframe: TrendTimeframe,
+  locations: {
+    id: string;
+    name: string;
+    nickname?: string;
+    isHome: boolean;
+    levels: { id: string; name: string; color: string }[];
+  }[],
+): LocationDifficultyTrend[] {
+  const scoped = sessionsInTimeframe(sessions, timeframe);
+  const trends: LocationDifficultyTrend[] = [];
+
+  for (const location of locations) {
+    const locationSessions = scoped.filter((session) => session.locationId === location.id);
+    const counts = new Map<string, { name: string; color: string; value: number }>();
+
+    for (const session of locationSessions) {
+      for (const climb of session.climbs) {
+        if (!climb.levelId && !climb.levelName) continue;
+        const key = climb.levelId || `name:${climb.levelName}`;
+        const fromProfile = climb.levelId
+          ? location.levels.find((level) => level.id === climb.levelId)
+          : undefined;
+        const name = climb.levelName ?? fromProfile?.name ?? 'Unknown';
+        const color = climb.levelColor || fromProfile?.color || ui.textSubtle;
+        const existing = counts.get(key);
+        if (existing) {
+          existing.value += 1;
+        } else {
+          counts.set(key, { name, color, value: 1 });
+        }
+      }
+    }
+
+    if (counts.size === 0) continue;
+
+    const slices: DifficultySlice[] = [...counts.entries()].map(([levelId, slice]) => ({
+      levelId,
+      name: slice.name,
+      color: slice.color,
+      value: slice.value,
+    }));
+
+    // Prefer profile level order when the level still exists.
+    slices.sort((a, b) => {
+      const ai = location.levels.findIndex((level) => level.id === a.levelId);
+      const bi = location.levels.findIndex((level) => level.id === b.levelId);
+      if (ai >= 0 && bi >= 0) return ai - bi;
+      if (ai >= 0) return -1;
+      if (bi >= 0) return 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    trends.push({
+      locationId: location.id,
+      label: locationTrendLabel(location),
+      isHome: location.isHome,
+      slices,
+    });
+  }
+
+  // Include sessions at unknown / deleted location ids (use session.locationName).
+  const knownIds = new Set(locations.map((loc) => loc.id));
+  const orphanSessions = scoped.filter(
+    (session) => session.locationId && !knownIds.has(session.locationId),
+  );
+  const orphanByLocation = new Map<string, ClimbingSession[]>();
+  for (const session of orphanSessions) {
+    const list = orphanByLocation.get(session.locationId) ?? [];
+    list.push(session);
+    orphanByLocation.set(session.locationId, list);
+  }
+  for (const [locationId, locationSessions] of orphanByLocation) {
+    const counts = new Map<string, { name: string; color: string; value: number }>();
+    for (const session of locationSessions) {
+      for (const climb of session.climbs) {
+        if (!climb.levelId && !climb.levelName) continue;
+        const key = climb.levelId || `name:${climb.levelName}`;
+        const name = climb.levelName ?? 'Unknown';
+        const color = climb.levelColor || ui.textSubtle;
+        const existing = counts.get(key);
+        if (existing) existing.value += 1;
+        else counts.set(key, { name, color, value: 1 });
+      }
+    }
+    if (counts.size === 0) continue;
+    trends.push({
+      locationId,
+      label: locationSessions[0]?.locationName?.split(',')[0]?.trim() || 'Other location',
+      isHome: false,
+      slices: [...counts.entries()].map(([levelId, slice]) => ({
+        levelId,
+        name: slice.name,
+        color: slice.color,
+        value: slice.value,
+      })),
+    });
+  }
+
+  trends.sort((a, b) => {
+    if (a.isHome !== b.isHome) return a.isHome ? -1 : 1;
+    return a.label.localeCompare(b.label);
+  });
+
+  return trends;
+}
+
+/** Prefer home gym with data; otherwise the first location that has slices. */
+export function defaultDifficultyTrendLocationId(
+  trends: LocationDifficultyTrend[],
+): string | undefined {
+  if (!trends.length) return undefined;
+  const home = trends.find((trend) => trend.isHome);
+  if (home) return home.locationId;
+  return trends[0].locationId;
 }

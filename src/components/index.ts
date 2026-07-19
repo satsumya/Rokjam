@@ -65,6 +65,8 @@ export { LevelRow } from './molecules/LevelRow';
 export { AddressSearch } from './molecules/AddressSearch';
 export { ColorPicker } from './molecules/ColorPicker';
 export { MiniBars } from './molecules/MiniBars';
+export { ActivityHeatmap } from './molecules/ActivityHeatmap';
+export { PieChart } from './molecules/PieChart';
 export { SessionRow } from './molecules/SessionRow';
 export { ShareMockBanner } from './molecules/ShareMockBanner';
 export { ClimbCard } from './molecules/ClimbCard';

@@ -44,7 +44,6 @@ export default function DashboardScreen() {
     seedDemoSessions,
     seedDemoProfileOnly,
     seedFlowDemo,
-    seedReturningUser,
     resetSession,
   } = usePrototype();
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
@@ -106,7 +105,7 @@ export default function DashboardScreen() {
       seedFlowDemo('dashboard-mid-session');
       demoApplied.current = demo;
     } else if (demo === 'seed') {
-      seedReturningUser();
+      seedFlowDemo('dashboard-many-sessions');
       demoApplied.current = demo;
     }
   }, [
@@ -114,7 +113,6 @@ export default function DashboardScreen() {
     seedDemoSessions,
     seedDemoProfileOnly,
     seedFlowDemo,
-    seedReturningUser,
   ]);
 
   return (
@@ -287,6 +285,7 @@ export default function DashboardScreen() {
 
           <DashboardTrends
             sessions={completedSessions}
+            locations={locations}
             timeframe={timeframe}
             onTimeframeChange={setTimeframe}
           />

@@ -74,7 +74,6 @@ Base URL: **http://localhost:8081**
 | Scenario | Link |
 | --- | --- |
 | Profile setup | http://localhost:8081/profile/setup |
-| No location on complete | http://localhost:8081/profile/setup?demo=error-no-location |
 | Full new-user journey | Sign up → verify → welcome → profile |
 
 ### ROKJ-16 — Create session

@@ -9,7 +9,15 @@ function MiniBarsStack({ style, ...rest }: ViewProps) {
   return <View style={style} {...rest} />;
 }
 
-export function MiniBars({ data, unit }: { data: { label: string; value: number }[]; unit?: string }) {
+export function MiniBars({
+  data,
+  unit,
+  formatValue,
+}: {
+  data: { label: string; value: number }[];
+  unit?: string;
+  formatValue?: (value: number) => string;
+}) {
   const max = Math.max(...data.map((d) => d.value), 1);
   if (!data.length) {
     return (
@@ -21,7 +29,14 @@ export function MiniBars({ data, unit }: { data: { label: string; value: number 
   return (
     <MiniBarsStack style={{ gap: space[6] }}>
       {data.map((item) => (
-        <Bar key={item.label} label={item.label} value={item.value} max={max} unit={unit} />
+        <Bar
+          key={item.label}
+          label={item.label}
+          value={item.value}
+          max={max}
+          unit={unit}
+          formatValue={formatValue}
+        />
       ))}
     </MiniBarsStack>
   );
