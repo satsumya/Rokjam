@@ -103,7 +103,7 @@ Base URL: **http://localhost:8081**
 
 | Scenario | Link |
 | --- | --- |
-| Community feed | http://localhost:8081/community |
+| Community feed (globe tab) | http://localhost:8081/community |
 
 ## Regenerate from Jira
 

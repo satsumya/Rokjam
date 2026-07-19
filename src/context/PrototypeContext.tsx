@@ -179,6 +179,8 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             levelSort: 'easy-hard',
           },
         ]);
+        setProfileComplete(true);
+        setProfileSkipped(false);
         return id;
       },
       addLocationWithLevels: (name, nickname, levels) => {
@@ -199,6 +201,8 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             levelSort: 'easy-hard' as const,
           },
         ]);
+        setProfileComplete(true);
+        setProfileSkipped(false);
         return id;
       },
       updateLocation: (id, patch) => {

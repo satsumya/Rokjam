@@ -34,8 +34,6 @@ export default function DashboardScreen() {
     locations,
     strengthTags,
     improvementTags,
-    profileComplete,
-    profileSkipped,
     sessions,
     seedDemoSessions,
     seedDemoProfileOnly,
@@ -43,7 +41,8 @@ export default function DashboardScreen() {
     resetSession,
   } = usePrototype();
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
-  const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
+  // Location is the unlock gate — once one exists, drop the complete-profile prompt.
+  const needsProfile = locations.length === 0;
   const [showAllSessions, setShowAllSessions] = useState(false);
   const [addingUsername, setAddingUsername] = useState(false);
   const [usernameDraft, setUsernameDraft] = useState('');

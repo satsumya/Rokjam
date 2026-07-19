@@ -3,10 +3,10 @@
 Applies [Standards](../Standards.md) unless noted below.
 
 **Home (dashboard) tab:**
-- [x] Bottom nav — House = dashboard; Mountains = all sessions; Plus = start new session; Presentation = insights; Globe = community
-- [x] Profile summary card — Avatar, username (or inline Add username), home location nickname with map pin (or **Add location** opening the same add-location modal as sessions), strength chips, improve chips
-- [x] Account menu — Edit profile / Log out from the header control
-- [x] Blank profile dashboard — Incomplete / skipped profile shows **Add username** (inline edit with availability checks), no strength/improve tags, and prompts to complete profile
+- [x] Bottom nav — House = dashboard; Mountains = all sessions; **Play** = start new session; **Shooting star** = insights; Globe = community (`BottomNav`)
+- [x] Profile summary card — Avatar, username (or inline **Add username** with availability + check confirm; blur cancels), home nickname with map pin (or **Add location** modal), strength / improve chips (sections hidden when empty)
+- [x] Account menu — Connected peach menu under the user icon (chevron only when open); Edit profile / Log out
+- [x] Blank profile dashboard — No location yet shows complete-profile prompt + Add username / Add location; once a location exists the prompt is hidden
 - [x] Recent sessions on home (insights live on the Insights tab)
 
 **Insights tab** (`/insights`):

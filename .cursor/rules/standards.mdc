@@ -8,6 +8,7 @@ alwaysApply: true
 Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 
 - **Content max width (required)** — Product UI (body, footers, bottom nav) stays within `layout.contentMaxWidth` (640), centered; never full-bleed past it on wide viewports. Only `Screen` `wide` utility pages may exceed it. Dialogs use `layout.modalMaxWidth`
+- **Bottom nav** — Primary tabs: `BottomNav` (house · mountains · play · shootingStar · globe). Active session: `SessionBottomNav` (back · plus/save · checkFat end). Wire via `Screen` `bottomNav`. `check` vs `checkFat` is usage-based, not size-based
 - Prefer `Section` + spacing for grouping; use `Card` only for list rows, callouts, or clusters that need separation — never nest Card in Card, and don’t wrap whole forms already under Screen/Modal/BottomSheet
 - Product UI must work down to **320px**; use `pageGutter` / `layout` tokens — no overflow into margins
 - Required fields use `*` only; never label fields "optional"
@@ -22,6 +23,7 @@ Follow **docs/tickets/Standards.md** for all UI and flow work. Key rules:
 - Icons come from the `Icon` atom (Phosphor); never hardcode emoji/glyphs as UI icons
 - Size icons with the scale tokens (`xs` 16 · `sm` 20 · `md` 24 · `lg` 32 · `xl` 40), e.g. `<Icon name="house" size="xs" />`; avoid raw pixel numbers
 - Icon weight follows size automatically (xs/sm → fill, md/lg/xl → bold); allowed weights are regular/bold/fill/duotone (no thin/light), with regular/duotone manual-only (not size-mapped). Only pass an explicit `weight` for semantic exceptions (e.g. an unchecked checkbox or unmet hint stays regular)
+- `check` vs `checkFat` is a usage choice (not size-mapped) — e.g. save/confirm often `checkFat`; keep the same glyph at every size when that usage applies
 - Text comes from the `Text` atom with a `variant` from the type scale (`src/theme/typography.ts`); never hardcode `fontSize`/`fontFamily`/`lineHeight`. One modular scale (base 16, ratio 1.333); Fira Sans headings (`h1`–`h6`), Saira body (`bodyLarge`/`body`/`bodySmall`). Regular + bold available per size via `weight` (headings default bold, body default regular). Roles: `h4` screen titles, `h5` section/sheet titles, `body` copy, `bodySmall` hints/meta
 
 When implementing a flow, read the matching **docs/tickets/Flow/*.md** ticket and update its checkboxes.

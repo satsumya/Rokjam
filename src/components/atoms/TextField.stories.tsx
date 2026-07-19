@@ -33,6 +33,18 @@ export const WithSuccess: Story = {
   args: { label: 'Username', value: 'alex_the_gecko', success: 'Username available' },
 };
 
+export const AutoFocus: Story = {
+  args: {
+    label: 'Username',
+    placeholder: 'Username',
+    autoFocus: true,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return <TextField {...args} value={value} onChangeText={setValue} />;
+  },
+};
+
 export const Interactive: Story = {
   args: { label: 'Username' },
   render: (args) => {

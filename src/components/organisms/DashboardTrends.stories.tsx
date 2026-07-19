@@ -28,6 +28,7 @@ const richSessions = createFlowManySessions(
 const meta = {
   title: 'Organisms/DashboardTrends',
   component: DashboardTrends,
+  /** Rendered on the Insights tab in product UI (`/insights`). */
   decorators: [Padded],
   args: {
     sessions: richSessions,

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import {
@@ -12,6 +12,7 @@ import {
   RadioRow,
   Screen,
   Section,
+  SessionBottomNav,
   SessionClimbsList,
   SessionLocationPanel,
   SessionTimeDropdown,
@@ -61,8 +62,6 @@ export default function ActiveSessionScreen() {
     locations,
     username,
     setUsername,
-    profileComplete,
-    profileSkipped,
     updateSession,
     completeSession,
     addClimb,
@@ -126,7 +125,7 @@ export default function ActiveSessionScreen() {
 
   const session = sessions.find((s) => s.id === id);
   const location = locations.find((l) => l.id === session?.locationId) ?? locations[0];
-  const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
+  const needsProfile = locations.length === 0;
 
   const usernameError = useMemo(() => {
     if (!isPublic || username.trim()) return undefined;
@@ -235,29 +234,12 @@ export default function ActiveSessionScreen() {
   return (
     <Screen
       title="Climbing session"
-      headerRight={
-        <Pressable onPress={() => router.replace('/dashboard')}>
-          <Text variant="body" style={{ textDecorationLine: 'underline' }}>
-            Dashboard
-          </Text>
-        </Pressable>
-      }
-      footer={
-        <>
-          {isEditingClimb ? (
-            <>
-              <Button label="Save climb" onPress={saveClimb} />
-              <Button label="Cancel" variant="secondary" onPress={cancelClimbEdit} />
-            </>
-          ) : (
-            <Button label="Add climb" onPress={startAdd} />
-          )}
-          <Button
-            label="Save / end session"
-            variant="secondary"
-            onPress={openEndSheet}
-          />
-        </>
+      bottomNav={
+        <SessionBottomNav
+          primaryMode={isEditingClimb ? 'save' : 'add'}
+          onPrimary={isEditingClimb ? saveClimb : startAdd}
+          onEndSession={openEndSheet}
+        />
       }
       overlay={
         <>
@@ -378,11 +360,14 @@ export default function ActiveSessionScreen() {
       </Section>
 
       {draftClimb && editingClimbId ? (
-        <ClimbEditor
-          climb={draftClimb}
-          location={location}
-          onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
-        />
+        <>
+          <ClimbEditor
+            climb={draftClimb}
+            location={location}
+            onChange={(patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c))}
+          />
+          <Link label="Cancel" onPress={cancelClimbEdit} />
+        </>
       ) : (
         <SessionClimbsList
           climbs={session.climbs}

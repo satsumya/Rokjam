@@ -177,7 +177,7 @@ export function SessionClimbsList({
 
       {filteredClimbs.length === 0 ? (
         <Text variant="body" color={ui.textMuted}>
-          No climbs yet. Tap Add climb to log your first climb.
+          No climbs yet. Tap + to log your first climb.
         </Text>
       ) : (
         filteredClimbs.map((climb) => (

@@ -7,11 +7,11 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] can be updated
 - [x] Location auto fills to home/primary location from member profile
 - [x] If no location added users will need an option to be able to add now — Opens a centered modal (not a bottom sheet) with address search, optional nickname, and full difficulty-level setup (same journey as member profile)
-- [x] Users must be able to swap the location or add a new location but adding a new location is not a prominent option
+- [x] Users must be able to swap the location or add a new location via a location dropdown (add new is a menu option, not a prominent separate action)
 - [x] Start time auto adds current time
 - [x] Option to set the end time using a dropdown or choose length of the climbing session using a dropdown — `SessionTimeDropdown` for start/end time (12:00 AM–11:45 PM, 15-min steps); duration dropdown with presets + custom minutes
-- [x] Add climbs
-- [x] While adding or editing a climb, footer primary action is Save climb (replaces Add climb until saved or cancelled)
+- [x] Add climbs — Centre plus on the session bottom nav
+- [x] While adding or editing a climb, centre nav action is Save climb (checkFat; Cancel link in content) until saved or cancelled
 - [x] Edit climbs
 - [x] Remove climbs
 - [x] Sort climbs by difficulty: either easy to hard or hard to easy; unlabelled climbs at top
@@ -21,15 +21,15 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Filter by tags (if tags have been added and only show tags that have been added already - include any custom tags as these are still tags)
 - [x] show/hide warm up climbs
 - [x] show/hide repeat climbs
-- [x] Save/end session
+- [x] Save/end session — Check icon on the session bottom nav opens the save/end sheet
 - [x] Can choose to allow it to be public
 - [x] If it's public and they don't have a user name they will have to add one
 - [x] Default is private
 - [x] Option to confirm end time (if added) or default to time user first ends the session — End time always has a value when save/end opens (defaults to current time)
 - [x] Share session (after session is saved/ended — see Standards)
-- [x] Incomplete profile — Can start session from dashboard even when profile is incomplete; show a prompt when something crucial is missing (Climbing section always visible)
-- [x] Return to dashboard mid-session without saving/ending
-- [x] In-progress session on dashboard — Continue existing session(s); start a new session via bottom-nav plus (both always available)
+- [x] Incomplete profile — Can start session from dashboard even when no location is set; show a “Profile not complete” prompt only when no location exists yet (Climbing section always visible)
+- [x] Return to prior screen mid-session without saving/ending — Back arrow on the session bottom nav (`router.back()`, dashboard fallback)
+- [x] In-progress session on dashboard — Continue existing session(s); start a new session via bottom-nav play (both always available)
 - [x] One location per climbing session
 
 **For each climb:**
@@ -70,4 +70,4 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Happy path — User with full profile and existing sessions
 - [x] New user — No sessions logged yet
 - [x] Inline location add — Modal with address search and difficulty levels when no location on profile or session
-- [x] Mid-session dashboard — Active session shown with Continue session; Start climbing session available via bottom-nav plus
+- [x] Mid-session dashboard — Active session shown with Continue session; Start climbing session available via bottom-nav play

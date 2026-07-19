@@ -21,8 +21,8 @@ Applies [Standards](../Standards.md) unless noted below.
 - [x] Option to add strengths
 - [x] Option to add areas to improve
 - [x] Profile pic
-- [x] After completing user goes to the dashboard — Primary action is “Go to dashboard” (location not required)
-- [x] Completing profile is not required to start a climbing session
+- [x] After completing user goes to the dashboard — Primary action is “Go to dashboard” (location not required); dashboard profile summary can also add username / location inline
+- [x] Completing profile is not required to start a climbing session — start via bottom-nav **play**; location can be added on the session or dashboard card
 - [x] Happy path, alternate paths, and error paths in scenario tester
 - [x] Need to be able to exit member profile — Exit or skip without completing required fields (skip only during initial setup; hidden when editing an already-complete profile)
 - [x] Live edits when profile already complete — Changes apply immediately (except username); no Save changes footer — leave via Exit

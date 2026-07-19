@@ -22,7 +22,7 @@ function sizesForWeight(weight: IconWeight) {
 }
 
 /** A few glyphs with enough interior detail to show weight differences well. */
-const WEIGHT_SAMPLES: IconName[] = ['house', 'checkCircle', 'sparkle', 'video', 'close'];
+const WEIGHT_SAMPLES: IconName[] = ['house', 'play', 'shootingStar', 'checkFat', 'arrowLineLeft'];
 
 /** `auto` lets each icon follow its size (see DEFAULT_WEIGHT_FOR_SIZE). */
 const WEIGHT_OPTIONS = ['auto', ...ICON_WEIGHTS] as const;

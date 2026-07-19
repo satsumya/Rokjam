@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '../atoms/Icon';
 import { buttonGeometry, buttonStyleTokens } from '../../theme/buttonStyles';
-import { colors, ui } from '../../theme/colors';
+import { colors } from '../../theme/colors';
 import {
   focusRingInverse,
   interactionFlags,
@@ -17,7 +17,7 @@ export type BottomNavTab = 'home' | 'sessions' | 'insights' | 'community';
 const NAV_BG = colors.neutral[900];
 const NAV_ICON = colors.neutral[300];
 const NAV_ICON_ACTIVE = colors.neutral[50];
-const plusTokens = buttonStyleTokens('style2');
+const playTokens = buttonStyleTokens('style2');
 
 type NavItem = {
   tab: BottomNavTab;
@@ -29,7 +29,7 @@ type NavItem = {
 const SIDE_ITEMS: NavItem[] = [
   { tab: 'home', icon: 'house', label: 'Dashboard', href: '/dashboard' },
   { tab: 'sessions', icon: 'mountains', label: 'Climbing sessions', href: '/sessions' },
-  { tab: 'insights', icon: 'presentationChart', label: 'Insights', href: '/insights' },
+  { tab: 'insights', icon: 'shootingStar', label: 'Insights', href: '/insights' },
   { tab: 'community', icon: 'globeHemisphereEast', label: 'Community', href: '/community' },
 ];
 
@@ -45,7 +45,7 @@ function NavSlot({ style, ...rest }: ViewProps) {
   return <View style={style} {...rest} />;
 }
 
-function PlusShadow({ style, ...rest }: ViewProps) {
+function PlayShadow({ style, ...rest }: ViewProps) {
   return <View style={style} {...rest} />;
 }
 
@@ -59,41 +59,41 @@ export function BottomNav({ active }: { active: BottomNavTab }) {
   const right = SIDE_ITEMS.slice(2);
 
   return (
-    <NavBar style={[styles.bar, { paddingBottom: Math.max(insets.bottom, space[8]) }]}>
+    <NavBar style={[styles.bar, { paddingBottom: Math.max(insets.bottom, space[12]) }]}>
       <NavRow style={styles.row}>
         {left.map((item) => (
           <NavTab key={item.tab} item={item} active={active === item.tab} />
         ))}
-        <NavSlot style={styles.plusSlot}>
+        <NavSlot style={styles.playSlot}>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Start climbing session"
             onPress={() => router.push('/sessions/create')}
             style={(state) => [
-              styles.plusHit,
+              styles.playHit,
               interactionStyle(state),
               interactionFlags(state).focused ? focusRingInverse : null,
             ]}
           >
-            <PlusShadow
+            <PlayShadow
               style={[
-                styles.plusShadow,
+                styles.playShadow,
                 {
-                  backgroundColor: plusTokens.shadow,
+                  backgroundColor: playTokens.shadow,
                   top: buttonGeometry.shadowOffsetY,
                 },
               ]}
             />
             <View
               style={[
-                styles.plusFace,
+                styles.playFace,
                 {
-                  backgroundColor: plusTokens.fill,
-                  borderColor: plusTokens.stroke,
+                  backgroundColor: playTokens.fill,
+                  borderColor: playTokens.stroke,
                 },
               ]}
             >
-              <Icon name="plus" size="md" color={plusTokens.text} />
+              <Icon name="play" size="md" color={playTokens.text} weight="fill" />
             </View>
           </Pressable>
         </NavSlot>
@@ -124,28 +124,28 @@ function NavTab({ item, active }: { item: NavItem; active: boolean }) {
   );
 }
 
-const PLUS_SIZE = 52;
+const PLAY_SIZE = 52;
 
 const styles = StyleSheet.create({
   bar: {
     backgroundColor: NAV_BG,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingTop: space[12],
-    paddingHorizontal: space[8],
+    paddingTop: space[16],
+    paddingHorizontal: space[12],
   },
   row: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    minHeight: 44,
+    minHeight: 48,
   },
   tab: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: space[4],
-    paddingVertical: space[4],
+    gap: space[6],
+    paddingVertical: space[6],
     minWidth: 0,
     borderRadius: 8,
   },
@@ -158,28 +158,28 @@ const styles = StyleSheet.create({
   indicatorOn: {
     backgroundColor: NAV_ICON_ACTIVE,
   },
-  plusSlot: {
-    width: PLUS_SIZE + space[8],
+  playSlot: {
+    width: PLAY_SIZE + space[12],
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginTop: -space[24],
   },
-  plusHit: {
-    width: PLUS_SIZE,
-    height: PLUS_SIZE + buttonGeometry.shadowOffsetY,
+  playHit: {
+    width: PLAY_SIZE,
+    height: PLAY_SIZE + buttonGeometry.shadowOffsetY,
     alignItems: 'center',
-    borderRadius: PLUS_SIZE / 2,
+    borderRadius: PLAY_SIZE / 2,
   },
-  plusShadow: {
+  playShadow: {
     position: 'absolute',
-    width: PLUS_SIZE,
-    height: PLUS_SIZE,
-    borderRadius: PLUS_SIZE / 2,
+    width: PLAY_SIZE,
+    height: PLAY_SIZE,
+    borderRadius: PLAY_SIZE / 2,
   },
-  plusFace: {
-    width: PLUS_SIZE,
-    height: PLUS_SIZE,
-    borderRadius: PLUS_SIZE / 2,
+  playFace: {
+    width: PLAY_SIZE,
+    height: PLAY_SIZE,
+    borderRadius: PLAY_SIZE / 2,
     borderWidth: buttonGeometry.strokeWidth,
     alignItems: 'center',
     justifyContent: 'center',

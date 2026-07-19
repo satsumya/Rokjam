@@ -3,7 +3,7 @@
 Applies [Standards](../Standards.md) unless noted below.
 
 - [x] From dashboard can view most recent climbing logs/sessions
-- [x] Can change view to see list of all logs
+- [x] Mountains tab / Full list — all completed sessions (`/sessions`, `BottomNav` sessions)
 **For each climbing log/session in the list of ‘All’ climbing logs a user at a glance needs to see:**
 - [x] Date
 - [x] Session duration

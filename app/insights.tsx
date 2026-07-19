@@ -8,10 +8,9 @@ import type { TrendTimeframe } from '../src/types/climbingSession';
 
 export default function InsightsScreen() {
   const { demo } = useLocalSearchParams<{ demo?: string }>();
-  const { sessions, locations, profileComplete, profileSkipped, seedFlowDemo, seedDemoProfileOnly } =
-    usePrototype();
+  const { sessions, locations, seedFlowDemo, seedDemoProfileOnly } = usePrototype();
   const [timeframe, setTimeframe] = useState<TrendTimeframe>('month');
-  const needsProfile = profileSkipped || !profileComplete || locations.length === 0;
+  const needsProfile = locations.length === 0;
   const demoApplied = useRef<string | null>(null);
 
   useEffect(() => {

@@ -57,6 +57,24 @@ The `Button` atom (`src/components/atoms/Button.tsx`) shares geometry from `butt
 - **Icons:** optional `iconLeft` / `iconRight` (`IconName` from the Icon atom). Icon-only: set `icon` and omit `label` (requires `accessibilityLabel`); same variants and colour styles apply. Icon-only size maps 1:1 to the icon scale (`small`→`sm`, `medium`→`md`, `large`→`lg`); icons beside a label stay one step smaller so they sit with the text.
 - Storybook: Atoms/Button — **Color Styles** and **States** galleries only; pick icons from the `ICON_NAMES` selects and use boolean toggles to enable them. On Color Styles, typing a label overrides the default Style 1 / Style 2 / difficulty names on every button.
 
+## Navigation
+
+Primary product chrome lives in organisms (Storybook: Organisms/BottomNav, Organisms/SessionBottomNav).
+
+| Component | Where | Actions |
+| --- | --- | --- |
+| `BottomNav` | Home, sessions list, insights, community | House · mountains · **play** (start session, Style 2) · shooting star · globe |
+| `SessionBottomNav` | Active climbing session | Back (`arrowLineLeft`) · **plus** / checkFat (add/save climb, Style 1) · **checkFat** (save/end) |
+| `AccountMenu` | Dashboard header | User icon → connected peach menu (Edit profile / Log out) |
+
+Pass nav via `Screen`’s `bottomNav` prop so it shares `layout.contentMaxWidth` with the scroll body. Sticky form footers still use `footer`.
+
+## Iconography
+
+All glyphs go through the `Icon` atom (`ICON_NAMES` in `src/components/atoms/Icon.tsx`). Visual reference: `/icon-library`. Nav-related names include `play`, `shootingStar`, `arrowLineLeft`, `check`, `checkFat`, `mountains`, `house`, `globeHemisphereEast`.
+
+**`check` vs `checkFat`** — choose by usage (e.g. confirm / save-end → `checkFat`; lighter chrome → `check`), not by size token. When a usage picks `checkFat`, keep that glyph at every size. Size still follows the Icon scale (`xs`–`xl`) and weight follows size unless overridden.
+
 ## Colour system
 
 Visual reference: `/color-system` (also linked from Scenario tester). Tokens live in `src/theme/colors.ts`.

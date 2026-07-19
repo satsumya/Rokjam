@@ -38,6 +38,7 @@ export function TextField({
   returnKeyType,
   onBlur,
   onFocus,
+  autoFocus,
 }: {
   /** Omit when a parent Section/Modal title already names this field. */
   label?: string;
@@ -59,6 +60,7 @@ export function TextField({
   returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
   onBlur?: () => void;
   onFocus?: () => void;
+  autoFocus?: boolean;
 }) {
   const { hovered, focused, bind } = useHoverFocus();
   const hoverActive = hovered || previewState === 'hover';
@@ -80,6 +82,7 @@ export function TextField({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         maxLength={maxLength}
+        autoFocus={autoFocus}
         accessibilityLabel={accessibilityLabel ?? label ?? placeholder}
         onSubmitEditing={onSubmitEditing}
         returnKeyType={returnKeyType}

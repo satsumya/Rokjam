@@ -1,20 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import {
-  BottomNav,
-  Button,
-  Card,
-  PrototypeOnly,
-  Screen,
-  Section,
-  SessionRow,
-  Text,
-} from '../../src/components';
+import { BottomNav, Card, Screen, Section, SessionRow, Text } from '../../src/components';
 import { usePrototype } from '../../src/context/PrototypeContext';
 import { ui } from '../../src/theme/colors';
-import { space } from '../../src/theme/spacing';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -40,14 +30,9 @@ export default function SessionsListScreen() {
   return (
     <Screen title="Climbing sessions" bottomNav={<BottomNav active="sessions" />}>
       {completed.length === 0 ? (
-        <View style={{ gap: space[8] }}>
-          <Text variant="body" color={ui.textMuted}>
-            No completed sessions yet.
-          </Text>
-          <PrototypeOnly>
-            <Button label="Load demo sessions" variant="secondary" onPress={seedDemoSessions} />
-          </PrototypeOnly>
-        </View>
+        <Text variant="body" color={ui.textMuted}>
+          No completed sessions yet.
+        </Text>
       ) : (
         <Section title={`${completed.length} session${completed.length === 1 ? '' : 's'}`}>
           {completed.map((session) => {

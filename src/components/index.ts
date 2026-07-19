@@ -75,6 +75,7 @@ export { AccountMenu } from './molecules/AccountMenu';
 // Organisms
 export { Screen } from './organisms/Screen';
 export { BottomNav, type BottomNavTab } from './organisms/BottomNav';
+export { SessionBottomNav } from './organisms/SessionBottomNav';
 export { ProfileSummaryCard } from './organisms/ProfileSummaryCard';
 export { ClimbEditor } from './organisms/ClimbEditor';
 export { SessionClimbsList } from './organisms/SessionClimbsList';

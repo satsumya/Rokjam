@@ -42,6 +42,7 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 - [x] Icon source — All UI icons come from the `Icon` atom (Phosphor). Never hardcode emoji or glyph characters as icons
 - [x] Icon size scale — Size icons with the scale tokens passed to `Icon`'s `size` prop, not raw pixel numbers: `xs` 16, `sm` 20, `md` 24, `lg` 32, `xl` 40 (e.g. `<Icon name="house" size="xs" />`)
 - [x] Icon weight — Weight follows size automatically: xs/sm → fill, md/lg/xl → bold. Allowed weights are regular, bold, fill, duotone (thin and light are disabled); regular and duotone aren't size-mapped and are manual-only. Only pass an explicit `weight` for semantic exceptions (e.g. an unchecked checkbox or unmet hint stays regular)
+- [x] `check` vs `checkFat` — Choose by **usage** (e.g. confirm / save-end → `checkFat`; lighter chrome → `check`), not by size. When a usage picks `checkFat`, keep `checkFat` at every size token
 
 ## Dates & times
 
@@ -75,6 +76,8 @@ Referenced from flow specs in [`Flow/`](./Flow/).
 
 ## Actions & navigation
 
+- [x] **Primary bottom nav** — Product tabs use `BottomNav` on `Screen` `bottomNav`: house (home) · mountains (sessions) · **play** (start session) · shooting star (insights) · globe (community). Keep the bar inside `layout.contentMaxWidth`
+- [x] **Active session nav** — `SessionBottomNav`: back arrow (prior screen) · plus / checkFat (add or save climb) · checkFat (save/end sheet). Pick `check` vs `checkFat` by usage, not by size. Do not use the primary five-tab bar on the active session screen
 - [x] Edit in context — Put editable fields near the action that needs them; do not tell users to go elsewhere (e.g. end time/duration in the save/end sheet)
 - [x] Confirmations use bottom sheet — Destructive or final actions (delete session, save/end session) use a bottom sheet with clear confirm/cancel
 - [x] Complex forms in context — Multi-step adds opened mid-flow (e.g. location + difficulty levels during a session) use a centered modal with scrollable body and pinned footer actions, not a bottom sheet

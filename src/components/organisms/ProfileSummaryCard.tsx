@@ -128,6 +128,7 @@ export function ProfileSummaryCard({
                   onBlur={scheduleBlurCancel}
                   returnKeyType="done"
                   maxLength={20}
+                  autoFocus
                 />
               </View>
               {canConfirmUsername ? (
