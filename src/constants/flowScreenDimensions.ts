@@ -40,27 +40,27 @@ export const FLOW_SCREEN_DIMENSIONS: Record<string, { width: number; height: num
   },
   "dashboard-profile-ready": {
     "width": 720,
-    "height": 1998
+    "height": 2372
   },
   "dashboard-returning": {
     "width": 720,
-    "height": 2842
+    "height": 2844
   },
   "dashboard-trends": {
     "width": 720,
-    "height": 3070
+    "height": 5128
   },
   "dashboard-one-session": {
     "width": 720,
-    "height": 2798
+    "height": 2800
   },
   "dashboard-many-sessions": {
     "width": 720,
-    "height": 3790
+    "height": 5128
   },
   "dashboard-mid-session": {
     "width": 720,
-    "height": 2556
+    "height": 2930
   },
   "active-session": {
     "width": 720,
