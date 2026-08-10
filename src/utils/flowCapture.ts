@@ -1,8 +1,9 @@
 export const FLOW_CAPTURE_PARAM = 'flowCapture';
 export const FLOW_CAPTURE_VALUE = '1';
+export const FLOW_CAPTURE_ROOT_ID = 'flow-capture-root';
 
 export function isFlowCaptureActive(params: { flowCapture?: string | string[] }) {
-  const value = params.flowCapture;http://localhost:8081/flow-map
+  const value = params.flowCapture;
   if (Array.isArray(value)) return value.includes(FLOW_CAPTURE_VALUE);
   return value === FLOW_CAPTURE_VALUE;
 }

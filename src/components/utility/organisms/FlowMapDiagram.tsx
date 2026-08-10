@@ -1,7 +1,6 @@
 import { Image, Platform, Pressable, ScrollView, View } from 'react-native';
 
 import {
-  FLOW_FRAME_MIN_HEIGHT,
   FLOW_MAP_JOURNEYS,
   FLOW_MAP_SCREENS,
   FLOW_NODE_WIDTH,
@@ -278,11 +277,10 @@ function FlowScreenNode({
           style={{
             width: FLOW_NODE_WIDTH,
             height: frameHeight,
-            minHeight: FLOW_FRAME_MIN_HEIGHT,
             borderRadius: 24,
             borderWidth: 2,
             borderColor: ui.border,
-            backgroundColor: ui.surface,
+            backgroundColor: ui.background,
             overflow: 'hidden',
             shadowColor: ui.shadow,
             shadowOpacity: 0.08,
@@ -294,7 +292,7 @@ function FlowScreenNode({
           {imageSource ? (
             <Image
               source={typeof imageSource === 'number' ? imageSource : imageSource}
-              style={{ width: '100%', height: '100%' }}
+              style={{ width: '100%', height: '100%', backgroundColor: ui.background }}
               resizeMode="contain"
               accessibilityLabel={displayName}
             />

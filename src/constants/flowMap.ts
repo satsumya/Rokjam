@@ -97,6 +97,7 @@ export type FlowMapJourney = {
 };
 
 export const FLOW_NODE_WIDTH = 360;
+/** Fallback frame height when a screen has no PNG dimensions yet. */
 export const FLOW_FRAME_MIN_HEIGHT = 780;
 export const FLOW_LABEL_HEIGHT = 76;
 /** Horizontal gap between journey steps */

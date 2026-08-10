@@ -23,6 +23,9 @@ export const defaultAppBase = process.env.FLOW_MAP_APP_URL ?? 'http://localhost:
 
 export const VIEWPORT_W = 360;
 export const VIEWPORT_H = 780;
+/** Short screens still capture at full phone viewport height (matches in-app layout). */
+export const CAPTURE_MIN_HEIGHT = VIEWPORT_H;
+export const CAPTURE_MAX_HEIGHT = 5600;
 
 export function loadScreenList() {
   return JSON.parse(fs.readFileSync(screensFile, 'utf8'));
@@ -50,21 +53,26 @@ export async function captureOneScreen(page, screen, appBase = defaultAppBase) {
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await page.waitForTimeout(200);
 
-  const finalHeight = await page.evaluate((minH) => {
-    const measure = (el) => {
-      const rect = el.getBoundingClientRect();
-      const style = window.getComputedStyle(el);
-      if (style.display === 'none' || style.visibility === 'hidden') return 0;
-      let bottom = rect.bottom + window.scrollY;
-      for (const child of el.children) {
-        bottom = Math.max(bottom, measure(child));
-      }
-      return bottom;
-    };
-    return Math.min(Math.max(measure(document.body), minH), 5600);
-  }, VIEWPORT_H);
+  const finalHeight = await page.evaluate(
+    ({ floor, max, captureRootId }) => {
+      const measure = (el) => {
+        const rect = el.getBoundingClientRect();
+        const style = window.getComputedStyle(el);
+        if (style.display === 'none' || style.visibility === 'hidden') return 0;
+        let bottom = rect.bottom + window.scrollY;
+        for (const child of el.children) {
+          bottom = Math.max(bottom, measure(child));
+        }
+        return bottom;
+      };
+      const captureRoot = captureRootId ? document.getElementById(captureRootId) : null;
+      const measured = measure(captureRoot ?? document.body);
+      return Math.min(Math.max(measured, floor), max);
+    },
+    { floor: CAPTURE_MIN_HEIGHT, max: CAPTURE_MAX_HEIGHT, captureRootId: 'flow-capture-root' },
+  );
 
-  if (finalHeight > VIEWPORT_H) {
+  if (finalHeight !== VIEWPORT_H) {
     await page.setViewportSize({ width: VIEWPORT_W, height: finalHeight });
     await page.waitForTimeout(400);
   }

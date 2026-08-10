@@ -12,6 +12,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Text } from '../atoms/Text';
 import { useFlowCapture } from '../../hooks/useFlowCapture';
+import { FLOW_CAPTURE_ROOT_ID } from '../../utils/flowCapture';
 import { ui } from '../../theme/colors';
 import { layout, pageGutter } from '../../theme/layout';
 import { space } from '../../theme/spacing';
@@ -31,9 +32,11 @@ function ScreenScroll(props: ComponentProps<typeof ScrollView>) {
   return <ScrollView {...props} />;
 }
 
-/** Capture-mode column that freezes layout instead of scrolling. */
+/** Marker measured during flow-map PNG capture (see capture-flow-screen-lib.mjs). */
 function ScreenCaptureColumn({ style, ...rest }: ViewProps) {
-  return <View style={style} {...rest} />;
+  return (
+    <View {...rest} style={[styles.captureColumn, style]} nativeID={FLOW_CAPTURE_ROOT_ID} />
+  );
 }
 
 /** Title row + optional header actions. */
@@ -94,8 +97,9 @@ export function Screen({
   wide?: boolean;
 }) {
   const flowCapture = useFlowCapture();
-  const { width } = useWindowDimensions();
+  const { width, height: windowHeight } = useWindowDimensions();
   const gutter = pageGutter(width);
+  const captureMinHeight = flowCapture ? windowHeight : undefined;
   const columnStyle = wide ? undefined : styles.column;
   const padded = { padding: gutter, paddingBottom: space[32] };
   const footerPadded = { padding: gutter, gap: space[12] };
@@ -123,14 +127,27 @@ export function Screen({
   ) : null;
 
   return (
-    <ScreenSafeArea style={styles.screen} edges={bottomNav ? ['top', 'left', 'right'] : undefined}>
+    <ScreenSafeArea
+      style={[
+        styles.screen,
+        flowCapture ? styles.screenCapture : null,
+        captureMinHeight != null ? { minHeight: captureMinHeight } : null,
+      ]}
+      edges={flowCapture ? [] : bottomNav ? ['top', 'left', 'right'] : undefined}
+    >
       <ScreenKeyboard
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={styles.flex}
+        style={
+          flowCapture
+            ? [styles.captureRoot, captureMinHeight != null ? { minHeight: captureMinHeight } : null]
+            : styles.flex
+        }
       >
         {flowCapture ? (
-          <ScreenCaptureColumn style={[styles.flex, { justifyContent: 'space-between' }]}>
-            <ScreenContent style={[styles.content, padded, columnStyle]}>
+          <ScreenCaptureColumn
+            style={captureMinHeight != null ? { minHeight: captureMinHeight } : undefined}
+          >
+            <ScreenContent style={[styles.content, padded, columnStyle, styles.captureContent]}>
               {header}
               <ScreenBody style={styles.body}>{children}</ScreenBody>
             </ScreenContent>
@@ -156,6 +173,27 @@ export function Screen({
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
+  /** Flow-map capture: fill at least the viewport; grow for tall scrollable screens. */
+  screenCapture: {
+    flex: 1,
+    width: '100%',
+  },
+  captureRoot: {
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 0,
+  },
+  captureColumn: {
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 0,
+    backgroundColor: ui.background,
+  },
+  captureContent: {
+    flex: 1,
+    flexGrow: 1,
+    flexShrink: 0,
+  },
   screen: { flex: 1, backgroundColor: ui.background },
   column: {
     width: '100%',
