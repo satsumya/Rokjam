@@ -1,5 +1,7 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+import { createSupabaseAuthActions } from '../api/supabase/authActions';
+import { tryGetSupabaseClient } from '../api/supabase/client';
 import { createDemoSessions, MOCK_PUBLIC_SESSIONS } from '../../constants/mockSessions';
 import {
   buildFlowDemoSession,
@@ -15,6 +17,7 @@ import {
 import type { AppDataRepositories } from '../../domain/ports';
 import type { ClimbingSession, SessionClimb } from '../../types/climbingSession';
 import { nowTimeLabel, todayIso } from '../../utils/sessionUtils';
+import { createMockAuthActions } from './authActions';
 import {
   createDefaultLevel,
   createDemoLocation,
@@ -23,8 +26,17 @@ import {
 
 const AppDataContext = createContext<AppDataRepositories | null>(null);
 
-export function MockAppDataProvider({ children }: { children: React.ReactNode }) {
+export type AuthBackend = 'mock' | 'supabase';
+
+export function MockAppDataProvider({
+  children,
+  authBackend = 'mock',
+}: {
+  children: React.ReactNode;
+  authBackend?: AuthBackend;
+}) {
   const [email, setEmail] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [avatar, setAvatar] = useState<string>(PET_ROCK_AVATARS[0]);
   const [locations, setLocations] = useState<AppDataRepositories['locations']>([]);
@@ -36,10 +48,46 @@ export function MockAppDataProvider({ children }: { children: React.ReactNode })
   const [publicSessions] = useState<ClimbingSession[]>(MOCK_PUBLIC_SESSIONS);
   const [followedUsers, setFollowedUsers] = useState<string[]>(['alex_climber', 'crimp_queen']);
 
+  const authActions = useMemo(
+    () =>
+      authBackend === 'supabase'
+        ? createSupabaseAuthActions()
+        : createMockAuthActions({
+            setEmail,
+            onSignOut: () => setIsAuthenticated(false),
+          }),
+    [authBackend],
+  );
+
+  useEffect(() => {
+    if (authBackend !== 'supabase') return;
+    const supabase = tryGetSupabaseClient();
+    if (!supabase) return;
+
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      setEmail(session?.user?.email ?? '');
+      setIsAuthenticated(Boolean(session));
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setEmail(session?.user?.email ?? '');
+      setIsAuthenticated(Boolean(session));
+    });
+
+    return () => subscription.unsubscribe();
+  }, [authBackend]);
+
   const value = useMemo<AppDataRepositories>(
     () => ({
       email,
       setEmail,
+      isAuthenticated,
+      signInWithPassword: authActions.signInWithPassword,
+      signUpWithPassword: authActions.signUpWithPassword,
+      signOut: authActions.signOut,
+      resetPasswordForEmail: authActions.resetPasswordForEmail,
       username,
       setUsername,
       avatar,
@@ -435,7 +483,9 @@ export function MockAppDataProvider({ children }: { children: React.ReactNode })
         );
       },
       resetSession: () => {
+        void authActions.signOut();
         setEmail('');
+        setIsAuthenticated(false);
         setUsername('');
         setAvatar(PET_ROCK_AVATARS[0]);
         setLocations([]);
@@ -448,10 +498,12 @@ export function MockAppDataProvider({ children }: { children: React.ReactNode })
       },
     }),
     [
+      authActions,
       avatar,
       email,
       followedUsers,
       improvementTags,
+      isAuthenticated,
       locations,
       profileComplete,
       profileSkipped,

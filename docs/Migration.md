@@ -266,10 +266,12 @@ const { sessions, startSession, getSession } = useSessions();
 
 **Goal:** Implement `adapters/api/*` against the same ports. UI unchanged.
 
+**Backend:** [Supabase](https://supabase.com) — see [Supabase.md](./Supabase.md) for project setup.
+
 **Backend choice** (product decision, not UI):
 
-- **Supabase / Firebase** — faster auth + database + optional sync
-- **Custom API** — more control, more operational work
+- ~~**Supabase / Firebase**~~ → **Supabase** (Postgres, auth, RLS, storage)
+- **Custom API** — deferred unless Supabase limits are hit
 
 **Production concerns:**
 
@@ -283,10 +285,13 @@ const { sessions, startSession, getSession } = useSessions();
 
 **Actions:**
 
-- [ ] Implement API adapters per port
+- [x] Choose backend (Supabase)
+- [x] Supabase client + env config (`docs/Supabase.md`)
+- [x] Auth adapter (sign in, sign up, sign out, reset password)
+- [ ] Profile / sessions / community API adapters
 - [ ] Add integration tests against staging API
 - [ ] Remove or hide mock credentials from production builds
-- [ ] Keep mock adapters for Storybook, scenario tester, and CI without backend
+- [x] Keep mock adapters for Storybook, scenario tester, and CI without backend
 
 **Effort:** Depends on backend. **Payoff:** Store-ready app with unchanged components.
 

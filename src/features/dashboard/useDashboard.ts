@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { TAKEN_USERNAMES } from '../../constants/mockData';
 import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useAuth } from '../../data/hooks/useAuth';
 import { useProfile } from '../../data/hooks/useProfile';
 import { useSessions } from '../../data/hooks/useSessions';
 import {
@@ -39,6 +40,7 @@ export function useDashboard({
     improvementTags,
   } = useProfile();
   const { sessions } = useSessions();
+  const { signOut } = useAuth();
   const { seedDemoSessions, seedDemoProfileOnly, seedFlowDemo, resetSession } = useMockSeeding();
 
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
@@ -131,6 +133,7 @@ export function useDashboard({
       };
     }),
     onSignOut: () => {
+      void signOut();
       resetSession();
       onSignOut();
     },

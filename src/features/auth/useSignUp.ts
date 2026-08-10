@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { TAKEN_EMAILS } from '../../constants/mockData';
+import { usesSupabaseBackend } from '../../config/backend';
 import { useAuth } from '../../data/hooks/useAuth';
 import { getSignUpEmailError, isPasswordValid } from '../../utils/validation';
 
@@ -13,9 +14,11 @@ export type UseSignUpOptions = {
 };
 
 export function useSignUp({ demo, onSuccess, onLogIn }: UseSignUpOptions): SignUpViewProps {
-  const { email, setEmail } = useAuth();
+  const { email, setEmail, signUpWithPassword } = useAuth();
+  const liveAuth = usesSupabaseBackend();
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ email: false, password: false });
+  const [remoteError, setRemoteError] = useState<string | undefined>();
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -29,12 +32,14 @@ export function useSignUp({ demo, onSuccess, onLogIn }: UseSignUpOptions): SignU
     initialized.current = true;
   }, [demo, email]);
 
-  const emailError = touched.email ? getSignUpEmailError(email, TAKEN_EMAILS) : undefined;
+  const emailError =
+    touched.email ? getSignUpEmailError(email, liveAuth ? [] : TAKEN_EMAILS) || remoteError : remoteError;
   const passwordError =
     touched.password && !isPasswordValid(password) ? 'Password does not meet requirements' : undefined;
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
+    setRemoteError(undefined);
     setTouched((current) => ({ ...current, email: true }));
   };
 
@@ -43,9 +48,23 @@ export function useSignUp({ demo, onSuccess, onLogIn }: UseSignUpOptions): SignU
     setTouched((current) => ({ ...current, password: true }));
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     setTouched({ email: true, password: true });
-    if (getSignUpEmailError(email, TAKEN_EMAILS) || !isPasswordValid(password)) return;
+    setRemoteError(undefined);
+    if (!liveAuth && getSignUpEmailError(email, TAKEN_EMAILS)) return;
+    if (liveAuth && getSignUpEmailError(email, [])) return;
+    if (!isPasswordValid(password)) return;
+
+    if (liveAuth) {
+      const result = await signUpWithPassword(email.trim(), password);
+      if (result.error) {
+        setRemoteError(result.error);
+        return;
+      }
+      onSuccess();
+      return;
+    }
+
     onSuccess();
   };
 

@@ -2,9 +2,16 @@ import type { FlowDemoPreset } from '../../constants/flowDemoSessions';
 import type { ClimbingSession, SessionClimb } from '../../types/climbingSession';
 import type { DifficultyLevel, Location } from '../types/profile';
 
+export type AuthResult = { error?: string };
+
 export type AuthRepository = {
   email: string;
   setEmail: (value: string) => void;
+  isAuthenticated: boolean;
+  signInWithPassword: (email: string, password: string) => Promise<AuthResult>;
+  signUpWithPassword: (email: string, password: string) => Promise<AuthResult>;
+  signOut: () => Promise<void>;
+  resetPasswordForEmail: (email: string) => Promise<AuthResult>;
 };
 
 export type ProfileRepository = {
