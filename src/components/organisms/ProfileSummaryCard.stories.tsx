@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
 import { useState } from 'react';
+import { fn } from 'storybook/test';
 
 import { ProfileSummaryCard } from './ProfileSummaryCard';
 import { Padded, WithPrototype } from '../storybook.helpers';
+import type { DifficultyLevel } from '../../domain/types/profile';
+
+const mockAddLocation = (_name: string, _nickname: string | undefined, levels: DifficultyLevel[]) =>
+  `story-loc-${levels.length}`;
 
 const meta = {
   title: 'Organisms/ProfileSummaryCard',
@@ -15,6 +20,7 @@ const meta = {
     locationName: 'Urban Climb West End',
     strengthTags: ['Slab', 'Balance'],
     improvementTags: ['Footwork'],
+    onAddLocationWithLevels: mockAddLocation,
   },
 } satisfies Meta<typeof ProfileSummaryCard>;
 

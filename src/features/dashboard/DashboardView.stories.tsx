@@ -29,6 +29,7 @@ const meta = {
     onShowAllSessions: fn(),
     onOpenSessionsList: fn(),
     onOpenSession: fn(),
+    onAddLocationWithLevels: fn(),
   },
 } satisfies Meta<typeof DashboardView>;
 

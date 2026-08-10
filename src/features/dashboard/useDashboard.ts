@@ -38,6 +38,7 @@ export function useDashboard({
     locations,
     strengthTags,
     improvementTags,
+    addLocationWithLevels,
   } = useProfile();
   const { sessions } = useSessions();
   const { signOut } = useAuth();
@@ -155,5 +156,6 @@ export function useDashboard({
     onShowAllSessions: () => setShowAllSessions(true),
     onOpenSessionsList,
     onOpenSession,
+    onAddLocationWithLevels: addLocationWithLevels,
   };
 }

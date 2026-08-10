@@ -36,6 +36,8 @@ const meta = {
     climbPrompt: '',
     removeTarget: null,
     dateDisplay: 'Friday 03 Jul 2026',
+    locations: [],
+    onAddLocationWithLevels: fn(),
     onPrimaryNav: fn(),
     onEndSessionRequest: fn(),
     onDateChange: fn(),

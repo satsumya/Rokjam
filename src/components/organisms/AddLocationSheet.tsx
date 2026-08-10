@@ -8,8 +8,7 @@ import { Modal } from '../molecules/Modal';
 import { AddressSearch } from '../molecules/AddressSearch';
 import { LevelRow } from '../molecules/LevelRow';
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
-import type { DifficultyLevel } from '../../domain/types/profile';
-import { useProfile } from '../../data/hooks/useProfile';
+import type { AddLocationWithLevelsHandler, DifficultyLevel } from '../../domain/types/profile';
 import { colors, ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
 
@@ -38,12 +37,13 @@ export function AddLocationSheet({
   visible,
   onClose,
   onSaved,
+  onAddLocationWithLevels,
 }: {
   visible: boolean;
   onClose: () => void;
   onSaved: (locationId: string, locationName: string) => void;
+  onAddLocationWithLevels: AddLocationWithLevelsHandler;
 }) {
-  const { addLocationWithLevels } = useProfile();
   const [address, setAddress] = useState('');
   const [nickname, setNickname] = useState('');
   const [levels, setLevels] = useState<DifficultyLevel[]>([createDraftLevel(0)]);
@@ -78,7 +78,7 @@ export function AddLocationSheet({
       return;
     }
 
-    const id = addLocationWithLevels(address.trim(), nickname.trim() || undefined, levels);
+    const id = onAddLocationWithLevels(address.trim(), nickname.trim() || undefined, levels);
     onSaved(id, address.trim());
     onClose();
   };

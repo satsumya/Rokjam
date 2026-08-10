@@ -6,12 +6,21 @@ import { SessionLocationPanel } from './SessionLocationPanel';
 import { Padded, WithPrototype } from '../storybook.helpers';
 import { useMockSeeding } from '../../data/hooks/useMockSeeding';
 import { useProfile } from '../../data/hooks/useProfile';
+import type { DifficultyLevel } from '../../domain/types/profile';
+
+const mockAddLocation = (_name: string, _nickname: string | undefined, levels: DifficultyLevel[]) =>
+  `story-loc-${levels.length}`;
 
 const meta = {
   title: 'Organisms/SessionLocationPanel',
   component: SessionLocationPanel,
   decorators: [WithPrototype, Padded],
-  args: { sessionLocationId: '', onLocationLinked: fn() },
+  args: {
+    locations: [],
+    sessionLocationId: '',
+    onLocationLinked: fn(),
+    onAddLocationWithLevels: mockAddLocation,
+  },
 } satisfies Meta<typeof SessionLocationPanel>;
 
 export default meta;
@@ -24,7 +33,7 @@ export const Empty: Story = {};
 /** At least one location — Location dropdown with Add new location option. */
 export const WithLocations: Story = {
   render: (args) => {
-    const { locations } = useProfile();
+    const { locations, addLocationWithLevels } = useProfile();
     const { seedDemoProfileOnly } = useMockSeeding();
 
     useEffect(() => {
@@ -36,8 +45,10 @@ export const WithLocations: Story = {
     return (
       <SessionLocationPanel
         {...args}
+        locations={locations}
         sessionLocationId={locationId}
         onLocationLinked={args.onLocationLinked}
+        onAddLocationWithLevels={addLocationWithLevels}
       />
     );
   },

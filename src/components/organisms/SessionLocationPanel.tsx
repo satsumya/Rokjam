@@ -5,7 +5,7 @@ import { Button } from '../atoms/Button';
 import { Text } from '../atoms/Text';
 import { Dropdown } from '../molecules/Dropdown';
 import { AddLocationSheet } from './AddLocationSheet';
-import { useProfile } from '../../data/hooks/useProfile';
+import type { AddLocationWithLevelsHandler, Location } from '../../domain/types/profile';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
 
@@ -21,13 +21,16 @@ function locationLabel(loc: { nickname?: string; name: string; isHome?: boolean 
 }
 
 export function SessionLocationPanel({
+  locations,
   sessionLocationId,
   onLocationLinked,
+  onAddLocationWithLevels,
 }: {
+  locations: Location[];
   sessionLocationId: string;
   onLocationLinked: (locationId: string, locationName: string) => void;
+  onAddLocationWithLevels: AddLocationWithLevelsHandler;
 }) {
-  const { locations } = useProfile();
   const [showAddSheet, setShowAddSheet] = useState(false);
 
   const options = useMemo(
@@ -51,6 +54,7 @@ export function SessionLocationPanel({
       visible={showAddSheet}
       onClose={() => setShowAddSheet(false)}
       onSaved={handleLocationSaved}
+      onAddLocationWithLevels={onAddLocationWithLevels}
     />
   );
 

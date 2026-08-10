@@ -17,7 +17,7 @@ import {
   Text,
   TextField,
 } from '../../components';
-import type { Location } from '../../domain/types/profile';
+import type { AddLocationWithLevelsHandler, Location } from '../../domain/types/profile';
 import type { ClimbingSession, SessionClimb } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
 import type { DropdownOption } from '../../components/molecules/Dropdown';
@@ -42,10 +42,12 @@ export type ActiveSessionViewProps = {
   climbPrompt: string;
   removeTarget: SessionClimb | null;
   dateDisplay: string;
+  locations: Location[];
   onPrimaryNav: () => void;
   onEndSessionRequest: () => void;
   onDateChange: (display: string) => void;
   onLocationLinked: (locationId: string, locationName: string) => void;
+  onAddLocationWithLevels: AddLocationWithLevelsHandler;
   onStartTimeChange: (startTime: string) => void;
   onDraftChange: (patch: Partial<SessionClimb>) => void;
   onCancelClimbEdit: () => void;
@@ -84,10 +86,12 @@ export function ActiveSessionView({
   climbPrompt,
   removeTarget,
   dateDisplay,
+  locations,
   onPrimaryNav,
   onEndSessionRequest,
   onDateChange,
   onLocationLinked,
+  onAddLocationWithLevels,
   onStartTimeChange,
   onDraftChange,
   onCancelClimbEdit,
@@ -211,8 +215,10 @@ export function ActiveSessionView({
           placeholder="Friday 03 Jul 2026"
         />
         <SessionLocationPanel
+          locations={locations}
           sessionLocationId={session.locationId}
           onLocationLinked={onLocationLinked}
+          onAddLocationWithLevels={onAddLocationWithLevels}
         />
         <SessionTimeDropdown label="Start time" value={session.startTime} onChange={onStartTimeChange} />
       </Section>

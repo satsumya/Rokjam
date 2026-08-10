@@ -8,6 +8,7 @@ import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Text';
 import { TextField } from '../atoms/TextField';
 import { AddLocationSheet } from './AddLocationSheet';
+import type { AddLocationWithLevelsHandler } from '../../domain/types/profile';
 import { colors, ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import { space } from '../../theme/spacing';
@@ -62,6 +63,7 @@ export function ProfileSummaryCard({
   onUsernameConfirm,
   onUsernameCancel,
   onStartAddUsername,
+  onAddLocationWithLevels,
 }: {
   avatar: string;
   username: string;
@@ -78,6 +80,7 @@ export function ProfileSummaryCard({
   onUsernameConfirm?: () => void;
   onUsernameCancel?: () => void;
   onStartAddUsername?: () => void;
+  onAddLocationWithLevels: AddLocationWithLevelsHandler;
 }) {
   const [showAddLocation, setShowAddLocation] = useState(false);
   const blurCancelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -203,6 +206,7 @@ export function ProfileSummaryCard({
         visible={showAddLocation}
         onClose={() => setShowAddLocation(false)}
         onSaved={() => setShowAddLocation(false)}
+        onAddLocationWithLevels={onAddLocationWithLevels}
       />
     </Card>
   );

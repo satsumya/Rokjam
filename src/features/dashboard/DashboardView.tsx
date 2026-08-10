@@ -12,6 +12,7 @@ import {
   SessionRow,
   Text,
 } from '../../components';
+import type { AddLocationWithLevelsHandler } from '../../domain/types/profile';
 import { ui } from '../../theme/colors';
 import type { ClimbingSession } from '../../types/climbingSession';
 import { space } from '../../theme/spacing';
@@ -49,6 +50,7 @@ export type DashboardViewProps = {
   onShowAllSessions: () => void;
   onOpenSessionsList: () => void;
   onOpenSession: (sessionId: string) => void;
+  onAddLocationWithLevels: AddLocationWithLevelsHandler;
 };
 
 export function DashboardView({
@@ -78,6 +80,7 @@ export function DashboardView({
   onShowAllSessions,
   onOpenSessionsList,
   onOpenSession,
+  onAddLocationWithLevels,
 }: DashboardViewProps) {
   return (
     <Screen headerRight={<AccountMenu onSignOut={onSignOut} />} bottomNav={<BottomNav active="home" />}>
@@ -109,6 +112,7 @@ export function DashboardView({
         onUsernameConfirm={onUsernameConfirm}
         onUsernameCancel={onUsernameCancel}
         onStartAddUsername={onStartAddUsername}
+        onAddLocationWithLevels={onAddLocationWithLevels}
       />
 
       {needsProfile || activeSessions.length > 0 ? (

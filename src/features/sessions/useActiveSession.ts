@@ -53,7 +53,7 @@ export function useActiveSession({
 }: UseActiveSessionOptions): ActiveSessionViewProps {
   const { sessions, updateSession, completeSession, addClimb, updateClimb, removeClimb } =
     useSessions();
-  const { locations, username, setUsername } = useProfile();
+  const { locations, username, setUsername, addLocationWithLevels } = useProfile();
   const { seedDemoActiveSession, seedFlowDemo } = useMockSeeding();
   const demoApplied = useRef(false);
   const flowUiApplied = useRef<string | null>(null);
@@ -220,6 +220,7 @@ export function useActiveSession({
     climbPrompt,
     removeTarget,
     dateDisplay: session ? formatSessionDate(session.date) : '',
+    locations,
     onPrimaryNav: isEditingClimb ? saveClimb : startAdd,
     onEndSessionRequest: openEndSheet,
     onDateChange: (display) => {
@@ -229,6 +230,7 @@ export function useActiveSession({
     },
     onLocationLinked: (locationId, locationName) =>
       session && updateSession(session.id, { locationId, locationName }),
+    onAddLocationWithLevels: addLocationWithLevels,
     onStartTimeChange: (startTime) => session && updateSession(session.id, { startTime }),
     onDraftChange: (patch) => setDraftClimb((c) => (c ? { ...c, ...patch } : c)),
     onCancelClimbEdit: () => {
