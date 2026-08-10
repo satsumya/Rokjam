@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { TAKEN_USERNAMES } from '../../constants/mockData';
 import { useMockSeeding } from '../../data/hooks/useMockSeeding';
 import { useAuth } from '../../data/hooks/useAuth';
 import { useProfile } from '../../data/hooks/useProfile';
 import { useSessions } from '../../data/hooks/useSessions';
+import { useUsernameTakenList } from '../../data/hooks/useUsernameTakenList';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -50,6 +50,7 @@ export function useDashboard({
   const [usernameDraft, setUsernameDraft] = useState('');
   const [usernameTouched, setUsernameTouched] = useState(false);
   const demoApplied = useRef<string | null>(null);
+  const takenUsernames = useUsernameTakenList(usernameDraft, username);
 
   useEffect(() => {
     if (!demo || demoApplied.current === demo) return;
@@ -78,17 +79,17 @@ export function useDashboard({
     }
   }, [demo, seedDemoSessions, seedDemoProfileOnly, seedFlowDemo]);
 
-  const usernameError = usernameTouched ? getUsernameError(usernameDraft, TAKEN_USERNAMES) : undefined;
+  const usernameError = usernameTouched ? getUsernameError(usernameDraft, takenUsernames) : undefined;
   const usernameSuccess =
-    usernameTouched && isUsernameAvailable(usernameDraft, TAKEN_USERNAMES)
+    usernameTouched && isUsernameAvailable(usernameDraft, takenUsernames)
       ? 'Username available'
       : undefined;
   const canConfirmUsername =
-    Boolean(usernameDraft.trim()) && !getUsernameError(usernameDraft, TAKEN_USERNAMES);
+    Boolean(usernameDraft.trim()) && !getUsernameError(usernameDraft, takenUsernames);
 
   const confirmUsername = () => {
     setUsernameTouched(true);
-    if (!usernameDraft.trim() || getUsernameError(usernameDraft, TAKEN_USERNAMES)) return;
+    if (!usernameDraft.trim() || getUsernameError(usernameDraft, takenUsernames)) return;
     setUsername(usernameDraft.trim());
     setAddingUsername(false);
     setUsernameDraft('');

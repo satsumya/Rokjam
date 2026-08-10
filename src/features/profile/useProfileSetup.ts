@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { TAKEN_USERNAMES } from '../../constants/mockData';
 import type { DifficultyLevel, Location } from '../../domain/types/profile';
 import { useProfile } from '../../data/hooks/useProfile';
 import { useSessions } from '../../data/hooks/useSessions';
+import { useUsernameTakenList } from '../../data/hooks/useUsernameTakenList';
 import { locationHasGradedSessionClimbs } from '../../utils/sessionUtils';
 import { getUsernameError, isUsernameAvailable } from '../../utils/validation';
 
@@ -52,6 +52,7 @@ export function useProfileSetup({ onDone }: UseProfileSetupOptions): ProfileSetu
   }>(null);
   const [levelImpactAcknowledged, setLevelImpactAcknowledged] = useState<Record<string, true>>({});
   const locationCountRef = useRef(locations.length);
+  const takenUsernames = useUsernameTakenList(usernameDraft, username);
 
   useEffect(() => {
     setUsernameDraft(username);
@@ -65,13 +66,13 @@ export function useProfileSetup({ onDone }: UseProfileSetupOptions): ProfileSetu
     }
   }, [locations]);
 
-  const usernameError = usernameTouched ? getUsernameError(usernameDraft, TAKEN_USERNAMES) : undefined;
+  const usernameError = usernameTouched ? getUsernameError(usernameDraft, takenUsernames) : undefined;
   const usernameSuccess =
-    usernameTouched && isUsernameAvailable(usernameDraft, TAKEN_USERNAMES)
+    usernameTouched && isUsernameAvailable(usernameDraft, takenUsernames)
       ? 'Username available'
       : undefined;
   const usernameDirty = usernameDraft.trim() !== username.trim();
-  const canConfirmUsername = usernameDirty && !getUsernameError(usernameDraft, TAKEN_USERNAMES);
+  const canConfirmUsername = usernameDirty && !getUsernameError(usernameDraft, takenUsernames);
   const isEditingCompleteProfile = profileComplete;
   const deleteTarget = locations.find((loc) => loc.id === deleteTargetId);
 
@@ -89,7 +90,7 @@ export function useProfileSetup({ onDone }: UseProfileSetupOptions): ProfileSetu
 
   const goToDashboard = () => {
     setUsernameTouched(true);
-    if (getUsernameError(usernameDraft, TAKEN_USERNAMES)) return;
+    if (getUsernameError(usernameDraft, takenUsernames)) return;
     setUsername(usernameDraft.trim());
     setProfileComplete(true);
     setProfileSkipped(false);

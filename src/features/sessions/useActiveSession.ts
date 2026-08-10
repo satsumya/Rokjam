@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { TAKEN_USERNAMES } from '../../constants/mockData';
 import { FLOW_DEMO_SESSION_ID, type FlowDemoPreset } from '../../constants/flowDemoSessions';
 import { useMockSeeding } from '../../data/hooks/useMockSeeding';
 import { useProfile } from '../../data/hooks/useProfile';
 import { useSessions } from '../../data/hooks/useSessions';
+import { useUsernameTakenList } from '../../data/hooks/useUsernameTakenList';
 import type { SessionClimb } from '../../types/climbingSession';
 import {
   climbHasDetails,
@@ -69,6 +69,7 @@ export function useActiveSession({
   const [usernameTouched, setUsernameTouched] = useState(false);
   const [climbPrompt, setClimbPrompt] = useState('');
   const [removeTarget, setRemoveTarget] = useState<SessionClimb | null>(null);
+  const takenUsernames = useUsernameTakenList(usernameInput, username);
 
   useEffect(() => {
     if (!demo) return;
@@ -116,14 +117,14 @@ export function useActiveSession({
     if (!isPublic || username.trim()) return undefined;
     if (!usernameTouched && !usernameInput.trim()) return undefined;
     if (!usernameInput.trim()) return 'Username is required for public sessions';
-    return getUsernameError(usernameInput, TAKEN_USERNAMES);
-  }, [isPublic, username, usernameInput, usernameTouched]);
+    return getUsernameError(usernameInput, takenUsernames);
+  }, [isPublic, username, usernameInput, usernameTouched, takenUsernames]);
 
   const usernameSuccess =
     isPublic &&
     !username.trim() &&
     usernameTouched &&
-    isUsernameAvailable(usernameInput, TAKEN_USERNAMES)
+    isUsernameAvailable(usernameInput, takenUsernames)
       ? 'Username available'
       : undefined;
 
