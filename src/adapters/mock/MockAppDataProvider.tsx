@@ -1,7 +1,36 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
+import {
+  buildLocationWithDefaultLevel,
+  buildLocationWithLevels,
+  deleteLevelRecord,
+  deleteLocationRecord,
+  insertLevel,
+  insertLocation,
+  setHomeLocationRecord,
+  syncLevelOrder,
+  updateLevelRecord,
+  updateLocationRecord,
+  updateProfileFields,
+} from '../api/supabase/profileActions';
 import { createSupabaseAuthActions } from '../api/supabase/authActions';
 import { tryGetSupabaseClient } from '../api/supabase/client';
+import { newUuid } from '../api/supabase/newUuid';
+import { logProfilePersistError, useSupabaseProfileLoad } from '../api/supabase/useSupabaseProfileSync';
+import {
+  deleteClimbRecord,
+  deleteSessionRecord,
+  insertClimb,
+  insertSession,
+  updateClimbRecord,
+  updateSessionRecord,
+} from '../api/supabase/sessionActions';
+import {
+  followUser,
+  unfollowUser,
+} from '../api/supabase/communityActions';
+import { logSessionPersistError, useSupabaseSessionLoad } from '../api/supabase/useSupabaseSessionSync';
+import { logCommunityPersistError, useSupabaseCommunityLoad } from '../api/supabase/useSupabaseCommunitySync';
 import { createDemoSessions, MOCK_PUBLIC_SESSIONS } from '../../constants/mockSessions';
 import {
   buildFlowDemoSession,
@@ -37,7 +66,8 @@ export function MockAppDataProvider({
 }) {
   const [email, setEmail] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState<string | null>(null);
+  const [username, setUsernameState] = useState('');
   const [avatar, setAvatar] = useState<string>(PET_ROCK_AVATARS[0]);
   const [locations, setLocations] = useState<AppDataRepositories['locations']>([]);
   const [strengthTags, setStrengthTags] = useState<string[]>([]);
@@ -45,7 +75,7 @@ export function MockAppDataProvider({
   const [profileComplete, setProfileComplete] = useState(false);
   const [profileSkipped, setProfileSkipped] = useState(false);
   const [sessions, setSessions] = useState<ClimbingSession[]>([]);
-  const [publicSessions] = useState<ClimbingSession[]>(MOCK_PUBLIC_SESSIONS);
+  const [publicSessions, setPublicSessions] = useState<ClimbingSession[]>(MOCK_PUBLIC_SESSIONS);
   const [followedUsers, setFollowedUsers] = useState<string[]>(['alex_climber', 'crimp_queen']);
 
   const authActions = useMemo(
@@ -54,10 +84,55 @@ export function MockAppDataProvider({
         ? createSupabaseAuthActions()
         : createMockAuthActions({
             setEmail,
-            onSignOut: () => setIsAuthenticated(false),
+            onSignOut: () => {
+              setIsAuthenticated(false);
+              setUserId(null);
+            },
           }),
     [authBackend],
   );
+
+  const profileBackend = authBackend === 'supabase';
+  const sessionBackend = authBackend === 'supabase';
+  const communityBackend = authBackend === 'supabase';
+
+  const persistProfile = useCallback(
+    (scope: string, action: () => Promise<void>) => {
+      if (!profileBackend || !userId) return;
+      void action().catch((error) => logProfilePersistError(scope, error));
+    },
+    [profileBackend, userId],
+  );
+
+  const persistSession = useCallback(
+    (scope: string, action: () => Promise<void>) => {
+      if (!sessionBackend || !userId) return;
+      void action().catch((error) => logSessionPersistError(scope, error));
+    },
+    [sessionBackend, userId],
+  );
+
+  const persistCommunity = useCallback(
+    (scope: string, action: () => Promise<void>) => {
+      if (!communityBackend || !userId) return;
+      void action().catch((error) => logCommunityPersistError(scope, error));
+    },
+    [communityBackend, userId],
+  );
+
+  useSupabaseProfileLoad(profileBackend, userId, {
+    setUsername: setUsernameState,
+    setAvatar,
+    setLocations,
+    setStrengthTags,
+    setImprovementTags,
+    setProfileComplete,
+    setProfileSkipped,
+  });
+
+  useSupabaseSessionLoad(sessionBackend, userId, username, avatar, setSessions);
+
+  useSupabaseCommunityLoad(communityBackend, userId, setPublicSessions, setFollowedUsers);
 
   useEffect(() => {
     if (authBackend !== 'supabase') return;
@@ -67,6 +142,7 @@ export function MockAppDataProvider({
     void supabase.auth.getSession().then(({ data: { session } }) => {
       setEmail(session?.user?.email ?? '');
       setIsAuthenticated(Boolean(session));
+      setUserId(session?.user?.id ?? null);
     });
 
     const {
@@ -74,6 +150,19 @@ export function MockAppDataProvider({
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setEmail(session?.user?.email ?? '');
       setIsAuthenticated(Boolean(session));
+      setUserId(session?.user?.id ?? null);
+      if (!session) {
+        setUsernameState('');
+        setAvatar(PET_ROCK_AVATARS[0]);
+        setLocations([]);
+        setStrengthTags([]);
+        setImprovementTags([]);
+        setProfileComplete(false);
+        setProfileSkipped(false);
+        setSessions([]);
+        setPublicSessions([]);
+        setFollowedUsers([]);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -89,9 +178,15 @@ export function MockAppDataProvider({
       signOut: authActions.signOut,
       resetPasswordForEmail: authActions.resetPasswordForEmail,
       username,
-      setUsername,
+      setUsername: (value) => {
+        setUsernameState(value);
+        persistProfile('setUsername', () => updateProfileFields(userId!, { username: value }));
+      },
       avatar,
-      setAvatar,
+      setAvatar: (value) => {
+        setAvatar(value);
+        persistProfile('setAvatar', () => updateProfileFields(userId!, { avatar: value }));
+      },
       locations,
       strengthTags,
       improvementTags,
@@ -100,80 +195,144 @@ export function MockAppDataProvider({
       sessions,
       publicSessions,
       followedUsers,
-      setProfileComplete,
-      setProfileSkipped,
+      setProfileComplete: (value) => {
+        setProfileComplete(value);
+        persistProfile('setProfileComplete', () =>
+          updateProfileFields(userId!, { profileComplete: value }),
+        );
+      },
+      setProfileSkipped: (value) => {
+        setProfileSkipped(value);
+        persistProfile('setProfileSkipped', () =>
+          updateProfileFields(userId!, { profileSkipped: value }),
+        );
+      },
       addStrengthTag: (tag) => {
         const trimmed = tag.trim();
         if (!trimmed) return;
-        setStrengthTags((current) => (current.includes(trimmed) ? current : [...current, trimmed]));
+        setStrengthTags((current) => {
+          const next = current.includes(trimmed) ? current : [...current, trimmed];
+          persistProfile('addStrengthTag', () => updateProfileFields(userId!, { strengthTags: next }));
+          return next;
+        });
       },
-      removeStrengthTag: (tag) => setStrengthTags((current) => current.filter((item) => item !== tag)),
+      removeStrengthTag: (tag) =>
+        setStrengthTags((current) => {
+          const next = current.filter((item) => item !== tag);
+          persistProfile('removeStrengthTag', () => updateProfileFields(userId!, { strengthTags: next }));
+          return next;
+        }),
       addImprovementTag: (tag) => {
         const trimmed = tag.trim();
         if (!trimmed) return;
-        setImprovementTags((current) => (current.includes(trimmed) ? current : [...current, trimmed]));
+        setImprovementTags((current) => {
+          const next = current.includes(trimmed) ? current : [...current, trimmed];
+          persistProfile('addImprovementTag', () =>
+            updateProfileFields(userId!, { improvementTags: next }),
+          );
+          return next;
+        });
       },
       removeImprovementTag: (tag) =>
-        setImprovementTags((current) => current.filter((item) => item !== tag)),
+        setImprovementTags((current) => {
+          const next = current.filter((item) => item !== tag);
+          persistProfile('removeImprovementTag', () =>
+            updateProfileFields(userId!, { improvementTags: next }),
+          );
+          return next;
+        }),
       addLocation: (name, nickname) => {
-        const id = `${Date.now()}`;
-        setLocations((current) => [
-          ...current,
-          {
-            id,
-            name,
-            nickname,
-            isHome: current.length === 0,
-            levels: [createDefaultLevel(0)],
-            levelSort: 'easy-hard',
-          },
-        ]);
+        let locationId = '';
+        setLocations((current) => {
+          const location = profileBackend
+            ? buildLocationWithDefaultLevel(name, nickname, current.length === 0)
+            : {
+                id: `${Date.now()}`,
+                name,
+                nickname,
+                isHome: current.length === 0,
+                levels: [{ ...createDefaultLevel(0), id: `${Date.now()}-0` }],
+                levelSort: 'easy-hard' as const,
+              };
+          locationId = location.id;
+          persistProfile('addLocation', () => insertLocation(userId!, location));
+          return [...current, location];
+        });
         setProfileComplete(true);
         setProfileSkipped(false);
-        return id;
+        persistProfile('addLocationFlags', () =>
+          updateProfileFields(userId!, { profileComplete: true, profileSkipped: false }),
+        );
+        return locationId;
       },
       addLocationWithLevels: (name, nickname, levels) => {
-        const id = `${Date.now()}`;
-        const normalized = levels.map((level, index) => ({
-          id: level.id.startsWith('draft-') ? `${id}-level-${index}` : level.id,
-          name: level.name.trim() || createDefaultLevel(index).name,
-          color: level.color.trim() || createDefaultLevel(index).color,
-        }));
-        setLocations((current) => [
-          ...current,
-          {
-            id,
-            name,
-            nickname,
-            isHome: current.length === 0,
-            levels: normalized.length ? normalized : [createDefaultLevel(0)],
-            levelSort: 'easy-hard' as const,
-          },
-        ]);
+        let locationId = '';
+        setLocations((current) => {
+          const location = profileBackend
+            ? buildLocationWithLevels(name, nickname, levels, current.length === 0)
+            : (() => {
+                const id = `${Date.now()}`;
+                const normalized = levels.map((level, index) => ({
+                  id: level.id.startsWith('draft-') ? `${id}-level-${index}` : level.id,
+                  name: level.name.trim() || createDefaultLevel(index).name,
+                  color: level.color.trim() || createDefaultLevel(index).color,
+                }));
+                return {
+                  id,
+                  name,
+                  nickname,
+                  isHome: current.length === 0,
+                  levels: normalized.length ? normalized : [createDefaultLevel(0)],
+                  levelSort: 'easy-hard' as const,
+                };
+              })();
+          locationId = location.id;
+          persistProfile('addLocationWithLevels', () => insertLocation(userId!, location));
+          return [...current, location];
+        });
         setProfileComplete(true);
         setProfileSkipped(false);
-        return id;
+        persistProfile('addLocationWithLevelsFlags', () =>
+          updateProfileFields(userId!, { profileComplete: true, profileSkipped: false }),
+        );
+        return locationId;
       },
       updateLocation: (id, patch) => {
-        setLocations((current) => current.map((loc) => (loc.id === id ? { ...loc, ...patch } : loc)));
+        setLocations((current) => {
+          const next = current.map((loc) => (loc.id === id ? { ...loc, ...patch } : loc));
+          persistProfile('updateLocation', () => updateLocationRecord(userId!, id, patch));
+          return next;
+        });
       },
       removeLocation: (id) => {
         setLocations((current) => {
           const next = current.filter((loc) => loc.id !== id);
-          if (next.length > 0 && !next.some((loc) => loc.isHome)) {
-            return next.map((loc, index) => (index === 0 ? { ...loc, isHome: true } : loc));
-          }
-          return next;
+          const normalized =
+            next.length > 0 && !next.some((loc) => loc.isHome)
+              ? next.map((loc, index) => (index === 0 ? { ...loc, isHome: true } : loc))
+              : next;
+          persistProfile('removeLocation', async () => {
+            await deleteLocationRecord(userId!, id);
+            const newHome = normalized.find((loc) => loc.isHome);
+            if (newHome) await setHomeLocationRecord(userId!, newHome.id);
+          });
+          return normalized;
         });
       },
       setHomeLocation: (id) => {
         setLocations((current) => current.map((loc) => ({ ...loc, isHome: loc.id === id })));
+        persistProfile('setHomeLocation', () => setHomeLocationRecord(userId!, id));
       },
       addLevel: (locationId) => {
         setLocations((current) =>
           current.map((loc) => {
             if (loc.id !== locationId) return loc;
-            return { ...loc, levels: [...loc.levels, createDefaultLevel(loc.levels.length)] };
+            const level = profileBackend
+              ? { ...createDefaultLevel(loc.levels.length), id: newUuid() }
+              : createDefaultLevel(loc.levels.length);
+            const levels = [...loc.levels, level];
+            persistProfile('addLevel', () => insertLevel(locationId, level, levels.length - 1));
+            return { ...loc, levels };
           }),
         );
       },
@@ -181,6 +340,7 @@ export function MockAppDataProvider({
         setLocations((current) =>
           current.map((loc) => {
             if (loc.id !== locationId || loc.levels.length <= 1) return loc;
+            persistProfile('removeLevel', () => deleteLevelRecord(locationId, levelId));
             return { ...loc, levels: loc.levels.filter((level) => level.id !== levelId) };
           }),
         );
@@ -195,6 +355,7 @@ export function MockAppDataProvider({
             if (targetIndex < 0 || targetIndex >= loc.levels.length) return loc;
             const levels = [...loc.levels];
             [levels[index], levels[targetIndex]] = [levels[targetIndex], levels[index]];
+            persistProfile('moveLevel', () => syncLevelOrder(locationId, levels));
             return { ...loc, levels };
           }),
         );
@@ -208,22 +369,33 @@ export function MockAppDataProvider({
             if (fromIndex < 0 || toIndex < 0) return loc;
             const levels = [...loc.levels];
             [levels[fromIndex], levels[toIndex]] = [levels[toIndex], levels[fromIndex]];
+            persistProfile('swapLevels', () => syncLevelOrder(locationId, levels));
             return { ...loc, levels };
           }),
         );
       },
       toggleLevelSort: (locationId) => {
-        setLocations((current) =>
-          current.map((loc) =>
+        setLocations((current) => {
+          const next = current.map((loc) =>
             loc.id === locationId
               ? {
                   ...loc,
-                  levelSort: loc.levelSort === 'easy-hard' ? 'hard-easy' : 'easy-hard',
+                  levelSort: loc.levelSort === 'easy-hard' ? ('hard-easy' as const) : ('easy-hard' as const),
                   levels: [...loc.levels].reverse(),
                 }
               : loc,
-          ),
-        );
+          );
+          const location = next.find((loc) => loc.id === locationId);
+          if (location) {
+            persistProfile('toggleLevelSort', () =>
+              updateLocationRecord(userId!, locationId, {
+                levelSort: location.levelSort,
+                levels: location.levels,
+              }),
+            );
+          }
+          return next;
+        });
       },
       updateLevel: (locationId, levelId, patch) => {
         setLocations((current) =>
@@ -262,10 +434,11 @@ export function MockAppDataProvider({
             }),
           );
         }
+        persistProfile('updateLevel', () => updateLevelRecord(locationId, levelId, patch));
       },
       startSession: () => {
         const home = locations.find((l) => l.isHome) ?? locations[0];
-        const id = `${Date.now()}`;
+        const id = sessionBackend ? newUuid() : `${Date.now()}`;
         const session: ClimbingSession = {
           id,
           status: 'active',
@@ -279,32 +452,60 @@ export function MockAppDataProvider({
           ownerAvatar: avatar,
         };
         setSessions((current) => [session, ...current]);
+        persistSession('startSession', () => insertSession(userId!, session));
         return id;
       },
       updateSession: (id, patch) => {
         setSessions((current) =>
-          current.map((session) => (session.id === id ? { ...session, ...patch } : session)),
+          current.map((session) => {
+            if (session.id !== id) return session;
+            const next = { ...session, ...patch };
+            persistSession('updateSession', () =>
+              updateSessionRecord(userId!, id, {
+                ...patch,
+                ownerUsername: next.ownerUsername || username,
+                ownerAvatar: next.ownerAvatar || avatar,
+              }),
+            );
+            return next;
+          }),
         );
       },
       completeSession: (id, patch) => {
         setSessions((current) =>
-          current.map((session) =>
-            session.id === id ? { ...session, ...patch, status: 'completed' as const } : session,
-          ),
+          current.map((session) => {
+            if (session.id !== id) return session;
+            const next = { ...session, ...patch, status: 'completed' as const };
+            persistSession('completeSession', () =>
+              updateSessionRecord(userId!, id, {
+                ...patch,
+                status: 'completed',
+                ownerUsername: next.ownerUsername || username,
+                ownerAvatar: next.ownerAvatar || avatar,
+              }),
+            );
+            return next;
+          }),
         );
       },
       deleteSession: (id) => {
         setSessions((current) => current.filter((session) => session.id !== id));
+        persistSession('deleteSession', () => deleteSessionRecord(userId!, id));
       },
       getSession: (id) => sessions.find((session) => session.id === id),
       addClimb: (sessionId, climb) => {
-        const climbId = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+        const climbId = sessionBackend
+          ? newUuid()
+          : `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
         setSessions((current) =>
-          current.map((session) =>
-            session.id === sessionId
-              ? { ...session, climbs: [...session.climbs, { ...climb, id: climbId }] }
-              : session,
-          ),
+          current.map((session) => {
+            if (session.id !== sessionId) return session;
+            const nextClimb = { ...climb, id: climbId };
+            persistSession('addClimb', () =>
+              insertClimb(sessionId, nextClimb, session.climbs.length),
+            );
+            return { ...session, climbs: [...session.climbs, nextClimb] };
+          }),
         );
         return climbId;
       },
@@ -312,12 +513,13 @@ export function MockAppDataProvider({
         setSessions((current) =>
           current.map((session) => {
             if (session.id !== sessionId) return session;
-            return {
-              ...session,
-              climbs: session.climbs.map((climb) =>
-                climb.id === climbId ? { ...climb, ...patch } : climb,
-              ),
-            };
+            const climbs = session.climbs.map((climb, index) => {
+              if (climb.id !== climbId) return climb;
+              const merged = { ...climb, ...patch };
+              persistSession('updateClimb', () => updateClimbRecord(sessionId, climbId, merged, index));
+              return merged;
+            });
+            return { ...session, climbs };
           }),
         );
       },
@@ -325,6 +527,7 @@ export function MockAppDataProvider({
         setSessions((current) =>
           current.map((session) => {
             if (session.id !== sessionId) return session;
+            persistSession('removeClimb', () => deleteClimbRecord(sessionId, climbId));
             return { ...session, climbs: session.climbs.filter((c) => c.id !== climbId) };
           }),
         );
@@ -335,14 +538,14 @@ export function MockAppDataProvider({
           setLocations([demoLocation]);
           setProfileComplete(true);
         }
-        if (!username) setUsername('member');
+        if (!username) setUsernameState('member');
         setSessions(createDemoSessions(demoLocation.id, demoLocation.name));
       },
       seedDemoActiveSession: () => {
         const demoLocation = createDemoLocation();
         const levels = DEFAULT_LEVEL_COLORS.slice(0, 5);
         setLocations([demoLocation]);
-        setUsername('alex_climber');
+        setUsernameState('alex_climber');
         setProfileComplete(true);
         setProfileSkipped(false);
         setSessions([
@@ -382,7 +585,7 @@ export function MockAppDataProvider({
         if (preset === 'profile-incomplete') {
           setEmail('new.climber@example.com');
           setAvatar(PET_ROCK_AVATARS[0]);
-          setUsername('');
+          setUsernameState('');
           setStrengthTags([]);
           setImprovementTags([]);
           setLocations([]);
@@ -394,7 +597,7 @@ export function MockAppDataProvider({
 
         setEmail('returning.user@example.com');
         setAvatar(PET_ROCK_AVATARS[0]);
-        setUsername('alex_climber');
+        setUsernameState('alex_climber');
         setStrengthTags(STRENGTH_TAG_SUGGESTIONS.slice(0, 2));
         setImprovementTags(IMPROVEMENT_TAG_SUGGESTIONS.slice(0, 1));
 
@@ -439,7 +642,7 @@ export function MockAppDataProvider({
         const incomplete = preset === 'active-empty-incomplete';
         if (incomplete) {
           setEmail('new.climber@example.com');
-          setUsername('');
+          setUsernameState('');
           setStrengthTags([]);
           setImprovementTags([]);
           setLocations([]);
@@ -468,7 +671,7 @@ export function MockAppDataProvider({
       seedReturningUser: () => {
         const demoLocation = createDemoLocation();
         setEmail(MOCK_EXISTING_USER.email);
-        setUsername(MOCK_EXISTING_USER.username);
+        setUsernameState(MOCK_EXISTING_USER.username);
         setAvatar(PET_ROCK_AVATARS[0]);
         setLocations([demoLocation]);
         setStrengthTags(STRENGTH_TAG_SUGGESTIONS.slice(0, 2));
@@ -478,15 +681,21 @@ export function MockAppDataProvider({
         setSessions(createDemoSessions(demoLocation.id, demoLocation.name));
       },
       toggleFollowUser: (user) => {
-        setFollowedUsers((current) =>
-          current.includes(user) ? current.filter((u) => u !== user) : [...current, user],
-        );
+        setFollowedUsers((current) => {
+          const isFollowing = current.includes(user);
+          const next = isFollowing ? current.filter((u) => u !== user) : [...current, user];
+          persistCommunity(isFollowing ? 'unfollowUser' : 'followUser', () =>
+            isFollowing ? unfollowUser(userId!, user) : followUser(userId!, user),
+          );
+          return next;
+        });
       },
       resetSession: () => {
         void authActions.signOut();
         setEmail('');
         setIsAuthenticated(false);
-        setUsername('');
+        setUserId(null);
+        setUsernameState('');
         setAvatar(PET_ROCK_AVATARS[0]);
         setLocations([]);
         setStrengthTags([]);
@@ -494,6 +703,7 @@ export function MockAppDataProvider({
         setProfileComplete(false);
         setProfileSkipped(false);
         setSessions([]);
+        setPublicSessions(MOCK_PUBLIC_SESSIONS);
         setFollowedUsers(['alex_climber', 'crimp_queen']);
       },
     }),
@@ -505,11 +715,18 @@ export function MockAppDataProvider({
       improvementTags,
       isAuthenticated,
       locations,
+      persistProfile,
+      persistSession,
+      persistCommunity,
+      profileBackend,
       profileComplete,
       profileSkipped,
       publicSessions,
+      sessionBackend,
+      communityBackend,
       sessions,
       strengthTags,
+      userId,
       username,
     ],
   );

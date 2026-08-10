@@ -26,7 +26,7 @@ Prototype-only routes: `/scenarios`, `/flow-map`, `/color-system`, `/typography`
 
 Flow-map PNG capture and the scenario tester require **prototype** mode. Store/EAS production builds should set `EXPO_PUBLIC_APP_MODE=production` at build time.
 
-Both modes still use the **mock data adapter** for profile and sessions until those Supabase adapters land. Auth uses **Supabase in production mode** when env vars are set.
+In **production mode** with Supabase env vars set, **auth, profile, sessions, and community** use Supabase adapters. Prototype mode and QA tooling continue to use mock data.
 
 ## Scenario tester features
 

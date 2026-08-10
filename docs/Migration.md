@@ -288,7 +288,9 @@ const { sessions, startSession, getSession } = useSessions();
 - [x] Choose backend (Supabase)
 - [x] Supabase client + env config (`docs/Supabase.md`)
 - [x] Auth adapter (sign in, sign up, sign out, reset password)
-- [ ] Profile / sessions / community API adapters
+- [x] Profile API adapter (username, avatar, tags, locations, levels)
+- [x] Sessions API adapter (sessions, climbs, attempts)
+- [x] Community API adapter (public feed, follows)
 - [ ] Add integration tests against staging API
 - [ ] Remove or hide mock credentials from production builds
 - [x] Keep mock adapters for Storybook, scenario tester, and CI without backend
