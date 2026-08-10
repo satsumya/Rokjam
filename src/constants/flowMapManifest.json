@@ -1,16 +1,16 @@
 {
   "flows": {
     "sign-up-login": {
-      "version": "0.0.25",
-      "updatedAt": "2026-08-10T01:24:28.335Z"
+      "version": "0.0.26",
+      "updatedAt": "2026-08-10T01:41:44.301Z"
     },
     "member-profile": {
       "version": "0.0.24",
       "updatedAt": "2026-08-10T01:24:28.335Z"
     },
     "session-create": {
-      "version": "0.1.27",
-      "updatedAt": "2026-08-10T01:24:28.335Z"
+      "version": "0.1.28",
+      "updatedAt": "2026-08-10T01:40:48.440Z"
     },
     "session-view-edit": {
       "version": "0.0.28",
@@ -31,8 +31,8 @@
       "updatedAt": "2026-08-10T01:24:28.335Z"
     },
     "signup": {
-      "version": "0.0.15",
-      "updatedAt": "2026-08-10T01:24:28.335Z"
+      "version": "0.0.16",
+      "updatedAt": "2026-08-10T01:41:44.301Z"
     },
     "verify-email": {
       "version": "0.0.17",
@@ -71,8 +71,8 @@
       "updatedAt": "2026-08-10T01:24:28.335Z"
     },
     "active-session": {
-      "version": "0.0.13",
-      "updatedAt": "2026-08-10T01:24:28.335Z"
+      "version": "0.0.14",
+      "updatedAt": "2026-08-10T01:40:48.440Z"
     },
     "sessions-list": {
       "version": "0.0.14",
@@ -127,8 +127,8 @@
       "updatedAt": "2026-08-10T01:24:28.335Z"
     },
     "active-session-end-sheet": {
-      "version": "0.0.16",
-      "updatedAt": "2026-08-10T01:24:28.335Z"
+      "version": "0.0.17",
+      "updatedAt": "2026-08-10T01:40:48.440Z"
     },
     "active-session-end-sheet-filled": {
       "version": "0.0.14",
