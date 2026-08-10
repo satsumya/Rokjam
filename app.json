@@ -7,9 +7,11 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rokjam.app"
     },
     "android": {
+      "package": "com.rokjam.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -26,6 +28,13 @@
       "expo-status-bar",
       "expo-font",
       "expo-splash-screen"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "74ea11c9-6d7b-48d3-adcb-0a49b19f58c6"
+      }
+    },
+    "owner": "rokjam"
   }
 }
