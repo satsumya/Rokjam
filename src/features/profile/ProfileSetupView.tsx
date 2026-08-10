@@ -20,7 +20,7 @@ import {
   IMPROVEMENT_TAG_SUGGESTIONS,
   STRENGTH_TAG_SUGGESTIONS,
 } from '../../constants/mockData';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
 

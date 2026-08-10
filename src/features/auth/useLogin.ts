@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { MOCK_EXISTING_USER } from '../../constants/mockData';
-import { usePrototype } from '../../context/PrototypeContext';
+import { useAuth } from '../../data/hooks/useAuth';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
 import { getLoginIdentifierError } from '../../utils/validation';
 
 import type { LoginViewProps } from './LoginView';
@@ -19,7 +20,8 @@ export function useLogin({
   onForgotPassword,
   onSignUp,
 }: UseLoginOptions): LoginViewProps {
-  const { email, setEmail, seedReturningUser } = usePrototype();
+  const { email, setEmail } = useAuth();
+  const { seedReturningUser } = useMockSeeding();
   const [identifier, setIdentifier] = useState(email);
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ identifier: false, password: false });

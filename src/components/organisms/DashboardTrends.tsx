@@ -8,7 +8,7 @@ import { Dropdown } from '../molecules/Dropdown';
 import { ActivityHeatmap } from '../molecules/ActivityHeatmap';
 import { MiniBars } from '../molecules/MiniBars';
 import { PieChart } from '../molecules/PieChart';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import { ui } from '../../theme/colors';
 import { interactionStyle } from '../../theme/interaction';
 import type { ClimbingSession, TrendTimeframe } from '../../types/climbingSession';

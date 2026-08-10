@@ -51,15 +51,17 @@ flowchart TB
 | QA | `app/scenarios.tsx`, `app/flow-map.tsx` | Scenario tester + visual flow map |
 | Pure logic | `src/utils/validation.ts`, `sessionUtils.ts` | Validation and formatting |
 
-### Main gap (unwind)
+### Main gap (addressed in Phase 2)
 
-Screens call `usePrototype()` directly (~18 files). `PrototypeContext` (`src/context/PrototypeContext.tsx`) combines:
+`PrototypeContext` previously combined UI state, domain behaviour, and mock backend in one place. Phase 2 extracted that into:
 
-1. UI/session state
-2. Domain behaviour (sessions, locations, climbs)
-3. Mock backend (seed helpers, demo presets, hard-coded users)
+1. **Domain ports** — `AuthRepository`, `ProfileRepository`, `SessionRepository`, `CommunityRepository`
+2. **Mock adapter** — `src/adapters/mock/MockAppDataProvider.tsx`
+3. **Domain hooks** — `useAuth`, `useProfile`, `useSessions`, `useCommunity`, `useMockSeeding`
 
-Production work is mostly **peeling these apart**, not rebuilding components.
+Feature hooks now depend on domain hooks, not `usePrototype()`. Prototype tooling (scenarios, flow map) uses `useMockSeeding` and `useAuth` directly.
+
+Phase 4 will add `adapters/api/` against the same ports — UI unchanged.
 
 ---
 
@@ -227,11 +229,11 @@ const { sessions, startSession, getSession } = useSessions();
 
 **Actions:**
 
-- [ ] Move domain types out of `PrototypeContext` exports where practical
-- [ ] Split `PrototypeContext` into mock adapter modules
-- [ ] Add `AppDataProvider` that wires mock adapters (prototype mode first)
-- [ ] Migrate screens from `usePrototype()` to domain hooks, one flow at a time
-- [ ] Keep seed helpers (`seedFlowDemo`, `seedReturningUser`, etc.) on the **mock adapter** for scenario tester
+- [x] Move domain types out of `PrototypeContext` exports where practical
+- [x] Split `PrototypeContext` into mock adapter modules
+- [x] Add `AppDataProvider` that wires mock adapters (prototype mode first)
+- [x] Migrate screens from `usePrototype()` to domain hooks, one flow at a time
+- [x] Keep seed helpers (`seedFlowDemo`, `seedReturningUser`, etc.) on the **mock adapter** for scenario tester
 
 **Effort:** Medium. **Payoff:** Backend becomes a swap, not a rewrite.
 
@@ -335,10 +337,10 @@ You can add npm **workspaces** (`packages/ui`, etc.) later if the repo outgrows 
 
 When a screen moves to the new pattern:
 
-- [ ] `app/<route>.tsx` is a thin shell (router + hook + view)
-- [ ] View lives under `src/features/<flow>/`
-- [ ] View has a Storybook story with mock props
-- [ ] Screen uses domain hooks, not `usePrototype()`
+- [x] `app/<route>.tsx` is a thin shell (router + hook + view)
+- [x] View lives under `src/features/<flow>/`
+- [x] View has a Storybook story with mock props
+- [x] Screen uses domain hooks, not `usePrototype()`
 - [ ] Flow ticket checkboxes updated if behaviour changed
 - [ ] Flow map updated if route or UI changed (`npm run validate-flow-map:fix`)
 - [ ] `npm run check` passes

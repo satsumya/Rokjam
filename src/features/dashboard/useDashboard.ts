@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { TAKEN_USERNAMES } from '../../constants/mockData';
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -35,12 +37,9 @@ export function useDashboard({
     locations,
     strengthTags,
     improvementTags,
-    sessions,
-    seedDemoSessions,
-    seedDemoProfileOnly,
-    seedFlowDemo,
-    resetSession,
-  } = usePrototype();
+  } = useProfile();
+  const { sessions } = useSessions();
+  const { seedDemoSessions, seedDemoProfileOnly, seedFlowDemo, resetSession } = useMockSeeding();
 
   const homeLocation = locations.find((loc) => loc.isHome) ?? locations[0];
   const needsProfile = locations.length === 0;

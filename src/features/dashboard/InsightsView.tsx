@@ -1,5 +1,5 @@
 import { BottomNav, DashboardTrends, Screen, Text } from '../../components';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import { ui } from '../../theme/colors';
 import type { ClimbingSession, TrendTimeframe } from '../../types/climbingSession';
 

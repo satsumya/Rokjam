@@ -14,7 +14,7 @@ import {
   type ScenarioFlow,
   type ScenarioUserType,
 } from '../src/constants/scenarios';
-import { usePrototype } from '../src/context/PrototypeContext';
+import { useMockSeeding } from '../src/data/hooks/useMockSeeding';
 import {
   applyScenarioSetup,
   filterScenarios,
@@ -94,7 +94,7 @@ function ScenarioCard({
 }
 
 export default function ScenariosScreen() {
-  const { resetSession, seedReturningUser, seedDemoProfileOnly } = usePrototype();
+  const { resetSession, seedReturningUser, seedDemoProfileOnly } = useMockSeeding();
   const [flowFilter, setFlowFilter] = useState<PathFilter>('all');
   const [userFilter, setUserFilter] = useState<UserFilter>('all');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');

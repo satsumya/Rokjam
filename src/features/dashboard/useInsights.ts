@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import type { TrendTimeframe } from '../../types/climbingSession';
 
 import type { InsightsViewProps } from './InsightsView';
@@ -10,7 +12,9 @@ export type UseInsightsOptions = {
 };
 
 export function useInsights({ demo }: UseInsightsOptions): InsightsViewProps {
-  const { sessions, locations, seedFlowDemo, seedDemoProfileOnly } = usePrototype();
+  const { sessions } = useSessions();
+  const { locations } = useProfile();
+  const { seedFlowDemo, seedDemoProfileOnly } = useMockSeeding();
   const [timeframe, setTimeframe] = useState<TrendTimeframe>('month');
   const needsProfile = locations.length === 0;
   const demoApplied = useRef<string | null>(null);

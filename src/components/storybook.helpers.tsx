@@ -2,8 +2,8 @@ import type { Decorator } from '@storybook/react-native';
 import type { ReactNode } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
-import { PrototypeProvider } from '../context/PrototypeContext';
-import type { Location } from '../context/PrototypeContext';
+import { AppDataProvider } from '../data/AppDataProvider';
+import type { Location } from '../domain/types/profile';
 import { DEFAULT_LEVEL_COLORS } from '../constants/difficultyLevels';
 import type { ClimbingSession, SessionClimb } from '../types/climbingSession';
 import { ui } from '../theme/colors';
@@ -90,9 +90,9 @@ export const Padded: Decorator = (Story) => (
 
 /** Wraps stories whose components read from the prototype context. */
 export const WithPrototype: Decorator = (Story) => (
-  <PrototypeProvider>
+  <AppDataProvider>
     <Story />
-  </PrototypeProvider>
+  </AppDataProvider>
 );
 
 export const demoLevels = DEFAULT_LEVEL_COLORS.slice(0, 5).map((preset, index) => ({

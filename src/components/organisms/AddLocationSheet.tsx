@@ -8,8 +8,8 @@ import { Modal } from '../molecules/Modal';
 import { AddressSearch } from '../molecules/AddressSearch';
 import { LevelRow } from '../molecules/LevelRow';
 import { DEFAULT_LEVEL_COLORS } from '../../constants/difficultyLevels';
-import type { DifficultyLevel } from '../../context/PrototypeContext';
-import { usePrototype } from '../../context/PrototypeContext';
+import type { DifficultyLevel } from '../../domain/types/profile';
+import { useProfile } from '../../data/hooks/useProfile';
 import { colors, ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
 
@@ -43,7 +43,7 @@ export function AddLocationSheet({
   onClose: () => void;
   onSaved: (locationId: string, locationName: string) => void;
 }) {
-  const { addLocationWithLevels } = usePrototype();
+  const { addLocationWithLevels } = useProfile();
   const [address, setAddress] = useState('');
   const [nickname, setNickname] = useState('');
   const [levels, setLevels] = useState<DifficultyLevel[]>([createDraftLevel(0)]);

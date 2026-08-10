@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useSessions } from '../../data/hooks/useSessions';
 
 export type UseCreateSessionOptions = {
   onStarted: (sessionId: string) => void;
 };
 
 export function useCreateSession({ onStarted }: UseCreateSessionOptions): null {
-  const { startSession } = usePrototype();
+  const { startSession } = useSessions();
   const started = useRef(false);
 
   useEffect(() => {

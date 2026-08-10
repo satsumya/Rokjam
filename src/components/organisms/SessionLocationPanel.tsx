@@ -5,7 +5,7 @@ import { Button } from '../atoms/Button';
 import { Text } from '../atoms/Text';
 import { Dropdown } from '../molecules/Dropdown';
 import { AddLocationSheet } from './AddLocationSheet';
-import { usePrototype } from '../../context/PrototypeContext';
+import { useProfile } from '../../data/hooks/useProfile';
 import { ui } from '../../theme/colors';
 import { space } from '../../theme/spacing';
 
@@ -27,7 +27,7 @@ export function SessionLocationPanel({
   sessionLocationId: string;
   onLocationLinked: (locationId: string, locationName: string) => void;
 }) {
-  const { locations } = usePrototype();
+  const { locations } = useProfile();
   const [showAddSheet, setShowAddSheet] = useState(false);
 
   const options = useMemo(

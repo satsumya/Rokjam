@@ -17,7 +17,7 @@ import {
   Text,
   TextField,
 } from '../../components';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import type { ClimbingSession, SessionClimb } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';
 import type { DropdownOption } from '../../components/molecules/Dropdown';

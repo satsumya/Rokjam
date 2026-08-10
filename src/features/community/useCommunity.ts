@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useCommunity as useCommunityData } from '../../data/hooks/useCommunity';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -16,7 +18,9 @@ function locationMatches(homeName: string, sessionLocation: string) {
 }
 
 export function useCommunity(): CommunityViewProps {
-  const { publicSessions, sessions, locations, followedUsers, toggleFollowUser } = usePrototype();
+  const { publicSessions, followedUsers, toggleFollowUser } = useCommunityData();
+  const { locations } = useProfile();
+  const { sessions } = useSessions();
   const [tab, setTab] = useState<CommunityTab>('all');
 
   const homeLocation = locations.find((l) => l.isHome) ?? locations[0];

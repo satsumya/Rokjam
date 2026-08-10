@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { TAKEN_EMAILS } from '../../constants/mockData';
-import { usePrototype } from '../../context/PrototypeContext';
+import { useAuth } from '../../data/hooks/useAuth';
 import { getSignUpEmailError, isPasswordValid } from '../../utils/validation';
 
 import type { SignUpViewProps } from './SignUpView';
@@ -13,7 +13,7 @@ export type UseSignUpOptions = {
 };
 
 export function useSignUp({ demo, onSuccess, onLogIn }: UseSignUpOptions): SignUpViewProps {
-  const { email, setEmail } = usePrototype();
+  const { email, setEmail } = useAuth();
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({ email: false, password: false });
   const initialized = useRef(false);

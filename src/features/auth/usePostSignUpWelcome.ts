@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { router } from 'expo-router';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useProfile } from '../../data/hooks/useProfile';
 
 import type { PostSignUpWelcomeViewProps } from './PostSignUpWelcomeView';
 
 export function usePostSignUpWelcome(): PostSignUpWelcomeViewProps {
-  const { setProfileSkipped } = usePrototype();
+  const { setProfileSkipped } = useProfile();
 
   const skipToDashboard = useCallback(() => {
     setProfileSkipped(true);

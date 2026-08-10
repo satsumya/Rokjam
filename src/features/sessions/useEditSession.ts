@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import type { SessionClimb } from '../../types/climbingSession';
 import { climbHasDetails } from '../../utils/sessionUtils';
 
@@ -32,8 +34,9 @@ export function useEditSession({
   onCancel,
   onBack,
 }: UseEditSessionOptions): EditSessionViewProps {
-  const { sessions, locations, username, updateSession, updateClimb, removeClimb, addClimb, seedDemoSessions } =
-    usePrototype();
+  const { sessions, updateSession, updateClimb, removeClimb, addClimb } = useSessions();
+  const { locations, username } = useProfile();
+  const { seedDemoSessions } = useMockSeeding();
   const demoApplied = useRef(false);
 
   useEffect(() => {

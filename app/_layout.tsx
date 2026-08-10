@@ -6,7 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { PrototypeProvider } from '../src/context/PrototypeContext';
+import { AppDataProvider } from '../src/data/AppDataProvider';
 import { fontMap } from '../src/theme/fonts';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -26,9 +26,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <PrototypeProvider>
+      <AppDataProvider>
         <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }} />
-      </PrototypeProvider>
+      </AppDataProvider>
     </GestureHandlerRootView>
   );
 }

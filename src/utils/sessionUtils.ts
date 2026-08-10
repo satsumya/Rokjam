@@ -1,4 +1,4 @@
-import type { DifficultyLevel } from '../context/PrototypeContext';
+import type { DifficultyLevel } from '../domain/types/profile';
 import type {
   ClimbingSession,
   SessionClimb,

@@ -6,7 +6,7 @@ import { Icon } from '../atoms/Icon';
 import { LevelDot } from '../atoms/LevelDot';
 import { Text } from '../atoms/Text';
 import { DifficultyPicker } from './DifficultyPicker';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import type { SessionClimb } from '../../types/climbingSession';
 import { bestAttemptProgress } from '../../types/climbingSession';
 import { ui } from '../../theme/colors';

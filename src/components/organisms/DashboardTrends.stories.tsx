@@ -7,7 +7,7 @@ import {
   createFlowManySessions,
   createFlowSecondaryLocationLevels,
 } from '../../constants/flowDemoSessions';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import type { TrendTimeframe } from '../../types/climbingSession';
 import { demoLocation, Padded } from '../storybook.helpers';
 

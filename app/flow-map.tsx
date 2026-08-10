@@ -6,7 +6,8 @@ import { SCENARIO_FLOWS } from '../src/constants/scenarios';
 import type { ScenarioFlow } from '../src/constants/scenarios';
 import { Button, Screen, Section, Text } from '../src/components';
 import { FlowMapDiagram } from '../src/components/utility';
-import { usePrototype } from '../src/context/PrototypeContext';
+import { useAuth } from '../src/data/hooks/useAuth';
+import { useMockSeeding } from '../src/data/hooks/useMockSeeding';
 import { ui } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
 import { space } from '../src/theme/spacing';
@@ -45,17 +46,18 @@ function FilterChip({
 }
 
 export default function FlowMapPage() {
-  const prototype = usePrototype();
+  const { setEmail } = useAuth();
+  const seeding = useMockSeeding();
   const [flowFilter, setFlowFilter] = useState<FlowFilter>('all');
 
   const navigateCtx = {
-    resetSession: prototype.resetSession,
-    seedReturningUser: prototype.seedReturningUser,
-    seedDemoProfileOnly: prototype.seedDemoProfileOnly,
-    seedDemoSessions: prototype.seedDemoSessions,
-    seedDemoActiveSession: prototype.seedDemoActiveSession,
-    seedFlowDemo: prototype.seedFlowDemo,
-    setEmail: prototype.setEmail,
+    resetSession: seeding.resetSession,
+    seedReturningUser: seeding.seedReturningUser,
+    seedDemoProfileOnly: seeding.seedDemoProfileOnly,
+    seedDemoSessions: seeding.seedDemoSessions,
+    seedDemoActiveSession: seeding.seedDemoActiveSession,
+    seedFlowDemo: seeding.seedFlowDemo,
+    setEmail,
   };
 
   return (

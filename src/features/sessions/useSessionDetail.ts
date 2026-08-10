@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useSessions } from '../../data/hooks/useSessions';
 import { computeDurationMinutes, formatDuration } from '../../utils/sessionUtils';
 
 import type { SessionDetailViewProps } from './SessionDetailView';
@@ -22,7 +23,8 @@ export function useSessionDetail({
   onBackToSessions,
   onDeleted,
 }: UseSessionDetailOptions): SessionDetailViewProps {
-  const { sessions, deleteSession, seedDemoSessions } = usePrototype();
+  const { sessions, deleteSession } = useSessions();
+  const { seedDemoSessions } = useMockSeeding();
   const [shareVisible, setShareVisible] = useState(false);
   const [showDeleteSheet, setShowDeleteSheet] = useState(false);
   const demoApplied = useRef(false);

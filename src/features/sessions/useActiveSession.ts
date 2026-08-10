@@ -2,7 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { TAKEN_USERNAMES } from '../../constants/mockData';
 import { FLOW_DEMO_SESSION_ID, type FlowDemoPreset } from '../../constants/flowDemoSessions';
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import type { SessionClimb } from '../../types/climbingSession';
 import {
   climbHasDetails,
@@ -49,19 +51,10 @@ export function useActiveSession({
   onCompleted,
   onBackToDashboard,
 }: UseActiveSessionOptions): ActiveSessionViewProps {
-  const {
-    sessions,
-    locations,
-    username,
-    setUsername,
-    updateSession,
-    completeSession,
-    addClimb,
-    updateClimb,
-    removeClimb,
-    seedDemoActiveSession,
-    seedFlowDemo,
-  } = usePrototype();
+  const { sessions, updateSession, completeSession, addClimb, updateClimb, removeClimb } =
+    useSessions();
+  const { locations, username, setUsername } = useProfile();
+  const { seedDemoActiveSession, seedFlowDemo } = useMockSeeding();
   const demoApplied = useRef(false);
   const flowUiApplied = useRef<string | null>(null);
 

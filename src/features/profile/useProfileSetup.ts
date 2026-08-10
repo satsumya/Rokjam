@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { TAKEN_USERNAMES } from '../../constants/mockData';
-import type { DifficultyLevel, Location } from '../../context/PrototypeContext';
-import { usePrototype } from '../../context/PrototypeContext';
+import type { DifficultyLevel, Location } from '../../domain/types/profile';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import { locationHasGradedSessionClimbs } from '../../utils/sessionUtils';
 import { getUsernameError, isUsernameAvailable } from '../../utils/validation';
 
@@ -37,8 +38,8 @@ export function useProfileSetup({ onDone }: UseProfileSetupOptions): ProfileSetu
     setProfileComplete,
     setProfileSkipped,
     profileComplete,
-    sessions,
-  } = usePrototype();
+  } = useProfile();
+  const { sessions } = useSessions();
 
   const [openLocationId, setOpenLocationId] = useState<string | null>(null);
   const [usernameDraft, setUsernameDraft] = useState(username);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useAuth } from '../../data/hooks/useAuth';
 import { getVerificationCodeError } from '../../utils/validation';
 
 import type { VerifyEmailViewProps } from './VerifyEmailView';
@@ -16,7 +16,7 @@ export function useVerifyEmail({
   onSuccess,
   onChangeEmail,
 }: UseVerifyEmailOptions): VerifyEmailViewProps {
-  const { email, setEmail } = usePrototype();
+  const { email, setEmail } = useAuth();
   const [code, setCode] = useState('');
   const [touched, setTouched] = useState(false);
   const [resent, setResent] = useState(false);

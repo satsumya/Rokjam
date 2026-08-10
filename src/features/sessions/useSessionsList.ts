@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-import { usePrototype } from '../../context/PrototypeContext';
+import { useMockSeeding } from '../../data/hooks/useMockSeeding';
+import { useProfile } from '../../data/hooks/useProfile';
+import { useSessions } from '../../data/hooks/useSessions';
 import {
   computeDurationMinutes,
   formatDuration,
@@ -20,7 +22,9 @@ export function useSessionsList({
   onOpenSession,
   onContinueActiveSession,
 }: UseSessionsListOptions): SessionsListViewProps {
-  const { sessions, locations, seedDemoSessions } = usePrototype();
+  const { sessions } = useSessions();
+  const { locations } = useProfile();
+  const { seedDemoSessions } = useMockSeeding();
   const demoApplied = useRef(false);
 
   useEffect(() => {

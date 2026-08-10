@@ -5,7 +5,7 @@ import { CheckboxRow } from '../atoms/CheckboxRow';
 import { Section } from '../atoms/Section';
 import { Text } from '../atoms/Text';
 import { ClimbCard } from '../molecules/ClimbCard';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import type { SessionClimb, SessionSort } from '../../types/climbingSession';
 import { filterClimbs, sortClimbs } from '../../utils/sessionUtils';
 import { ui } from '../../theme/colors';

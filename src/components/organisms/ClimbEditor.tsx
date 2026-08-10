@@ -10,7 +10,7 @@ import { Section } from '../atoms/Section';
 import { TextField } from '../atoms/TextField';
 import { DifficultyPicker } from '../molecules/DifficultyPicker';
 import { parseTagDraft } from '../molecules/TagInput';
-import type { Location } from '../../context/PrototypeContext';
+import type { Location } from '../../domain/types/profile';
 import type { SessionClimb } from '../../types/climbingSession';
 import {
   attemptProgressOptionsForIndex,
