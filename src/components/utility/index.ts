@@ -18,3 +18,4 @@ export { IconLibraryDiagram } from './organisms/IconLibraryDiagram';
 export { TypographyDiagram } from './organisms/TypographyDiagram';
 export { ColorSystemDiagram, type ColorSystemFilter } from './organisms/ColorSystemDiagram';
 export { FlowMapDiagram } from './organisms/FlowMapDiagram';
+export { PrototypeRoute } from './PrototypeRoute';

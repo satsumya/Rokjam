@@ -3,6 +3,7 @@ import { Linking, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { Button, Card, Screen, Section, Text } from '../src/components';
+import { PrototypeRoute } from '../src/components/utility/PrototypeRoute';
 import { ui } from '../src/theme/colors';
 import { interactionStyle } from '../src/theme/interaction';
 import {
@@ -125,6 +126,7 @@ export default function ScenariosScreen() {
   };
 
   return (
+    <PrototypeRoute>
     <Screen
       title="Scenario tester"
       wide
@@ -279,5 +281,6 @@ export default function ScenariosScreen() {
         </Card>
       </Section>
     </Screen>
+    </PrototypeRoute>
   );
 }

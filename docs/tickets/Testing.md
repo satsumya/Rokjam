@@ -1,6 +1,6 @@
 # Testing
 
-Scenario coverage for the Stage 1 prototype.
+Scenario coverage for the Stage 1 prototype. Requires **prototype** app mode (default).
 
 1. Run `npm run web` in the repo root.
 2. Open the **[scenario tester](http://localhost:8081/scenarios)** (use the Metro URL from your terminal if the port differs).
@@ -12,6 +12,21 @@ Scenario coverage for the Stage 1 prototype.
 - [x] Able choose whether to run as a new user or existing user
 - [x] Able to run scenarios with and without data or alternative user scenarios
 - [x] Able to run error scenarios
+
+## App mode (prototype vs production)
+
+Set `EXPO_PUBLIC_APP_MODE` to control which routes and tooling are available:
+
+| Mode | Command | Behaviour |
+| --- | --- | --- |
+| **prototype** (default) | `npm run web` or `npm run web:prototype` | Product routes + scenario tester, flow map, colour system, typography, icon library |
+| **production** | `npm run web:production` | Product routes only — prototype pages redirect to welcome; prototype UI hidden |
+
+Prototype-only routes: `/scenarios`, `/flow-map`, `/color-system`, `/typography`, `/icon-library`.
+
+Flow-map PNG capture and the scenario tester require **prototype** mode. Store/EAS production builds should set `EXPO_PUBLIC_APP_MODE=production` at build time.
+
+Both modes still use the **mock data adapter** until Phase 4 (real API).
 
 ## Scenario tester features
 

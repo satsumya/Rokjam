@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 
 import { Button, Screen, Section, Text } from '../src/components';
 import { ColorSystemDiagram, type ColorSystemFilter } from '../src/components/utility';
+import { PrototypeRoute } from '../src/components/utility/PrototypeRoute';
 import { colors } from '../src/theme/colors';
 import {
   FIGMA_COLOR_TOKENS_FILENAME,
@@ -49,6 +50,7 @@ export default function ColorSystemPage() {
   const [filter, setFilter] = useState<ColorSystemFilter>('all');
 
   return (
+    <PrototypeRoute>
     <Screen
       title="Colour system"
       wide
@@ -100,5 +102,6 @@ export default function ColorSystemPage() {
 
       <ColorSystemDiagram filter={filter} />
     </Screen>
+    </PrototypeRoute>
   );
 }

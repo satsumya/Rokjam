@@ -50,6 +50,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "web:prototype": "cross-env EXPO_PUBLIC_APP_MODE=prototype expo start --web",
+    "web:production": "cross-env EXPO_PUBLIC_APP_MODE=production expo start --web",
     "check": "tsc --noEmit && node scripts/validate-flow-map.mjs",
     "capture-flow-screens": "node scripts/capture-flow-screens.mjs && node scripts/validate-flow-map.mjs",
     "flow-map-capture-server": "node scripts/flow-map-capture-server.mjs",

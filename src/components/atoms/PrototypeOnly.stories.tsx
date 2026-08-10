@@ -9,7 +9,7 @@ const meta = {
   component: PrototypeOnly,
   decorators: [Padded],
   args: {
-    children: <Text>Visible outside flow-map capture (prototype-only tooling).</Text>,
+    children: <Text>Visible in prototype mode only (hidden in production and during flow-map capture).</Text>,
   },
 } satisfies Meta<typeof PrototypeOnly>;
 

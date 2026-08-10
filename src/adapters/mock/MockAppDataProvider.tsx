@@ -23,7 +23,7 @@ import {
 
 const AppDataContext = createContext<AppDataRepositories | null>(null);
 
-export function AppDataProvider({ children }: { children: React.ReactNode }) {
+export function MockAppDataProvider({ children }: { children: React.ReactNode }) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [avatar, setAvatar] = useState<string>(PET_ROCK_AVATARS[0]);

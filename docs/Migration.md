@@ -252,11 +252,11 @@ const { sessions, startSession, getSession } = useSessions();
 
 **Actions:**
 
-- [ ] Introduce `APP_MODE` (e.g. `EXPO_PUBLIC_APP_MODE=prototype|production`)
-- [ ] Gate prototype-only UI with `PrototypeOnly` and/or route registration
-- [ ] Exclude prototype routes from production builds where possible
-- [ ] Keep web as the fast prototype surface; use **EAS Build** early for device testing
-- [ ] Document mode switching in [Testing.md](./tickets/Testing.md) when implemented
+- [x] Introduce `APP_MODE` (e.g. `EXPO_PUBLIC_APP_MODE=prototype|production`)
+- [x] Gate prototype-only UI with `PrototypeOnly` and/or route registration
+- [x] Exclude prototype routes from production builds where possible
+- [x] Keep web as the fast prototype surface; use **EAS Build** early for device testing
+- [x] Document mode switching in [Testing.md](./tickets/Testing.md) when implemented
 
 **Effort:** Small once Phase 2 exists. **Payoff:** One repo, shared components, two deliverables.
 

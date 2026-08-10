@@ -6,6 +6,7 @@ import { SCENARIO_FLOWS } from '../src/constants/scenarios';
 import type { ScenarioFlow } from '../src/constants/scenarios';
 import { Button, Screen, Section, Text } from '../src/components';
 import { FlowMapDiagram } from '../src/components/utility';
+import { PrototypeRoute } from '../src/components/utility/PrototypeRoute';
 import { useAuth } from '../src/data/hooks/useAuth';
 import { useMockSeeding } from '../src/data/hooks/useMockSeeding';
 import { ui } from '../src/theme/colors';
@@ -61,6 +62,7 @@ export default function FlowMapPage() {
   };
 
   return (
+    <PrototypeRoute>
     <Screen
       title="Flow map"
       wide
@@ -105,5 +107,6 @@ export default function FlowMapPage() {
 
       <FlowMapDiagram navigateCtx={navigateCtx} journeyFilter={flowFilter} />
     </Screen>
+    </PrototypeRoute>
   );
 }

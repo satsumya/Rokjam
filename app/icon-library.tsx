@@ -2,12 +2,14 @@ import { router } from 'expo-router';
 
 import { Button, Screen, Section, Text } from '../src/components';
 import { IconLibraryDiagram } from '../src/components/utility';
+import { PrototypeRoute } from '../src/components/utility/PrototypeRoute';
 import { colors } from '../src/theme/colors';
 import { scenarioWebLink } from '../src/constants/scenarios';
 import { space } from '../src/theme/spacing';
 
 export default function IconLibraryPage() {
   return (
+    <PrototypeRoute>
     <Screen
       title="Icon library"
       wide
@@ -34,5 +36,6 @@ export default function IconLibraryPage() {
 
       <IconLibraryDiagram />
     </Screen>
+    </PrototypeRoute>
   );
 }

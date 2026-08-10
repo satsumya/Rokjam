@@ -2,12 +2,14 @@ import { router } from 'expo-router';
 
 import { Button, Screen, Section, Text } from '../src/components';
 import { TypographyDiagram } from '../src/components/utility';
+import { PrototypeRoute } from '../src/components/utility/PrototypeRoute';
 import { ui } from '../src/theme/colors';
 import { scenarioWebLink } from '../src/constants/scenarios';
 import { space } from '../src/theme/spacing';
 
 export default function TypographyPage() {
   return (
+    <PrototypeRoute>
     <Screen
       title="Typography"
       wide
@@ -33,5 +35,6 @@ export default function TypographyPage() {
 
       <TypographyDiagram />
     </Screen>
+    </PrototypeRoute>
   );
 }
